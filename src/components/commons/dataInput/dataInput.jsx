@@ -1,7 +1,7 @@
-import React from 'react'
+import styled from "styled-components";
 
-export default function dataInput() {
-  return (
-    <div>dataInput</div>
-  )
+import { DataInputStyle } from "./InputStyle.js";
+//
+export default function DataInput() {
+  return <DataInputStyle></DataInputStyle>;
 }
