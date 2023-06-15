@@ -4,10 +4,10 @@ import backIcon from "../../../img/icon-arrow-left.svg";
 import moreIcon from "../../../img/icon- more-vertical.svg";
 import {
   TopHeaderWrapper,
-  BackBtn,
-  BackIcon,
-  MoreBtn,
-  MoreIconImg,
+  TopHeaderBackBtn,
+  TopHeaderBackIcon,
+  TopHeaderMoreBtn,
+  TopHeaderMoreIconImg,
 } from "./TopHeaderStyle.js";
 
 export default function ProfileTopHeader() {
@@ -23,12 +23,12 @@ export default function ProfileTopHeader() {
   }
   return (
     <TopHeaderWrapper>
-      <BackBtn onClick={()=>onClickBack("/post")}>
-        <BackIcon src={backIcon} alt="뒤로가기" />
-      </BackBtn>
-      <MoreBtn>
-        <MoreIconImg src={moreIcon} alt="더보기" onClick={onClickMore}/>
-      </MoreBtn>
+      <TopHeaderBackBtn onClick={()=>onClickBack("/post")}>
+        <TopHeaderBackIcon src={backIcon} alt="뒤로가기" />
+      </TopHeaderBackBtn>
+      <TopHeaderMoreBtn>
+        <TopHeaderMoreIconImg src={moreIcon} alt="더보기" onClick={onClickMore}/>
+      </TopHeaderMoreBtn>
     </TopHeaderWrapper>
   );
 }

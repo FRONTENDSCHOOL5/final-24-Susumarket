@@ -3,7 +3,7 @@ import backIcon from "../../../img/icon-arrow-left.svg";
 import Button from "../button/Button";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { TopHeaderWrapper, BackBtn, BackIcon } from "./TopHeaderStyle.js";
+import { TopHeaderWrapper, TopHeaderBackBtn, TopHeaderBackIcon } from "./TopHeaderStyle.js";
 
 export default function ProfileTopEdit() {
   const { userId } = useParams();
@@ -14,9 +14,9 @@ export default function ProfileTopEdit() {
   }
   return (
     <TopHeaderWrapper>
-      <BackBtn onClick={() => onClickBack(`profile/${userId}`)}>
-        <BackIcon src={backIcon} alt="뒤로가기" />
-      </BackBtn>
+      <TopHeaderBackBtn onClick={() => onClickBack(`profile/${userId}`)}>
+        <TopHeaderBackIcon src={backIcon} alt="뒤로가기" />
+      </TopHeaderBackBtn>
       <Button className="ms" disabled>
         저장
       </Button>

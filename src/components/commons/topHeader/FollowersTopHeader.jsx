@@ -4,8 +4,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   TopHeaderWrapper,
   TopHeaderTitle,
-  BackBtn,
-  BackIcon,
+  TopHeaderBackBtn,
+  TopHeaderBackIcon,
+  TopHeaderLeft,
 } from "./TopHeaderStyle.js";
 
 export default function FollowersTopHeader() {
@@ -17,11 +18,13 @@ export default function FollowersTopHeader() {
   }
 
   return (
-    <TopHeaderWrapper className="followers">
-      <BackBtn onClick={() => onClickBack(`/profile/${userId}`)}>
-        <BackIcon src={backIcon} alt="뒤로가기" />
-      </BackBtn>
+    <TopHeaderWrapper>
+      <TopHeaderLeft>
+        <TopHeaderBackBtn onClick={() => onClickBack(`/profile/${userId}`)}>
+          <TopHeaderBackIcon src={backIcon} alt="뒤로가기" />
+        </TopHeaderBackBtn>
       <TopHeaderTitle>Followers</TopHeaderTitle>
+      </TopHeaderLeft>
     </TopHeaderWrapper>
   );
 }

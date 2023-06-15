@@ -4,8 +4,8 @@ import backIcon from "../../../img/icon-arrow-left.svg";
 import Button from "../button/Button";
 import {
   TopHeaderWrapper,
-  BackBtn,
-  BackIcon,
+  TopHeaderBackBtn,
+  TopHeaderBackIcon,
 } from "./TopHeaderStyle.js";
 export default function UploadTopHeader() {
   const navigation = useNavigate();
@@ -20,9 +20,9 @@ export default function UploadTopHeader() {
   
   return (
     <TopHeaderWrapper>
-      <BackBtn onClick={()=>onClickBack("/post")}>
-        <BackIcon src={backIcon} alt="뒤로가기"/>
-      </BackBtn>
+      <TopHeaderBackBtn onClick={()=>onClickBack("/post")}>
+        <TopHeaderBackIcon src={backIcon} alt="뒤로가기"/>
+      </TopHeaderBackBtn>
       <Button className="ms" onClick={onClickUpload()}>
         업로드
       </Button>
