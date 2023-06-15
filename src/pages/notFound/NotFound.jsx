@@ -9,5 +9,17 @@ import Button from "../../components/commons/button/Button";
 import Svg404 from "../../img/symbol-logo-404.svg";
 
 export default function NotFound() {
-  return <div>NotFound</div>;
+  return (
+    <>
+      <NotFoundWrapper>
+        <NotFoundTitle>
+          <NotFoundImage src={Svg404} alt="" />
+          <NotFoundP>페이지를 찾을 수 없습니다 :)</NotFoundP>
+        </NotFoundTitle>
+        <Button active={true} className="medium">
+          이전 페이지
+        </Button>
+      </NotFoundWrapper>
+    </>
+  );
 }
