@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState } from "react";
 import Button from "../../../components/commons/button/Button";
 import UserInput from "../../../components/commons/dataInput/UserInput";
 import DataInput from "../../../components/commons/dataInput/DataInput";
 import styled from "styled-components";
+import { css } from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const SignupContainer = styled.main`
   width: 87%;
@@ -26,17 +28,26 @@ const Title = styled.h1`
 
 const SignupButton = styled(Button)`
   margin-top: 50px;
-  `
 
-  const ErrorMessage = styled.p`
-    color: var(--color-primary);
-    margin-top: 10px;
-  `;
+  ${(props) =>
+    props.disabled &&
+    css`
+      background-color: var(--color-sub);
+      cursor: not-allowed;
+    `}
+`;
+
+const ErrorMessage = styled.p`
+  color: var(--color-primary);
+  margin-top: 10px;
+`;
 
 export default function UserAccount() {
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const [emailErrorMsg, setEmailErrorMsg] = useState("");
+  const [passwordMsg, setPasswordMsg] = useState("");
 
   const validateEmail = (email) => {
     const emailPattern =
@@ -55,31 +66,58 @@ export default function UserAccount() {
     }
   };
 
+  const handlePasswordChange = (e) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+
+    if (newPassword.length < 6) {
+      setPasswordMsg("비밀번호는 최소 6자리 이상이어야 합니다.");
+    } else {
+      setPasswordMsg("");
+    }
+  };
+
+  const isFormValid = () => {
+    return validateEmail(email) && password.length >= 6;
+  };
+
+  const navigate = useNavigate();
+  const onClickNextPage = () => {
+    navigate("/signup/profileSetting");
+  };
+
   return (
     <SignupContainer>
-    <SignupForm>
-      <Title>이메일로 회원가입</Title>
-      <UserInput inputId="email" label="이메일">
-        <DataInput
-          type="email"
-          id="email"
-          value={email}
-          onChange={handleEmailChange}
-          placeholder="이메일 주소를 입력하세요."
-        ></DataInput>
-        {emailErrorMsg && <ErrorMessage>{emailErrorMsg}</ErrorMessage>}
-      </UserInput>
+      <SignupForm>
+        <Title>이메일로 회원가입</Title>
+        <UserInput inputId="email" label="이메일">
+          <DataInput
+            type="email"
+            id="email"
+            placeholder="이메일 주소를 입력하세요."
+            value={email}
+            onChange={handleEmailChange}
+          ></DataInput>
+          {emailErrorMsg && <ErrorMessage>{emailErrorMsg}</ErrorMessage>}
+        </UserInput>
 
-      <UserInput inputId="password" label="비밀번호"></UserInput>
-      <DataInput
-        type="password"
-        id="password"
-        placeholder="비밀번호를 설정해 주세요."
-      ></DataInput>
-      <SignupButton>
-        다음
-      </SignupButton>
-    </SignupForm>
-  </SignupContainer>
-  )
+        <UserInput inputId="password" label="비밀번호"></UserInput>
+        <DataInput
+          type="password"
+          id="password"
+          placeholder="비밀번호를 설정해 주세요."
+          value={password}
+          onChange={handlePasswordChange}
+        ></DataInput>
+        {passwordMsg && <ErrorMessage>{passwordMsg}</ErrorMessage>}
+        <SignupButton
+          className="large"
+          disabled={!isFormValid()}
+          onClick={onClickNextPage}
+        >
+          다음
+        </SignupButton>
+      </SignupForm>
+    </SignupContainer>
+  );
 }
