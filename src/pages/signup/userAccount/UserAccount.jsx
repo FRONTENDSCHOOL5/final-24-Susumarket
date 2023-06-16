@@ -28,7 +28,33 @@ const SignupButton = styled(Button)`
   margin-top: 50px;
   `
 
+  const ErrorMessage = styled.p`
+    color: var(--color-primary);
+    margin-top: 10px;
+  `;
+
 export default function UserAccount() {
+  const [email, setEmail] = useState("");
+
+  const [emailErrorMsg, setEmailErrorMsg] = useState("");
+
+  const validateEmail = (email) => {
+    const emailPattern =
+      /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    return emailPattern.test(email);
+  };
+
+  const handleEmailChange = (e) => {
+    const value = e.target.value;
+    setEmail(value);
+
+    if (!validateEmail(value)) {
+      setEmailErrorMsg("유효한 이메일 주소를 입력해주세요.");
+    } else {
+      setEmailErrorMsg("");
+    }
+  };
+
   return (
     <SignupContainer>
     <SignupForm>
@@ -37,8 +63,11 @@ export default function UserAccount() {
         <DataInput
           type="email"
           id="email"
+          value={email}
+          onChange={handleEmailChange}
           placeholder="이메일 주소를 입력하세요."
         ></DataInput>
+        {emailErrorMsg && <ErrorMessage>{emailErrorMsg}</ErrorMessage>}
       </UserInput>
 
       <UserInput inputId="password" label="비밀번호"></UserInput>
