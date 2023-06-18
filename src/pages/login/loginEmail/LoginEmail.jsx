@@ -5,7 +5,7 @@
 import React, { useEffect, useState, useContext } from 'react'
 import axios from 'axios';
 import UserInput from "../../../components/commons/dataInput/UserInput"
-import DataInput from "../../../components/commons/dataInput/dataInput"
+import DataInput from "../../../components/commons/dataInput/DataInput"
 import {
   Title, Container, LoginForm, SignUpLink, SignupButton
 } from "./loginEmail.style";
