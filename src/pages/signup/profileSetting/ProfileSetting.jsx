@@ -7,6 +7,7 @@ import defaultimg from "../../../img/ProfileImg.svg";
 import uploadfile from "../../../img/upload-file.svg";
 import { customAxios } from "../../../library/customAxios";
 import { useLocation } from "react-router-dom";
+import ErrorMessage from "../../../components/commons/errorMessage/ErrorMessage";
 
 const ProfileContainer = styled.main`
   width: 87%;
@@ -63,10 +64,7 @@ const Img = styled.img`
     left: 50px;
   }
 `;
-const ErrorMessage = styled.p`
-  color: var(--color-primary);
-  margin-top: 10px;
-`;
+
 
 export default function ProfileSetting() {
   const [profileImage, setProfileImage] = useState(defaultimg);

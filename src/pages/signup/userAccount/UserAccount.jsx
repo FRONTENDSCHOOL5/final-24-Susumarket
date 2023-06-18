@@ -5,6 +5,7 @@ import DataInput from "../../../components/commons/dataInput/DataInput";
 import styled from "styled-components";
 import { css } from "styled-components";
 import { useNavigate } from "react-router-dom";
+import ErrorMessage from "../../../components/commons/errorMessage/ErrorMessage";
 
 const SignupContainer = styled.main`
   width: 87%;
@@ -35,11 +36,6 @@ const SignupButton = styled(Button)`
       background-color: var(--color-sub);
       cursor: not-allowed;
     `}
-`;
-
-const ErrorMessage = styled.p`
-  color: var(--color-primary);
-  margin-top: 10px;
 `;
 
 export default function UserAccount() {
