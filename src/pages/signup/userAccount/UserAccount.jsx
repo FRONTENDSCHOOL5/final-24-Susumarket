@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { css } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import ErrorMessage from "../../../components/commons/errorMessage/ErrorMessage";
+import { customAxios } from "../../../library/customAxios";
 
 const SignupContainer = styled.main`
   width: 87%;
@@ -124,21 +125,22 @@ export default function UserAccount() {
     <SignupContainer>
       <SignupForm>
         <Title>이메일로 회원가입</Title>
-        <UserInput inputId="email" label="이메일">
+        <UserInput inputId="registeremail" label="이메일">
           <DataInput
             type="email"
-            id="email"
+            id="registeremail"
             placeholder="이메일 주소를 입력하세요."
             value={email}
             onChange={handleEmailChange}
+            onBlur={handleEmailBlur}
           ></DataInput>
           {emailErrorMsg && <ErrorMessage>{emailErrorMsg}</ErrorMessage>}
         </UserInput>
 
-        <UserInput inputId="password" label="비밀번호"></UserInput>
+        <UserInput inputId="registerpassword" label="비밀번호"></UserInput>
         <DataInput
           type="password"
-          id="password"
+          id="registerpassword"
           placeholder="비밀번호를 설정해 주세요."
           value={password}
           onChange={handlePasswordChange}
@@ -146,7 +148,10 @@ export default function UserAccount() {
         {passwordMsg && <ErrorMessage>{passwordMsg}</ErrorMessage>}
         <SignupButton
           className="large"
-          disabled={!isFormValid() || emailErrorMsg === "이미 가입된 이메일 주소 입니다."}
+          disabled={
+            !isFormValid() ||
+            emailErrorMsg === "이미 가입된 이메일 주소 입니다."
+          }
           onClick={handleSubmit}
         >
           다음
