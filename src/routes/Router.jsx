@@ -25,6 +25,7 @@ import ChatList from "../pages/chat/chatList/ChatList";
 import ChatRoom from "../pages/chat/chatRoom/ChatRoom";
 
 import NotFound from "../pages/notFound/NotFound";
+import MenuBar from "../components/commons/menuBar/MenuBar";
 
 export default function Router() {
   return (
@@ -35,6 +36,15 @@ export default function Router() {
         <Route path="/login/loginEmail/" element={<LoginEmail />} />
         <Route path="/signup/userAccount/" element={<UserAccount />} />
         <Route path="/signup/profileSetting/" element={<ProfileSetting />} />
+
+        <Route
+          element={
+            <>
+              <Outlet />
+              <MenuBar />
+            </>
+          }
+        >
           <Route path="/search/" element={<Search />} />
 
           <Route path="/post/" element={<Outlet />}>
@@ -58,6 +68,7 @@ export default function Router() {
           </Route>
 
           <Route path="/chatList" element={<ChatList />} />
+        </Route>
         <Route path="/chatList/:chatId" element={<ChatRoom />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
