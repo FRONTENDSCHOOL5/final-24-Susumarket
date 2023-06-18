@@ -4,6 +4,7 @@ import Router from "./routes/Router";
 import { UserContext } from "./context/UserContext.jsx";
 import { ModalContext } from "./context/ModalContext.jsx";
 function App() {
+  const [account, setAccount] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
   const [isOpenPostModal, setIsOpenPostModal] = useState(false);
@@ -13,6 +14,8 @@ function App() {
       <GlobalStyle />
       <UserContext.Provider
         value={{
+          account,
+          setAccount,
           accessToken,
           setAccessToken,
         }}
