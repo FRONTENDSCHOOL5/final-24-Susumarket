@@ -49,6 +49,26 @@ export default function UserAccount() {
   const [emailErrorMsg, setEmailErrorMsg] = useState("");
   const [passwordMsg, setPasswordMsg] = useState("");
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const user = {
+        user: {
+          username: null,
+          email: email,
+          password: password.toString(),
+          accountname: null,
+          intro: null,
+          image: null,
+        },
+      };
+      onClickNextPage();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const validateEmail = (email) => {
     const emailPattern =
       /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
@@ -62,7 +82,25 @@ export default function UserAccount() {
     if (!validateEmail(value)) {
       setEmailErrorMsg("유효한 이메일 주소를 입력해주세요.");
     } else {
-      setEmailErrorMsg("");
+      setEmailErrorMsg("사용 가능한 이메일 입니다.");
+    }
+  };
+
+  const handleEmailBlur = async () => {
+    try {
+      const response = await customAxios.post(`user/emailvalid`, {
+        user: {
+          email: email,
+        },
+      });
+      const data = response.data;
+      if (data.message === "이미 가입된 이메일 주소 입니다.") {
+        setEmailErrorMsg(data.message);
+        return;
+      }
+      console.log(data.message);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -83,7 +121,7 @@ export default function UserAccount() {
 
   const navigate = useNavigate();
   const onClickNextPage = () => {
-    navigate("/signup/profileSetting");
+    navigate("/signup/profileSetting", { state: { email, password } });
   };
 
   return (
@@ -113,7 +151,7 @@ export default function UserAccount() {
         <SignupButton
           className="large"
           disabled={!isFormValid()}
-          onClick={onClickNextPage}
+          onClick={handleSubmit}
         >
           다음
         </SignupButton>
