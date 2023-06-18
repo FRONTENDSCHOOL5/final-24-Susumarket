@@ -150,7 +150,7 @@ export default function UserAccount() {
         {passwordMsg && <ErrorMessage>{passwordMsg}</ErrorMessage>}
         <SignupButton
           className="large"
-          disabled={!isFormValid()}
+          disabled={!isFormValid() || emailErrorMsg === "이미 가입된 이메일 주소 입니다."}
           onClick={handleSubmit}
         >
           다음
