@@ -8,15 +8,15 @@ function ConfirmModal({
   submitMessage,
   handleSubmit,
 }) {
-  const { isConfirmModal, SetIsConfirmModal } = useContext(ModalContext);
+  const { isOpenConfirmModal, SetIsOpenConfirmModal } = useContext(ModalContext);
 
   const handleCancel = () => {
-    SetIsConfirmModal(false);
+    SetIsOpenConfirmModal(false);
   };
 
   return (
     <>
-      {isConfirmModal && (
+      {isOpenConfirmModal && (
         <Confirm>
           <ConfirmMessage>{confirmMessage}</ConfirmMessage>
           <div>

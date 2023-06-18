@@ -1,5 +1,5 @@
 import { DataInputStyle } from "./InputStyle.js";
-//
+
 export default function DataInput(props) {
   return (
     <DataInputStyle

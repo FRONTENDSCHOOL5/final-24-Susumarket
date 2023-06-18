@@ -1,11 +1,36 @@
+import { useState } from "react";
 import { GlobalStyle } from "./GlobalStyle";
 import Router from "./routes/Router";
-
+import { UserContext } from "./context/UserContext.jsx";
+import { ModalContext } from "./context/ModalContext.jsx";
 function App() {
+  const [account, setAccount] = useState(null);
+  const [accessToken, setAccessToken] = useState(null);
+  const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
+  const [isOpenPostModal, setIsOpenPostModal] = useState(false);
+
   return (
     <>
       <GlobalStyle />
-      <Router />
+      <UserContext.Provider
+        value={{
+          account,
+          setAccount,
+          accessToken,
+          setAccessToken,
+        }}
+      >
+        <ModalContext.Provider
+          value={{
+            isOpenConfirmModal,
+            setIsOpenConfirmModal,
+            isOpenPostModal,
+            setIsOpenPostModal,
+          }}
+        >
+          <Router />
+        </ModalContext.Provider>
+      </UserContext.Provider>
     </>
   );
 }

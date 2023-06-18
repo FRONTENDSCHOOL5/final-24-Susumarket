@@ -26,8 +26,8 @@ export default function ChatList() {
               <ChatListUserImg src={userImg} alt="유저 프로필 이미지" />
             </ChatListUserImgWrapper>
             <ChatListInfo>
-              <ChatListUserName>애월읍 위니브 감귤농장</ChatListUserName>
-              <ChatListLastChat>이번엔 정정 언제하맨마씸?</ChatListLastChat>
+              <ChatListUserName>그림 그려 드려요 </ChatListUserName>
+              <ChatListLastChat>네, 그림 요청 받았습니다.</ChatListLastChat>
             </ChatListInfo>
             <ChatListDate dateTime="2023-06-10">2023.06.10</ChatListDate>
           </ChatListLink>
@@ -39,9 +39,9 @@ export default function ChatList() {
               <ChatListUserImg src={userImg} alt="유저 프로필 이미지" />
             </ChatListUserImgWrapper>
             <ChatListInfo>
-              <ChatListUserName>제주감귤마을</ChatListUserName>
+              <ChatListUserName>수제 핸드 메이드 가방</ChatListUserName>
               <ChatListLastChat>
-                깊은 어둠의 존재감, 롤스로이스 뉴 블랙 배지를 보러오세요!
+                한정판 수제 핸드 메이드 가방 팔아요! 지금 바로 확인해보세요.
               </ChatListLastChat>
             </ChatListInfo>
             <ChatListDate dateTime="2023-06-10">2023.06.13</ChatListDate>
@@ -54,9 +54,9 @@ export default function ChatList() {
               <ChatListUserImg src={userImg} alt="유저 프로필 이미지" />
             </ChatListUserImgWrapper>
             <ChatListInfo>
-              <ChatListUserName>누구네 농장 친황경 한라봉</ChatListUserName>
+              <ChatListUserName>귀여운 수제 키링</ChatListUserName>
               <ChatListLastChat>
-                내 차는 내가 평가한다. 오픈 이벤트에 참여 하고 경품 받아가세요!
+                귀여운 수제 키링 판매! 오픈 이벤트에 참여 하고 경품 받아가세요!
               </ChatListLastChat>
             </ChatListInfo>
             <ChatListDate dateTime="2023-06-10">2023.06.23</ChatListDate>

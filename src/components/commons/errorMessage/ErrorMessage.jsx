@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 const ErrorMessage = styled.strong`
-  display: none;
   margin-top: 6px;
   font-size: 14px;
   font-weight: 400;
