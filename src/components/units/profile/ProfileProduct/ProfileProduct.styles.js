@@ -1,8 +1,6 @@
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const ProfileProductWrapper = styled.section`
-  overflow-x: scroll;
   padding: 20px;
   background-color: #fff;
   border: 1px solid rgb(219, 219, 219);
@@ -18,8 +16,23 @@ export const ProfileProductUl = styled.ul`
   display: flex;
   gap: 10px;
   height: 100%;
+  overflow-x: scroll;
   padding-bottom: 20px;
-  overflow: scroll hidden;
+  ::-webkit-scrollbar{
+    height: 12px;
+}
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: 10px;
+    box-shadow: white 1px 1px 2px inset;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: rgb(106, 106, 106);
+    border-radius: 10px;
+    background-clip: padding-box;
+    border: 1px solid transparent;
+    height: 5px;
+  }
 `;
 export const ProfileProductLi = styled.li``;
 export const ProfileProductButton = styled.button`
