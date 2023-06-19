@@ -45,11 +45,13 @@ export default function MenuBar() {
           <LinkStyle to="/post">
             <>
               <Img
+                // url이 잘 이동되었을 때 아이콘 활성화
                 src={pathname === "/post" ? IconHome.fill : IconHome.default}
                 alt="홈"
               />
               <p
                 style={{
+                  // #B51215 색을 css변수로 바꾸어줘야 함.
                   color: pathname === "/post" ? "#B51215" : "#767676",
                 }}
               >
