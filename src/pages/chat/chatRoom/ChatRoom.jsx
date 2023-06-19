@@ -52,6 +52,9 @@ export default function ChatRoom() {
       <ChatRoomTitle className="a11y-hidden">채팅방</ChatRoomTitle>
       <TopHeader
         type="chat"
+        // 채팅방 TopHeader의 제목에 들어가는 부분
+        // 현재 UI만 구현되어 있어 임의로 chatId를 설정되어있음
+        // chatId 1,2,3 으로 채팅방을 구분해줌       
         username={
           pathnameNum === "1"
             ? "그림 그려드림"
