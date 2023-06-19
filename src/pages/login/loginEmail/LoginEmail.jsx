@@ -67,9 +67,9 @@ export default function LoginEmail() {
         return;
       } else {//로그인 성공시
         setAccessToken(data.user.token); //저장된 토큰 AccessToken에 저장(App에 전역)
-        setAccount(data.user.account); //저장된 토큰 Account에 저장(App에 전역)
+        setAccount(data.user.accountname); //저장된 토큰 Account에 저장(App에 전역)
         localStorage.setItem("accessToken", data.user.token);//localStorage에 토큰 저장
-        localStorage.setItem("account", data.user.account);//localStorage에 accout 저장
+        localStorage.setItem("account", data.user.accountname);//localStorage에 accout 저장
         Navigate("../../post") //로그인 성공하면 post로 이동 
       }
     } catch (error) {
