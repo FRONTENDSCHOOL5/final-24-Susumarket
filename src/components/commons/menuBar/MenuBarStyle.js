@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export const MenuBarWrapper = styled.div`
   position: absolute;
@@ -8,7 +8,7 @@ export const MenuBarWrapper = styled.div`
   font-size: 10px;
   line-height: 14px;
   font-weight: 400;
-  border-top: 1px solid #DBDBDB;
+  border-top: 1px solid #dbdbdb;
 `;
 
 export const MenuBarUl = styled.ul`
@@ -33,7 +33,7 @@ export const MenuBarLi = styled.li`
   }
 `;
 
-export const LinkStyle = styled(NavLink)`
+export const LinkStyle = styled(Link)`
   display: flex;
   flex-direction: column;
   align-items: center;

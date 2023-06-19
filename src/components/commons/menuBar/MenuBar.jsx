@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import iconHome from "../../../img/icon-home.svg";
 import iconHomeFill from "../../../img/icon-home-fill.svg";
 import iconMessage from "../../../img/icon-message-circle.svg";
@@ -14,8 +14,13 @@ import {
   Img,
   LinkStyle,
 } from "./MenuBarStyle";
+import { UserContext } from "../../../context/UserContext";
 
 export default function MenuBar() {
+  const { account } = useContext(UserContext);
+  const location = useLocation();
+  const pathname = location.pathname;
+  // 아이콘 default, fill을 키값으로 한 객체생성.
   const IconHome = {
     default: iconHome,
     fill: iconHomeFill,
@@ -37,79 +42,82 @@ export default function MenuBar() {
     <MenuBarWrapper>
       <MenuBarUl>
         <MenuBarLi>
-          <LinkStyle to="/post/">
-            {({ isActive }) => (
-              <>
-                <Img
-                  src={isActive ? IconHome.fill : IconHome.default}
-                  alt="홈"
-                />
-                <p
-                  style={{
-                    color: isActive ? "#B51215" : "#767676",
-                  }}
-                >
-                  홈
-                </p>
-              </>
-            )}
+          <LinkStyle to="/post">
+            <>
+              <Img
+                src={pathname === "/post" ? IconHome.fill : IconHome.default}
+                alt="홈"
+              />
+              <p
+                style={{
+                  color: pathname === "/post" ? "#B51215" : "#767676",
+                }}
+              >
+                홈
+              </p>
+            </>
           </LinkStyle>
         </MenuBarLi>
         <MenuBarLi>
           <LinkStyle to="/chatList">
-            {({ isActive }) => (
-              <>
-                <Img
-                  src={isActive ? IconMessage.fill : IconMessage.default}
-                  alt="메세지"
-                />
-                <p
-                  style={{
-                    color: isActive ? "#B51215" : "#767676",
-                  }}
-                >
-                  채팅
-                </p>
-              </>
-            )}
+            <>
+              <Img
+                src={
+                  pathname === "/chatList"
+                    ? IconMessage.fill
+                    : IconMessage.default
+                }
+                alt="메세지"
+              />
+              <p
+                style={{
+                  color: pathname === "/chatList" ? "#B51215" : "#767676",
+                }}
+              >
+                채팅
+              </p>
+            </>
           </LinkStyle>
         </MenuBarLi>
         <MenuBarLi>
           <LinkStyle to="/post/upload">
-            {({ isActive }) => (
-              <>
-                <Img
-                  src={isActive ? IconEdit.fill : IconEdit.default}
-                  alt="게시물 작성"
-                />
-                <p
-                  style={{
-                    color: isActive ? "#B51215" : "#767676",
-                  }}
-                >
-                  게시물 작성
-                </p>
-              </>
-            )}
+            <>
+              <Img
+                src={
+                  pathname === "/post/upload" ? IconEdit.fill : IconEdit.default
+                }
+                alt="게시물 작성"
+              />
+              <p
+                style={{
+                  color: pathname === "/post/upload" ? "#B51215" : "#767676",
+                }}
+              >
+                게시물 작성
+              </p>
+            </>
           </LinkStyle>
         </MenuBarLi>
         <MenuBarLi>
-          <LinkStyle to="/profile/useraccount">
-            {({ isActive }) => (
-              <>
-                <Img
-                  src={isActive ? IconUser.fill : IconUser.default}
-                  alt="프로필"
-                />
-                <p
-                  style={{
-                    color: isActive ? "#B51215" : "#767676",
-                  }}
-                >
-                  프로필
-                </p>
-              </>
-            )}
+          <LinkStyle to={`/profile/${account}`}>
+            <>
+              <Img
+                src={
+                  pathname === `/profile/${account}`
+                    ? IconUser.fill
+                    : IconUser.default
+                }
+                alt="프로필"
+              />
+              <p
+                style={{
+                  color:
+                    pathname === `/profile/${account}` ? "#B51215" : "#767676",
+                }}
+              >
+                프로필
+              </p>
+            </>
           </LinkStyle>
         </MenuBarLi>
       </MenuBarUl>
