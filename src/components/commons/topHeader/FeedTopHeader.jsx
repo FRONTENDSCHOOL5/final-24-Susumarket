@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 export default function FeedTopHeader() {
   const navigation = useNavigate();
 
+  // 검색 페이지로 이동 시키는 함수
   function onClickSearch() {
     navigation("/search")
   }

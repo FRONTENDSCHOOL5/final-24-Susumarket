@@ -10,10 +10,12 @@ import {
 export default function UploadTopHeader() {
   const navigation = useNavigate();
 
+  // 이전 페이지로 이동시키는 함수
   function onClickBack(url) {
     navigation(url)
   }
 
+  // 게시물, 상품 업로드 함수
   function onClickUpload() {
     // 업로드 기능
   }

@@ -12,7 +12,8 @@ import {
 export default function FollowersTopHeader() {
   const { userId } = useParams();
   const navigation = useNavigate();
-
+  
+ // 이전 페이지로 이동시키는 함수
   function onClickBack(url) {
     navigation(url);
   }
