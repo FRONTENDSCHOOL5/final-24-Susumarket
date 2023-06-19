@@ -3,12 +3,15 @@ import styled from "styled-components";
 const DateTime = styled.time`
   font-weight: 500;
 `
-export default function DateFormat({dateString = "2023-06-08T07:25:48.218Z" }) {
+
+export default function DateFormat({dateString}) {
+  // 서버에서 주는 시간을 인자로 받습니다.
+  // 시간 포맷을 설정해주는 함수
   function setFormat() {
     const now = new Date();
     const dataTime = new Date(dateString);
     // 밀리초로 변환 1000으로 나눠줌
-    // 자바스크립트의 기본적으로 밀리초를 사용하기 때문
+    // 자바스크립트의 기본적으로 밀리초를 사용하기 때문입니다.
     const diff = Math.floor((now - dataTime) / 1000);
 
     // 차이를 분으로 변환
