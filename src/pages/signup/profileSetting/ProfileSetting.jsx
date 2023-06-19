@@ -210,10 +210,10 @@ export default function ProfileSetting() {
     }
   };
 
-  // 수수마켓 시작하기 버튼 클릭 시 홈 페이지로 이동동
+  // 수수마켓 시작하기 버튼 클릭 시 로그인 페이지로 이동
   const navigate = useNavigate();
   const onClickNextPage = () => {
-    navigate("/post");
+    navigate("/login/loginEmail");
   }
 
   return (
