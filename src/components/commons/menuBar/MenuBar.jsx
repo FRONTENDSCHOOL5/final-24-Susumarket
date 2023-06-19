@@ -32,7 +32,7 @@ export default function MenuBar() {
   };
   const IconEdit = {
     default: iconEdit,
-    fill: iconEdit,
+    fill: iconEditFill,
   };
   const IconUser = {
     default: iconUser,
