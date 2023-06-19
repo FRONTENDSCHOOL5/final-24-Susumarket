@@ -81,6 +81,9 @@ export default function ProfileSetting() {
 
   const location = useLocation();
 
+  // 이미지 미리보기
+  // 이미지를 변경 시 변경한 이미지 대로 출력
+  // 이미지를 변경하지 않으면 default image인 수수마켓 이미지가 출력되도록 함
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -98,6 +101,8 @@ export default function ProfileSetting() {
       setSelectedImage(null);
     }
   };
+
+  // api 이미지
   const uploadProfileImage = async (file) => {
     try {
       const formData = new FormData();
@@ -116,11 +121,13 @@ export default function ProfileSetting() {
     }
   };
 
+  // 계정 id 유효성 검사
   const validateNickName = (nickName) => {
     const nickNamePattern = /^[a-zA-Z0-9._]+$/;
     return nickNamePattern.test(nickName);
   };
 
+  // 계정 id 에러 메시지 출력, 영문 숫자 밑줄 마침표가 아닌 다른 문자 입력 시 에러 메시지 출력
   const handleNickNameChange = (e) => {
     const value = e.target.value;
     setNickName(value);
@@ -132,6 +139,7 @@ export default function ProfileSetting() {
     }
   };
 
+  // 이미 가입된 계정id의 경우 input에서 focus가 벗어나면 가입된 계정id라는 에러 메시지를 출력하도록 함함
   const handleNickNameBlur = async () => {
     try {
       const response = await customAxios.post(`user/accountnamevalid`, {
@@ -150,6 +158,7 @@ export default function ProfileSetting() {
     }
   };
 
+  // 사용자 이름이 2~10자가 아닌 경우 에러 메시지를 출력하도록 함
   const handleUserNameChange = (e) => {
     const newUserName = e.target.value;
     setUserName(newUserName);
@@ -161,11 +170,13 @@ export default function ProfileSetting() {
     }
   };
 
+  // 소개란에 입력 받은 값을 상태 관리. 입력이 필수 사항은 아님
   const handleIntroChange = (e) => {
     const value = e.target.value;
     setIntro(value);
   };
 
+  // form이 유효하도록 하는 함수, 계정 id 코드의 경우 return 내 코드에 추가가
   const isFormValid = () => {
     return (
       validateNickName(nickName) &&
@@ -174,6 +185,7 @@ export default function ProfileSetting() {
     );
   };
 
+  // 앞선 email, password를 받아오고 profileSetting에서 받은 값을 api로 보냄
   const handleSubmit = async (e) => {
     const baseUrl = process.env.REACT_APP_BASE_URL;
     e.preventDefault();
@@ -198,6 +210,7 @@ export default function ProfileSetting() {
     }
   };
 
+  // 수수마켓 시작하기 버튼 클릭 시 홈 페이지로 이동동
   const navigate = useNavigate();
   const onClickNextPage = () => {
     navigate("/post");
