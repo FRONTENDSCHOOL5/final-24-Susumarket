@@ -4,6 +4,7 @@ import iconHomeFill from "../../../img/icon-home-fill.svg";
 import iconMessage from "../../../img/icon-message-circle.svg";
 import iconMessageFill from "../../../img/icon-message-circle-fill.svg";
 import iconEdit from "../../../img/icon-edit.svg";
+import iconEditFill from "../../../img/icon-edit-fill.svg";
 import iconUser from "../../../img/icon-user.svg";
 import iconUserFill from "../../../img/icon-user-fill.svg";
 import { useLocation } from "react-router-dom";
