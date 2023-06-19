@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../../../components/commons/button/Button";
 import UserInput from "../../../components/commons/dataInput/UserInput";
 import DataInput from "../../../components/commons/dataInput/DataInput";
@@ -46,24 +46,11 @@ export default function UserAccount() {
   const [emailErrorMsg, setEmailErrorMsg] = useState("");
   const [passwordMsg, setPasswordMsg] = useState("");
 
+  const [isFormValid, setIsFormValid] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      const user = {
-        user: {
-          username: null,
-          email: email,
-          password: password.toString(),
-          accountname: null,
-          intro: null,
-          image: null,
-        },
-      };
-      onClickNextPage();
-    } catch (error) {
-      console.error(error);
-    }
+    onClickNextPage();
   };
 
   const validateEmail = (email) => {
@@ -79,7 +66,7 @@ export default function UserAccount() {
     if (!validateEmail(value)) {
       setEmailErrorMsg("유효한 이메일 주소를 입력해주세요.");
     } else {
-      setEmailErrorMsg("사용 가능한 이메일 입니다.");
+      setEmailErrorMsg("");
     }
   };
 
@@ -112,14 +99,20 @@ export default function UserAccount() {
     }
   };
 
-  const isFormValid = () => {
-    return validateEmail(email) && password.length >= 6;
-  };
-
   const navigate = useNavigate();
   const onClickNextPage = () => {
-    navigate("/signup/profileSetting", { state: { email, password } });
+    if(isFormValid) {
+      navigate("/signup/profileSetting", { state: { email, password } });
+    }
   };
+
+  useEffect(() => {
+    if(validateEmail(email) && password.length >= 6){
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
+  }, [email, password]);
 
   return (
     <SignupContainer>
@@ -149,7 +142,7 @@ export default function UserAccount() {
         <SignupButton
           className="large"
           disabled={
-            !isFormValid() ||
+            isFormValid === false ||
             emailErrorMsg === "이미 가입된 이메일 주소 입니다."
           }
           onClick={handleSubmit}

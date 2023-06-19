@@ -8,6 +8,7 @@ import uploadfile from "../../../img/upload-file.svg";
 import { customAxios } from "../../../library/customAxios";
 import { useLocation } from "react-router-dom";
 import ErrorMessage from "../../../components/commons/errorMessage/ErrorMessage";
+import { useNavigate } from "react-router-dom";
 
 const ProfileContainer = styled.main`
   width: 87%;
@@ -191,10 +192,16 @@ export default function ProfileSetting() {
       const response = await customAxios.post(`user`, user);
       const data = response.data;
       console.log(data);
+      onClickNextPage();
     } catch (error) {
       console.log(error);
     }
   };
+
+  const navigate = useNavigate();
+  const onClickNextPage = () => {
+    navigate("/post");
+  }
 
   return (
     <ProfileContainer>
@@ -247,7 +254,7 @@ export default function ProfileSetting() {
 
         <ProfileButton
           className="large"
-          disabled={!isFormValid()}
+          disabled={!isFormValid() || nickNameErrorMsg === "이미 가입된 계정ID 입니다."}
           onClick={handleSubmit}
         >
           수수마켓 시작하기
