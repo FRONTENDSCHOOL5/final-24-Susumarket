@@ -51,6 +51,7 @@ export const ProfileInfoUserId = styled.span`
   font-size: 16px;
   line-height: 20px;
   margin-bottom: 6px;
+  min-height: 20px;
 `;
 export const ProfileInfoUserAccountName = styled.span`
   display: block;
@@ -74,8 +75,9 @@ export const ProfileInfoIntro = styled.p`
   line-height: 18px;
   color: #767676;
   margin-bottom: 24px;
+  min-height: 18px;
 `;
-export const ProfuleInfoButtonWrapper = styled.div`
+export const ProfileInfoButtonWrapper = styled.div`
   Button:not(:last-child) {
     margin-right: 10px;
   }
