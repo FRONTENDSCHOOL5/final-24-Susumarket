@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import React, { useContext } from "react";
+import { BrowserRouter, Routes, Route, Outlet, Navigate } from "react-router-dom";
 import Splash from "../pages/splash/Splash";
 
 import Login from "../pages/login/Login";
@@ -26,16 +26,18 @@ import ChatRoom from "../pages/chat/chatRoom/ChatRoom";
 
 import NotFound from "../pages/notFound/NotFound";
 import MenuBar from "../components/commons/menuBar/MenuBar";
+import { UserContext } from "../context/UserContext";
 
 export default function Router() {
+  const { accessToken , account } = useContext(UserContext);
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Splash />} />
-        <Route path="/login/" element={<Login />} />
-        <Route path="/login/loginEmail/" element={<LoginEmail />} />
-        <Route path="/signup/userAccount/" element={<UserAccount />} />
-        <Route path="/signup/profileSetting/" element={<ProfileSetting />} />
+        <Route path="/login/" element={accessToken&&account ?  <Navigate to={'/post'} /> : <Login />} />
+        <Route path="/login/loginEmail/" element={accessToken&&account ? <Navigate to={'/post'} /> : <LoginEmail />} />
+        <Route path="/signup/userAccount/" element={accessToken&&account ? <Navigate to={'/post'} /> : <UserAccount />} />
+        <Route path="/signup/profileSetting/" element={accessToken&&account ? <Navigate to={'/post'} /> : <ProfileSetting />} />
 
         <Route
           element={
@@ -45,31 +47,31 @@ export default function Router() {
             </>
           }
         >
-          <Route path="/search/" element={<Search />} />
+          <Route path="/search/" element={accessToken&&account ? <Search /> : <Navigate to={'/login'}/>} />
 
-          <Route path="/post/" element={<Outlet />}>
+          <Route path="/post/" element={accessToken&&account ? <Outlet /> : <Navigate to={'/login'}/>}>
             <Route index element={<Post />} />
             <Route path=":postId/" element={<PostDetail />} />
             <Route path=":postId/edit" element={<PostEdit />} />
             <Route path="upload" element={<PostUpload />} />
           </Route>
 
-          <Route path="/product/" element={<Outlet />}>
+          <Route path="/product/" element={accessToken&&account ? <Outlet /> : <Navigate to={'/login'}/>}>
             <Route path=":productId/" element={<ProductDetail />} />
             <Route path=":productId/edit" element={<ProductEdit />} />
             <Route path="upload" element={<ProductUpload />} />
           </Route>
 
-          <Route path="/profile/:userId" element={<Outlet />}>
+          <Route path="/profile/:userId" element={accessToken&&account ? <Outlet /> : <Navigate to={'/login'}/>}>
             <Route index element={<UserProfile />} />
             <Route path="edit" element={<ProfileEdit />} />
             <Route path="followers" element={<Followers />} />
             <Route path="following" element={<Following />} />
           </Route>
 
-          <Route path="/chatList" element={<ChatList />} />
+          <Route path="/chatList" element={accessToken&&account ? <ChatList /> :  <Navigate to={'/login'}/>} />
         </Route>
-        <Route path="/chatList/:chatId" element={<ChatRoom />} />
+        <Route path="/chatList/:chatId" element={accessToken&&account ? <ChatRoom /> :  <Navigate to={'/login'}/>} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
