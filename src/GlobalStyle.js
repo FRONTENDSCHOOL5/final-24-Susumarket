@@ -34,6 +34,7 @@ export const GlobalStyle = createGlobalStyle`
     button {
         font-family: "Spoqa Han Sans Neo", "sans-serif";
         border: none;
+        padding: 0;
         cursor: pointer;
         :disabled {
             cursor: default;
@@ -43,5 +44,9 @@ export const GlobalStyle = createGlobalStyle`
     a{
         text-decoration: none;
         color: inherit;
+    }
+
+    textarea{
+        font-family: "Spoqa Han Sans Neo", "sans-serif";
     }
 `;
