@@ -43,11 +43,15 @@ export default function MenuBar() {
     <MenuBarWrapper>
       <MenuBarUl>
         <MenuBarLi>
-          <LinkStyle to="/post">
+          <LinkStyle to={"/post" || "/search"}>
             <>
               <Img
                 // url이 잘 이동되었을 때 아이콘 활성화
-                src={pathname === "/post" ? IconHome.fill : IconHome.default}
+                src={
+                  pathname === "/post" || "/search"
+                    ? IconHome.fill
+                    : IconHome.default
+                }
                 alt="홈"
               />
               <p
