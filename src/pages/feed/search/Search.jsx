@@ -1,23 +1,44 @@
-import styled from "styled-components";
-import React from "react";
-// import "search.style.js";
-import MenuBar from "../../../components/commons/menuBar/MenuBar";
+import React, { useState, useEffect } from "react";
+import { SearchWrapper } from "./search.style";
 import SearchTopHeader from "../../../components/commons/topHeader/SearchTopHeader";
 import SearchList from "./SearchList";
-
-export const SearchWrapper = styled.main`
-  display: flex;
-  justify-content: center;
-  padding: 20px 16px;
-  overflow-y: scroll;
-`;
+import { customAxios } from "../../../library/customAxios";
 
 export default function Search() {
+  const [inputValue, setInputValue] = useState("");
+  const [userList, setUserList] = useState([]); // 유저정보객체
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+    // console.log(inputValue);
+  };
+  useEffect(() => {
+    console.log(inputValue);
+
+    // 키 확인하기 api 호출
+    customAxios
+      .get(`/user/searchuser/?keyword=${inputValue}`)
+      .then((response) => {
+        // 요청에 대한 응답 처리
+        console.log(response.data);
+        setUserList(response.data);
+      })
+      .catch((error) => {
+        // 에러 처리
+        console.error(error);
+      });
+  }, [inputValue]);
+
   return (
     <>
-      <SearchTopHeader />
+      <input
+        type="text"
+        placeholder="계정검색"
+        value={inputValue}
+        onChange={handleInputChange}
+      />
       <SearchWrapper>
-        <SearchList />
+        <SearchList inputValue={inputValue} userList={userList} />
       </SearchWrapper>
     </>
   );

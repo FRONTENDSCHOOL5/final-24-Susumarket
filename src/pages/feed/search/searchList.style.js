@@ -15,6 +15,7 @@ export const SearchListLi = styled.li`
   display: flex;
   margin-bottom: 16px;
   background-color: #fff;
+  justify-content: center;
 `;
 
 export const SearchListLink = styled(Link)`
