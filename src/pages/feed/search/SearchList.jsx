@@ -1,5 +1,3 @@
-import React from "react";
-// import "searchList.style.js";
 import {
   SearchListUl,
   SearchListLi,
@@ -10,37 +8,21 @@ import {
   UserId,
 } from "./searchList.style.js";
 
-export default function SearchList() {
+export default function SearchList({ userList }) {
   return (
     <>
       <SearchListUl>
-        <SearchListLi>
-          <SearchListLink>
-            <SearchListImg />
-            <UserWrapper>
-              <UserName>Sample</UserName>
-              <UserId>sample1</UserId>
-            </UserWrapper>
-          </SearchListLink>
-        </SearchListLi>
-        <SearchListLi>
-          <SearchListLink>
-            <SearchListImg />
-            <UserWrapper>
-              <UserName>SampleLike</UserName>
-              <UserId>sampleLike1</UserId>
-            </UserWrapper>
-          </SearchListLink>
-        </SearchListLi>
-        <SearchListLi>
-          <SearchListLink>
-            <SearchListImg />
-            <UserWrapper>
-              <UserName>Hello</UserName>
-              <UserId>Hello3</UserId>
-            </UserWrapper>
-          </SearchListLink>
-        </SearchListLi>
+        {userList.map((user) => (
+          <SearchListLi key={user.id}>
+            <SearchListLink>
+              <SearchListImg />
+              <UserWrapper>
+                <UserName>{user.username}</UserName>
+                <UserId>{user.accountname}</UserId>
+              </UserWrapper>
+            </SearchListLink>
+          </SearchListLi>
+        ))}
       </SearchListUl>
     </>
   );
