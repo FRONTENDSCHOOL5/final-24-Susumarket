@@ -10,7 +10,8 @@ import {
   TopHeaderMoreIconImg,
 } from "./TopHeaderStyle.js";
 
-export default function ProfileTopHeader() {
+
+export default function ProfileTopHeader({ onClickMore }) {
 
   const navigation = useNavigate();
 
@@ -20,16 +21,14 @@ export default function ProfileTopHeader() {
   }
   
  // postModal창을 여는 함수
-  function onClickMore() {
-    // postModal창 
-  }
+ 
   return (
     <TopHeaderWrapper>
       <TopHeaderBackBtn onClick={()=>onClickBack("/post")}>
         <TopHeaderBackIcon src={backIcon} alt="뒤로가기" />
       </TopHeaderBackBtn>
-      <TopHeaderMoreBtn>
-        <TopHeaderMoreIconImg src={moreIcon} alt="더보기" onClick={onClickMore}/>
+      <TopHeaderMoreBtn onClick={onClickMore}>
+        <TopHeaderMoreIconImg src={moreIcon} alt="더보기" />
       </TopHeaderMoreBtn>
     </TopHeaderWrapper>
   );
