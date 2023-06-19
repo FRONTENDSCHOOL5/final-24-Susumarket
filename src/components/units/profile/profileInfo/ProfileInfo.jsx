@@ -13,7 +13,7 @@ import {
   ProfileInfoUserNameWrapper,
   ProfileInfoWrapper,
   ProfileInfoeImg,
-  ProfuleInfoButtonWrapper,
+  ProfileInfoButtonWrapper,
   UserInfo,
 } from "./ProfileInfo.styles";
 import profileImg from "../../../../img/ProfileImg.svg";
@@ -43,7 +43,7 @@ export default function ProfileInfo() {
         <ProfileInfoUserAccountName>asd1</ProfileInfoUserAccountName>
       </ProfileInfoUserNameWrapper>
       <ProfileInfoIntro>안녕하세요.</ProfileInfoIntro>
-      <ProfuleInfoButtonWrapper>
+      <ProfileInfoButtonWrapper>
         <Button className="medium" onClick={() => onClickButton(`edit`)}>
           프로필 수정
         </Button>
@@ -53,7 +53,7 @@ export default function ProfileInfo() {
         >
           상품등록
         </Button>
-      </ProfuleInfoButtonWrapper>
+      </ProfileInfoButtonWrapper>
     </ProfileInfoWrapper>
   );
 }
