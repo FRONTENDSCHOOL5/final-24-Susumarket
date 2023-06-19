@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import backIcon from "../../../img/icon-arrow-left.svg";
 import moreIcon from "../../../img/icon- more-vertical.svg";
 import {
@@ -14,13 +14,16 @@ import { useNavigate } from "react-router-dom";
 import { ModalContext } from "../../../context/ModalContext";
 
 export default function ChatTopHeader({ usernameTitle }) {
+  // 컨텍스트에 저장된 setIsOPenPostModal를 불러와서 모달창을 관리
   const { setIsOpenPostModal } = useContext(ModalContext);
   const navigation = useNavigate();
 
+  // 이전 페이지로 이동시키는 함수
   function onClickBack(url) {
     navigation(url);
   }
 
+  // postModal을 여는 함수
   function onClickMore() {
     setIsOpenPostModal(true);
   }
