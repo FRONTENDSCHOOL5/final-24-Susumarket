@@ -19,7 +19,6 @@ export default function Search() {
       <SearchWrapper>
         <SearchList />
       </SearchWrapper>
-      <MenuBar />
     </>
   );
 }
