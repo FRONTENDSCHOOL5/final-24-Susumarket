@@ -48,7 +48,7 @@ export default function MenuBar() {
               <Img
                 // url이 잘 이동되었을 때 아이콘 활성화
                 src={
-                  pathname === "/post" || "/search"
+                  pathname === "/post" || pathname === "/search"
                     ? IconHome.fill
                     : IconHome.default
                 }

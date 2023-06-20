@@ -2,13 +2,14 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 export const MenuBarWrapper = styled.div`
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100%;
   font-size: 10px;
   line-height: 14px;
   font-weight: 400;
   border-top: 1px solid #dbdbdb;
+  background-color: #fff;
 `;
 
 export const MenuBarUl = styled.ul`
