@@ -1,10 +1,13 @@
 import styled from "styled-components";
 
 export const ProfileProductWrapper = styled.section`
+  position: relative;
   padding: 20px 0 20px 16px;
   width: 100%;
   background-color: #fff;
-  border: 1px solid rgb(219, 219, 219);
+  border-top: 1px solid rgb(219, 219, 219);
+  border-bottom: 1px solid rgb(219, 219, 219);
+  min-height: 245px;
 `;
 export const ProfileProductTitle = styled.h2`
   font-weight: 700;
@@ -60,3 +63,5 @@ export const ProfileProductPrice = styled.span`
   font-size: 12px;
   line-height: 15px;
 `;
+
+
