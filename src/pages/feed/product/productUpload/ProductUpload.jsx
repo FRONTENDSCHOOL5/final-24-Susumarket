@@ -57,7 +57,7 @@ export default function ProductUpload() {
       <ImgLabel htmlFor="file-input">
           <Img 
           className="defaultlion" 
-          // src={profileImage} 
+          src={profileImage} 
            />
           <Img 
           className="uploadbtn" 

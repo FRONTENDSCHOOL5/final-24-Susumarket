@@ -98,22 +98,19 @@ export const ImgInput = styled.input`
 
 export const Img = styled.img`
   &.defalutlion {
-    box-sizing: border-box;
     position: absolute;
     left: 0%;
     right: 0%;
     top: 13.56%;
     bottom: 0%;
-        
+    object-fit: cover;
     background: #F2F2F2;
-    /* DBDBDB */
-    
     border: 0.5px solid #DBDBDB;
     border-radius: 10px;
   }
   &.uploadbtn {
     position: absolute;
-    left: 85.09%;
+    left: 95.09%;
     right: 3.73%;
     top: 79.66%;
     bottom: 5.08%;
