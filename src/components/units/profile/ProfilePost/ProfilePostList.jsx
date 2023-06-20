@@ -26,6 +26,7 @@ import {
   ProfilePostCommentLink,
   ProfilePostCommentCount,
 } from "./ProfilePost.styles";
+import DateFormate from "../../../commons/dateFormat/DateFormat"
 import authImg from "../../../../img/basic-profile.svg";
 import moreIcon from "../../../../img/icon- more-vertical.svg";
 import likeIcon from "../../../../img/icon-heart.svg";
@@ -135,6 +136,7 @@ export default function ProfilePostList({
             <ProfilePostCommentCount>1</ProfilePostCommentCount>
           </ProfilePostCommentLink>
         </ProfilePostLikeCommentBtns>
+        <DateFormate dateString={new Date().toISOString()}/>
       </ProfilePostContents>
     </ProfilePostLi>
   );
