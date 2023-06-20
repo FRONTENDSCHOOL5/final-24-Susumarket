@@ -19,8 +19,9 @@ import {
 import profileImg from "../../../../img/ProfileImg.svg";
 import Button from "../../../commons/button/Button";
 import { useNavigate } from "react-router-dom";
-export default function ProfileInfo() {
+export default function ProfileInfo({userData}) {
   const navigate = useNavigate();
+  console.log(userData)
   function onClickButton(url) {
     navigate(url);
   }
@@ -28,21 +29,21 @@ export default function ProfileInfo() {
     <ProfileInfoWrapper>
       <ProfileInfoTitle className="a11y-hidden">프로필 정보</ProfileInfoTitle>
       <UserInfo>
-        <ProfileInfoFollowers to={"#"}>
-          <ProfileInfoFollowersCount>0</ProfileInfoFollowersCount>
+        <ProfileInfoFollowers to={`/profile/${userData.accountname}/followers`}>
+          <ProfileInfoFollowersCount>{userData.followerCount||0}</ProfileInfoFollowersCount>
           <ProfileInfoFollowersText>followers</ProfileInfoFollowersText>
         </ProfileInfoFollowers>
-        <ProfileInfoeImg src={profileImg} alt="유저 프로필 이미지" />
+        <ProfileInfoeImg src={userData.image||profileImg} alt="유저 프로필 이미지" />
         <ProfileInfoFollowering to={"#"}>
-          <ProfileInfoFolloweringCount>9</ProfileInfoFolloweringCount>
+          <ProfileInfoFolloweringCount>{userData.followeringCount||0}</ProfileInfoFolloweringCount>
           <ProfileInfoFolloweringText>followering</ProfileInfoFolloweringText>
         </ProfileInfoFollowering>
       </UserInfo>
       <ProfileInfoUserNameWrapper>
-        <ProfileInfoUserId>asd1</ProfileInfoUserId>
-        <ProfileInfoUserAccountName>asd1</ProfileInfoUserAccountName>
+        <ProfileInfoUserId>{userData.accountname}</ProfileInfoUserId>
+        <ProfileInfoUserAccountName>{userData.username}</ProfileInfoUserAccountName>
       </ProfileInfoUserNameWrapper>
-      <ProfileInfoIntro>안녕하세요.</ProfileInfoIntro>
+      <ProfileInfoIntro>{userData.intro}</ProfileInfoIntro>
       <ProfileInfoButtonWrapper>
         <Button className="medium" onClick={() => onClickButton(`edit`)}>
           프로필 수정
