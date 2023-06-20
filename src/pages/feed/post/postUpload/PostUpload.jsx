@@ -117,9 +117,13 @@ export default function PostUpload() {
     const formData = new FormData();
 
     for (let i = 0; i < files.length; i++) {
-      formData.append("files", files[i]);
-      const currentFileUrl = URL.createObjectURL(files[i]);
-      fileLists.push(currentFileUrl);
+      if (files[i].type.startsWith("image/")) {
+        formData.append("files", files[i]);
+        const currentFileUrl = URL.createObjectURL(files[i]);
+        fileLists.push(currentFileUrl);
+      } else {
+        alert("이미지 파일 형식이 아닙니다!");
+      }
     }
     if (fileLists.length > 3) {
       fileLists = fileLists.slice(0, 3);
