@@ -57,6 +57,7 @@ export default function PostUpload() {
   }, []);
 
   const [profileImage, setProfileImage] = useState(null);
+  const [showPostImages, setShowPostImages] = useState([]);
 
   useEffect(() => {
     const loadProfileImage = async () => {
@@ -71,6 +72,36 @@ export default function PostUpload() {
     };
     loadProfileImage();
   }, []);
+
+  const handleFileUpload = async (e) => {
+    const files = e.target.files;
+    let fileLists = [...showPostImages];
+
+    const formData = new FormData();
+
+    for (let i = 0; i < files.length; i++) {
+      formData.append("files", files[i]);
+      const currentFileUrl = URL.createObjectURL(files[i]);
+      fileLists.push(currentFileUrl);
+    }
+    if (fileLists.length > 3) {
+      fileLists = fileLists.slice(0, 3);
+      alert("이미지는 최대 3개까지 업로드 가능합니다:)");
+    }
+    setShowPostImages(fileLists);
+
+    const handlePostButton = () => {
+      fileInputRef.current.click();
+    };
+
+    try {
+      const response = await customAxios.post("image/uploadfiles", formData);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
 
   return (
     <>
@@ -89,6 +120,8 @@ export default function PostUpload() {
           type="file"
           multiple="multiple"
           id="input-file"
+          ref={fileInputRef}
+          onChange={handleFileUpload}
         ></PostImgInput>
       </UploadMain>
       <UpLoadButton disabled></UpLoadButton>
