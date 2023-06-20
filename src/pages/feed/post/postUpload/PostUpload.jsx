@@ -1,10 +1,13 @@
 import UploadTopHeader from "../../../../components/commons/topHeader/UploadTopHeader";
 import imgUploadBtn from "../../../../img/upload-file.svg";
 import styled from "styled-components";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useCallback } from "react";
+import defaultImg from "../../../../img/ProfileImg.svg";
+import { customAxios } from "../../../../library/customAxios";
+import xbutton from "../../../../img/x.svg";
 
-const UpLoadButton = styled.button`
+const PostImgButton = styled.button`
   // top: 70%;
   position: fixed;
   bottom: 70px;
@@ -18,6 +21,7 @@ const UpLoadButton = styled.button`
 const UploadMain = styled.main`
   display: flex;
   flex-direction: row;
+  align-items: flex-start;
 `;
 
 const ProfileImgLabel = styled.label``;
@@ -27,7 +31,7 @@ const ProfileImg = styled.img`
   height: 50px;
   border-radius: 50%;
   object-fit: cover;
-  background-color: var(--color-sub);
+  // background-color: var(--color-sub);
   margin-left: 20px;
   margin-top: 20px;
 `;
@@ -47,6 +51,31 @@ const PostImgLabel = styled.label`
 
 const PostImgInput = styled.input`
   display: none;
+`;
+
+const Delete = styled.button`
+  background: url(${xbutton});
+  width: 20px;
+  height: 20px;
+  z-index: 999;
+  position: absolute;
+  margin-left: -35px;
+  margin-top: 5px;
+`;
+
+const PostImg = styled.img`
+  width: 304px;
+  height: 220px;
+  border-radius: 20px;
+  margin-left: 30px;
+  position: relative;
+`;
+
+const UploadImgArea = styled.section`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  margin-top: 30px;
 `;
 
 export default function PostUpload() {
@@ -94,6 +123,10 @@ export default function PostUpload() {
       fileInputRef.current.click();
     };
 
+    const handleDeleteImage = (id) => {
+      setShowPostImages(showPostImages.filter((_, index) => index !== id));
+    };
+
     try {
       const response = await customAxios.post("image/uploadfiles", formData);
       console.log(response.data);
@@ -124,7 +157,15 @@ export default function PostUpload() {
           onChange={handleFileUpload}
         ></PostImgInput>
       </UploadMain>
-      <UpLoadButton disabled></UpLoadButton>
+      <UploadImgArea>
+        {showPostImages.map((image, id) => (
+          <div key={id}>
+            <PostImg src={image} alt={`${image}-${id}`} />
+            <Delete onClick={() => handleDeleteImage(id)} />
+          </div>
+        ))}
+      </UploadImgArea>
+      <PostImgButton onClick={handlePostButton}></PostImgButton>
     </>
   );
 }
