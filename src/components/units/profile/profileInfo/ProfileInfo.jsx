@@ -21,7 +21,6 @@ import Button from "../../../commons/button/Button";
 import { useNavigate } from "react-router-dom";
 export default function ProfileInfo({userData}) {
   const navigate = useNavigate();
-  console.log(userData)
   function onClickButton(url) {
     navigate(url);
   }
