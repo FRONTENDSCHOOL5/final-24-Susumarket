@@ -1,5 +1,6 @@
 import styled from "styled-components";
 export const TopHeaderWrapper = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -12,6 +13,7 @@ export const TopHeaderTitle = styled.h2`
   display: inline-block;
   font-weight: 500;
   vertical-align: middle;
+  margin-left: 8px;
 `;
 export const TopHeaderSearchBtn = styled.button`
   background: none;
@@ -50,4 +52,4 @@ export const TopHeaderMoreIconImg = styled.img`
   width: 24px;
   height: 24px;
 `;
-export const TopHeaderLeft = styled.div``
+export const TopHeaderLeft = styled.div``;
