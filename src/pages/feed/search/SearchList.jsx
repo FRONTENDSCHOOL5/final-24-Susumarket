@@ -15,7 +15,8 @@ export default function SearchList({ userList, inputValue }) {
       <SearchListUl>
         {userList.map((user, index) => (
           <SearchListLi key={index}>
-            <SearchListLink>
+            {/* 유저 리스트 클릭시 유저 프로필 페이지로 이동 */}
+            <SearchListLink to={`/profile/${user.accountname}`}>
               <img
                 style={{
                   backgroundImage: `url(${user.image})`,
