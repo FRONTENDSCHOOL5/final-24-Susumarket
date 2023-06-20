@@ -29,11 +29,16 @@ export default function Search() {
         console.error();
       }
     };
-
-    // search페이지로 처음 이동할때도 검색하는 것 해결
-    if (inputValue !== "") {
+    if (inputValue === "") {
+      setUserList([]);
+    } else {
       fetchData();
     }
+
+    // search페이지로 처음 이동할때도 검색하는 것 해결
+    // if (inputValue !== "") {
+    //   fetchData();
+    // }
   }, [inputValue]);
 
   //   }
@@ -53,11 +58,15 @@ export default function Search() {
 
   return (
     <>
-      <input
+      {/* <input
         type="text"
         placeholder="계정검색"
         value={inputValue}
         onChange={handleInputChange}
+      /> */}
+      <SearchTopHeader
+        value={inputValue}
+        handleInputChange={handleInputChange}
       />
       <SearchWrapper>
         <SearchList inputValue={inputValue} userList={userList} />

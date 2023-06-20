@@ -8,9 +8,8 @@ import {
 } from "./TopHeaderStyle.js";
 import { useNavigate } from "react-router-dom";
 
-export default function SearchTopHeader({ children }) {
+export default function SearchTopHeader({ inputValue, handleInputChange }) {
   const navigation = useNavigate();
-  const [inputValue, setInputValue] = useState("");
 
   // 이전 페이지로 이동시키는 함수
   function onClickBack(url) {
@@ -23,7 +22,13 @@ export default function SearchTopHeader({ children }) {
         <TopHeaderBackIcon src={backIcon} alt="뒤로가기" />
       </TopHeaderBackBtn>
       {/* input 스타일링 필요 */}
-      <input type="text" placeholder="계정검색" />
+      <TopHeaderSearchInput
+        type="text"
+        placeholder="계정검색"
+        value={inputValue}
+        onChange={handleInputChange}
+      />
+      {/* <input type="text" placeholder="계정검색" /> */}
     </TopHeaderWrapper>
   );
 }
