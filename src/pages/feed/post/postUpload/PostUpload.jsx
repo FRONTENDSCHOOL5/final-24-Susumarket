@@ -1,7 +1,6 @@
 import UploadTopHeader from "../../../../components/commons/topHeader/UploadTopHeader";
 import imgUploadBtn from "../../../../img/upload-file.svg";
 import styled from "styled-components";
-import TopButton from "../../../../components/commons/topButton/TopButton";
 import { useRef } from "react";
 import { useCallback } from "react";
 
@@ -57,12 +56,28 @@ export default function PostUpload() {
     textRef.current.style.height = textRef.current.scrollHeight + "px";
   }, []);
 
+  const [profileImage, setProfileImage] = useState(null);
+
+  useEffect(() => {
+    const loadProfileImage = async () => {
+      try {
+        const response = await customAxios.get(`user/myinfo`, {
+          Authorization: `Bearer {token}`,
+        });
+        setProfileImage(response.data.user.image);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    loadProfileImage();
+  }, []);
+
   return (
     <>
       <UploadTopHeader disabled></UploadTopHeader>
       <UploadMain>
         <ProfileImgLabel></ProfileImgLabel>
-        <ProfileImg />
+        <ProfileImg src = {profileImage || defaultImg} alt = "프로필 사진"/>
         <TextArea
           ref={textRef}
           placeholder="게시글 입력하기..."
@@ -77,7 +92,6 @@ export default function PostUpload() {
         ></PostImgInput>
       </UploadMain>
       <UpLoadButton disabled></UpLoadButton>
-      <TopButton></TopButton>
     </>
   );
 }
