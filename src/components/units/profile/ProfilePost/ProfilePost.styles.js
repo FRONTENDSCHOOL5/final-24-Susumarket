@@ -2,7 +2,11 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import multiflyImgIcon from "../../../../img/icon-img-layers.svg";
 export const ProfilePostWrapper = styled.section`
+  position: relative;
   background-color: #fff;
+  min-height: 515px;
+  border-top: 1px solid #dbdbdb;
+  border-bottom: 1px solid #dbdbdb;
 `;
 export const ProfilePostTitle = styled.h2``;
 
@@ -43,6 +47,7 @@ export const ProfilePostUl = styled.ul`
   width: 100%;
   padding: 16px 16px 70px;
   margin: 0 auto;
+  gap: 20px;
 `;
 
 export const ProfilePostLi = styled.li`
@@ -193,7 +198,7 @@ export const ProfilePostLikeBtnIcon = styled.img`
   height: 20px;
   margin-right: 5px;
 `;
-export const ProfilePostLikeCount = styled.span`
+export const ProfilePostHeartCount = styled.span`
   font-size: 12px;
   font-weight: 400;
   color: #767676;
@@ -205,7 +210,7 @@ export const ProfilePostCommentLink = styled(Link)`
 `;
 
 export const ProfilePostCommentLinkIcon = styled(ProfilePostLikeBtnIcon)``;
-export const ProfilePostCommentCount = styled(ProfilePostLikeCount)``;
+export const ProfilePostCommentCount = styled(ProfilePostHeartCount)``;
 
 export const ProfilePostGalleryUl = styled.ul`
   display: grid;
@@ -249,4 +254,23 @@ export const ProfilePostGalleryImg = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+`;
+
+export const PostNoneWrapper = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+`;
+export const PostNoneImg = styled.img`
+  width: 110px;
+  height: 110px;
+  vertical-align: top;
+  margin-bottom: 20px;
+`;
+
+export const PostNoneText = styled.p`
+  text-align: center;
+  color: #767676;
 `;
