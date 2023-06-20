@@ -8,14 +8,13 @@ import {
   UserName,
   UserId,
 } from "./searchList.style.js";
-import InfiniteScroll from "react-infinite-scroller";
 
 export default function SearchList({ userList, inputValue }) {
   return (
     <>
       <SearchListUl>
-        {userList.map((user) => (
-          <SearchListLi key={user.id}>
+        {userList.map((user, index) => (
+          <SearchListLi key={index}>
             <SearchListLink>
               <img
                 style={{
