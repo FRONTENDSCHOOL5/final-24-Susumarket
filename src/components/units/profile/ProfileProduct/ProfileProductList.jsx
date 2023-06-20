@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import {
   ProfileProductImg,
   ProfileProductLi,
@@ -7,20 +7,32 @@ import {
   ProfileProductPrice,
 } from "./ProfileProduct.styles";
 import { useNavigate } from "react-router-dom";
+import { customAxios } from "../../../../library/customAxios";
 
 export default function ProfileProductList({
   onClickButton,
   closeModal,
   settingPostModalProps,
+  productList,
+  reFetchProdcutData,
 }) {
+  const onClickRemove = useCallback(async (id) => {
+    try {
+      await customAxios.delete(`product/${id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
   function onClickProduct() {
     settingPostModalProps([
       {
         name: "삭제",
         func: () => {
-          onClickButton("정말 삭제하시겠습니까?", "삭제", () => {
+          onClickButton("정말 삭제하시겠습니까?", "삭제", async () => {
+            await onClickRemove(productList.id);
+            reFetchProdcutData();
             closeModal();
-            alert("삭제");
           });
         },
       },
@@ -45,41 +57,11 @@ export default function ProfileProductList({
     <>
       <ProfileProductLi>
         <ProfileProductButton onClick={onClickProduct}>
-          <ProfileProductImg src="#" alt="상품 이미지"/>
-          <ProfileProductName>테스트 상품</ProfileProductName>
-          <ProfileProductPrice>100원</ProfileProductPrice>
-        </ProfileProductButton>
-      </ProfileProductLi>
-
-      <ProfileProductLi>
-        <ProfileProductButton onClick={onClickProduct}>
-          <ProfileProductImg src="#" alt="상품 이미지"/>
-          <ProfileProductName>테스트 상품</ProfileProductName>
-          <ProfileProductPrice>100원</ProfileProductPrice>
-        </ProfileProductButton>
-      </ProfileProductLi>
-
-      <ProfileProductLi>
-        <ProfileProductButton onClick={onClickProduct}>
-          <ProfileProductImg src="#" alt="상품 이미지"/>
-          <ProfileProductName>테스트 상품</ProfileProductName>
-          <ProfileProductPrice>100원</ProfileProductPrice>
-        </ProfileProductButton>
-      </ProfileProductLi>
-
-      <ProfileProductLi>
-        <ProfileProductButton onClick={onClickProduct}>
-          <ProfileProductImg src="#" alt="상품 이미지"/>
-          <ProfileProductName>테스트 상품</ProfileProductName>
-          <ProfileProductPrice>100원</ProfileProductPrice>
-        </ProfileProductButton>
-      </ProfileProductLi>
-
-      <ProfileProductLi>
-        <ProfileProductButton onClick={onClickProduct}>
-          <ProfileProductImg src="#" alt="상품 이미지"/>
-          <ProfileProductName>테스트 상품</ProfileProductName>
-          <ProfileProductPrice>100원</ProfileProductPrice>
+          <ProfileProductImg src={productList.itemImage} alt="상품 이미지" />
+          <ProfileProductName>{productList.itemName}</ProfileProductName>
+          <ProfileProductPrice>
+            {productList.price.toLocaleString()} 원
+          </ProfileProductPrice>
         </ProfileProductButton>
       </ProfileProductLi>
     </>
