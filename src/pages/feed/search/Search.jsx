@@ -20,12 +20,13 @@ export default function Search() {
       .get(`/user/searchuser/?keyword=${inputValue}`)
       .then((response) => {
         // 요청에 대한 응답 처리
-        console.log(response.data);
+        console.log("response.data", response.data);
         setUserList(response.data);
+        // userData 저장
       })
       .catch((error) => {
         // 에러 처리
-        console.error(error);
+        console.error();
       });
   }, [inputValue]);
 
