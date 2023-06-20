@@ -116,6 +116,7 @@ export default function PostUpload() {
     }
     if (fileLists.length > 3) {
       fileLists = fileLists.slice(0, 3);
+      alert("이미지는 최대 3개까지 업로드 가능합니다:)");
     }
     setShowPostImages(fileLists);
 
