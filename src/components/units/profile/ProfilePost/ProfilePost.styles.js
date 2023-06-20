@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import multiflyImgIcon from "../../../../img/icon-img-layers.svg"
+import multiflyImgIcon from "../../../../img/icon-img-layers.svg";
 export const ProfilePostWrapper = styled.section`
   background-color: #fff;
 `;
@@ -10,7 +10,7 @@ export const ProfilePostDisplayBtns = styled.div`
   display: flex;
   justify-content: right;
   gap: 6px;
-  border: 1px solid #767676;
+  border-bottom: 1px solid #dbdbdb;
   padding: 9px 16px;
 `;
 export const ProfilePostDisplayList = styled.button`
@@ -209,10 +209,10 @@ export const ProfilePostCommentCount = styled(ProfilePostLikeCount)``;
 
 export const ProfilePostGalleryUl = styled.ul`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(250px, auto));
+  justify-content: center;
   gap: 8px;
   padding: 40px;
-  max-width: 800px;
   width: 100%;
   padding: 16px 16px 70px;
   margin: 0 auto;
