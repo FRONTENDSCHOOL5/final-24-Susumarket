@@ -1,16 +1,12 @@
 import React from "react";
-import {
-  ProfilePostGalleryUl,
-} from "./ProfilePost.styles";
+import { ProfilePostGalleryUl } from "./ProfilePost.styles";
 import ProfilePostGalleryList from "./ProfilePostGalleryList";
-export default function ProfilePostGallery() {
+export default function ProfilePostGallery({ postData }) {
   return (
     <ProfilePostGalleryUl>
-     <ProfilePostGalleryList/>
-     <ProfilePostGalleryList/>
-     <ProfilePostGalleryList/>
-     <ProfilePostGalleryList/>
-     <ProfilePostGalleryList/>
+      {postData.map((post) => {
+        return <ProfilePostGalleryList key={post.id} post={post} />;
+      })}
     </ProfilePostGalleryUl>
   );
 }
