@@ -29,7 +29,10 @@ export default function UserProfile() {
   // post 모달창 props 설정
   const [postModalProps, setPostModalProps] = useState([]);
 
+  // 유저 데이터 저장
   const [userData, setUserData] = useState({});
+
+  // 유효한 유저 인지 파악
   const [isInvalidProfile, setIsInvalidProfile] = useState(false);
 
   // post 모달창 props 설정 및 열기
@@ -54,8 +57,8 @@ export default function UserProfile() {
     async function fecthUserDate() {
       try {
         const response = await customAxios.get(`profile/${accountname}`);
-        setIsInvalidProfile(false);
         setUserData(response.data.profile);
+        setIsInvalidProfile(false);
       } catch (error) {
         setIsInvalidProfile(true);
         console.log(error);
@@ -100,18 +103,16 @@ export default function UserProfile() {
         </UserUndefinedWrapper>
       ) : (
         <>
-          <ProfileInfo />
+          <ProfileInfo userData={userData}/>
           <ProfileProduct
             onClickButton={onClickButton}
             settingPostModalProps={settingPostModalProps}
             closeModal={closeModal}
-            userData={userData}
           />
           <ProfilePost
             onClickButton={onClickButton}
             settingPostModalProps={settingPostModalProps}
             closeModal={closeModal}
-            userData={userData}
           />
           <PostModal menuList={postModalProps} />
           <ConfirmModal
