@@ -5,65 +5,36 @@ import SearchList from "./SearchList";
 import { customAxios } from "../../../library/customAxios";
 
 export default function Search() {
-  const [inputValue, setInputValue] = useState("");
-  const [userList, setUserList] = useState([]); // 유저정보객체
+  const [inputValue, setInputValue] = useState(""); //
+  const [userList, setUserList] = useState([]); // 유저정보리스트
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
     // console.log(inputValue);
   };
+
+  // 스페이스바, 엔터키 제외한 문자열 입력됐을 때 api 호출하기 위한 함수
   useEffect(() => {
-    console.log(inputValue);
-    // 키 확인하기 api 호출
-    const fetchData = async () => {
-      try {
-        // 키 확인하기 api 호출
-        const response = await customAxios.get(
-          `/user/searchuser/?keyword=${inputValue}`,
-        );
-        console.log("response.data", response.data);
-        setUserList(response.data);
-        // userData 저장
-      } catch (error) {
-        // 에러 처리
-        console.error();
-      }
-    };
-    if (inputValue === "") {
+    if (inputValue.trim() === "") {
       setUserList([]);
     } else {
       fetchData();
     }
-
-    // search페이지로 처음 이동할때도 검색하는 것 해결
-    // if (inputValue !== "") {
-    //   fetchData();
-    // }
+    // 유저검색 api 호출
+    async function fetchData() {
+      try {
+        const response = await customAxios.get(
+          `/user/searchuser/?keyword=${inputValue}`,
+        );
+        setUserList(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
   }, [inputValue]);
-
-  //   }
-  //   customAxios
-  //     .get(`/user/searchuser/?keyword=${inputValue}`)
-  //     .then((response) => {
-  //       // 요청에 대한 응답 처리
-  //       console.log("response.data", response.data);
-  //       setUserList(response.data);
-  //       // userData 저장
-  //     })
-  //     .catch((error) => {
-  //       // 에러 처리
-  //       console.error();
-  //     });
-  // }, [handleInputChange]);
 
   return (
     <>
-      {/* <input
-        type="text"
-        placeholder="계정검색"
-        value={inputValue}
-        onChange={handleInputChange}
-      /> */}
       <SearchTopHeader
         value={inputValue}
         handleInputChange={handleInputChange}

@@ -5,5 +5,5 @@ export const SearchWrapper = styled.main`
   justify-content: center;
   padding: 20px 16px;
   overflow-y: scroll;
-  height: 100vh;
+  height: calc(100vh - 122px);
 `;
