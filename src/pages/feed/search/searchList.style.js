@@ -25,13 +25,13 @@ export const SearchListLink = styled(Link)`
   width: 100%;
 `;
 
-export const SearchListImg = styled.img`
-  background: url(${sampleImg}) no-repeat center center;
-  background-size: cover;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-`;
+// export const SearchListImg = styled.img`
+//   background: url(${sampleImg}) no-repeat center center;
+//   background-size: cover;
+//   width: 50px;
+//   height: 50px;
+//   border-radius: 50%;
+// `;
 
 export const UserWrapper = styled.div`
   display: flex;
