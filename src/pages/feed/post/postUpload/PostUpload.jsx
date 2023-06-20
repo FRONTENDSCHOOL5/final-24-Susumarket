@@ -80,6 +80,7 @@ const UploadImgArea = styled.section`
 
 export default function PostUpload() {
   const textRef = useRef();
+  const fileInputRef = useRef(null);
   const handleTextAreaHeight = useCallback(() => {
     textRef.current.style.height = "auto";
     textRef.current.style.height = textRef.current.scrollHeight + "px";
@@ -115,17 +116,8 @@ export default function PostUpload() {
     }
     if (fileLists.length > 3) {
       fileLists = fileLists.slice(0, 3);
-      alert("이미지는 최대 3개까지 업로드 가능합니다:)");
     }
     setShowPostImages(fileLists);
-
-    const handlePostButton = () => {
-      fileInputRef.current.click();
-    };
-
-    const handleDeleteImage = (id) => {
-      setShowPostImages(showPostImages.filter((_, index) => index !== id));
-    };
 
     try {
       const response = await customAxios.post("image/uploadfiles", formData);
@@ -135,13 +127,40 @@ export default function PostUpload() {
     }
   };
 
+  const handlePostButton = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleDeleteImage = (id) => {
+    setShowPostImages(showPostImages.filter((_, index) => index !== id));
+  };
+
+  const handleUploadButton = async () => {
+    const text = textRef.current.value;
+    const files = fileInputRef.current.files;
+
+    const formData = new FormData();
+    for (let i = 0; i < files.length; i++) {
+      formData.append("files", files[i]);
+    }
+    formData.append("text", text);
+
+    try {
+      const response = await customAxios.post("image/uploadfiles", formData);
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
-      <UploadTopHeader disabled></UploadTopHeader>
+      <UploadTopHeader
+        onClickUpload={handleUploadButton}
+      ></UploadTopHeader>
       <UploadMain>
         <ProfileImgLabel></ProfileImgLabel>
-        <ProfileImg src = {profileImage || defaultImg} alt = "프로필 사진"/>
+        <ProfileImg src={profileImage || defaultImg} alt="프로필 사진" />
         <TextArea
           ref={textRef}
           placeholder="게시글 입력하기..."
