@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
 export const ProfileProductWrapper = styled.section`
-  padding: 20px;
+  padding: 20px 0 20px 16px;
+  width: 100%;
   background-color: #fff;
   border: 1px solid rgb(219, 219, 219);
 `;
@@ -14,13 +15,12 @@ export const ProfileProductTitle = styled.h2`
 
 export const ProfileProductUl = styled.ul`
   display: flex;
-  gap: 10px;
-  height: 100%;
-  overflow-x: scroll;
   padding-bottom: 20px;
-  ::-webkit-scrollbar{
+  overflow-x: scroll;
+  overflow-y: hidden;
+  ::-webkit-scrollbar {
     height: 12px;
-}
+  }
   ::-webkit-scrollbar-track {
     background-color: transparent;
     border-radius: 10px;
@@ -34,7 +34,9 @@ export const ProfileProductUl = styled.ul`
     height: 5px;
   }
 `;
-export const ProfileProductLi = styled.li``;
+export const ProfileProductLi = styled.li`
+  padding-right: 16px;
+`;
 export const ProfileProductButton = styled.button`
   background: none;
   display: flex;
