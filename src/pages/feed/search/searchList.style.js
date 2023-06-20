@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import sampleImg from "../../../img/basic-profile.svg";
 
 export const SearchListTitle = styled.h2``;
 

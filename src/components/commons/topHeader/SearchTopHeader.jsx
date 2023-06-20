@@ -21,14 +21,12 @@ export default function SearchTopHeader({ inputValue, handleInputChange }) {
       <TopHeaderBackBtn onClick={() => onClickBack("/post")}>
         <TopHeaderBackIcon src={backIcon} alt="뒤로가기" />
       </TopHeaderBackBtn>
-      {/* input 스타일링 필요 */}
       <TopHeaderSearchInput
         type="text"
         placeholder="계정검색"
         value={inputValue}
         onChange={handleInputChange}
       />
-      {/* <input type="text" placeholder="계정검색" /> */}
     </TopHeaderWrapper>
   );
 }
