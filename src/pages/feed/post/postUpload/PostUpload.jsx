@@ -86,6 +86,13 @@ export default function PostUpload() {
     textRef.current.style.height = textRef.current.scrollHeight + "px";
   }, []);
 
+  const [textLength, setTextLength] = useState("");
+
+  const handleTextLength = (e) => {
+    const value = e.target.value;
+    setTextLength(value);
+  };
+
   const [profileImage, setProfileImage] = useState(null);
   const [showPostImages, setShowPostImages] = useState([]);
 
@@ -154,10 +161,18 @@ export default function PostUpload() {
     }
   };
 
+  const UploadBtnDisable = () => {
+    if (textLength === "" && showPostImages.length === 0) {
+      return true;
+    }
+    return false;
+  };
+
   return (
     <>
       <UploadTopHeader
         onClickUpload={handleUploadButton}
+        disabled={UploadBtnDisable()}
       ></UploadTopHeader>
       <UploadMain>
         <ProfileImgLabel></ProfileImgLabel>
@@ -166,6 +181,8 @@ export default function PostUpload() {
           ref={textRef}
           placeholder="게시글 입력하기..."
           onInput={handleTextAreaHeight}
+          onChange={handleTextLength}
+          value={textLength}
           rows="1"
         ></TextArea>
         <PostImgLabel htmlFor="input-file"></PostImgLabel>
