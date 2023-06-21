@@ -41,7 +41,6 @@ export default function ProfilePostList({
   closeModal,
   reFetchPostData,
   post,
-  idx,
 }) {
   const {account} = useContext(UserContext);
   const [activeButton, setActiveButton] = useState(0);
@@ -128,11 +127,11 @@ export default function ProfilePostList({
       <ProfilePostContents>
         <ProfilePostText>{post.content}</ProfilePostText>
 
-        <ProfilePostImgWrapper>
+        {imgArray[0].length > 0 ? <ProfilePostImgWrapper>
           <ProfilePostImgUl ref={ImgUlRef}>
-            {imgArray.map((image) => {
+            {imgArray.map((image,idx) => {
               return (
-                <ProfilePostImgLi key={image}>
+                <ProfilePostImgLi key={image+idx}>
                   <ProfilePostImg src={image} alt="포스트 이미지" />
                 </ProfilePostImgLi>
               );
@@ -142,7 +141,7 @@ export default function ProfilePostList({
           <ProfilePostImgBtnUl>
             {imgArray.map((image, idx) => {
               return (
-                <ProfilePostImgBtnLi key={image}>
+                <ProfilePostImgBtnLi key={image+idx}>
                   {imgArray.length > 1 && (
                     <ProfilePostImgBtn
                       className={activeButton === idx ? "active" : ""}
@@ -157,7 +156,7 @@ export default function ProfilePostList({
               );
             })}
           </ProfilePostImgBtnUl>
-        </ProfilePostImgWrapper>
+        </ProfilePostImgWrapper>: null}
 
         <ProfilePostLikeCommentBtns>
           <ProfilePostLikeBtn onClick={onClickLike}>
