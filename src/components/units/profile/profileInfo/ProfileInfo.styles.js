@@ -78,7 +78,14 @@ export const ProfileInfoIntro = styled.p`
   min-height: 18px;
 `;
 export const ProfileInfoButtonWrapper = styled.div`
+  display: flex;
+  align-items: center;
   Button:not(:last-child) {
     margin-right: 10px;
   }
+`;
+
+export const ProfileInfoButtonIcon = styled.img`
+  width: 15px;
+  height: 15px;
 `;
