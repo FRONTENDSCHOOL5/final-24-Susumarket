@@ -10,7 +10,6 @@ import { UserContext } from "../../../context/UserContext";
 import ProfilePost from "../../../components/units/profile/ProfilePost/ProfilePost";
 import { customAxios } from "../../../library/customAxios";
 import {
-  UserProfileTitle,
   UserProfileWrapper,
   UserUndefinedImg,
   UserUndefinedText,
@@ -68,9 +67,9 @@ export default function UserProfile() {
   }, [accountname]);
   return (
     <>
-      <UserProfileTitle className="a11y-hidden">유저 정보</UserProfileTitle>
       <TopHeader
         type="profile"
+        headerText="유저 프로필"
         onClickMore={() => {
           settingPostModalProps([
             {
