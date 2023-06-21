@@ -67,13 +67,15 @@ export default function ProfilePostList({
   async function onClickReportPost() {
     try {
       const response = await customAxios.post(`post/${post.id}/report`);
-      console.log(response.data);
       if (response.data.report) {
         alert("신고가 완료 되었습니다.");
-      } 
+      }
     } catch (error) {
       console.log(error);
-      alert(error.response.data.message);
+      if (error.response.data.message) {
+        alert(error.response.data.message);
+        reFetchPostData();
+      }
     }
   }
   async function onClickLike() {
@@ -93,7 +95,10 @@ export default function ProfilePostList({
       }
     } catch (error) {
       console.log(error);
-      alert(error.response.data.message);
+      if (error.response.data.message) {
+        alert(error.response.data.message);
+        reFetchPostData();
+      }
     }
   }
   function onClickMore(e) {
@@ -153,36 +158,38 @@ export default function ProfilePostList({
       <ProfilePostContents>
         <ProfilePostText>{post.content}</ProfilePostText>
 
-        {imgArray[0].length > 0 ? <ProfilePostImgWrapper>
-          <ProfilePostImgUl ref={ImgUlRef}>
-            {imgArray.map((image,idx) => {
-              return (
-                <ProfilePostImgLi key={image+idx}>
-                  <ProfilePostImg src={image} alt="포스트 이미지" />
-                </ProfilePostImgLi>
-              );
-            })}
-          </ProfilePostImgUl>
+        {imgArray[0].length > 0 ? (
+          <ProfilePostImgWrapper>
+            <ProfilePostImgUl ref={ImgUlRef}>
+              {imgArray.map((image, idx) => {
+                return (
+                  <ProfilePostImgLi key={image + idx}>
+                    <ProfilePostImg src={image} alt="포스트 이미지" />
+                  </ProfilePostImgLi>
+                );
+              })}
+            </ProfilePostImgUl>
 
-          <ProfilePostImgBtnUl>
-            {imgArray.map((image, idx) => {
-              return (
-                <ProfilePostImgBtnLi key={image+idx}>
-                  {imgArray.length > 1 && (
-                    <ProfilePostImgBtn
-                      className={activeButton === idx ? "active" : ""}
-                      onClick={(e) => onClickSliderBtn(e, idx)}
-                    >
-                      <ProfilePostButtonSpan className="a11y-hidden">
-                        이미지 슬라이드 버튼
-                      </ProfilePostButtonSpan>
-                    </ProfilePostImgBtn>
-                  )}
-                </ProfilePostImgBtnLi>
-              );
-            })}
-          </ProfilePostImgBtnUl>
-        </ProfilePostImgWrapper>: null}
+            <ProfilePostImgBtnUl>
+              {imgArray.map((image, idx) => {
+                return (
+                  <ProfilePostImgBtnLi key={image + idx}>
+                    {imgArray.length > 1 && (
+                      <ProfilePostImgBtn
+                        className={activeButton === idx ? "active" : ""}
+                        onClick={(e) => onClickSliderBtn(e, idx)}
+                      >
+                        <ProfilePostButtonSpan className="a11y-hidden">
+                          이미지 슬라이드 버튼
+                        </ProfilePostButtonSpan>
+                      </ProfilePostImgBtn>
+                    )}
+                  </ProfilePostImgBtnLi>
+                );
+              })}
+            </ProfilePostImgBtnUl>
+          </ProfilePostImgWrapper>
+        ) : null}
 
         <ProfilePostLikeCommentBtns>
           <ProfilePostLikeBtn onClick={onClickLike}>
