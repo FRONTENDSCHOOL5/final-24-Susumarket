@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { TopHeaderWrapper, TopHeaderBackBtn, TopHeaderBackIcon } from "./TopHeaderStyle.js";
 
-export default function ProfileTopEdit() {
+export default function ProfileTopEdit({disabled, onClickMore}) {
   const { userId } = useParams();
   const navigation = useNavigate();
 
@@ -19,7 +19,7 @@ export default function ProfileTopEdit() {
       <TopHeaderBackBtn onClick={() => onClickBack(`profile/${userId}`)}>
         <TopHeaderBackIcon src={backIcon} alt="뒤로가기" />
       </TopHeaderBackBtn>
-      <Button className="ms" disabled>
+      <Button className="ms" disabled={disabled} onClick={onClickMore}>
         저장
       </Button>
     </TopHeaderWrapper>
