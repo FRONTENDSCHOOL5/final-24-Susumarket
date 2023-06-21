@@ -99,9 +99,7 @@ export default function PostUpload() {
   useEffect(() => {
     const loadProfileImage = async () => {
       try {
-        const response = await customAxios.get(`user/myinfo`, {
-          Authorization: `Bearer {token}`,
-        });
+        const response = await customAxios.get(`user/myinfo`);
         setProfileImage(response.data.user.image);
       } catch (error) {
         console.error(error);
