@@ -53,7 +53,6 @@ export default function ProductUpload() {
 
 
   const onClickSave = async (e) => {
-    const baseUrl = process.env.REACT_APP_BASE_URL;
     e.preventDefault();
     const product = {
       product: {
