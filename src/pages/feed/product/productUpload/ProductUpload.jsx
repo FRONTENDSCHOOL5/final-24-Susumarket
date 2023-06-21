@@ -69,7 +69,7 @@ export default function ProductUpload() {
       const response = await customAxios.post(`product`, product);
       const data = response.data;
       console.log(data);
-      navigate('../../../profile');
+      navigate('../../../profile/userProfile');
     } catch (error) {
       console.log(error);
     }
