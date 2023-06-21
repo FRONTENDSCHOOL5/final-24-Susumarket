@@ -8,25 +8,25 @@ import UploadTopHeader from "./UploadTopHeader";
 import ChatTopHeader from "./ChatTopHeader";
 
 // 각각의 TopHeader를 props로 받아오는 type를 통해 구분해주어 해당 type에 맞는 TopHeader를 return해줍니다.
-const TopHeader = ({ type, username = null, onClickMore }) => {
+const TopHeader = ({ type, username = null, onClickMore, headerText }) => {
   switch (type) {
     case "search":
-      return <SearchTopHeader />;
+      return <SearchTopHeader headerText={headerText}/>;
 
     case "feed":
-      return <FeedTopHeader />;
+      return <FeedTopHeader headerText={headerText}/>;
 
     case "followers":
-      return <FollowersTopHeader />;
+      return <FollowersTopHeader headerText={headerText}/>;
 
     case "profile":
-      return <ProfileTopHeader onClickMore={onClickMore}/>;
+      return <ProfileTopHeader onClickMore={onClickMore} headerText={headerText}/>;
 
     case "upload":
-      return <UploadTopHeader />;
+      return <UploadTopHeader headerText={headerText}/>;
 
     case "profileEdit":
-      return <ProfileEditTopHeader />;
+      return <ProfileEditTopHeader headerText={headerText}/>;
 
     case "chat":
       // usernameTitle은 채팅방 TopHeader에서
