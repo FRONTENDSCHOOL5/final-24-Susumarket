@@ -88,7 +88,6 @@ export default function ProfilePost({
                 closeModal={closeModal}
                 reFetchPostData={fetchPostData}
                 post={post}
-                idx={idx}
               />
             );
           })}
