@@ -1,5 +1,5 @@
 import styled from "styled-components";
-export const TopHeaderWrapper = styled.div`
+export const TopHeaderWrapper = styled.header`
   position: relative;
   display: flex;
   align-items: center;
@@ -9,6 +9,8 @@ export const TopHeaderWrapper = styled.div`
   font-size: 18px;
   border-bottom: 1px solid #dbdbdb;
 `;
+export const TopHeaderMainTitle = styled.h1``;
+
 export const TopHeaderTitle = styled.h2`
   display: inline-block;
   font-weight: 500;
