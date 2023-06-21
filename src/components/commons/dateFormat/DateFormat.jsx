@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 const DateTime = styled.time`
+   font-size: 10px;
+  line-height: 12px;
+  color: #767676;
   font-weight: 500;
 `
 
