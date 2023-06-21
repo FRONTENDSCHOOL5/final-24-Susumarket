@@ -102,5 +102,6 @@ export const Img = styled.img`
     position: relative;
     left: 135px;
     bottom: 62px; 
+    cursor: pointer;
   }
 `;
