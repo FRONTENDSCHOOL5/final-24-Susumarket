@@ -3,10 +3,13 @@ import { SearchWrapper } from "./search.style";
 import SearchTopHeader from "../../../components/commons/topHeader/SearchTopHeader";
 import SearchList from "./SearchList";
 import { customAxios } from "../../../library/customAxios";
+import { useDebounce } from "../../../library/useDebounce";
 
 export default function Search() {
   const [inputValue, setInputValue] = useState(""); //
   const [userList, setUserList] = useState([]); // 유저정보리스트
+
+  const debounceValue = useDebounce(inputValue);
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -15,7 +18,7 @@ export default function Search() {
 
   // 스페이스바, 엔터키 제외한 문자열 입력됐을 때 api 호출하기 위한 함수
   useEffect(() => {
-    if (inputValue.trim() === "") {
+    if (debounceValue.trim() === "") {
       setUserList([]);
     } else {
       fetchData();
@@ -24,23 +27,24 @@ export default function Search() {
     async function fetchData() {
       try {
         const response = await customAxios.get(
-          `/user/searchuser/?keyword=${inputValue}`,
+          `/user/searchuser/?keyword=${debounceValue}`,
         );
         setUserList(response.data);
+        console.log(response.data);
       } catch (error) {
         console.error(error);
       }
     }
-  }, [inputValue]);
+  }, [debounceValue]);
 
   return (
     <>
       <SearchTopHeader
-        value={inputValue}
+        value={debounceValue}
         handleInputChange={handleInputChange}
       />
       <SearchWrapper>
-        <SearchList inputValue={inputValue} userList={userList} />
+        <SearchList inputValue={debounceValue} userList={userList} />
       </SearchWrapper>
     </>
   );
