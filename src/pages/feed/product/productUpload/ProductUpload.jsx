@@ -12,6 +12,7 @@ import {
 import { customAxios } from '../../../../library/customAxios'
 
 export default function ProductUpload() {
+  const [profileImage, setProfileImage] = useState(defaultimg);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [itemName, setItemName] = useState('');
@@ -54,12 +55,13 @@ export default function ProductUpload() {
 
   const onClickSave = async (e) => {
     e.preventDefault();
+    const baseUrl = process.env.REACT_APP_BASE_URL;
     const product = {
       product: {
         itemName: itemName,
         price: price,
         link: link,
-        itemImage: itemImage,
+        itemImage: `${baseUrl}/${selectedImage}`,
       },
     };
 
@@ -89,20 +91,33 @@ export default function ProductUpload() {
       console.log(response);
       setSelectedImage(response.data.filename);
     } catch (error) {
+      if (error.response.status === 422) {
       console.error(error);
-      return null;
+      console.log('오류 메시지:', error.response.data);
+      }
+      // return null;
     }
   };
 
-
+  const handleItemName = (e) => {
+    const itemNameSubmit = e.target.value; //현재 input값
+    setItemName(itemNameSubmit); //itemname input값 useState 통해 emailValue로 전달
+  }
+  // 비밀번호 input 유효성 검사
+  const handlePrice = (e) => {
+    const priceSubmit = e.target.value; //현재 input값
+    setPrice(parseInt(priceSubmit));//price input값 useState 통해 passwordValue로 전달
+  }
+  const handleLink = (e) => {
+    const linkSubmit = e.target.value; //현재 input값
+    setLink(linkSubmit);//link input값 useState 통해 passwordValue로 전달
+  }
 
 
   return (
     <Container>
-      <ProfileEditTopHeader
-        onClick={onClickSave}
-        disabled={BtnDisabled}
-      />
+      <ProfileEditTopHeader></ProfileEditTopHeader>
+      <button onClick={onClickSave}>저장</button>
 
       <ImgContainer>
         <ImgTopLabel>이미지 등록</ImgTopLabel>
@@ -130,16 +145,25 @@ export default function ProductUpload() {
       {/* <Form> */}
       <UserInput label="상품명">
         <DataInput
+          placeholder="상품명을 입력해주세요"
+          value={itemName}
+          onChange={handleItemName}
           required> </DataInput>
       </UserInput>
 
       <UserInput label="가격">
         <DataInput
+          placeholder="가격을 입력해주세요"
+          value={price}
+          onChange={handlePrice}
           required> </DataInput>
       </UserInput>
 
       <UserInput label="판매링크">
         <DataInput
+          placeholder="판매링크를 입력해주세요"
+          value={link}
+          onChange={handleLink}
           required> </DataInput>
       </UserInput>
       {/* <ErrorMsg >
