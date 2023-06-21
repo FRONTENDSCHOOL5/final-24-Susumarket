@@ -6,6 +6,7 @@ import { useCallback } from "react";
 import defaultImg from "../../../../img/ProfileImg.svg";
 import { customAxios } from "../../../../library/customAxios";
 import xbutton from "../../../../img/x.svg";
+import { useNavigate } from "react-router-dom";
 
 const PostImgButton = styled.button`
   // top: 70%;
@@ -158,6 +159,7 @@ export default function PostUpload() {
     try {
       const response = await customAxios.post("image/uploadfiles", formData);
       console.log(response);
+      onClickNextPage();
     } catch (error) {
       console.error(error);
     }
@@ -168,6 +170,11 @@ export default function PostUpload() {
       return true;
     }
     return false;
+  };
+
+  const navigate = useNavigate();
+  const onClickNextPage = () => {
+    navigate("/profile/:userId");
   };
 
   return (
