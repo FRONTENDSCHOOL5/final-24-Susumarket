@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 import UserInput from "../../../../components/commons/dataInput/UserInput"
 import DataInput from "../../../../components/commons/dataInput/DataInput"
@@ -10,6 +9,7 @@ import {
   Container, Form, Img, ImgInput, ImgLabel, ImgContainer, ImgTopLabel
 } from "./productUpload.style";
 import { customAxios } from '../../../../library/customAxios'
+// import { useLocation } from "react-router-dom";
 
 export default function ProductUpload() {
   const [profileImage, setProfileImage] = useState(defaultimg);
@@ -20,7 +20,11 @@ export default function ProductUpload() {
   const [link, setLink] = useState('');
   const [itemImage, setItemImage] = useState('');
   const [BtnDisabled, setBtnDisabled] = useState(true);
+  const [ErrorMsg, setErrorMsg] = useState('');
+
   const navigate = useNavigate();
+  // const location = useLocation();
+
   // 버튼 활성화
   useEffect(() => {
     if (itemName && price && link && itemImage) {
@@ -36,8 +40,6 @@ export default function ProductUpload() {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
-
-
     reader.onload = () => {
       setItemImage(reader.result);
     };
@@ -69,7 +71,14 @@ export default function ProductUpload() {
       const response = await customAxios.post(`product`, product);
       const data = response.data;
       console.log(data);
-      navigate('../../../profile/userProfile');
+      // if(data.message){
+      // setErrorMsg(data.message)
+
+      // }else{
+        navigate(`/product/:product_id`);
+
+      // }
+   
     } catch (error) {
       console.log(error);
     }
@@ -102,6 +111,7 @@ export default function ProductUpload() {
   const handleItemName = (e) => {
     const itemNameSubmit = e.target.value; //현재 input값
     setItemName(itemNameSubmit); //itemname input값 useState 통해 emailValue로 전달
+    console.log(itemName)
   }
   // 비밀번호 input 유효성 검사
   const handlePrice = (e) => {
