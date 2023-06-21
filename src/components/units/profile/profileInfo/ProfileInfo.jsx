@@ -32,10 +32,10 @@ export default function ProfileInfo({userData}) {
           <ProfileInfoFollowersCount>{userData.followerCount||0}</ProfileInfoFollowersCount>
           <ProfileInfoFollowersText>followers</ProfileInfoFollowersText>
         </ProfileInfoFollowers>
-        <ProfileInfoeImg src={userData.image||profileImg} alt="유저 프로필 이미지" />
-        <ProfileInfoFollowering to={"#"}>
+        <ProfileInfoeImg src={userData.image==="http://146.56.183.55:5050/Ellipse.png" ? profileImg : userData.image || profileImg} alt="유저 프로필 이미지" />
+        <ProfileInfoFollowering to={`/profile/${userData.accountname}/following`}>
           <ProfileInfoFolloweringCount>{userData.followeringCount||0}</ProfileInfoFolloweringCount>
-          <ProfileInfoFolloweringText>followering</ProfileInfoFolloweringText>
+          <ProfileInfoFolloweringText>following</ProfileInfoFolloweringText>
         </ProfileInfoFollowering>
       </UserInfo>
       <ProfileInfoUserNameWrapper>

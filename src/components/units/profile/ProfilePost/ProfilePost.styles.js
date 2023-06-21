@@ -4,9 +4,8 @@ import multiflyImgIcon from "../../../../img/icon-img-layers.svg";
 export const ProfilePostWrapper = styled.section`
   position: relative;
   background-color: #fff;
-  min-height: 515px;
   border-top: 1px solid #dbdbdb;
-  border-bottom: 1px solid #dbdbdb;
+  height: 100%;
 `;
 export const ProfilePostTitle = styled.h2``;
 

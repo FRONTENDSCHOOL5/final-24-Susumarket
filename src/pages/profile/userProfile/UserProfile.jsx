@@ -68,7 +68,7 @@ export default function UserProfile() {
   }, [accountname]);
   return (
     <>
-          <UserProfileTitle className="a11y-hidden">유저 정보</UserProfileTitle>
+      <UserProfileTitle className="a11y-hidden">유저 정보</UserProfileTitle>
       <TopHeader
         type="profile"
         onClickMore={() => {
@@ -95,36 +95,35 @@ export default function UserProfile() {
           ]);
         }}
       />
-          <UserProfileWrapper>
-      {isInvalidProfile ? (
-        <UserUndefinedWrapper>
-          <UserUndefinedImg src={undefindImg} alt="존재하지 않는 유저" />
-          <UserUndefinedText>유효하지 않은 프로필 입니다.</UserUndefinedText>
-        </UserUndefinedWrapper>
-      ) : (
-        <>
-          <ProfileInfo userData={userData}/>
-          <ProfileProduct
-            onClickButton={onClickButton}
-            settingPostModalProps={settingPostModalProps}
-            closeModal={closeModal}
-          />
-          <ProfilePost
-            onClickButton={onClickButton}
-            settingPostModalProps={settingPostModalProps}
-            closeModal={closeModal}
-          />
-          <PostModal menuList={postModalProps} />
-          <ConfirmModal
-            confirmMessage={confirmProps.confirmMessage}
-            submitMessage={confirmProps.submitMessage}
-            cancelMessage="취소"
-            handleSubmit={confirmProps.handleSubmit}
-          />
-        </>
-      )}
-    </UserProfileWrapper>
+      <UserProfileWrapper>
+        {isInvalidProfile ? (
+          <UserUndefinedWrapper>
+            <UserUndefinedImg src={undefindImg} alt="존재하지 않는 유저" />
+            <UserUndefinedText>유효하지 않은 프로필 입니다.</UserUndefinedText>
+          </UserUndefinedWrapper>
+        ) : (
+          <>
+            <ProfileInfo userData={userData} />
+            <ProfileProduct
+              onClickButton={onClickButton}
+              settingPostModalProps={settingPostModalProps}
+              closeModal={closeModal}
+            />
+            <ProfilePost
+              onClickButton={onClickButton}
+              settingPostModalProps={settingPostModalProps}
+              closeModal={closeModal}
+            />
+          </>
+        )}
+        <PostModal menuList={postModalProps} />
+        <ConfirmModal
+          confirmMessage={confirmProps.confirmMessage}
+          submitMessage={confirmProps.submitMessage}
+          cancelMessage="취소"
+          handleSubmit={confirmProps.handleSubmit}
+        />
+      </UserProfileWrapper>
     </>
-
   );
 }
