@@ -1,7 +1,11 @@
-import React from 'react'
+import React from "react";
+import { FollowingWrapper } from "./following.style";
 
 export default function Following() {
   return (
-    <div>Following</div>
-  )
+    <>
+      <FollowingWrapper />
+      <div>Following</div>
+    </>
+  );
 }
