@@ -1,24 +1,30 @@
-import React from "react";
-import TopHeader from "../../../components/commons/topHeader/TopHeader";
+import React, { useContext } from "react";
 import {
   ChatListDate,
   ChatListInfo,
   ChatListLastChat,
   ChatListLi,
   ChatListLink,
-  ChatListTitle,
   ChatListUl,
   ChatListUserImg,
   ChatListUserImgWrapper,
   ChatListUserName,
 } from "./chatList.style";
 import userImg from "../../../img/basic-profile.svg";
+import NewTopHeader from "../../../components/commons/newTopHeader/NewTopHeader";
+import PostModal from "../../../components/commons/postModal/PostModal";
+import { ModalContext } from "../../../context/ModalContext";
 
 export default function ChatList() {
+  const { setIsOpenPostModal } = useContext (ModalContext);
   return (
     <>
-      <TopHeader type="profile" />
-      <ChatListTitle className="a11y-hidden">채팅리스트</ChatListTitle>
+      <NewTopHeader 
+        left={"back"}
+        right={"more"}
+        title={"채팅 리스트"}
+        onClickButton={()=>setIsOpenPostModal(true)}
+      />
       <ChatListUl>
         <ChatListLi>
           <ChatListLink to="/chatList/1">
@@ -63,6 +69,12 @@ export default function ChatList() {
           </ChatListLink>
         </ChatListLi>
       </ChatListUl>
+
+      <PostModal
+        menuList={[
+          { name: "초대" },
+        ]}
+      />
     </>
   );
 }
