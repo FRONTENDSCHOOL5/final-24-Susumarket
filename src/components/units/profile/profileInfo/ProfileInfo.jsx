@@ -26,6 +26,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../../../../context/UserContext";
 import { customAxios } from "../../../../library/customAxios";
 export default function ProfileInfo({ userData }) {
+  const [isfollow, setIsfollow] = useState(userData.isfollow);
   const navigate = useNavigate();
   const { account } = useContext(UserContext);
   const params = useParams();
@@ -33,31 +34,24 @@ export default function ProfileInfo({ userData }) {
   function onClickButton(url) {
     navigate(url);
   }
-  const [myProfile, setMyprofile] = useState({});
+
   async function onClickFollow() {
     try {
       await customAxios.post(`profile/${userAccountname}/follow`);
-      fetchMyProfile();
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  async function fetchMyProfile() {
-    const response = await customAxios.get("user/myinfo");
-    setMyprofile(response.data.user);
-  }
-  async function onClickUnfollow() {
-    try {
-      await customAxios.delete(`profile/${userAccountname}/unfollow`);
-      fetchMyProfile();
+      setIsfollow(true);
     } catch (error) {
       console.log(error);
     }
   }
 
-  useEffect(() => {
-    fetchMyProfile();
-  }, []);
+  async function onClickUnfollow() {
+    try {
+      await customAxios.delete(`profile/${userAccountname}/unfollow`);
+      setIsfollow(false);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <ProfileInfoWrapper>
@@ -116,11 +110,8 @@ export default function ProfileInfo({ userData }) {
               <ProfileInfoButtonIcon src={messageIcon} alt="채팅" />
             </Button>
 
-            {myProfile.following &&
-            myProfile.following.find(
-              (followingUser) => followingUser === userData._id,
-            ) ? (
-              <Button
+            {isfollow ? (
+              <Button 
                 type="button"
                 className="medium"
                 onClick={onClickUnfollow}
@@ -128,7 +119,7 @@ export default function ProfileInfo({ userData }) {
                 언팔로우
               </Button>
             ) : (
-              <Button
+              <Button style={{width:"136px"}}
                 type="button"
                 className="medium"
                 active={true}
