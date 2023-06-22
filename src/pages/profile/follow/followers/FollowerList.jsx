@@ -10,10 +10,12 @@ import {
 } from "./followerList.style";
 import { useParams } from "react-router-dom";
 import followerAPI from "./follower";
+import { addFollow } from "./addFollow";
+import { deleteFollow } from "./deleteFollow";
 
 export default function FollowerList() {
   const [followerData, setFollowerData] = useState([]);
-  // const [follow, setFollow] = useState(true);
+  const [isFollow, setIsFollow] = useState(true);
   const { accountname } = useParams();
 
   // 팔로워 데이터 호출
@@ -21,7 +23,7 @@ export default function FollowerList() {
     const fetchData = async () => {
       try {
         // const data = await followerAPI(accountname);   // 이렇게 사용해야함. accountname 값을 어떻게 받아오지 ??
-        const data = await followerAPI("ss");
+        const data = await followerAPI("19duckchun");
         // 필요에 따라 가져온 데이터 사용
         setFollowerData(data);
         console.log("followerData", followerData);
@@ -37,25 +39,24 @@ export default function FollowerList() {
 
   // addFollowAPI, deleteFollowAPI 호출함수 구현 필요
 
-  // const handleSubmitFollow = async () => {
-  //   const response = await addFollow(accountname);
-  //   setFollow(response.profile.isfollow);
-  // };
+  const handleSubmitFollow = async () => {
+    const response = await addFollow("19duckchun");
+    setIsFollow(response.profile.isFollow);
+    console.log("response", response);
+  };
 
-  // const handleSubmitUnFollow = async () => {
-  //   const response = await deleteFollow(accountname);
-  //   setFollow(response.profile.isfollow);
-  // };
+  const handleSubmitUnFollow = async () => {
+    const response = await deleteFollow("19duckchun");
+    setIsFollow(response.profile.isFollow);
+    console.log("response", response);
+  };
 
-  // const handleFollowBtn = () => {
-  //   if (follow === true) {
-  //     handleSubmitUnFollow();
-  //   } else {
-  //     handleSubmitFollow();
-  //   }
-  // };
   const handleFollowBtn = () => {
-    console.log("gi");
+    if (isFollow) {
+      handleSubmitUnFollow();
+    } else {
+      handleSubmitFollow();
+    }
   };
 
   return (
@@ -63,7 +64,7 @@ export default function FollowerList() {
       {followerData.map((follower, index) => (
         <FollowerListLi key={index}>
           {/* <FollowerListLink to={`/profile/${user.accountname}`}> */}
-          <FollowerListLink to={`/profile/ss`}>
+          <FollowerListLink to={`/profile/19duckchun`}>
             <img
               src={follower.image}
               alt="프로필 이미지"
@@ -71,6 +72,7 @@ export default function FollowerList() {
                 objectFit: "cover",
                 width: "50px",
                 height: "50px",
+                borderRadius: "50%",
               }}
             />
             <UserWrapper>
@@ -80,13 +82,12 @@ export default function FollowerList() {
           </FollowerListLink>
           <FollowButton
             className="small"
-            active={true}
-            disabled={false}
+            active={!isFollow} // isFollow 상태 값을 반전시켜서 active prop으로 전달
             onClick={handleFollowBtn}
           >
-            팔로우
+            {isFollow ? "취소" : "팔로우"}{" "}
+            {/* isFollow 값에 따라 텍스트 변경 */}
           </FollowButton>
-          {/* <Button className="small">팔로우</Button> */}
         </FollowerListLi>
       ))}
     </FollowerListUl>
