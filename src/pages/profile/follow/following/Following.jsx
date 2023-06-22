@@ -57,7 +57,7 @@ export default function Following() {
       <FollowersTopHeader />
       <FollowingWrapper>
         <FollowingListUl>
-          {followerData.map((following) => {
+          {followingData.map((following) => {
             return (
               <FollowingList
                 account={account}

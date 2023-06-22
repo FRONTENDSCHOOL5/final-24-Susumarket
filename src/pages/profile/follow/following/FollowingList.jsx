@@ -6,13 +6,13 @@ import {
   UserName,
   UserIntro,
   FollowButton,
-} from "./followerList.style";
+} from "./followingList.style";
 
 import { addFollowAPI } from "../followers/addFollowAPI";
 import { deleteFollowAPI } from "../followers/deleteFollowAPI";
 
 export default function FollowingList({ following, account }) {
-  const [isFollow, setIsFollow] = useState(follower.isfollow);
+  const [isFollow, setIsFollow] = useState(following.isfollow);
 
   // addFollowAPI, deleteFollowAPI 호출함수 구현 필요
   console.log(following);
