@@ -88,7 +88,6 @@ export const ImgInput = styled.input`
 
 export const Img = styled.img`
   &.default {
-    margin-top: 50px;
     max-width: 400px;
     height: 250px;
     box-sizing: border-box;
