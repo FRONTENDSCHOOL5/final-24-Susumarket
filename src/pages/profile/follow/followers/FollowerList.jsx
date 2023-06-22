@@ -9,9 +9,9 @@ import {
   FollowButton,
 } from "./followerList.style";
 import { useParams } from "react-router-dom";
-import followerAPI from "./follower";
-import { addFollow } from "./addFollow";
-import { deleteFollow } from "./deleteFollow";
+import followerAPI from "./followerAPI";
+import { addFollowAPI } from "./addFollowAPI";
+import { deleteFollowAPI } from "./deleteFollowAPI";
 
 export default function FollowerList() {
   const [followerData, setFollowerData] = useState([]);
@@ -40,13 +40,13 @@ export default function FollowerList() {
   // addFollowAPI, deleteFollowAPI 호출함수 구현 필요
 
   const handleSubmitFollow = async () => {
-    const response = await addFollow("19duckchun");
+    const response = await addFollowAPI("19duckchun");
     setIsFollow(response.profile.isFollow);
     console.log("response", response);
   };
 
   const handleSubmitUnFollow = async () => {
-    const response = await deleteFollow("19duckchun");
+    const response = await deleteFollowAPI("19duckchun");
     setIsFollow(response.profile.isFollow);
     console.log("response", response);
   };
