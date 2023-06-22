@@ -13,14 +13,14 @@ export const TopHeaderWrapper = styled.header`
   padding: 8px 16px;
   font-size: 18px;
   border-bottom: 1px solid #dbdbdb;
-  max-height: 49px;
+  height: 48px;
 `;
 
 export const TopHeaderEl = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-
+  height: 100%;
   &.left-side {
     justify-content: left;
   }

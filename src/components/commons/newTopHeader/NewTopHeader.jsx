@@ -40,7 +40,7 @@ export default function NewTopHeader({
       case "back":
         return <TopHeaderBackBtn type="button" onClick={() => navigate(-1)} />;
       case "text":
-        return <TopHeaderText />;
+        return <TopHeaderText>{text}</TopHeaderText>;
       default:
         return null;
     }
