@@ -112,7 +112,7 @@ export default function NewTopHeader({
 
   return (
     <TopHeaderWrapper>
-      <TopHeaderTitle>{title}</TopHeaderTitle>
+      <TopHeaderTitle className="a11y-hidden">{title}</TopHeaderTitle>
       <TopHeaderEl className={leftSide ? "left-side" : ""}>
         {setLeft()}
         {setmiddle()}

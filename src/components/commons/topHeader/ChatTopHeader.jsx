@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import backIcon from "../../../img/icon-arrow-left.svg";
-import moreIcon from "../../../img/icon- more-vertical.svg";
+import moreIcon from "../../../img/icon-more-vertical.svg";
 import {
   TopHeaderWrapper,
   TopHeaderTitle,
