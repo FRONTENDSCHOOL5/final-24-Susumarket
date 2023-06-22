@@ -21,7 +21,7 @@ export const FollowerListLi = styled.li`
 export const FollowerListLink = styled(Link)`
   display: flex;
   align-items: center;
-  gap: 12px;
+  /* gap: 12px; */
   max-width: 358px;
 `;
 
@@ -42,7 +42,7 @@ export const UserIntro = styled.strong`
   font-weight: 400;
   font-size: 12px;
   line-height: 15px;
-  width: 220px;
+  width: 200px;
   color: #767676;
   white-space: nowrap;
   overflow: hidden;
@@ -50,13 +50,6 @@ export const UserIntro = styled.strong`
 `;
 
 export const FollowButton = styled(Button)`
-
-  /* padding: 7px 11px;
-  min-width: 56px;
-  background-color: #b51215;
-  color: #fff;
-  font-size: 12px;
-  line-height: 15px;
-  border-radius: 28px;
-  height: 28px; */
+  width: 90px;
+  padding: 7px 0px !important;
 `;
