@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import sampleImg from "../../../img/basic-profile.svg";
 
 export const SearchListTitle = styled.h2``;
 
@@ -8,13 +7,14 @@ export const SearchListUl = styled.ul`
   display: flex;
   flex-direction: column;
   max-width: 390px;
-  width: 100%;
 `;
 
 export const SearchListLi = styled.li`
   display: flex;
   margin-bottom: 16px;
   background-color: #fff;
+  justify-content: center;
+  max-width: 390px;
 `;
 
 export const SearchListLink = styled(Link)`
@@ -24,28 +24,24 @@ export const SearchListLink = styled(Link)`
   width: 100%;
 `;
 
-export const SearchListImg = styled.img`
-  background: url(${sampleImg}) no-repeat center center;
-  background-size: cover;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-`;
-
 export const UserWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  width: 250px;
 `;
 
-export const UserName = styled.p`
+export const UserId = styled.p`
   font-weight: 500;
   font-size: 14px;
   line-height: 18px;
 `;
 
-export const UserId = styled.p`
+export const UserAccount = styled.p`
   font-weight: 400;
   font-size: 12px;
   line-height: 15px;
   color: #767676;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
