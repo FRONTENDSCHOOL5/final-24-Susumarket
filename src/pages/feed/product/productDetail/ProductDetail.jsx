@@ -8,7 +8,6 @@ import {
   Cont, Container, Form, Img, ImgInput, ImgLabel, ImgContainer, ImgTopLabel
 } from "./productDetail.style.js";
 import { customAxios } from '../../../../library/customAxios'
-import ProductDetailHeader from '../../../../components/commons/topHeader/ProductDetailHeader';
 // import { useLocation } from "react-router-dom";
 
 export default function ProductDetail() {
@@ -66,7 +65,7 @@ export default function ProductDetail() {
 
   return (
     <Container>
-      <ProductDetailHeader></ProductDetailHeader>
+      {/* <ProductDetailHeader></ProductDetailHeader> */}
       <ImgContainer>
         <Img
           className="default"

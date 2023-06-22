@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 import UserInput from "../../../../components/commons/dataInput/UserInput"
 import DataInput from "../../../../components/commons/dataInput/DataInput"
-import ProfileEditTopHeader from "../../../../components/commons/topHeader/ProductDetailHeader"
+import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHeader"
 import defaultimg from "../../../../img/ProfileImg.svg"
 import uploadfile from "../../../../img/upload-file.svg";
 import {
@@ -26,7 +26,7 @@ export default function ProductUpload() {
   const [isLink, setIsLink] = useState(false);
   const [isItemImage, setIsItemImage] = useState(false);
   const [BtnDisabled, setBtnDisabled] = useState(false);
-  const [tBtnAble, setBtnAble] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
   const [itemNameMessage, setItemNameMessage] = useState('');
   const [priceMessage, setPriceMessage] = useState('');
@@ -36,14 +36,15 @@ export default function ProductUpload() {
   // const location = useLocation();
 
   // 버튼 활성화
-  // useEffect(() => {
-  //   if (itemName && price && link && itemImage) {
-  //     setBtnDisabled(false);
-  //   } else {
-  //     setBtnDisabled(true);
-  //   }
-  // }, [itemName, price, link, itemImage]);
+  useEffect(() => {
+    if (isItemName === true && isPrice === true && isLink === true) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [isItemName, isPrice, isLink]);
 
+ 
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -62,7 +63,7 @@ export default function ProductUpload() {
     }
   };
 
-  const onClickSave = async (e) => {
+  const onClickButton = async (e) => {
     e.preventDefault();
     const priceNum = parseInt(price.replaceAll(',', ''), 10);
     const baseUrl = process.env.REACT_APP_BASE_URL;
@@ -104,14 +105,6 @@ export default function ProductUpload() {
         console.log('오류 메시지:', error.response.data);
       }
       // return null;
-    }
-  };
-
-  const btnAbleHandler = () => {
-    if (isItemName === true && isPrice === true && isLink === true) {
-      setBtnAble(true);
-    } else {
-      setBtnAble(false);
     }
   };
 
@@ -179,8 +172,8 @@ export default function ProductUpload() {
 
   return (
     <Container>
-      <ProfileEditTopHeader></ProfileEditTopHeader>
-      <button onClick={onClickSave}>저장</button>
+    <NewTopHeader left={"back"} right={"save"} disabled={disabled} onClick={onClickButton}></NewTopHeader>
+      <button onClick={onClickButton}>저장</button>
 
       <ImgContainer>
         <ImgTopLabel>이미지 등록</ImgTopLabel>
