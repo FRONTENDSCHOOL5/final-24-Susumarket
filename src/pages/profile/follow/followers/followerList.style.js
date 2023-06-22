@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import Button from "../../../../components/commons/button/Button";
 
 export const FollowerListUl = styled.ul`
   padding: 24px 16px;
@@ -48,13 +49,14 @@ export const UserIntro = styled.strong`
   text-overflow: ellipsis;
 `;
 
-export const FollowButton = styled.button`
-  padding: 7px 11px;
+export const FollowButton = styled(Button)`
+
+  /* padding: 7px 11px;
   min-width: 56px;
   background-color: #b51215;
   color: #fff;
   font-size: 12px;
   line-height: 15px;
   border-radius: 28px;
-  height: 28px;
+  height: 28px; */
 `;
