@@ -28,7 +28,7 @@ import {
 } from "./ProfilePost.styles";
 import DateFormate from "../../../commons/dateFormat/DateFormat";
 import authImg from "../../../../img/basic-profile.svg";
-import moreIcon from "../../../../img/icon- more-vertical.svg";
+import moreIcon from "../../../../img/icon-more-vertical.svg";
 import heartIcon from "../../../../img/icon-heart.svg";
 import heartFillIcon from "../../../../img/icon-heart-fill.svg";
 import commentIcon from "../../../../img/icon-message-circle.svg";

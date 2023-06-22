@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import backIcon from "../../../img/icon-arrow-left.svg";
-import moreIcon from "../../../img/icon- more-vertical.svg";
+import moreIcon from "../../../img/icon-more-vertical.svg";
 import {
   TopHeaderWrapper,
   TopHeaderBackBtn,
