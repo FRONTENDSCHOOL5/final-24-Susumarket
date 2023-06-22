@@ -88,6 +88,7 @@ export const ImgInput = styled.input`
 
 export const Img = styled.img`
   &.default {
+    margin-top: 50px;
     max-width: 400px;
     height: 250px;
     box-sizing: border-box;
@@ -96,7 +97,6 @@ export const Img = styled.img`
     border: 0.5px solid #DBDBDB;
     border-radius: 10px;
     
-
   }
   &.uploadbtn {
     position: relative;

@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 import UserInput from "../../../../components/commons/dataInput/UserInput"
 import DataInput from "../../../../components/commons/dataInput/DataInput"
@@ -10,8 +9,10 @@ import {
   Container, Form, Img, ImgInput, ImgLabel, ImgContainer, ImgTopLabel
 } from "./productUpload.style";
 import { customAxios } from '../../../../library/customAxios'
+// import { useLocation } from "react-router-dom";
 
 export default function ProductUpload() {
+  const [profileImage, setProfileImage] = useState(defaultimg);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [itemName, setItemName] = useState('');
@@ -19,7 +20,11 @@ export default function ProductUpload() {
   const [link, setLink] = useState('');
   const [itemImage, setItemImage] = useState('');
   const [BtnDisabled, setBtnDisabled] = useState(true);
+  const [ErrorMsg, setErrorMsg] = useState('');
+
   const navigate = useNavigate();
+  // const location = useLocation();
+
   // 버튼 활성화
   useEffect(() => {
     if (itemName && price && link && itemImage) {
@@ -35,8 +40,6 @@ export default function ProductUpload() {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
-
-
     reader.onload = () => {
       setItemImage(reader.result);
     };
@@ -54,12 +57,13 @@ export default function ProductUpload() {
 
   const onClickSave = async (e) => {
     e.preventDefault();
+    const baseUrl = process.env.REACT_APP_BASE_URL;
     const product = {
       product: {
         itemName: itemName,
         price: price,
         link: link,
-        itemImage: itemImage,
+        itemImage: `${baseUrl}/${selectedImage}`,
       },
     };
 
@@ -67,7 +71,14 @@ export default function ProductUpload() {
       const response = await customAxios.post(`product`, product);
       const data = response.data;
       console.log(data);
-      navigate('../../../profile');
+      // if(data.message){
+      // setErrorMsg(data.message)
+
+      // }else{
+        navigate(`/product/:product_id`);
+
+      // }
+   
     } catch (error) {
       console.log(error);
     }
@@ -89,20 +100,34 @@ export default function ProductUpload() {
       console.log(response);
       setSelectedImage(response.data.filename);
     } catch (error) {
+      if (error.response.status === 422) {
       console.error(error);
-      return null;
+      console.log('오류 메시지:', error.response.data);
+      }
+      // return null;
     }
   };
 
-
+  const handleItemName = (e) => {
+    const itemNameSubmit = e.target.value; //현재 input값
+    setItemName(itemNameSubmit); //itemname input값 useState 통해 emailValue로 전달
+    console.log(itemName)
+  }
+  // 비밀번호 input 유효성 검사
+  const handlePrice = (e) => {
+    const priceSubmit = e.target.value; //현재 input값
+    setPrice(parseInt(priceSubmit));//price input값 useState 통해 passwordValue로 전달
+  }
+  const handleLink = (e) => {
+    const linkSubmit = e.target.value; //현재 input값
+    setLink(linkSubmit);//link input값 useState 통해 passwordValue로 전달
+  }
 
 
   return (
     <Container>
-      <ProfileEditTopHeader
-        onClick={onClickSave}
-        disabled={BtnDisabled}
-      />
+      <ProfileEditTopHeader></ProfileEditTopHeader>
+      <button onClick={onClickSave}>저장</button>
 
       <ImgContainer>
         <ImgTopLabel>이미지 등록</ImgTopLabel>
@@ -130,16 +155,25 @@ export default function ProductUpload() {
       {/* <Form> */}
       <UserInput label="상품명">
         <DataInput
+          placeholder="상품명을 입력해주세요"
+          value={itemName}
+          onChange={handleItemName}
           required> </DataInput>
       </UserInput>
 
       <UserInput label="가격">
         <DataInput
+          placeholder="가격을 입력해주세요"
+          value={price}
+          onChange={handlePrice}
           required> </DataInput>
       </UserInput>
 
       <UserInput label="판매링크">
         <DataInput
+          placeholder="판매링크를 입력해주세요"
+          value={link}
+          onChange={handleLink}
           required> </DataInput>
       </UserInput>
       {/* <ErrorMsg >
