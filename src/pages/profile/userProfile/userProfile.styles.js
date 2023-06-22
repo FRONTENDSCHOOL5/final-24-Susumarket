@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-export const UserProfileTitle = styled.h1``
 export const UserProfileWrapper = styled.main`
   display: flex;
   flex-direction: column;

@@ -1,8 +1,15 @@
-import React from 'react'
-
+import React from "react";
+import FollowersTopHeader from "../../../../components/commons/topHeader/FollowersTopHeader";
+import { FollowersWrapper } from "./followers.style";
+import FollowerList from "./FollowerList";
 
 export default function Followers() {
   return (
-    <div>Followers</div>
-  )
+    <>
+      <FollowersTopHeader />
+      <FollowersWrapper>
+        <FollowerList />
+      </FollowersWrapper>
+    </>
+  );
 }

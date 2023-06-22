@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   ProfileInfoFollowering,
   ProfileInfoFolloweringCount,
@@ -15,44 +15,138 @@ import {
   ProfileInfoeImg,
   ProfileInfoButtonWrapper,
   UserInfo,
+  ProfileInfoButtonIcon,
 } from "./ProfileInfo.styles";
+import messageIcon from "../../../../img/icon-message-circle.svg";
+import shareIcon from "../../../../img/icon-share.svg";
+
 import profileImg from "../../../../img/ProfileImg.svg";
 import Button from "../../../commons/button/Button";
-import { useNavigate } from "react-router-dom";
-export default function ProfileInfo({userData}) {
+import { useNavigate, useParams } from "react-router-dom";
+import { UserContext } from "../../../../context/UserContext";
+import { customAxios } from "../../../../library/customAxios";
+export default function ProfileInfo({ userData }) {
   const navigate = useNavigate();
+  const { account } = useContext(UserContext);
+  const params = useParams();
+  const userAccountname = params.userId;
   function onClickButton(url) {
     navigate(url);
   }
+  const [myProfile, setMyprofile] = useState({});
+  async function onClickFollow() {
+    try {
+      await customAxios.post(`profile/${userAccountname}/follow`);
+      fetchMyProfile();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function fetchMyProfile() {
+    const response = await customAxios.get("user/myinfo");
+    setMyprofile(response.data.user);
+  }
+  async function onClickUnfollow() {
+    try {
+      await customAxios.delete(`profile/${userAccountname}/unfollow`);
+      fetchMyProfile();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchMyProfile();
+  }, []);
+
   return (
     <ProfileInfoWrapper>
       <ProfileInfoTitle className="a11y-hidden">프로필 정보</ProfileInfoTitle>
       <UserInfo>
         <ProfileInfoFollowers to={`/profile/${userData.accountname}/followers`}>
-          <ProfileInfoFollowersCount>{userData.followerCount||0}</ProfileInfoFollowersCount>
+          <ProfileInfoFollowersCount>
+            {userData.followerCount || 0}
+          </ProfileInfoFollowersCount>
           <ProfileInfoFollowersText>followers</ProfileInfoFollowersText>
         </ProfileInfoFollowers>
-        <ProfileInfoeImg src={userData.image||profileImg} alt="유저 프로필 이미지" />
-        <ProfileInfoFollowering to={"#"}>
-          <ProfileInfoFolloweringCount>{userData.followeringCount||0}</ProfileInfoFolloweringCount>
-          <ProfileInfoFolloweringText>followering</ProfileInfoFolloweringText>
+        <ProfileInfoeImg
+          src={
+            userData.image === "https://api.mandarin.weniv.co.kr/Ellipse.png"
+              ? profileImg
+              : userData.image || profileImg
+          }
+          alt="유저 프로필 이미지"
+        />
+        <ProfileInfoFollowering
+          to={`/profile/${userData.accountname}/following`}
+        >
+          <ProfileInfoFolloweringCount>
+            {userData.followingCount || 0}
+          </ProfileInfoFolloweringCount>
+          <ProfileInfoFolloweringText>following</ProfileInfoFolloweringText>
         </ProfileInfoFollowering>
       </UserInfo>
       <ProfileInfoUserNameWrapper>
-        <ProfileInfoUserId>{userData.accountname}</ProfileInfoUserId>
-        <ProfileInfoUserAccountName>{userData.username}</ProfileInfoUserAccountName>
+        <ProfileInfoUserId>{userData.username}</ProfileInfoUserId>
+        <ProfileInfoUserAccountName>
+          {userData.accountname}
+        </ProfileInfoUserAccountName>
       </ProfileInfoUserNameWrapper>
       <ProfileInfoIntro>{userData.intro}</ProfileInfoIntro>
       <ProfileInfoButtonWrapper>
-        <Button className="medium" onClick={() => onClickButton(`edit`)}>
-          프로필 수정
-        </Button>
-        <Button
-          className="medium"
-          onClick={() => onClickButton(`/product/upload`)}
-        >
-          상품등록
-        </Button>
+        {userData.accountname === account ? (
+          <>
+            <Button className="medium" onClick={() => onClickButton(`edit`)}>
+              프로필 수정
+            </Button>
+            <Button
+              className="medium"
+              onClick={() => onClickButton(`/product/upload`)}
+            >
+              상품등록
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button
+              type="button"
+              className="small"
+              style={{ width: "34px", height: "34px", padding: "9.5px" }}
+            >
+              <ProfileInfoButtonIcon src={messageIcon} alt="채팅" />
+            </Button>
+
+            {myProfile.following &&
+            myProfile.following.find(
+              (followingUser) => followingUser === userData._id,
+            ) ? (
+              <Button
+                type="button"
+                className="medium"
+                onClick={onClickUnfollow}
+              >
+                언팔로우
+              </Button>
+            ) : (
+              <Button
+                type="button"
+                className="medium"
+                active={true}
+                onClick={onClickFollow}
+              >
+                팔로우
+              </Button>
+            )}
+
+            <Button
+              type="button"
+              className="small"
+              style={{ width: "34px", height: "34px", padding: "9.5px" }}
+            >
+              <ProfileInfoButtonIcon src={shareIcon} alt="공유" />
+            </Button>
+          </>
+        )}
       </ProfileInfoButtonWrapper>
     </ProfileInfoWrapper>
   );
