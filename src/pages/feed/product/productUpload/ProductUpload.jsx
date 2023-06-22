@@ -172,8 +172,8 @@ export default function ProductUpload() {
 
   return (
     <Container>
-    <NewTopHeader left={"back"} right={"save"} disabled={disabled} onClick={onClickButton}></NewTopHeader>
-      <button onClick={onClickButton}>저장</button>
+    <NewTopHeader left={"back"} right={"save"} disabled={disabled} onClickButton={onClickButton} ></NewTopHeader>
+      {/* <button onClick={onClickButton}>저장</button> */}
 
       <ImgContainer>
         <ImgTopLabel>이미지 등록</ImgTopLabel>
