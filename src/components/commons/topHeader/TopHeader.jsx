@@ -1,41 +1,123 @@
 import React from "react";
-import SearchTopHeader from "./SearchTopHeader";
-import FeedTopHeader from "./FeedTopHeader";
-import FollowersTopHeader from "./FollowersTopHeader";
-import ProfileTopHeader from "./ProfileTopHeader";
-import ProfileEditTopHeader from "./ProfileEditTopHeader";
-import UploadTopHeader from "./UploadTopHeader";
-import ChatTopHeader from "./ChatTopHeader";
+import { useNavigate } from "react-router-dom";
+import {
+  TopHeaderBackBtn,
+  TopHeaderEl,
+  TopHeaderMoreBtn,
+  TopHeaderSearchBtn,
+  TopHeaderSearchInput,
+  TopHeaderSearchLabel,
+  TopHeaderText,
+  TopHeaderTitle,
+  TopHeaderWrapper,
+} from "./TopHeader.style";
+import Button from "../button/Button";
 
-// 각각의 TopHeader를 props로 받아오는 type를 통해 구분해주어 해당 type에 맞는 TopHeader를 return해줍니다.
-const TopHeader = ({ type, username = null, onClickMore, headerText }) => {
-  switch (type) {
-    case "search":
-      return <SearchTopHeader headerText={headerText}/>;
+// left는 오른쪽에 위치할 요소들을 나타냅니다.
+// middled 중간에 넣을 요소들을 나타냅니다.
+// right는 오른쪽에 넣을 요소들을 나타냅니다.
+// disabled는 버튼의 disabled를 나타냅니다.
+// onClickButton는 버튼을 눌럿을때 발생한느 이벤트 입니다.
+// title은 헤더에 들어갈 h1 태그 내용 입니다.
+// text는 헤더에 들어갈 글자 입니다.
+// leftside는 왼쪽에만 요소들이 있는 경우를 의미합니다.
+export default function NewTopHeader({
+  left,
+  middle,
+  right,
+  disabled,
+  onClickButton,
+  text,
+  title,
+  leftSide,
+  searchInputValue,
+  onChangeKeyword,
+  searchInputId,
+}) {
+  const navigate = useNavigate();
+  const setLeft = () => {
+    switch (left) {
+      case "back":
+        return <TopHeaderBackBtn type="button" onClick={() => navigate(-1)} />;
+      case "text":
+        return <TopHeaderText />;
+      default:
+        return null;
+    }
+  };
 
-    case "feed":
-      return <FeedTopHeader headerText={headerText}/>;
+  const setmiddle = () => {
+    switch (middle) {
+      case "text":
+        return <TopHeaderText>{text}</TopHeaderText>;
+      default:
+        return null;
+    }
+  };
 
-    case "followers":
-      return <FollowersTopHeader headerText={headerText}/>;
+  const setRight = () => {
+    switch (right) {
+      case "search":
+        return (
+          <TopHeaderSearchBtn
+            type="button"
+            onClick={() => navigate("/search")}
+          />
+        );
+      case "searchInput":
+        return (
+          <>
+            <TopHeaderSearchLabel
+              className="a11y-hidden"
+              htmlFor={searchInputId}
+            >
+              계정 검색
+            </TopHeaderSearchLabel>
+            <TopHeaderSearchInput
+              value={searchInputValue}
+              onChange={onChangeKeyword}
+              id={searchInputId}
+              placeholder="계정 검색"
+            />
+          </>
+        );
+      case "more":
+        return <TopHeaderMoreBtn type="button" onClick={onClickButton} />;
+      case "upload":
+        return (
+          <Button
+            type="button"
+            className="ms"
+            disabled={disabled}
+            onClick={onClickButton}
+          >
+            업로드
+          </Button>
+        );
+      case "save":
+        return (
+          <Button
+            type="button"
+            className="ms"
+            disabled={disabled}
+            onClick={onClickButton}
+          >
+            저장
+          </Button>
+        );
+      default:
+        return null;
+    }
+  };
 
-    case "profile":
-      return <ProfileTopHeader onClickMore={onClickMore} headerText={headerText}/>;
-
-    case "upload":
-      return <UploadTopHeader headerText={headerText}/>;
-
-    case "profileEdit":
-      return <ProfileEditTopHeader headerText={headerText}/>;
-
-    case "chat":
-      // usernameTitle은 채팅방 TopHeader에서
-      // 유저네임에 따라 바뀌어야하기 때문에 props를 추가적으로 설정하였습니다.
-      return <ChatTopHeader usernameTitle={username}/>;
-
-    default:
-      return null;
-  }
-};
-
-export default TopHeader;
+  return (
+    <TopHeaderWrapper>
+      <TopHeaderTitle>{title}</TopHeaderTitle>
+      <TopHeaderEl className={leftSide ? "left-side" : ""}>
+        {setLeft()}
+        {setmiddle()}
+        {setRight()}
+      </TopHeaderEl>
+    </TopHeaderWrapper>
+  );
+}
