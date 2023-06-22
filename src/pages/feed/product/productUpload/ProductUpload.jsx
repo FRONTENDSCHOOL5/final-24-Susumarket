@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 import UserInput from "../../../../components/commons/dataInput/UserInput"
 import DataInput from "../../../../components/commons/dataInput/DataInput"
-import ProfileEditTopHeader from "../../../../components/commons/topHeader/ProfileEditTopHeader"
+import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHeader"
 import defaultimg from "../../../../img/ProfileImg.svg"
 import uploadfile from "../../../../img/upload-file.svg";
 import {
@@ -10,6 +10,7 @@ import {
 } from "./productUpload.style";
 import { customAxios } from '../../../../library/customAxios'
 // import { useLocation } from "react-router-dom";
+import ErrorMessage from '../../../../components/commons/errorMessage/ErrorMessage';
 
 export default function ProductUpload() {
   const [profileImage, setProfileImage] = useState(defaultimg);
@@ -19,23 +20,31 @@ export default function ProductUpload() {
   const [price, setPrice] = useState('');
   const [link, setLink] = useState('');
   const [itemImage, setItemImage] = useState('');
-  const [BtnDisabled, setBtnDisabled] = useState(true);
-  const [ErrorMsg, setErrorMsg] = useState('');
 
+  const [isItemName, setIsItemName] = useState(false);
+  const [isPrice, setIsPrice] = useState(false);
+  const [isLink, setIsLink] = useState(false);
+  const [isItemImage, setIsItemImage] = useState(false);
+  const [BtnDisabled, setBtnDisabled] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+
+  const [itemNameMessage, setItemNameMessage] = useState('');
+  const [priceMessage, setPriceMessage] = useState('');
+  const [linkMessage, setLinkMessage] = useState('');
+  const [itemImageMessage, setItemImageMessage] = useState('');
   const navigate = useNavigate();
   // const location = useLocation();
 
   // 버튼 활성화
   useEffect(() => {
-    if (itemName && price && link && itemImage) {
-      setBtnDisabled(false);
+    if (isItemName === true && isPrice === true && isLink === true) {
+      setDisabled(false);
     } else {
-      setBtnDisabled(true);
+      setDisabled(true);
     }
-  }, [itemName, price, link, itemImage]);
+  }, [isItemName, isPrice, isLink]);
 
-
-
+ 
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -54,14 +63,14 @@ export default function ProductUpload() {
     }
   };
 
-
-  const onClickSave = async (e) => {
+  const onClickButton = async (e) => {
     e.preventDefault();
+    const priceNum = parseInt(price.replaceAll(',', ''), 10);
     const baseUrl = process.env.REACT_APP_BASE_URL;
     const product = {
       product: {
         itemName: itemName,
-        price: price,
+        price: priceNum,
         link: link,
         itemImage: `${baseUrl}/${selectedImage}`,
       },
@@ -69,22 +78,13 @@ export default function ProductUpload() {
 
     try {
       const response = await customAxios.post(`product`, product);
-      const data = response.data;
+      const data = response.data.product;
       console.log(data);
-      // if(data.message){
-      // setErrorMsg(data.message)
-
-      // }else{
-        navigate(`/product/:product_id`);
-
-      // }
-   
+      navigate(`/product/${data.id}`);
     } catch (error) {
       console.log(error);
     }
   }
-
-
 
   const uploadProfileImage = async (file) => {
     // image api
@@ -101,33 +101,79 @@ export default function ProductUpload() {
       setSelectedImage(response.data.filename);
     } catch (error) {
       if (error.response.status === 422) {
-      console.error(error);
-      console.log('오류 메시지:', error.response.data);
+        console.error(error);
+        console.log('오류 메시지:', error.response.data);
       }
       // return null;
     }
   };
 
-  const handleItemName = (e) => {
-    const itemNameSubmit = e.target.value; //현재 input값
-    setItemName(itemNameSubmit); //itemname input값 useState 통해 emailValue로 전달
-    console.log(itemName)
-  }
-  // 비밀번호 input 유효성 검사
-  const handlePrice = (e) => {
-    const priceSubmit = e.target.value; //현재 input값
-    setPrice(parseInt(priceSubmit));//price input값 useState 통해 passwordValue로 전달
-  }
-  const handleLink = (e) => {
-    const linkSubmit = e.target.value; //현재 input값
-    setLink(linkSubmit);//link input값 useState 통해 passwordValue로 전달
-  }
+  const itemNameHandler = (e) => {
+    setItemName(e.target.value);
+    if (itemName.length < 2 || itemName.length > 16) {
+      setItemNameMessage('상품명은 2~15자 이내여야 합니다.');
+      setIsItemName(false);
 
+    } else {
+      setItemNameMessage('');
+      setIsItemName(true);
+      // setItemName(e.target.value);
+
+    }
+  };
+
+  const priceHandler = (e) => {
+    const value = Number(e.target.value.replaceAll(',', ''));
+    if (Number.isNaN(value)) {
+      alert('숫자를 입력하세요');
+      return;
+    }
+    const numValue = new Intl.NumberFormat().format(parseInt(value, 10));
+    setPrice(numValue);
+    if (price.length < 2) {
+      setPriceMessage('10원 이상의 값을 입력해주세요');
+      setIsPrice(false);
+    } else {
+      setPriceMessage('');
+      setIsPrice(true);
+    // setPrice(numValue);
+
+    }
+  };
+  const linkHandler = (e) => {
+    const linkRegex =
+      /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+    setLink(e.target.value);
+    if (!linkRegex.test(link) || link.length < 1) {
+      setLinkMessage('사이트 주소를 정확하게 입력해주세요.');
+      setIsLink(false);
+    } else {
+      setLinkMessage('');
+      setIsLink(true);
+    // setLink(e.target.value);
+      
+
+    }
+  };
+
+  // const imgHandler = (e) => {
+  //   const correctForm = /(.*?)\.(jpg|gif|png|jpeg|bmp|tif|heic|)$/;
+  //   if (e.target.files[0].size > 5 * 1024 * 1024) {
+  //     setItemImageMessage('파일 사이즈는 5MB까지만 가능합니다.');
+  //     setIsItemImage(false);
+  //   } else if (!e.target.files[0].name.match(correctForm)) {
+  //     setItemImageMessage('이미지 파일만 업로드 가능합니다.');
+  //     setIsItemImage(false);
+  //   } else {
+  //     setItemImageMessage('');
+  //     setIsItemImage(true);
+  //   }
+  // };
 
   return (
     <Container>
-      <ProfileEditTopHeader></ProfileEditTopHeader>
-      <button onClick={onClickSave}>저장</button>
+    <NewTopHeader left={"back"} right={"save"} disabled={disabled} onClickButton={onClickButton} ></NewTopHeader>
+      {/* <button onClick={onClickButton}>저장</button> */}
 
       <ImgContainer>
         <ImgTopLabel>이미지 등록</ImgTopLabel>
@@ -151,36 +197,45 @@ export default function ProductUpload() {
         ></ImgInput>
       </ImgContainer>
 
-
-      {/* <Form> */}
       <UserInput label="상품명">
         <DataInput
-          placeholder="상품명을 입력해주세요"
+          placeholder="2~15자 이내여야 합니다."
           value={itemName}
-          onChange={handleItemName}
+          min="2"
+          max="15"
+          onChange={itemNameHandler}
           required> </DataInput>
       </UserInput>
+      {itemNameMessage && <ErrorMessage>
+        {itemNameMessage}
+      </ErrorMessage>}
 
       <UserInput label="가격">
         <DataInput
-          placeholder="가격을 입력해주세요"
+          // type=""
+          placeholder="숫자만 입력 가능합니다."
+          min="1"
+          max="20"
           value={price}
-          onChange={handlePrice}
+          onChange={priceHandler}
           required> </DataInput>
       </UserInput>
+      {priceMessage && <ErrorMessage>
+        {priceMessage}
+      </ErrorMessage>}
 
       <UserInput label="판매링크">
         <DataInput
-          placeholder="판매링크를 입력해주세요"
+          placeholder="URL을 입력해 주세요."
           value={link}
-          onChange={handleLink}
+          onChange={linkHandler}
           required> </DataInput>
       </UserInput>
-      {/* <ErrorMsg >
-      </ErrorMessage> */}
+      {linkMessage && <ErrorMessage>
+        {linkMessage}
+      </ErrorMessage>}
 
 
-      {/* </Form> */}
     </Container>
 
   )
