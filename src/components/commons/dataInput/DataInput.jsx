@@ -8,6 +8,8 @@ export default function DataInput(props) {
       placeholder={props.placeholder}
       value={props.value} // value prop 추가
       onChange={props.onChange} // onChange prop 추가
+      minLength={props.min}
+      maxLength={props.max}
       onBlur={props.onBlur}
     ></DataInputStyle>
   );
