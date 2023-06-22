@@ -1,11 +1,11 @@
+import React, { useState, useRef, useEffect } from "react";
+import { customAxios } from "../../../../library/customAxios";
 import UploadTopHeader from "../../../../components/commons/topHeader/UploadTopHeader";
 import imgUploadBtn from "../../../../img/upload-file.svg";
 import styled from "styled-components";
-import { useRef, useEffect, useState } from "react";
-import { useCallback } from "react";
-import defaultImg from "../../../../img/ProfileImg.svg";
-import { customAxios } from "../../../../library/customAxios";
 import xbutton from "../../../../img/x.svg";
+import defaultImg from "../../../../img/ProfileImg.svg";
+import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 const PostImgButton = styled.button`
@@ -79,23 +79,17 @@ const UploadImgArea = styled.section`
   margin-top: 30px;
 `;
 
-export default function PostUpload() {
+export default function Post() {
+  const [profileImage, setProfileImage] = useState(null);
+  const [text, setText] = useState("");
+  const [images, setImages] = useState([]);
+  const [previewImages, setPreviewImages] = useState([]);
+  const fileInputRef = useRef();
   const textRef = useRef();
-  const fileInputRef = useRef(null);
   const handleTextAreaHeight = useCallback(() => {
     textRef.current.style.height = "auto";
     textRef.current.style.height = textRef.current.scrollHeight + "px";
   }, []);
-
-  const [textLength, setTextLength] = useState("");
-
-  const handleTextLength = (e) => {
-    const value = e.target.value;
-    setTextLength(value);
-  };
-
-  const [profileImage, setProfileImage] = useState(null);
-  const [showPostImages, setShowPostImages] = useState([]);
 
   useEffect(() => {
     const loadProfileImage = async () => {
@@ -109,55 +103,41 @@ export default function PostUpload() {
     loadProfileImage();
   }, []);
 
-  const handleFileUpload = async (e) => {
-    const files = e.target.files;
-    let fileLists = [...showPostImages];
+  // const handleUploadImages = async () => {
+  //   const files = fileInputRef.current.files;
+  //   const formData = new FormData();
 
+  //   // 이미지 파일을 formData에 추가
+  //   for (let i = 0; i < files.length; i++) {
+  //     if (files[i].type.startsWith("image/")) {
+  //       formData.append("files", files[i]);
+  //     } else {
+  //       alert("이미지 파일 형식이 아닙니다!");
+  //     }
+  //   }
+
+  //   try {
+  //     const response = await customAxios.post("/image/uploadfiles", formData);
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const handleUploadWholePost = async () => {
     const formData = new FormData();
 
-    for (let i = 0; i < files.length; i++) {
-      if (files[i].type.startsWith("image/")) {
-        formData.append("files", files[i]);
-        const currentFileUrl = URL.createObjectURL(files[i]);
-        fileLists.push(currentFileUrl);
-      } else {
-        alert("이미지 파일 형식이 아닙니다!");
-      }
-    }
-    if (fileLists.length > 3) {
-      fileLists = fileLists.slice(0, 3);
-      alert("이미지는 최대 3개까지 업로드 가능합니다:)");
-    }
-    setShowPostImages(fileLists);
+    // 텍스트를 formData에 추가
+    formData.append("post[content]", text);
+
+    // 이미지 파일 이름을 배열에 저장
+    const imageNames = images.map((image) => image.name);
+    // 이미지 URL 문자열을 formData에 추가
+    const imageUrls = imageNames.join(",");
+    formData.append("post[image]", imageUrls);
 
     try {
-      const response = await customAxios.post("image/uploadfiles", formData);
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handlePostButton = () => {
-    fileInputRef.current.click();
-  };
-
-  const handleDeleteImage = (id) => {
-    setShowPostImages(showPostImages.filter((_, index) => index !== id));
-  };
-
-  const handleUploadButton = async () => {
-    const text = textRef.current.value;
-    const files = fileInputRef.current.files;
-
-    const formData = new FormData();
-    for (let i = 0; i < files.length; i++) {
-      formData.append("files", files[i]);
-    }
-    formData.append("text", text);
-
-    try {
-      const response = await customAxios.post("image/uploadfiles", formData);
+      const response = await customAxios.post("/post", formData);
       console.log(response);
       onClickNextPage();
     } catch (error) {
@@ -165,8 +145,43 @@ export default function PostUpload() {
     }
   };
 
+  const handleFileUpload = (e) => {
+    const files = e.target.files;
+    let fileLists = [...images];
+    let previewFileLists = [...previewImages];
+
+    for (let i = 0; i < files.length; i++) {
+      if (files[i].type.startsWith("image/")) {
+        const currentFileUrl = URL.createObjectURL(files[i]);
+        fileLists.push(files[i]);
+        previewFileLists.push(currentFileUrl);
+        // 최대 3개까지 업로드 가능하도록 제한
+        if (fileLists.length > 3) {
+          fileLists = fileLists.slice(0, 3);
+          previewFileLists = previewFileLists.slice(0, 3);
+          alert("이미지는 최대 3개까지 업로드 가능합니다:)");
+        }
+      } else {
+        alert("이미지 파일 형식이 아닙니다!");
+      }
+    }
+    setImages(fileLists);
+    setPreviewImages(previewFileLists);
+  };
+
+  const handleDeleteImage = (id) => {
+    setImages(images.filter((_, index) => index !== id));
+    setPreviewImages((prevPreviewImages) =>
+      prevPreviewImages.filter((_, index) => index !== id),
+    );
+  };
+
+  const handleFileButton = () => {
+    fileInputRef.current.click();
+  };
+
   const UploadBtnDisable = () => {
-    if (textLength === "" && showPostImages.length === 0) {
+    if (text === "" && images.length === 0) {
       return true;
     }
     return false;
@@ -180,7 +195,7 @@ export default function PostUpload() {
   return (
     <>
       <UploadTopHeader
-        onClickUpload={handleUploadButton}
+        onClickUpload={handleUploadWholePost}
         disabled={UploadBtnDisable()}
       ></UploadTopHeader>
       <UploadMain>
@@ -189,29 +204,30 @@ export default function PostUpload() {
         <TextArea
           ref={textRef}
           placeholder="게시글 입력하기..."
+          value={text}
+          onChange={(e) => setText(e.target.value)}
           onInput={handleTextAreaHeight}
-          onChange={handleTextLength}
-          value={textLength}
           rows="1"
-        ></TextArea>
-        <PostImgLabel htmlFor="input-file"></PostImgLabel>
-        <PostImgInput
-          type="file"
-          multiple="multiple"
-          id="input-file"
-          ref={fileInputRef}
-          onChange={handleFileUpload}
-        ></PostImgInput>
+        />
       </UploadMain>
+      {/* <button onClick={handleUploadImages}>이미지 업로드</button> */}
+      <PostImgLabel htmlFor="input-file"></PostImgLabel>
+      <PostImgInput
+        type="file"
+        multiple
+        id="input-file"
+        ref={fileInputRef}
+        onChange={handleFileUpload}
+      />
       <UploadImgArea>
-        {showPostImages.map((image, id) => (
+        {previewImages.map((image, id) => (
           <div key={id}>
             <PostImg src={image} alt={`${image}-${id}`} />
             <Delete onClick={() => handleDeleteImage(id)} />
           </div>
         ))}
       </UploadImgArea>
-      <PostImgButton onClick={handlePostButton}></PostImgButton>
+      <PostImgButton onClick={handleFileButton}></PostImgButton>
     </>
   );
 }
