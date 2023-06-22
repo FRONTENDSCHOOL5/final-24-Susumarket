@@ -9,7 +9,11 @@ import {
 } from "./TopHeaderStyle.js";
 import { useNavigate } from "react-router-dom";
 
-export default function SearchTopHeader({ headerText }) {
+export default function SearchTopHeader({
+  headerText,
+  inputValue,
+  handleInputChange,
+}) {
   const navigation = useNavigate();
 
   // 이전 페이지로 이동시키는 함수
@@ -25,7 +29,12 @@ export default function SearchTopHeader({ headerText }) {
       <TopHeaderBackBtn onClick={() => onClickBack("/post")}>
         <TopHeaderBackIcon src={backIcon} alt="뒤로가기" />
       </TopHeaderBackBtn>
-      <TopHeaderSearchInput type="text" placeholder="계정검색" />
+      <TopHeaderSearchInput
+        type="text"
+        placeholder="계정검색"
+        value={inputValue}
+        onChange={handleInputChange}
+      />
     </TopHeaderWrapper>
   );
 }
