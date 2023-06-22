@@ -7,12 +7,10 @@ import {
   UserIntro,
   FollowButton,
 } from "./followerList.style";
-// import { useParams } from "react-router-dom";
-// import followerAPI from "./followerAPI";
+
 import { addFollowAPI } from "./addFollowAPI";
 import { deleteFollowAPI } from "./deleteFollowAPI";
 import Button from "../../../../components/commons/button/Button";
-// import { customAxios } from "../../../../library/customAxios";
 
 export default function FollowerList({ follower, account }) {
   const [isFollow, setIsFollow] = useState(follower.isfollow);
@@ -42,7 +40,6 @@ export default function FollowerList({ follower, account }) {
 
   return (
     <FollowerListLi>
-      {/* <FollowerListLink to={`/profile/${user.follower.accountname}`}> */}
       <FollowerListLink to={`/profile/${follower.accountname}`}>
         <img
           src={follower.image}
@@ -65,7 +62,6 @@ export default function FollowerList({ follower, account }) {
             onClick={handleFollowBtn}
           >
             {isFollow ? "취소" : "팔로우"}
-            {/* isFollow 값에 따라 텍스트 변경 */}
           </FollowButton>
         )}
       </FollowerListLink>

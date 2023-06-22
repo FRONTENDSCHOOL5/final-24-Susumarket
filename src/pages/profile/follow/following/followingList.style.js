@@ -2,14 +2,14 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Button from "../../../../components/commons/button/Button";
 
-export const FollowerListUl = styled.ul`
+export const FollowingListUl = styled.ul`
   padding: 24px 16px;
   display: flex;
   flex-direction: column;
   max-width: 390px;
 `;
 
-export const FollowerListLi = styled.li`
+export const FollowingListLi = styled.li`
   display: flex;
   margin-bottom: 16px;
   background-color: #fff;
@@ -18,7 +18,7 @@ export const FollowerListLi = styled.li`
   height: 50px;
 `;
 
-export const FollowerListLink = styled(Link)`
+export const FollowingListLink = styled(Link)`
   display: flex;
   align-items: center;
   /* gap: 12px; */
