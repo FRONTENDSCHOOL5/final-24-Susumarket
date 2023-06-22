@@ -30,7 +30,7 @@ import DateFormate from "../../../commons/dateFormat/DateFormat";
 import authImg from "../../../../img/basic-profile.svg";
 import moreIcon from "../../../../img/icon- more-vertical.svg";
 import heartIcon from "../../../../img/icon-heart.svg";
-import heartFillIcon from "../../../../img/icon-heart-fill.svg"
+import heartFillIcon from "../../../../img/icon-heart-fill.svg";
 import commentIcon from "../../../../img/icon-message-circle.svg";
 import { useNavigate } from "react-router-dom";
 import { customAxios } from "../../../../library/customAxios";
@@ -42,13 +42,12 @@ export default function ProfilePostList({
   reFetchPostData,
   post,
 }) {
-  const {account} = useContext(UserContext);
+  const { account } = useContext(UserContext);
   const [activeButton, setActiveButton] = useState(0);
 
   // 서버 재요청하지 않고 클라이언트에서 처리 하기 위해 사용
   const [heartCount, setHeartCount] = useState(post.heartCount);
-  const [hearted, setHearted] = useState(post.hearted)
-
+  const [hearted, setHearted] = useState(post.hearted);
 
   const imgArray = post.image.split(",");
   const ImgUlRef = useRef(null);
@@ -65,9 +64,23 @@ export default function ProfilePostList({
       console.log(error);
     }
   }
+  async function onClickReportPost() {
+    try {
+      const response = await customAxios.post(`post/${post.id}/report`);
+      if (response.data.report) {
+        alert("신고가 완료 되었습니다.");
+      }
+    } catch (error) {
+      console.log(error);
+      if (error.response.data.message) {
+        alert(error.response.data.message);
+        reFetchPostData();
+      }
+    }
+  }
   async function onClickLike() {
     try {
-      if(post.author.accountname === account) {
+      if (post.author.accountname === account) {
         alert("자신의 글을 좋아요를 할 수 없습니다!");
         return;
       }
@@ -82,29 +95,47 @@ export default function ProfilePostList({
       }
     } catch (error) {
       console.log(error);
+      if (error.response.data.message) {
+        alert(error.response.data.message);
+        reFetchPostData();
+      }
     }
   }
   function onClickMore(e) {
     e.preventDefault();
-    settingPostModalProps([
-      {
-        name: "삭제",
-        func: () => {
-          onClickButton("정말 삭제하시겠습니까?", "삭제", async () => {
+    if (post.author.accountname === account)
+      settingPostModalProps([
+        {
+          name: "삭제",
+          func: () => {
+            onClickButton("정말 삭제하시겠습니까?", "삭제", async () => {
+              closeModal();
+              await onClickRemovePost();
+              reFetchPostData();
+            });
+          },
+        },
+        {
+          name: "수정",
+          func: () => {
             closeModal();
-            await onClickRemovePost();
-            reFetchPostData();
-          });
+            navigate(`/post/${post.id}/edit`);
+          },
         },
-      },
-      {
-        name: "수정",
-        func: () => {
-          closeModal();
-          navigate(`/post/${post.id}/edit`);
+      ]);
+    else {
+      settingPostModalProps([
+        {
+          name: "신고",
+          func: () => {
+            onClickButton("정말 신고 하시겠습니까?", "신고", async () => {
+              closeModal();
+              await onClickReportPost();
+            });
+          },
         },
-      },
-    ]);
+      ]);
+    }
   }
 
   return (
@@ -127,40 +158,45 @@ export default function ProfilePostList({
       <ProfilePostContents>
         <ProfilePostText>{post.content}</ProfilePostText>
 
-        {imgArray[0].length > 0 ? <ProfilePostImgWrapper>
-          <ProfilePostImgUl ref={ImgUlRef}>
-            {imgArray.map((image,idx) => {
-              return (
-                <ProfilePostImgLi key={image+idx}>
-                  <ProfilePostImg src={image} alt="포스트 이미지" />
-                </ProfilePostImgLi>
-              );
-            })}
-          </ProfilePostImgUl>
+        {imgArray[0].length > 0 ? (
+          <ProfilePostImgWrapper>
+            <ProfilePostImgUl ref={ImgUlRef}>
+              {imgArray.map((image, idx) => {
+                return (
+                  <ProfilePostImgLi key={image + idx}>
+                    <ProfilePostImg src={image} alt="포스트 이미지" />
+                  </ProfilePostImgLi>
+                );
+              })}
+            </ProfilePostImgUl>
 
-          <ProfilePostImgBtnUl>
-            {imgArray.map((image, idx) => {
-              return (
-                <ProfilePostImgBtnLi key={image+idx}>
-                  {imgArray.length > 1 && (
-                    <ProfilePostImgBtn
-                      className={activeButton === idx ? "active" : ""}
-                      onClick={(e) => onClickSliderBtn(e, idx)}
-                    >
-                      <ProfilePostButtonSpan className="a11y-hidden">
-                        이미지 슬라이드 버튼
-                      </ProfilePostButtonSpan>
-                    </ProfilePostImgBtn>
-                  )}
-                </ProfilePostImgBtnLi>
-              );
-            })}
-          </ProfilePostImgBtnUl>
-        </ProfilePostImgWrapper>: null}
+            <ProfilePostImgBtnUl>
+              {imgArray.map((image, idx) => {
+                return (
+                  <ProfilePostImgBtnLi key={image + idx}>
+                    {imgArray.length > 1 && (
+                      <ProfilePostImgBtn
+                        className={activeButton === idx ? "active" : ""}
+                        onClick={(e) => onClickSliderBtn(e, idx)}
+                      >
+                        <ProfilePostButtonSpan className="a11y-hidden">
+                          이미지 슬라이드 버튼
+                        </ProfilePostButtonSpan>
+                      </ProfilePostImgBtn>
+                    )}
+                  </ProfilePostImgBtnLi>
+                );
+              })}
+            </ProfilePostImgBtnUl>
+          </ProfilePostImgWrapper>
+        ) : null}
 
         <ProfilePostLikeCommentBtns>
           <ProfilePostLikeBtn onClick={onClickLike}>
-            <ProfilePostLikeBtnIcon src={hearted? heartFillIcon : heartIcon} alt="좋아요" />
+            <ProfilePostLikeBtnIcon
+              src={hearted ? heartFillIcon : heartIcon}
+              alt="좋아요"
+            />
             <ProfilePostHeartCount>{heartCount}</ProfilePostHeartCount>
           </ProfilePostLikeBtn>
           <ProfilePostCommentLink to={`/post/${post.id}`}>

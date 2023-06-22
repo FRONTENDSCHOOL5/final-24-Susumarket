@@ -10,7 +10,8 @@ import {
   TopHeaderMainTitle,
 } from "./TopHeaderStyle.js";
 
-export default function ProfileTopEdit({ headerText }) {
+
+export default function ProfileTopEdit({ disabled, onClickMore, headerText }) {
   const { userId } = useParams();
   const navigation = useNavigate();
 
@@ -27,7 +28,7 @@ export default function ProfileTopEdit({ headerText }) {
       <TopHeaderBackBtn onClick={() => onClickBack(`profile/${userId}`)}>
         <TopHeaderBackIcon src={backIcon} alt="뒤로가기" />
       </TopHeaderBackBtn>
-      <Button className="ms" disabled>
+      <Button className="ms" disabled={disabled} onClick={onClickMore}>
         저장
       </Button>
     </TopHeaderWrapper>

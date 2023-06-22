@@ -4,13 +4,13 @@ import ProfileInfo from "../../../components/units/profile/profileInfo/ProfileIn
 import ProfileProduct from "../../../components/units/profile/ProfileProduct/ProfileProduct";
 import PostModal from "../../../components/commons/postModal/PostModal";
 import ConfirmModal from "../../../components/commons/confirmModal/confirmModal";
+import TopButton  from "../../../components/commons/topButton/TopButton";
 import { useNavigate, useParams } from "react-router-dom";
 import { ModalContext } from "../../../context/ModalContext";
 import { UserContext } from "../../../context/UserContext";
 import ProfilePost from "../../../components/units/profile/ProfilePost/ProfilePost";
 import { customAxios } from "../../../library/customAxios";
 import {
-  UserProfileTitle,
   UserProfileWrapper,
   UserUndefinedImg,
   UserUndefinedText,
@@ -52,25 +52,24 @@ export default function UserProfile() {
     setIsOpenConfirmModal(false);
     setIsOpenPostModal(false);
   }
-
-  useEffect(() => {
-    async function fecthUserDate() {
-      try {
-        const response = await customAxios.get(`profile/${accountname}`);
-        setUserData(response.data.profile);
-        setIsInvalidProfile(false);
-      } catch (error) {
-        setIsInvalidProfile(true);
-        console.log(error);
-      }
+  async function fecthUserDate() {
+    try {
+      const response = await customAxios.get(`profile/${accountname}`);
+      setUserData(response.data.profile);
+      setIsInvalidProfile(false);
+    } catch (error) {
+      setIsInvalidProfile(true);
+      console.log(error);
     }
+  }
+  useEffect(() => {
     fecthUserDate();
   }, [accountname]);
   return (
     <>
-      <UserProfileTitle className="a11y-hidden">유저 정보</UserProfileTitle>
       <TopHeader
         type="profile"
+        headerText="유저 프로필"
         onClickMore={() => {
           settingPostModalProps([
             {
@@ -103,7 +102,7 @@ export default function UserProfile() {
           </UserUndefinedWrapper>
         ) : (
           <>
-            <ProfileInfo userData={userData} />
+            <ProfileInfo userData={userData} reFetchUserData={fecthUserDate} />
             <ProfileProduct
               onClickButton={onClickButton}
               settingPostModalProps={settingPostModalProps}
@@ -124,6 +123,7 @@ export default function UserProfile() {
           handleSubmit={confirmProps.handleSubmit}
         />
       </UserProfileWrapper>
+      <TopButton/>
     </>
   );
 }
