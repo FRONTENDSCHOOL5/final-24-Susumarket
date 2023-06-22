@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   FollowerListUl,
   FollowerListLi,
@@ -8,67 +8,55 @@ import {
   UserIntro,
   FollowButton,
 } from "./followerList.style";
+import { useParams } from "react-router-dom";
+import followerAPI from "./follower";
 
 export default function FollowerList() {
+  const { accountname } = useParams();
+  const [followerData, setFollowerData] = useState([{}]);
+  // console.log(accountname);
+
+  // accountname 값을 어떻게 받아오지 ??
+  // 팔로워 데이터 호출
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await followerAPI("ss");
+        // 필요에 따라 가져온 데이터 사용
+        setFollowerData(data);
+        console.log("followerData", followerData);
+      } catch (error) {
+        console.error(
+          "팔로워 데이터를 가져오는 중 오류가 발생했습니다:",
+          error,
+        );
+      }
+    };
+    fetchData();
+  }, [accountname]);
+
   return (
     <FollowerListUl>
-      {/* ex1 */}
-      <FollowerListLi>
-        <FollowerListLink>
-          <img
-            url="https://www.google.com/url?sa=i&url=https%3A%2F%2Fappledoong.com%2Fentry%2F%25EB%25AC%25B4%25EB%25A3%258C-%25EC%259D%25B4%25EB%25AF%25B8%25EC%25A7%2580-%25EC%2582%25AC%25EC%259D%25B4%25ED%258A%25B8-%25EC%25A0%2580%25EC%259E%2591%25EA%25B6%258C-%25ED%2594%2584%25EB%25A6%25AC-%25EC%2583%2581%25EC%2597%2585%25EC%2582%25AC%25EC%259A%25A9-%25EA%25B0%2580%25EB%258A%25A5-%25EA%25B3%25A0%25ED%2599%2594%25EC%25A7%2588&psig=AOvVaw00nl3sB5Var8K8RDaqugqb&ust=1687433331440000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCLCbnJqh1P8CFQAAAAAdAAAAABAD"
-            alt="프로필 이미지"
-            style={{
-              objectFit: "cover",
-              width: "50px",
-              height: "50px",
-            }}
-          />
-          <UserWrapper>
-            <UserName>dd</UserName>
-            <UserIntro>dd</UserIntro>
-          </UserWrapper>
-          <FollowButton>팔로우</FollowButton>
-        </FollowerListLink>
-      </FollowerListLi>
-      {/* ex2 */}
-      <FollowerListLi>
-        <FollowerListLink>
-          <img
-            url="https://www.google.com/url?sa=i&url=https%3A%2F%2Fappledoong.com%2Fentry%2F%25EB%25AC%25B4%25EB%25A3%258C-%25EC%259D%25B4%25EB%25AF%25B8%25EC%25A7%2580-%25EC%2582%25AC%25EC%259D%25B4%25ED%258A%25B8-%25EC%25A0%2580%25EC%259E%2591%25EA%25B6%258C-%25ED%2594%2584%25EB%25A6%25AC-%25EC%2583%2581%25EC%2597%2585%25EC%2582%25AC%25EC%259A%25A9-%25EA%25B0%2580%25EB%258A%25A5-%25EA%25B3%25A0%25ED%2599%2594%25EC%25A7%2588&psig=AOvVaw00nl3sB5Var8K8RDaqugqb&ust=1687433331440000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCLCbnJqh1P8CFQAAAAAdAAAAABAD"
-            alt="프로필 이미지"
-            style={{
-              objectFit: "cover",
-              width: "50px",
-              height: "50px",
-            }}
-          />
-          <UserWrapper>
-            <UserName>dd</UserName>
-            <UserIntro>dd</UserIntro>
-          </UserWrapper>
-          <FollowButton>팔로우</FollowButton>
-        </FollowerListLink>
-      </FollowerListLi>
-      {/* ex3 */}
-      <FollowerListLi>
-        <FollowerListLink>
-          <img
-            url="https://www.google.com/url?sa=i&url=https%3A%2F%2Fappledoong.com%2Fentry%2F%25EB%25AC%25B4%25EB%25A3%258C-%25EC%259D%25B4%25EB%25AF%25B8%25EC%25A7%2580-%25EC%2582%25AC%25EC%259D%25B4%25ED%258A%25B8-%25EC%25A0%2580%25EC%259E%2591%25EA%25B6%258C-%25ED%2594%2584%25EB%25A6%25AC-%25EC%2583%2581%25EC%2597%2585%25EC%2582%25AC%25EC%259A%25A9-%25EA%25B0%2580%25EB%258A%25A5-%25EA%25B3%25A0%25ED%2599%2594%25EC%25A7%2588&psig=AOvVaw00nl3sB5Var8K8RDaqugqb&ust=1687433331440000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCLCbnJqh1P8CFQAAAAAdAAAAABAD"
-            alt="프로필 이미지"
-            style={{
-              objectFit: "cover",
-              width: "50px",
-              height: "50px",
-            }}
-          />
-          <UserWrapper>
-            <UserName>dd</UserName>
-            <UserIntro>dd</UserIntro>
-          </UserWrapper>
-          <FollowButton>팔로우</FollowButton>
-        </FollowerListLink>
-      </FollowerListLi>
+      {followerData.map((follower, index) => (
+        <FollowerListLi key={index}>
+          <FollowerListLink>
+            <img
+              src={follower.image}
+              alt="프로필 이미지"
+              style={{
+                objectFit: "cover",
+                width: "50px",
+                height: "50px",
+              }}
+            />
+            <UserWrapper>
+              <UserName>{follower.username}</UserName>
+              <UserIntro>{follower.intro}</UserIntro>
+            </UserWrapper>
+            <FollowButton>팔로우</FollowButton>
+          </FollowerListLink>
+        </FollowerListLi>
+      ))}
     </FollowerListUl>
   );
 }
