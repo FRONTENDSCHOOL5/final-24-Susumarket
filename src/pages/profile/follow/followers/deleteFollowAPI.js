@@ -1,8 +1,8 @@
 import { customAxios } from "../../../../library/customAxios";
 
-export const addFollow = async (id) => {
+export const deleteFollowAPI = async (id) => {
   try {
-    const response = await customAxios.post(`/profile/${id}/follow`);
+    const response = await customAxios.delete(`/profile/${id}/unfollow`);
     return response.data;
   } catch (err) {
     console.error(err);
