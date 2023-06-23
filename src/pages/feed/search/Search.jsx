@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { debounce } from "lodash";
 import { SearchWrapper } from "./search.style";
 import SearchTopHeader from "../../../components/commons/topHeader/SearchTopHeader";
