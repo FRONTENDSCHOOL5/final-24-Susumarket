@@ -14,11 +14,9 @@ export default function ProfilePostGallery({ postData }) {
         <ProfilePostGalleryUl>
           {postData.map((post) => {
             return (
-              <>
-                {post.image && (
+                post.image && (
                   <ProfilePostGalleryList key={post.id} post={post} />
-                )}
-              </>
+                )
             );
           })}
         </ProfilePostGalleryUl>

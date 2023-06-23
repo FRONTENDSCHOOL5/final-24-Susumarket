@@ -79,7 +79,7 @@ export default function ProfilePost({
         <ProfilePostGallery postData={postData} />
       ) : (
         <ProfilePostUl>
-          {postData.map((post, idx) => {
+          {postData.map((post) => {
             return (
               <ProfilePostList
                 key={post.id}
