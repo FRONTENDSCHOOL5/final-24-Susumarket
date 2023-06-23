@@ -6,7 +6,7 @@ import defaultimg from "../../../../img/ProfileImg.svg"
 import uploadfile from "../../../../img/upload-file.svg";
 import NewTopHeader from '../../../../components/commons/newTopHeader/NewTopHeader';
 import {
-  Cont, Container, Form, Img, ImgInput, ImgLabel, ImgContainer, ImgTopLabel
+  txtContainer, Cont, Container, Form, Img, ImgInput, ImgLabel, ImgContainer, ImgTopLabel, txt
 } from "./productDetail.style.js";
 import { customAxios } from '../../../../library/customAxios'
 // import { useLocation } from "react-router-dom";
@@ -17,12 +17,11 @@ export default function ProductDetail() {
   const [link, setLink] = useState('');
   const [itemImage, setItemImage] = useState('');
   const [images, setImages] = useState([]);
-
+  const [description, setDescription] = useState('');
   const navigate = useNavigate();
   // const location = useLocation();
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const params = useParams();
-
 
   // 이미지 로딩
   useEffect(() => {
@@ -34,6 +33,7 @@ export default function ProductDetail() {
         setItemName(response.data.product.itemName);
         setPrice(response.data.product.price);
         setLink(response.data.product.link);
+        setDescription(response.data.product.description)
         const data = response.data;
         console.log(data);
 
@@ -44,41 +44,45 @@ export default function ProductDetail() {
     loadProfileImage();
   }, [baseUrl, params]);
 
-
   return (
     <Container>
       <NewTopHeader left={"back"} right={""} ></NewTopHeader>
-      <ImgContainer>
-        <ImgTopLabel>{itemName}</ImgTopLabel>
-        <Img
-          className="default"
-          src={itemImage}
-        // alt="기본 이미지"
-        />
-        <ImgInput
-          type="file"
-          id="file-input"
-          accept="image/*"
-        // onChange={handleImageChange}
-        ></ImgInput>
-      </ImgContainer>
-
-      {/* <Form> */}
       <Cont>
-        {/* <UserInput label="상품명"> </UserInput>
-        <UserInput label={itemName}> </UserInput> */}
+        <ImgContainer>
+          <ImgTopLabel>{itemName}</ImgTopLabel>
+          <Img
+            className="default"
+            src={itemImage}
+          />
+          <ImgInput
+            type="file"
+            id="file-input"
+            accept="image/*"
+          // onChange={handleImageChange}
+          ></ImgInput>
+        </ImgContainer>
 
-        <UserInput label="가격"> </UserInput>
-        <UserInput label={price}> </UserInput>
 
-        <UserInput label="판매링크"> </UserInput>
-        <UserInput label={link}> </UserInput>
-        {/* <ErrorMsg >
-      </ErrorMessage> */}
+        <txtContainer>
+          {/* <UserInput label="판매링크"> </UserInput> */}
+          <txt> 게시물내용 </txt>
+          <txt> {description}</txt>
+        </txtContainer>
+
+        <txtContainer>
+          {/* <UserInput labe/>l="가격"></UserInput> */}
+          <txt> 가격</txt>
+          <txt> {price}</txt>
+        </txtContainer>
+
+        <txtContainer>
+          {/* <UserInput label="판매링크"> </UserInput> */}
+          <txt> 판매링크 </txt>
+          <txt> {link}</txt>
+        </txtContainer>
+
       </Cont>
-
-      {/* </Form> */}
-    </Container>
+    </Container >
 
   )
 }

@@ -19,8 +19,10 @@ export default function ProductEdit() {
   const [itemName, setItemName] = useState('');
   const [price, setPrice] = useState('');
   const [link, setLink] = useState('');
+  const [description, setDescription] = useState('');
+  
+  const [isDescription, setIsDescription] = useState(false);
   const [itemImage, setItemImage] = useState('');
-
   const [isItemName, setIsItemName] = useState(false);
   const [isPrice, setIsPrice] = useState(false);
   const [isLink, setIsLink] = useState(false);
@@ -28,6 +30,7 @@ export default function ProductEdit() {
   const [BtnDisabled, setBtnDisabled] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
+  const [descriptionMessage, setDescriptionMessage] = useState('');
   const [itemNameMessage, setItemNameMessage] = useState('');
   const [priceMessage, setPriceMessage] = useState('');
   const [linkMessage, setLinkMessage] = useState('');
@@ -37,8 +40,7 @@ export default function ProductEdit() {
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const params = useParams();
 
-
-
+  
   // 저장되어있던 데이터 로딩
   useEffect(() => {
     const loadData = async () => {
@@ -49,6 +51,7 @@ export default function ProductEdit() {
         setItemName(response.data.product.itemName);
         setPrice(response.data.product.price);
         setLink(response.data.product.link);
+        setDescription(response.data.product.description);
         const data = response.data;
         console.log(data);
 
@@ -61,11 +64,9 @@ export default function ProductEdit() {
   }, [baseUrl, params]);
 
 
-
-
   const onClickButton = async (e) => {
     e.preventDefault();
-    const priceNum = parseInt(price.replaceAll(',', ''), 10);
+    const priceNum = parseInt(price.toString().replaceAll(',', ''), 10);
     const baseUrl = process.env.REACT_APP_BASE_URL;
     const product = {
       product: {
@@ -81,7 +82,7 @@ export default function ProductEdit() {
       const response = await customAxios.put(`${baseUrl}product/${params.productId}`, product);
       const data = response.data.product;
       console.log(data);
-      // navigate(`/product/${data.id}`);
+      navigate(`/product/${params.userId}`);
     } catch (error) {
       console.log(error);
     }
@@ -155,8 +156,20 @@ export default function ProductEdit() {
     }
   };
 
+  const descriptionHandler = (e) =>{
+    setDescription(e.target.value);
+    if(description.length>99){
+      setDescriptionMessage('게시글 내용은 100자 이내여야 합니다.');
+      setIsDescription(false);
+    }else{
+      setDescriptionMessage('');
+      setIsDescription(true);
+    }
+  }
+
   const priceHandler = (e) => {
-    const value = Number(e.target.value.replaceAll(',', ''));
+    // const value = Number(e.target.value.replaceAll(',', ''));
+    const value = Number(e.target.value);
     if (Number.isNaN(value)) {
       alert('숫자를 입력하세요');
       return;
@@ -242,6 +255,17 @@ export default function ProductEdit() {
           required> </DataInput>
       </UserInput>
       {itemNameMessage && <ErrorMessage> {itemNameMessage} </ErrorMessage>}
+
+      <DataInput
+          placeholder="올릴 게시글 내용을 작성해주세요.(판매금지 물품은 게시가 제한될 수 있어요)"
+          value={description}
+          max="100"
+          onChange={descriptionHandler}
+          required> </DataInput>
+      {descriptionMessage && <ErrorMessage>
+        {descriptionMessage}
+      </ErrorMessage>}
+      
 
       <UserInput label="가격 수정">
         <DataInput

@@ -18,13 +18,16 @@ export const imgLabel = styled.label`
   }
 `;
 
-export const Cont = styled.div`
+export const Cont = styled.article`
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  margin-top: 12px;
+  align-items: center;
+
   @media screen and (max-width: 768px) {
     margin-top: 0px;
   }
+  width: 400px;
 `;
 
 export const imgCont = styled.div`
@@ -45,13 +48,15 @@ export const Form = styled.main`
 
 // userInput의 Inplabel 활용중이라 새로운 label 만들어줌(UserInput 공통 컴포넌트 사용x)
 export const ImgTopLabel = styled.label`
-width: 80px;
-font-size: 16px;
+padding-top: 20px;
+max-width: 400px;
+height: 60px;
+font-size: 25px;
 color: #767676;
-font-weight: 500;
+font-weight: 1000;
 margin-top: 30px;          
 margin-bottom: 20px;
-margin-right: 420px;
+margin: 0 auto;
 display: block;
 @media screen and (max-width: 768px) {
   font-size: 14px;
@@ -61,14 +66,26 @@ display: block;
 export const ImgContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding-left: 50px;
+  align-items: center;
+  margin: auto 0;
 `;
 
+export const txtContainer = styled.div`
+
+
+@media screen and (max-width: 768px) {
+  margin-top: 30px;
+}
+width: 400px;
+  `;
+
+export const txt = styled.label`
+
+`
 export const ImgLabel = styled.label`
 text-align: center;
-
-
 `;
+
 
 export const InpLabel = styled.label`
   font-size: 16px;
@@ -90,7 +107,6 @@ export const Img = styled.img`
   &.default {
     max-width: 400px;
     height: 250px;
-    box-sizing: border-box;
     background: #F2F2F2;
     object-fit: cover;
     border: 0.5px solid #DBDBDB;
