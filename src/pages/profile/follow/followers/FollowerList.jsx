@@ -7,7 +7,6 @@ import {
   UserIntro,
   FollowButton,
 } from "./followerList.style";
-
 import { addFollowAPI } from "./addFollowAPI";
 import { deleteFollowAPI } from "./deleteFollowAPI";
 
