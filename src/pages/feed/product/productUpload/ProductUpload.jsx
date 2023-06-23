@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
+import { UserContext } from '../../../../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import UserInput from "../../../../components/commons/dataInput/UserInput"
 import DataInput from "../../../../components/commons/dataInput/DataInput"
@@ -11,6 +12,7 @@ import {
 import { customAxios } from '../../../../library/customAxios'
 // import { useLocation } from "react-router-dom";
 import ErrorMessage from '../../../../components/commons/errorMessage/ErrorMessage';
+import axios from 'axios';
 
 export default function ProductUpload() {
   const [profileImage, setProfileImage] = useState(defaultimg);
@@ -20,7 +22,9 @@ export default function ProductUpload() {
   const [price, setPrice] = useState('');
   const [link, setLink] = useState('');
   const [itemImage, setItemImage] = useState('');
+  const [description, setDescription] = useState('');
 
+  const [isDescription, setIsDescription] = useState(false);
   const [isItemName, setIsItemName] = useState(false);
   const [isPrice, setIsPrice] = useState(false);
   const [isLink, setIsLink] = useState(false);
@@ -28,13 +32,15 @@ export default function ProductUpload() {
   const [BtnDisabled, setBtnDisabled] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
+
   const [itemNameMessage, setItemNameMessage] = useState('');
   const [priceMessage, setPriceMessage] = useState('');
   const [linkMessage, setLinkMessage] = useState('');
   const [itemImageMessage, setItemImageMessage] = useState('');
+  const [descriptionMessage, setDescriptionMessage] = useState('');
   const navigate = useNavigate();
   // const location = useLocation();
-
+  const UserData = useContext(UserContext);
   // 버튼 활성화
   useEffect(() => {
     if (isItemName === true && isPrice === true && isLink === true) {
@@ -44,7 +50,7 @@ export default function ProductUpload() {
     }
   }, [isItemName, isPrice, isLink]);
 
- 
+
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -63,12 +69,14 @@ export default function ProductUpload() {
     }
   };
 
+
   const onClickButton = async (e) => {
     e.preventDefault();
     const priceNum = parseInt(price.replaceAll(',', ''), 10);
     const baseUrl = process.env.REACT_APP_BASE_URL;
     const product = {
       product: {
+        description: description,
         itemName: itemName,
         price: priceNum,
         link: link,
@@ -77,17 +85,19 @@ export default function ProductUpload() {
     };
 
     try {
+
       const response = await customAxios.post(`product`, product);
       const data = response.data.product;
       console.log(data);
-      navigate(`/product/${data.id}`);
+      // navigate(`/product/${data.id}`);
+      navigate(`/profile/${UserData.account}`)
     } catch (error) {
       console.log(error);
     }
   }
 
+
   const uploadProfileImage = async (file) => {
-    // image api
     try {
       const formData = new FormData();
       formData.append("image", file);
@@ -104,13 +114,33 @@ export default function ProductUpload() {
         console.error(error);
         console.log('오류 메시지:', error.response.data);
       }
-      // return null;
     }
   };
 
+
+  // const uploadProfileImage = async (file) => {
+  //   try {
+  //     const formData = new FormData();
+  //     formData.append("image", file);
+
+  //     const response = await customAxios.post("image/uploadfile", formData, {
+  //       headers: {
+  //         "Content-type": "multipart/form-data",
+  //       }
+  //     });
+  //     console.log(response);
+  //     setSelectedImage(response.data.filename);
+  //   } catch (error) {
+  //     if (error.response.status === 422) {
+  //       console.error(error);
+  //       console.log('오류 메시지:', error.response.data);
+  //     }
+  //   }
+  // };
+
   const itemNameHandler = (e) => {
     setItemName(e.target.value);
-    if (itemName.length < 2 || itemName.length > 16) {
+    if (itemName.length < 1 || itemName.length > 16) {
       setItemNameMessage('상품명은 2~15자 이내여야 합니다.');
       setIsItemName(false);
 
@@ -121,6 +151,17 @@ export default function ProductUpload() {
 
     }
   };
+
+  const descriptionHandler = (e) =>{
+    setDescription(e.target.value);
+    if(description.length>99){
+      setDescriptionMessage('게시글 내용은 100자 이내여야 합니다.');
+      setIsDescription(false);
+    }else{
+      setDescriptionMessage('');
+      setIsDescription(true);
+    }
+  }
 
   const priceHandler = (e) => {
     const value = Number(e.target.value.replaceAll(',', ''));
@@ -136,7 +177,6 @@ export default function ProductUpload() {
     } else {
       setPriceMessage('');
       setIsPrice(true);
-    // setPrice(numValue);
 
     }
   };
@@ -150,8 +190,8 @@ export default function ProductUpload() {
     } else {
       setLinkMessage('');
       setIsLink(true);
-    // setLink(e.target.value);
-      
+      // setLink(e.target.value);
+
 
     }
   };
@@ -172,8 +212,7 @@ export default function ProductUpload() {
 
   return (
     <Container>
-    <NewTopHeader left={"back"} right={"save"} disabled={disabled} onClickButton={onClickButton} ></NewTopHeader>
-      {/* <button onClick={onClickButton}>저장</button> */}
+      <NewTopHeader left={"back"} right={"save"} disabled={disabled} onClickButton={onClickButton} ></NewTopHeader>
 
       <ImgContainer>
         <ImgTopLabel>이미지 등록</ImgTopLabel>
@@ -210,6 +249,16 @@ export default function ProductUpload() {
         {itemNameMessage}
       </ErrorMessage>}
 
+      <DataInput
+          placeholder="올릴 게시글 내용을 작성해주세요.(판매금지 물품은 게시가 제한될 수 있어요)"
+          value={description}
+          max="100"
+          onChange={descriptionHandler}
+          required> </DataInput>
+      {descriptionMessage && <ErrorMessage>
+        {descriptionMessage}
+      </ErrorMessage>}
+
       <UserInput label="가격">
         <DataInput
           // type=""
@@ -223,6 +272,8 @@ export default function ProductUpload() {
       {priceMessage && <ErrorMessage>
         {priceMessage}
       </ErrorMessage>}
+
+        
 
       <UserInput label="판매링크">
         <DataInput
