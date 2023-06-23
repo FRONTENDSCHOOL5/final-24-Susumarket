@@ -66,7 +66,6 @@ const Img = styled.img`
   }
 `;
 
-
 export default function ProfileSetting() {
   const [profileImage, setProfileImage] = useState(defaultimg);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -214,7 +213,7 @@ export default function ProfileSetting() {
   const navigate = useNavigate();
   const onClickNextPage = () => {
     navigate("/login/loginEmail");
-  }
+  };
 
   return (
     <ProfileContainer>
@@ -267,7 +266,9 @@ export default function ProfileSetting() {
 
         <ProfileButton
           className="large"
-          disabled={!isFormValid() || nickNameErrorMsg === "이미 가입된 계정ID 입니다."}
+          disabled={
+            !isFormValid() || nickNameErrorMsg === "이미 가입된 계정ID 입니다."
+          }
           onClick={handleSubmit}
         >
           수수마켓 시작하기
