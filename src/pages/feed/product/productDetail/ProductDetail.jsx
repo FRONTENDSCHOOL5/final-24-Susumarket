@@ -62,13 +62,13 @@ export default function ProductDetail() {
 
         <txtContainer>
           {/* <UserInput labe/>l="가격"></UserInput> */}
-          <txt> 가격</txt>
+          <txt> 가격:</txt>
           <txt> {price}</txt>
         </txtContainer>
 
         <txtContainer>
           {/* <UserInput label="판매링크"> </UserInput> */}
-          <txt> 판매링크 </txt>
+          <txt> 판매링크: </txt>
           <txt> {link}</txt>
         </txtContainer>
 

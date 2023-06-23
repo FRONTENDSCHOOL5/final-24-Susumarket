@@ -71,12 +71,8 @@ export const ImgContainer = styled.div`
 `;
 
 export const txtContainer = styled.div`
+  padding-top:50px;
 
-
-@media screen and (max-width: 768px) {
-  margin-top: 30px;
-}
-width: 400px;
   `;
 
 export const txt = styled.label`
