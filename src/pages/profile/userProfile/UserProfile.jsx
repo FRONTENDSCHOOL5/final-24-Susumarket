@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import TopHeader from "../../../components/commons/topHeader/TopHeader";
 import ProfileInfo from "../../../components/units/profile/profileInfo/ProfileInfo";
 import ProfileProduct from "../../../components/units/profile/ProfileProduct/ProfileProduct";
 import PostModal from "../../../components/commons/postModal/PostModal";
@@ -17,6 +16,7 @@ import {
   UserUndefinedWrapper,
 } from "./userProfile.styles";
 import undefindImg from "../../../img/symbol-logo-404.svg";
+import NewTopHeader from "../../../components/commons/newTopHeader/NewTopHeader";
 export default function UserProfile() {
   const { setAccessToken, setAccount } = useContext(UserContext);
   const { setIsOpenPostModal, setIsOpenConfirmModal } =
@@ -67,10 +67,11 @@ export default function UserProfile() {
   }, [accountname]);
   return (
     <>
-      <TopHeader
-        type="profile"
-        headerText="유저 프로필"
-        onClickMore={() => {
+      <NewTopHeader
+        left={"back"}
+        right={"more"}
+        title="유저 프로필"
+        onClickButton={() => {
           settingPostModalProps([
             {
               name: "로그아웃",
