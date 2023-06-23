@@ -13,7 +13,7 @@ export default function Search() {
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
-    // console.log(inputValue);
+    console.log(inputValue);
   };
 
   // 스페이스바, 엔터키 제외한 문자열 입력됐을 때 api 호출하기 위한 함수
