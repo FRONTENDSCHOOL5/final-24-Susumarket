@@ -6,7 +6,8 @@ import styled from "styled-components";
 import xbutton from "../../../../img/x.svg";
 import defaultImg from "../../../../img/ProfileImg.svg";
 import { useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHeader";
 
 const PostImgButton = styled.button`
   // top: 70%;
@@ -79,7 +80,7 @@ const UploadImgArea = styled.section`
   margin-top: 30px;
 `;
 
-export default function Post() {
+export default function PostUpload() {
   const [profileImage, setProfileImage] = useState(null);
   const [text, setText] = useState("");
   const [images, setImages] = useState([]);
@@ -103,70 +104,89 @@ export default function Post() {
     loadProfileImage();
   }, []);
 
-  // const handleUploadImages = async () => {
-  //   const files = fileInputRef.current.files;
-  //   const formData = new FormData();
-
-  //   // 이미지 파일을 formData에 추가
-  //   for (let i = 0; i < files.length; i++) {
-  //     if (files[i].type.startsWith("image/")) {
-  //       formData.append("files", files[i]);
-  //     } else {
-  //       alert("이미지 파일 형식이 아닙니다!");
-  //     }
-  //   }
-
-  //   try {
-  //     const response = await customAxios.post("/image/uploadfiles", formData);
-  //     console.log(response.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  const handleUploadWholePost = async () => {
+  // 이미지 업로드
+  const uploadImages = async () => {
     const formData = new FormData();
 
-    // 텍스트를 formData에 추가
-    formData.append("post[content]", text);
-
-    // 이미지 파일 이름을 배열에 저장
-    const imageNames = images.map((image) => image.name);
-    // 이미지 URL 문자열을 formData에 추가
-    const imageUrls = imageNames.join(",");
-    formData.append("post[image]", imageUrls);
+    for (let i = 0; i < images.length; i++) {
+      formData.append("image", images[i]);
+    }
 
     try {
-      const response = await customAxios.post("/post", formData);
+      const response = await customAxios.post("image/uploadfiles", formData, {
+        headers: {
+          "Content-type": "multipart/form-data",
+        },
+      });
       console.log(response);
-      onClickNextPage();
+      let filenames = [];
+      for (let i = 0; i < response.data.length; i++) {
+        filenames.push(
+          `${process.env.REACT_APP_BASE_URL}/${response.data[i].filename}`,
+        );
+      }
+      return filenames.join(",");
+      // onClickNextPage();
     } catch (error) {
       console.error(error);
     }
   };
 
+  // 이미지 post
+  const uploadPost = async (images) => {
+    try {
+      const response = await customAxios.post("post", {
+        post: {
+          content: text,
+          image: images,
+        },
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const handleUploadWholePost = async () => {
+    const images = await uploadImages();
+    await uploadPost(images);
+    onClickNextPage();
+  };
+
+  // const handleFileUpload = (e) => {
+  //   const files = e.target.files[0];
+  //   let filelength = 0;
+
+  //   if (files.type.startsWith("image/")) {
+  //     const currentFileUrl = URL.createObjectURL(files);
+  //     setPreviewImages((prev) => [...prev, currentFileUrl]); //덮어씌워지지 않게 하기 위해 prev 사용
+  //     setImages((prev) => [...prev, files]);
+  //     console.log(files);
+  //   } else {
+  //     alert("이미지 파일 형식이 아닙니다!");
+  //   }
+  // };
+
+  // 이미지 파일 업로드
   const handleFileUpload = (e) => {
     const files = e.target.files;
-    let fileLists = [...images];
-    let previewFileLists = [...previewImages];
+
+    if (files.length + images.length > 3) {
+      alert("이미지는 최대 3개까지 업로드 가능합니다:)");
+      return;
+    }
 
     for (let i = 0; i < files.length; i++) {
-      if (files[i].type.startsWith("image/")) {
-        const currentFileUrl = URL.createObjectURL(files[i]);
-        fileLists.push(files[i]);
-        previewFileLists.push(currentFileUrl);
-        // 최대 3개까지 업로드 가능하도록 제한
-        if (fileLists.length > 3) {
-          fileLists = fileLists.slice(0, 3);
-          previewFileLists = previewFileLists.slice(0, 3);
-          alert("이미지는 최대 3개까지 업로드 가능합니다:)");
-        }
+      const file = files[i];
+
+      if (file.type.startsWith("image/")) {
+        const currentFileUrl = URL.createObjectURL(file);
+        setPreviewImages((prev) => [...prev, currentFileUrl]);
+        setImages((prev) => [...prev, file]);
+        console.log(file);
       } else {
         alert("이미지 파일 형식이 아닙니다!");
       }
     }
-    setImages(fileLists);
-    setPreviewImages(previewFileLists);
   };
 
   const handleDeleteImage = (id) => {
@@ -187,17 +207,21 @@ export default function Post() {
     return false;
   };
 
+  const accountname = localStorage.getItem("account");
+
   const navigate = useNavigate();
   const onClickNextPage = () => {
-    navigate("/profile/:userId");
+    navigate(`/profile/${accountname}`);
   };
 
   return (
     <>
-      <UploadTopHeader
-        onClickUpload={handleUploadWholePost}
+      <NewTopHeader
+        left="back"
+        right="upload"
+        onClickButton={handleUploadWholePost}
         disabled={UploadBtnDisable()}
-      ></UploadTopHeader>
+      ></NewTopHeader>
       <UploadMain>
         <ProfileImgLabel></ProfileImgLabel>
         <ProfileImg src={profileImage || defaultImg} alt="프로필 사진" />
@@ -210,7 +234,6 @@ export default function Post() {
           rows="1"
         />
       </UploadMain>
-      {/* <button onClick={handleUploadImages}>이미지 업로드</button> */}
       <PostImgLabel htmlFor="input-file"></PostImgLabel>
       <PostImgInput
         type="file"
