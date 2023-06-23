@@ -81,7 +81,7 @@ export default function ProfilePostList({
   async function onClickLike() {
     try {
       if (post.author.accountname === account) {
-        alert("자신의 글을 좋아요를 할 수 없습니다!");
+        alert("자신의 글을 좋아요 할 수 없습니다!");
         return;
       }
       if (hearted) {
