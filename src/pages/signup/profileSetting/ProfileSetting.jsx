@@ -196,7 +196,7 @@ export default function ProfileSetting() {
         password: location.state.password,
         accountname: nickName,
         intro: intro,
-        image: `${baseUrl}/${selectedImage}`, // 예시) https://api.mandarin.weniv.co.kr/1641906557953.png
+        image: selectedImage ? `${baseUrl}/${selectedImage}` : "", // 예시) https://api.mandarin.weniv.co.kr/1641906557953.png
       },
     };
 
