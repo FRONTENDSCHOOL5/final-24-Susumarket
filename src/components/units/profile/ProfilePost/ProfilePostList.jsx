@@ -101,8 +101,7 @@ export default function ProfilePostList({
       }
     }
   }
-  function onClickMore(e) {
-    e.preventDefault();
+  function onClickMore() {
     if (post.author.accountname === account)
       settingPostModalProps([
         {
@@ -140,7 +139,7 @@ export default function ProfilePostList({
 
   return (
     <ProfilePostLi>
-      <ProfilePostAuth to={`/profile/${post.author.accountname}`}>
+      <ProfilePostAuth>
         <ProfilePostAuthImg src={authImg} alt="작성자 프로필 이미지" />
         <ProfilePostAuthInfo>
           <ProfilePostAuthName>{post.author.accountname}</ProfilePostAuthName>

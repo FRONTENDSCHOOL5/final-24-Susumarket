@@ -57,12 +57,11 @@ export const ProfilePostLi = styled.li`
   width: 100%;
 `;
 
-export const ProfilePostAuth = styled(Link)`
+export const ProfilePostAuth = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 12px;
   min-width: 358px;
-  cursor: pointer;
 `;
 
 export const ProfilePostAuthImg = styled.img`
