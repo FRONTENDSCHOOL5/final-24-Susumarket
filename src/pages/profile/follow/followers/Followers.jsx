@@ -10,11 +10,12 @@ import followerAPI from "./followerAPI";
 import { customAxios } from "../../../../library/customAxios";
 
 export default function Followers() {
-  // 자기의 프로필 데이터를 가져옵니다.
-  const [myFollowerList, setMyFollowerList] = useState([]);
+  const [myFollowerList, setMyFollowerList] = useState([]); // 팔로워들의 데이터
   const [followerData, setFollowerData] = useState([]);
   const { account } = useContext(UserContext);
   const { userId } = useParams();
+
+  // UserData 받아오기
   useEffect(() => {
     async function fetchUserData() {
       const response = await customAxios.get(`profile/${account}/following`);
@@ -24,22 +25,11 @@ export default function Followers() {
     fetchUserData();
   }, []);
 
-  useEffect(() => {
-    async function test() {
-      const response = await customAxios.get(`user/myinfo`);
-      console.log("myInfo", response.data);
-    }
-    test();
-  }, []);
-
   // 팔로워 데이터 호출
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const data = await followerAPI(userId);   // 이렇게 사용해야함. userId 값을 어떻게 받아오지 ??
         const data = await followerAPI(userId);
-        // 필요에 따라 가져온 데이터 사용
-        console.log("accountname", { userId });
         setFollowerData(data);
         console.log("followerData", followerData);
       } catch (error) {

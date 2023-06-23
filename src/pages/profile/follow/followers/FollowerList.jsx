@@ -10,12 +10,9 @@ import {
 
 import { addFollowAPI } from "./addFollowAPI";
 import { deleteFollowAPI } from "./deleteFollowAPI";
-import Button from "../../../../components/commons/button/Button";
 
 export default function FollowerList({ follower, account }) {
   const [isFollow, setIsFollow] = useState(follower.isfollow);
-
-  // addFollowAPI, deleteFollowAPI 호출함수 구현 필요
   console.log(follower);
   const handleSubmitFollow = async () => {
     const response = await addFollowAPI(follower.accountname);
@@ -58,7 +55,7 @@ export default function FollowerList({ follower, account }) {
         {follower.accountname === account ? null : (
           <FollowButton
             className="small"
-            active={!isFollow} // isFollow 상태 값을 반전시켜서 active prop으로 전달
+            active={!isFollow}
             onClick={handleFollowBtn}
           >
             {isFollow ? "취소" : "팔로우"}

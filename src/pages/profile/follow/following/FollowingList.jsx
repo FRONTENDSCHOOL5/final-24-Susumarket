@@ -7,19 +7,17 @@ import {
   UserIntro,
   FollowButton,
 } from "./followingList.style";
-
 import { addFollowAPI } from "../followers/addFollowAPI";
 import { deleteFollowAPI } from "../followers/deleteFollowAPI";
 
 export default function FollowingList({ following, account }) {
   const [isFollow, setIsFollow] = useState(following.isfollow);
 
-  // addFollowAPI, deleteFollowAPI 호출함수 구현 필요
-  console.log(following);
+  // console.log("following", following);
   const handleSubmitFollow = async () => {
     const response = await addFollowAPI(following.accountname);
     setIsFollow(true);
-    console.log("response", response);
+    console.log("addFollowAPI", response);
   };
 
   const handleSubmitUnFollow = async () => {

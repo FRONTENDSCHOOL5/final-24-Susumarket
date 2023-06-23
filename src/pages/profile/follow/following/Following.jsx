@@ -10,8 +10,7 @@ import followingAPI from "./followingAPI";
 import { customAxios } from "../../../../library/customAxios";
 
 export default function Following() {
-  // 자기의 프로필 데이터를 가져옵니다.
-  const [myFollowingList, setMyFollowingList] = useState([]);
+  const [myFollowingList, setMyFollowingList] = useState([]); // 자기의 프로필 데이터를 가져옵니다.
   const [followingData, setFollowingData] = useState([]);
   const { account } = useContext(UserContext);
   const { userId } = useParams();
@@ -36,9 +35,7 @@ export default function Following() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const data = await followerAPI(userId);   // 이렇게 사용해야함. userId 값을 어떻게 받아오지 ??
         const data = await followingAPI(userId);
-        // 필요에 따라 가져온 데이터 사용
         console.log("accountname", { userId });
         setFollowingData(data);
         console.log("followingData", followingData);
