@@ -9,6 +9,7 @@ import {
   Container, Form, Img, ImgInput, ImgLabel, ImgContainer, ImgTopLabel
 } from "./productEdit.style.js";
 import { customAxios } from '../../../../library/customAxios'
+import { UserContext } from '../../../../context/UserContext';
 // import { useLocation } from "react-router-dom";
 import ErrorMessage from '../../../../components/commons/errorMessage/ErrorMessage';
 
@@ -36,6 +37,7 @@ export default function ProductEdit() {
   // const location = useLocation();
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const params = useParams();
+  const UserData = useContext(UserContext);
 
   
   // 저장되어있던 데이터 로딩
@@ -50,7 +52,7 @@ export default function ProductEdit() {
         setLink(response.data.product.link);
         const data = response.data;
         console.log(data);
-
+        console.log(itemImage)
       } catch (error) {
         console.error(error);
       }
@@ -70,54 +72,23 @@ export default function ProductEdit() {
         price: priceNum,
         link: link,
         itemImage: `${baseUrl}/${selectedImage}`,
-      },
-    };
-    // const url = `${baseUrl}product/${params.productId}`
-
-    try {
+      } 
+      }
+    
+      try {
       const response = await customAxios.put(`${baseUrl}product/${params.productId}`, product);
       const data = response.data.product;
       console.log(data);
-      navigate(`/product/${params.userId}`);
+      navigate(`/profile/${UserData.account}`)
+
     } catch (error) {
       console.log(error);
     }
   }
 
 
-
-  
-  // 버튼 활성화
-  useEffect(() => {
-    if (isItemImage === true || isItemName === true || isPrice === true || isLink === true) {
-      setDisabled(false);
-    } else {
-      setDisabled(true);
-    }
-  }, [isItemImage, isItemName, isPrice, isLink]);
-
- 
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      setItemImage(reader.result);
-    };
-
-    if (file) {
-      reader.readAsDataURL(file);
-      setSelectedImage(file);
-      uploadProfileImage(file);
-    } else {
-      setItemImage(null);
-      setSelectedImage(null);
-    }
-  };
-
   
   const uploadProfileImage = async (file) => {
-    // image api
     try {
       const formData = new FormData();
       formData.append("image", file);
@@ -138,9 +109,31 @@ export default function ProductEdit() {
     }
   };
 
+  // onChange
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      setItemImage(reader.result);
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+      setSelectedImage(file);
+      uploadProfileImage(file);
+      setIsItemImage(true);
+    } else {
+      setItemImage(null);
+      setSelectedImage(null);      
+      setIsItemImage(false);
+
+    }
+  };
+
+
+
   const itemNameHandler = (e) => {
     setItemName(e.target.value);
-    if (itemName.length < 2 || itemName.length > 16) {
+    if (itemName.length < 1  || itemName.length > 16) {
       setItemNameMessage('상품명은 2~15자 이내여야 합니다.');
       setIsItemName(false);
 
@@ -154,8 +147,7 @@ export default function ProductEdit() {
 
 
   const priceHandler = (e) => {
-    // const value = Number(e.target.value.replaceAll(',', ''));
-    const value = Number(e.target.value);
+    const value = Number(e.target.value.toString().replaceAll(',', ''));
     if (Number.isNaN(value)) {
       alert('숫자를 입력하세요');
       return;
@@ -163,7 +155,7 @@ export default function ProductEdit() {
     const numValue = new Intl.NumberFormat().format(parseInt(value, 10));
     setPrice(numValue);
     if (price.length < 2) {
-      setPriceMessage('10원 이상의 값을 입력해주세요');
+      setPriceMessage('100원 이상의 값을 입력해주세요');
       setIsPrice(false);
     } else {
       setPriceMessage('');
@@ -182,31 +174,24 @@ export default function ProductEdit() {
     } else {
       setLinkMessage('');
       setIsLink(true);
-    // setLink(e.target.value);
       
 
     }
   };
 
-  const imgHandler = (e) => {
-    const correctForm = /(.*?)\.(jpg|gif|png|jpeg|bmp|tif|heic|)$/;
-    // if (e.target.files[0].size > 5 * 1024 * 1024) {
-    //   setItemImageMessage('파일 사이즈를 5MB 이하로 올려주세요');
-    //   setIsItemImage(false);
-    // } else 
-    if (!e.target.files[0].name.match(correctForm)) {
-      setItemImageMessage('이미지 파일 이외엔 불가합니다');
-      setIsItemImage(true);
+
+  useEffect(() => {
+    if (isItemImage === true || isItemName === true || isPrice === true || isLink === true) {
+      setDisabled(false);
     } else {
-      setItemImageMessage('');
-      setIsItemImage(true);
+      setDisabled(true);
     }
-  };
+  }, [isItemImage, isItemName, isPrice, isLink]);
 
   return (
     <Container>
     <NewTopHeader left={"back"} right={"save"} disabled={disabled} onClickButton={onClickButton} ></NewTopHeader>
-    <div onChange={imgHandler}>
+    {/* <div onChange={imgHandler}> */}
       <ImgContainer>
         <ImgTopLabel>이미지 수정</ImgTopLabel>
         <Img
@@ -228,9 +213,8 @@ export default function ProductEdit() {
           onChange={handleImageChange}
         ></ImgInput>
          {itemImageMessage && <ErrorMessage> {itemImageMessage} </ErrorMessage>}
-
       </ImgContainer>
-      </div>
+      {/* </div> */}
       <UserInput label="상품명 수정">
         <DataInput
           placeholder="2~15자 이내로 수정해주세요."
