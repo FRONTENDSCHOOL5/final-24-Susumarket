@@ -76,7 +76,6 @@ export default function ProductUpload() {
     const baseUrl = process.env.REACT_APP_BASE_URL;
     const product = {
       product: {
-        description: description,
         itemName: itemName,
         price: priceNum,
         link: link,
@@ -161,7 +160,7 @@ export default function ProductUpload() {
     const numValue = new Intl.NumberFormat().format(parseInt(value, 10));
     setPrice(numValue);
     if (price.length < 2) {
-      setPriceMessage('10원 이상의 값을 입력해주세요');
+      setPriceMessage('100원 이상의 값을 입력해주세요');
       setIsPrice(false);
     } else {
       setPriceMessage('');
