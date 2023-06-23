@@ -33,6 +33,7 @@ import ChatRoom from "../pages/chat/chatRoom/ChatRoom";
 import NotFound from "../pages/notFound/NotFound";
 import MenuBar from "../components/commons/menuBar/MenuBar";
 import { UserContext } from "../context/UserContext";
+import Drawing from "../pages/drawing/Drawing";
 
 export default function Router() {
   const { accessToken, account } = useContext(UserContext);
@@ -65,6 +66,20 @@ export default function Router() {
               <Navigate to={"/post"} />
             ) : (
               <ProfileSetting />
+            )
+          }
+        />
+
+        <Route
+          path="/drawing/"
+          element={
+            accessToken && account ? (
+              <>
+                <Drawing />
+                <MenuBar />
+              </>
+            ) : (
+              <Navigate to={"/post"} />
             )
           }
         />
