@@ -148,20 +148,9 @@ export default function ProductUpload() {
       setItemNameMessage('');
       setIsItemName(true);
       // setItemName(e.target.value);
-
     }
   };
 
-  const descriptionHandler = (e) =>{
-    setDescription(e.target.value);
-    if(description.length>99){
-      setDescriptionMessage('게시글 내용은 100자 이내여야 합니다.');
-      setIsDescription(false);
-    }else{
-      setDescriptionMessage('');
-      setIsDescription(true);
-    }
-  }
 
   const priceHandler = (e) => {
     const value = Number(e.target.value.replaceAll(',', ''));
@@ -247,16 +236,6 @@ export default function ProductUpload() {
       </UserInput>
       {itemNameMessage && <ErrorMessage>
         {itemNameMessage}
-      </ErrorMessage>}
-
-      <DataInput
-          placeholder="올릴 게시글 내용을 작성해주세요.(판매금지 물품은 게시가 제한될 수 있어요)"
-          value={description}
-          max="100"
-          onChange={descriptionHandler}
-          required> </DataInput>
-      {descriptionMessage && <ErrorMessage>
-        {descriptionMessage}
       </ErrorMessage>}
 
       <UserInput label="가격">
