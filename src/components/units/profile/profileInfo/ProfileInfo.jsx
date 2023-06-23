@@ -52,7 +52,7 @@ export default function ProfileInfo({ userData }) {
       console.log(error);
     }
   }
-
+  
   return (
     <ProfileInfoWrapper>
       <ProfileInfoTitle className="a11y-hidden">프로필 정보</ProfileInfoTitle>
@@ -65,10 +65,11 @@ export default function ProfileInfo({ userData }) {
         </ProfileInfoFollowers>
         <ProfileInfoeImg
           src={
-            userData.image === "https://api.mandarin.weniv.co.kr/Ellipse.png"
+            userData.image && userData.image.includes("Ellipse.png")
               ? profileImg
               : userData.image || profileImg
           }
+          onError={(e)=>e.target.src = profileImg}
           alt="유저 프로필 이미지"
         />
         <ProfileInfoFollowering
@@ -111,7 +112,7 @@ export default function ProfileInfo({ userData }) {
             </Button>
 
             {isfollow ? (
-              <Button 
+              <Button
                 type="button"
                 className="medium"
                 onClick={onClickUnfollow}
@@ -119,7 +120,8 @@ export default function ProfileInfo({ userData }) {
                 언팔로우
               </Button>
             ) : (
-              <Button style={{width:"136px"}}
+              <Button
+                style={{ width: "136px" }}
                 type="button"
                 className="medium"
                 active={true}
