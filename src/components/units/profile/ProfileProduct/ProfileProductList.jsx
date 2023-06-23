@@ -52,7 +52,7 @@ export default function ProfileProductList({
           },
         },
         {
-          name: "웹 사이트에서 상품 보기",
+          name: "상품 판매 상세 페이지로 이동",
           func: () => {
             closeModal();
             navigate(`/product/${productList.id}`);
