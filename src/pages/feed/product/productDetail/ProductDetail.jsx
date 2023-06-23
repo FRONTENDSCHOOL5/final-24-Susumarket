@@ -17,7 +17,6 @@ export default function ProductDetail() {
   const [link, setLink] = useState('');
   const [itemImage, setItemImage] = useState('');
   const [images, setImages] = useState([]);
-  const [description, setDescription] = useState('');
   const navigate = useNavigate();
   // const location = useLocation();
   const baseUrl = process.env.REACT_APP_BASE_URL;
@@ -33,7 +32,6 @@ export default function ProductDetail() {
         setItemName(response.data.product.itemName);
         setPrice(response.data.product.price);
         setLink(response.data.product.link);
-        setDescription(response.data.product.description)
         const data = response.data;
         console.log(data);
 
@@ -61,13 +59,6 @@ export default function ProductDetail() {
           // onChange={handleImageChange}
           ></ImgInput>
         </ImgContainer>
-
-
-        <txtContainer>
-          {/* <UserInput label="판매링크"> </UserInput> */}
-          <txt> 게시물내용 </txt>
-          <txt> {description}</txt>
-        </txtContainer>
 
         <txtContainer>
           {/* <UserInput labe/>l="가격"></UserInput> */}
