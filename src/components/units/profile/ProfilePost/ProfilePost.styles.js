@@ -61,6 +61,7 @@ export const ProfilePostAuth = styled(Link)`
   display: flex;
   align-items: center;
   margin-bottom: 12px;
+  min-width: 358px;
   cursor: pointer;
 `;
 
