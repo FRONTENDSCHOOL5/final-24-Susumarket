@@ -2,26 +2,19 @@ import React from "react";
 import FollowersTopHeader from "../../../../components/commons/topHeader/FollowersTopHeader";
 import { FollowingWrapper } from "./following.style";
 import FollowingList from "./FollowingList";
-import { useEffect, useState, useContext } from "react";
-import { UserContext } from "../../../../context/UserContext";
+import { useEffect, useState } from "react";
+
 import { useParams } from "react-router-dom";
 import { FollowingListUl } from "./followingList.style";
 import followingAPI from "./followingAPI";
 import { customAxios } from "../../../../library/customAxios";
+import MenuBar from "../../../../components/commons/menuBar/MenuBar";
 
 export default function Following() {
-  const [myFollowingList, setMyFollowingList] = useState([]); // 자기의 프로필 데이터를 가져옵니다.
   const [followingData, setFollowingData] = useState([]);
-  const { account } = useContext(UserContext);
+
   const { userId } = useParams();
-  useEffect(() => {
-    async function fetchUserData() {
-      const response = await customAxios.get(`profile/${account}/following`);
-      console.log("response.data", response.data);
-      setMyFollowingList(response.data);
-    }
-    fetchUserData();
-  }, []);
+
 
   useEffect(() => {
     async function test() {
@@ -57,8 +50,7 @@ export default function Following() {
           {followingData.map((following) => {
             return (
               <FollowingList
-                account={account}
-                myFollowingList={myFollowingList}
+                account={userId}
                 following={following}
                 key={following._id}
               />
@@ -66,6 +58,7 @@ export default function Following() {
           })}
         </FollowingListUl>
       </FollowingWrapper>
+      <MenuBar />
     </>
   );
 }
