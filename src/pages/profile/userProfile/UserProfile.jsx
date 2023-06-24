@@ -3,7 +3,7 @@ import ProfileInfo from "../../../components/units/profile/profileInfo/ProfileIn
 import ProfileProduct from "../../../components/units/profile/ProfileProduct/ProfileProduct";
 import PostModal from "../../../components/commons/postModal/PostModal";
 import ConfirmModal from "../../../components/commons/confirmModal/confirmModal";
-import TopButton  from "../../../components/commons/topButton/TopButton";
+import TopButton from "../../../components/commons/topButton/TopButton";
 import { useNavigate, useParams } from "react-router-dom";
 import { ModalContext } from "../../../context/ModalContext";
 import { UserContext } from "../../../context/UserContext";
@@ -17,8 +17,11 @@ import {
 } from "./userProfile.styles";
 import undefindImg from "../../../img/symbol-logo-404.svg";
 import NewTopHeader from "../../../components/commons/newTopHeader/NewTopHeader";
+import { AccountContext } from "../../../context/AccountContext";
+import  useAuth  from "../../../hook/useAuth"
+import MenuBar from "../../../components/commons/menuBar/MenuBar";
 export default function UserProfile() {
-  const { setAccessToken, setAccount } = useContext(UserContext);
+  const { setAccessToken } = useContext(UserContext);
   const { setIsOpenPostModal, setIsOpenConfirmModal } =
     useContext(ModalContext);
   const navigate = useNavigate();
@@ -34,6 +37,9 @@ export default function UserProfile() {
 
   // 유효한 유저 인지 파악
   const [isInvalidProfile, setIsInvalidProfile] = useState(false);
+  const [account, setAccount] = useState(null);
+
+  const myProfile = useAuth(null);
 
   // post 모달창 props 설정 및 열기
   function settingPostModalProps(modalProps) {
@@ -52,21 +58,33 @@ export default function UserProfile() {
     setIsOpenConfirmModal(false);
     setIsOpenPostModal(false);
   }
+
   async function fecthUserDate() {
     try {
-      const response = await customAxios.get(`profile/${accountname}`);
-      setUserData(response.data.profile);
-      setIsInvalidProfile(false);
+      if (accountname) {
+        const response = await customAxios.get(`profile/${accountname}`);
+        setUserData(response.data.profile);
+        setIsInvalidProfile(false);
+      } else {
+        setUserData(myProfile);
+      }
     } catch (error) {
       setIsInvalidProfile(true);
       console.log(error);
     }
   }
+
+
   useEffect(() => {
-    fecthUserDate();
-  }, [accountname]);
+    if(myProfile){
+      setAccount(myProfile.accountname);
+      fecthUserDate();
+    }
+   
+  }, [accountname, myProfile]);
+
   return (
-    <>
+    userData.accountname&&<AccountContext.Provider value={{ setAccount, account }}>
       <NewTopHeader
         left={"back"}
         right={"more"}
@@ -108,11 +126,13 @@ export default function UserProfile() {
               onClickButton={onClickButton}
               settingPostModalProps={settingPostModalProps}
               closeModal={closeModal}
+              userData={userData}
             />
             <ProfilePost
               onClickButton={onClickButton}
               settingPostModalProps={settingPostModalProps}
               closeModal={closeModal}
+              userData={userData}
             />
           </>
         )}
@@ -124,7 +144,8 @@ export default function UserProfile() {
           handleSubmit={confirmProps.handleSubmit}
         />
       </UserProfileWrapper>
-      <TopButton/>
-    </>
+      <TopButton />
+      <MenuBar />
+    </AccountContext.Provider>
   );
 }
