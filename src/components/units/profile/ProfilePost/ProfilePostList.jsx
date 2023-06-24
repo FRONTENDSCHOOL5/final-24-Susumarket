@@ -26,6 +26,8 @@ import {
   ProfilePostCommentLink,
   ProfilePostCommentCount,
 } from "./ProfilePost.styles";
+import profileImg from "../../../../img/ProfileImg.svg";
+import noImg from "../../../../img/symbol-logo-404.svg"
 import DateFormate from "../../../commons/dateFormat/DateFormat";
 import authImg from "../../../../img/basic-profile.svg";
 import moreIcon from "../../../../img/icon-more-vertical.svg";
@@ -34,7 +36,8 @@ import heartFillIcon from "../../../../img/icon-heart-fill.svg";
 import commentIcon from "../../../../img/icon-message-circle.svg";
 import { useNavigate } from "react-router-dom";
 import { customAxios } from "../../../../library/customAxios";
-import { UserContext } from "../../../../context/UserContext";
+import { AccountContext } from "../../../../context/AccountContext";
+
 export default function ProfilePostList({
   onClickButton,
   settingPostModalProps,
@@ -42,7 +45,7 @@ export default function ProfilePostList({
   reFetchPostData,
   post,
 }) {
-  const { account } = useContext(UserContext);
+  const { account } = useContext(AccountContext);
   const [activeButton, setActiveButton] = useState(0);
 
   // 서버 재요청하지 않고 클라이언트에서 처리 하기 위해 사용
@@ -140,7 +143,11 @@ export default function ProfilePostList({
   return (
     <ProfilePostLi>
       <ProfilePostAuth>
-        <ProfilePostAuthImg src={authImg} alt="작성자 프로필 이미지" />
+        <ProfilePostAuthImg
+          src={authImg}
+          alt="작성자 프로필 이미지"
+          onError={(e) => (e.target.src = profileImg)}
+        />
         <ProfilePostAuthInfo>
           <ProfilePostAuthName>{post.author.accountname}</ProfilePostAuthName>
           <ProfilePostAuthId>{post.author.username}</ProfilePostAuthId>
@@ -163,7 +170,11 @@ export default function ProfilePostList({
               {imgArray.map((image, idx) => {
                 return (
                   <ProfilePostImgLi key={image + idx}>
-                    <ProfilePostImg src={image} alt="포스트 이미지" />
+                    <ProfilePostImg
+                      src={image}
+                      alt="포스트 이미지"
+                      onError={(e) => (e.target.src = noImg)}
+                    />
                   </ProfilePostImgLi>
                 );
               })}

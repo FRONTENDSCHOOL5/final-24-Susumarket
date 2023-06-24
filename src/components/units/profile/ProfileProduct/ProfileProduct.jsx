@@ -12,19 +12,19 @@ import {
   PostNoneWrapper,
 } from "../ProfilePost/ProfilePost.styles";
 import ProductNoneImgIcon from "../../../../img/symbol-logo-404.svg";
-import { useParams } from "react-router-dom";
+
 export default function ProfileProduct({
   onClickButton,
   settingPostModalProps,
   closeModal,
+  userData
 }) {
   const [productData, setProductData] = useState([]);
   const [isNoneProductData, setIsNoneProductData] = useState(false);
-  const params = useParams();
-  const accountname = params.userId;
+
   const fetchProdcutData = useCallback(async () => {
     try {
-      const response = await customAxios.get(`product/${accountname}`);
+      const response = await customAxios.get(`product/${userData.accountname}`);
       setProductData(response.data.product);
       if (response.data.product.length === 0) {
         setIsNoneProductData(true);
@@ -34,13 +34,13 @@ export default function ProfileProduct({
     } catch (error) {
       console.log(error);
     }
-  }, [accountname]);
+  }, [userData]);
 
   useEffect(() => {
-    if (accountname) {
+    if (userData.accountname) {
       fetchProdcutData();
     }
-  }, [accountname]);
+  }, [userData]);
   return (
     <ProfileProductWrapper>
       <ProfileProductTitle>판매 중인 상품</ProfileProductTitle>

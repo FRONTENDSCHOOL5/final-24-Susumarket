@@ -22,21 +22,21 @@ import PostNoneImgIcon from "../../../../img/symbol-logo-404.svg";
 import ProfilePostList from "./ProfilePostList";
 import ProfilePostGallery from "./ProfilePostGallery";
 import { customAxios } from "../../../../library/customAxios";
-import { useParams } from "react-router-dom";
+
 
 export default function ProfilePost({
   onClickButton,
   settingPostModalProps,
   closeModal,
+  userData
 }) {
   const [postData, setPostData] = useState([]);
   const [isNonePostData, setIsNonePostData] = useState(false);
   const [isGallery, setIsGallery] = useState(false);
-  const params = useParams();
-  const accountname = params.userId;
+
   const fetchPostData = async () => {
     try {
-      const response = await customAxios(`post/${accountname}/userpost`);
+      const response = await customAxios(`post/${userData.accountname}/userpost`);
       setPostData(response.data.post);
       if (response.data.post.length === 0) {
         setIsNonePostData(true);
@@ -48,8 +48,9 @@ export default function ProfilePost({
     }
   };
   useEffect(() => {
+    if(userData.accountname)
     fetchPostData();
-  }, []);
+  }, [userData]);
   return (
     <ProfilePostWrapper>
       <ProfilePostTitle className="a11y-hidden">게시물 목록</ProfilePostTitle>
