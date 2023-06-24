@@ -7,14 +7,14 @@ import {
   ProfileEditUploadInput,
   ProfileEditWrapper,
 } from "./profileEdit.style";
+import profileImg from "../../../img/ProfileImg.svg";
 import defaultProfileImg from "../../../img/ProfileImg.svg";
 import NewTopHeader from "../../../components/commons/newTopHeader/NewTopHeader";
 import DataInput from "../../../components/commons/dataInput/DataInput";
 import UserInput from "../../../components/commons/dataInput/UserInput";
 import ErrorMessage from "../../../components/commons/errorMessage/ErrorMessage";
 import { customAxios } from "../../../library/customAxios";
-import { UserContext } from "../../../context/UserContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function ProfileEdit() {
   const [imgPreviewURL, setImgPreviewURL] = useState(null);
@@ -33,8 +33,10 @@ export default function ProfileEdit() {
   const [intro, setIntro] = useState("");
   const [userData, setUserData] = useState({});
   const [isDisabled, setIsDisabled] = useState(false);
-  const { setAccount } = useContext(UserContext);
+
   const navigate = useNavigate();
+  const params = useParams();
+  const myAccountname = params.userId;
   const usernameReg = /^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣]{2,10}$/;
   const accountnameReg = /^[a-zA-Z0-9._]+$/;
   function onChangeImg(e) {
@@ -72,7 +74,7 @@ export default function ProfileEdit() {
   function onChangeAccountname(e) {
     const value = e.target.value.trim();
     setAccountname(value);
-    console.log(e.target.value.length)
+    console.log(e.target.value.length);
     if (!value.length) {
       setAccountnameValidation({
         errorMessage: "계정 ID를 입력하세요",
@@ -98,6 +100,7 @@ export default function ProfileEdit() {
       if (!accountname) return;
       const response = await customAxios.post("user/accountnamevalid", user);
       if (response.data.message !== "사용 가능한 계정ID 입니다.") {
+        if(accountname !== myAccountname)
         setAccountnameValidation({
           errorMessage: response.data.message,
           isValid: false,
@@ -152,9 +155,7 @@ export default function ProfileEdit() {
             : imgPreviewURL,
         },
       });
-      setAccount(accountname);
-      localStorage.setItem("account", accountname);
-      navigate(`/profile/${accountname}`);
+      navigate(`/profile`);
     } catch (error) {
       console.log(error);
     }
@@ -229,6 +230,7 @@ export default function ProfileEdit() {
             <ProfileEditImg
               src={imgPreviewURL || defaultProfileImg}
               alt="유저 프로필 이미지"
+              onError={(e) => (e.target.src = profileImg)}
             />
             <ProfileEditImgRestBtn
               type="button"
