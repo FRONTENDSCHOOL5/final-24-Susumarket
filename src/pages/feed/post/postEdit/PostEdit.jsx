@@ -222,6 +222,7 @@ export default function PostEdit() {
     console.log("업로드 포스트 이미지 : ", postImages);
     await uploadPostEdit(imgUrls);
     navigate("/profile");
+
   };
 
   const handleFileButton = () => {
