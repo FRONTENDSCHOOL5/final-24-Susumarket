@@ -4,7 +4,7 @@ import NewTopHeader from "../../../components/commons/newTopHeader/NewTopHeader"
 import LionImage from "../../../img/symbol-logo-gray.svg";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-
+import MenuBar from "../../../components/commons/menuBar/MenuBar";
 const UserSearchWrapper = styled.main`
   display: flex;
   justify-content: center;
@@ -51,6 +51,7 @@ export default function Post() {
           검색하기
         </Button>
       </UserSearchWrapper>
+      <MenuBar />
     </>
   );
 }

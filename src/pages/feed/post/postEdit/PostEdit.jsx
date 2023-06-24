@@ -7,6 +7,8 @@ import defaultImg from "../../../../img/ProfileImg.svg";
 import { useParams } from "react-router-dom";
 import xbutton from "../../../../img/x.svg";
 import { useNavigate } from "react-router-dom";
+import profileImg from "../../../../img/ProfileImg.svg";
+import noImg from "../../../../img/symbol-logo-404.svg";
 
 const PostImgButton = styled.button`
   // top: 70%;
@@ -82,11 +84,6 @@ export default function PostEdit() {
   const textRef = useRef();
   const fileInputRef = useRef(null);
 
-  const baseUrl = process.env.REACT_APP_BASE_URL;
-
-  // const params = useParams();
-  // const accountname = params.userId;
-
   // 텍스트 사용자의 입력에 따른 자동 조절
   const handleTextAreaHeight = useCallback(() => {
     textRef.current.style.height = "auto";
@@ -95,37 +92,25 @@ export default function PostEdit() {
 
   const [profileImage, setProfileImage] = useState(null);
   const [postContent, setPostContent] = useState("");
+  const [accountname, setAccountname] = useState("");
   const [imgFiles, setImgFiles] = useState([]);
   const [postImages, setPostImages] = useState([]);
   const [imgArray, setImgArray] = useState([]);
 
   const { postId } = useParams();
 
-  // 프로필 이미지 불러오기
-  useEffect(() => {
-    const loadProfileImage = async () => {
-      try {
-        const response = await customAxios.get(`user/myinfo`);
-        setProfileImage(response.data.user.image);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    loadProfileImage();
-  }, []);
-
   useEffect(() => {
     const fetchPostList = async () => {
-      const accountname = localStorage.getItem("account");
-      console.log(accountname);
       try {
-        const response = await customAxios.get(`post/${accountname}/userpost`);
+        await customAxios.get(`post/${accountname}/userpost`);
       } catch (error) {
         console.log(error);
       }
     };
-    fetchPostList();
-  }, []);
+    if (accountname) {
+      fetchPostList();
+    }
+  }, [accountname]);
 
   const handleDeleteImage = (id) => {
     // setPostImages(postImages.filter((_, index) => index !== id));
@@ -144,16 +129,15 @@ export default function PostEdit() {
       try {
         const response = await customAxios.get(`post/${postId}`);
         const postData = response.data;
-        console.log(postData);
 
         // 게시물의 텍스트 설정
         setPostContent(postData.post.content);
+        setAccountname(postData.post.author.accountname);
+        setProfileImage(postData.post.author.image);
         if (postData.post.image !== "") {
           setPostImages(response.data.post.image.toString().split(","));
           setImgArray(response.data.post.image.toString().split(","));
         }
-
-        console.log(response.data.post.image.toString().split(","));
       } catch (error) {
         console.error(error);
       }
@@ -172,7 +156,6 @@ export default function PostEdit() {
   // 다중 이미지 업로드
   const uploadImages = async () => {
     if (imgFiles.length === 0) return [...postImages];
-    console.log("이미지 파일 : ", imgFiles);
     const formData = new FormData();
 
     for (let i = 0; i < imgFiles.length; i++) {
@@ -185,14 +168,12 @@ export default function PostEdit() {
           "Content-type": "multipart/form-data",
         },
       });
-      console.log("업로드한 이미지 : ", response.data);
       let filenames = [];
       for (let i = 0; i < response.data.length; i++) {
         filenames.push(
           `${process.env.REACT_APP_BASE_URL}/${response.data[i].filename}`,
         );
       }
-      console.log("업로드한 이미지 파일명 : ", filenames);
       // setPostImages((prev) => [...prev, filenames.join(",")]);
       return [...postImages, filenames.join(",")];
       // onClickNextPage();
@@ -203,14 +184,12 @@ export default function PostEdit() {
 
   const uploadPostEdit = async (imgUrls) => {
     try {
-      const response = await customAxios.put(`post/${postId}`, {
+      await customAxios.put(`post/${postId}`, {
         post: {
           content: postContent,
           image: imgUrls.join(","),
         },
       });
-
-      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -219,10 +198,8 @@ export default function PostEdit() {
   // // 게시글 수정 api
   const handlePostEdit = async () => {
     const imgUrls = await uploadImages();
-    console.log("업로드 포스트 이미지 : ", postImages);
     await uploadPostEdit(imgUrls);
     navigate("/profile");
-
   };
 
   const handleFileButton = () => {
@@ -241,7 +218,13 @@ export default function PostEdit() {
       ></NewTopHeader>
       <UploadMain>
         <ProfileImgLabel></ProfileImgLabel>
-        <ProfileImg src={profileImage || defaultImg} alt="프로필 사진" />
+        <ProfileImg
+          src={profileImage || defaultImg}
+          alt="프로필 사진"
+          onError={(e) => {
+            e.target.src = profileImg;
+          }}
+        />
         <TextArea
           placeholder="게시글 입력하기..."
           ref={textRef}
@@ -263,7 +246,14 @@ export default function PostEdit() {
       <UploadImgArea>
         {imgArray.map((image, index) => (
           <div key={index}>
-            <PostImg key={index} src={image} alt={`Image ${index}`} />
+            <PostImg
+              key={index}
+              src={image}
+              alt={`Image ${index}`}
+              onError={(e) => {
+                e.target.src = noImg;
+              }}
+            />
             <Delete onClick={() => handleDeleteImage(index)}></Delete>
           </div>
         ))}
