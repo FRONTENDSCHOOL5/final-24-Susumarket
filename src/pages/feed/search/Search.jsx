@@ -6,19 +6,25 @@ import SearchList from "./SearchList";
 import { customAxios } from "../../../library/customAxios";
 
 export default function Search() {
-  const [inputValue, setInputValue] = useState(""); //
-  const [userList, setUserList] = useState([]); // 유저정보리스트
+  const [inputValue, setInputValue] = useState("");
+  const [userList, setUserList] = useState([]);
 
   const handleInputChange = (e) => {
-    setInputValue(e.target.value);
-    handleSearch(inputValue);
+    const value = e.target.value;
+    setInputValue(value);
+
+    if (value.trim() === "") {
+      setUserList([]);
+    } else {
+      handleSearch(value);
+    }
   };
 
   const handleSearch = useCallback(
-    debounce(async (inputValue) => {
+    debounce(async (value) => {
       try {
         const response = await customAxios.get(
-          `/user/searchuser/?keyword=${inputValue}`,
+          `/user/searchuser/?keyword=${value}`,
         );
         setUserList(response.data);
         console.log(response.data);
