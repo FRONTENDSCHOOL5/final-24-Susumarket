@@ -41,16 +41,11 @@ export default function SearchList({ userList, inputValue }) {
             <SearchListLink to={`/profile/${user.accountname}`}>
               <img
                 src={
-                  // http로 시작하는 경우, .png로 끝나지 않는 이미지 경로 디폴트 이미지 처리
-                  (user.image.endsWith(".png") ||
-                    user.image.endsWith(".jpg") ||
-                    user.image.endsWith(".jpeg") ||
-                    user.image.endsWith(".gif")) &&
-                  user.image.includes(word) &&
                   !user.image.endsWith("Ellipse.png")
                     ? user.image
                     : defaultImage
                 }
+                onError={(e) => (e.target.src = DefaultImg)}
                 alt="프로필 이미지"
                 style={{
                   objectFit: "cover",

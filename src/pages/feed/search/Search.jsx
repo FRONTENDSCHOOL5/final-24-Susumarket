@@ -4,6 +4,7 @@ import { SearchWrapper } from "./search.style";
 import SearchTopHeader from "../../../components/commons/topHeader/SearchTopHeader";
 import SearchList from "./SearchList";
 import { customAxios } from "../../../library/customAxios";
+import MenuBar from "../../../components/commons/menuBar/MenuBar";
 
 export default function Search() {
   const [inputValue, setInputValue] = useState("");
@@ -44,6 +45,7 @@ export default function Search() {
       <SearchWrapper>
         <SearchList inputValue={inputValue} userList={userList} />
       </SearchWrapper>
+      <MenuBar />
     </>
   );
 }
