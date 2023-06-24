@@ -24,12 +24,12 @@ export const LoginForm = styled.form`
 
 export const SignupButton = styled(Button)`
   margin-top: 50px;
+  align-self: center;
 `;
 export const SignUpLink = styled(Link)`
-  font-size: 12px;
   display: block;
   margin-top: 30px;
   color: #767676;
-  font-size: 18px;
+  font-size: 14px;
   text-align: center;
 `;
