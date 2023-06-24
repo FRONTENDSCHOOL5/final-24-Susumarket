@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import { UserContext } from '../../../../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import UserInput from "../../../../components/commons/dataInput/UserInput"
@@ -7,12 +7,12 @@ import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHead
 import defaultimg from "../../../../img/ProfileImg.svg"
 import uploadfile from "../../../../img/upload-file.svg";
 import {
-  Container, Form, Img, ImgInput, ImgLabel, ImgContainer, ImgTopLabel
+  Container, Img, ImgInput, ImgLabel, ImgContainer, ImgTopLabel
 } from "./productUpload.style";
 import { customAxios } from '../../../../library/customAxios'
 // import { useLocation } from "react-router-dom";
 import ErrorMessage from '../../../../components/commons/errorMessage/ErrorMessage';
-import axios from 'axios';
+
 
 export default function ProductUpload() {
   const [profileImage, setProfileImage] = useState(defaultimg);
@@ -39,8 +39,7 @@ export default function ProductUpload() {
   const [itemImageMessage, setItemImageMessage] = useState('');
   const [descriptionMessage, setDescriptionMessage] = useState('');
   const navigate = useNavigate();
-  // const location = useLocation();
-  const UserData = useContext(UserContext);
+
   // 버튼 활성화
   useEffect(() => {
     if (isItemName === true && isPrice === true && isLink === true) {
@@ -89,7 +88,7 @@ export default function ProductUpload() {
       const data = response.data.product;
       console.log(data);
       // navigate(`/product/${data.id}`);
-      navigate(`/profile/${UserData.account}`)
+      navigate(`/profile`)
     } catch (error) {
       console.log(error);
     }

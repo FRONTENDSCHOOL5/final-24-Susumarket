@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import UserInput from "../../../../components/commons/dataInput/UserInput"
 import DataInput from "../../../../components/commons/dataInput/DataInput"
@@ -6,12 +6,11 @@ import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHead
 import defaultimg from "../../../../img/ProfileImg.svg"
 import uploadfile from "../../../../img/upload-file.svg";
 import {
-  Container, Form, Img, ImgInput, ImgLabel, ImgContainer, ImgTopLabel
+  Container, Img, ImgInput, ImgLabel, ImgContainer, ImgTopLabel
 } from "./productEdit.style.js";
 import { customAxios } from '../../../../library/customAxios'
-import { UserContext } from '../../../../context/UserContext';
-// import { useLocation } from "react-router-dom";
 import ErrorMessage from '../../../../components/commons/errorMessage/ErrorMessage';
+import noImg from "../../../../img/symbol-logo-404.svg";
 
 export default function ProductEdit() {
   const [profileImage, setProfileImage] = useState(defaultimg);
@@ -37,7 +36,7 @@ export default function ProductEdit() {
   // const location = useLocation();
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const params = useParams();
-  const UserData = useContext(UserContext);
+
 
   
   // 저장되어있던 데이터 로딩
@@ -79,7 +78,7 @@ export default function ProductEdit() {
       const response = await customAxios.put(`${baseUrl}product/${params.productId}`, product);
       const data = response.data.product;
       console.log(data);
-      navigate(`/profile/${UserData.account}`)
+      navigate(`/profile`)
 
     } catch (error) {
       console.log(error);
@@ -197,6 +196,7 @@ export default function ProductEdit() {
         <Img
           className="default"
           src={itemImage}
+          onError={(e)=>e.target.src=noImg}
         // alt="기본 이미지"
         />
         <ImgLabel htmlFor="file-input">
