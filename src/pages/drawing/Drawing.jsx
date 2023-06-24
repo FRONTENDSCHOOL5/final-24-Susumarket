@@ -1,6 +1,7 @@
 import { isMobile } from "react-device-detect";
 import React, { useEffect, useRef, useState } from "react";
 import {
+  DrawingBtn,
   DrawingBtns,
   DrawingCanvers,
   DrawingWrapper,
@@ -18,6 +19,7 @@ import {
 } from "./darwing.styles";
 import Button from "../../components/commons/button/Button";
 import { useNavigate } from "react-router-dom";
+import MenuBar from "../../components/commons/menuBar/MenuBar";
 const colorData = [
   "#1abc9c",
   "#3498db",
@@ -220,38 +222,38 @@ export default function Drawing() {
             value={lineWidth}
             step="0.1"
           />
-          <Button
+          <DrawingBtn
             type="button"
             className="medium"
             active={true}
             onClick={onModeClick}
           >
             {isFilling ? "Draw" : "Fill"}
-          </Button>
-          <Button
+          </DrawingBtn>
+          <DrawingBtn
             type="button"
             className="medium"
             active={true}
             onClick={onDestroyClick}
           >
             Destroy
-          </Button>
-          <Button
+          </DrawingBtn>
+          <DrawingBtn
             type="button"
             className="medium"
             active={true}
             onClick={onEraserClick}
           >
             Erase
-          </Button>
-          <Button
+          </DrawingBtn>
+          <DrawingBtn
             type="button"
             className="medium"
             active={true}
             onClick={onSaveClick}
           >
             Save image
-          </Button>
+          </DrawingBtn>
           <InputText
             value={text}
             onChange={onChangeText}
@@ -268,6 +270,7 @@ export default function Drawing() {
           />
         </DrawingBtns>
       </DrawingWrapper>
+      <MenuBar />
     </>
   );
 }

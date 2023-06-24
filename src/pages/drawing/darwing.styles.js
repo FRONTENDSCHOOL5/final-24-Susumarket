@@ -65,7 +65,7 @@ export const InputLabel = styled.label``;
 export const DrawingBtn = styled.button`
   padding: 10px 0px;
   text-align: center;
-  background-color: royalblue;
+  background-color: var(--color-primary);
   color: white;
   font-weight: 500;
   cursor: pointer;
@@ -73,18 +73,7 @@ export const DrawingBtn = styled.button`
   transform: opacity linear 0.1s;
 `;
 
-export const UploadLabel = styled.label`
-  text-align: center;
-  background-color: var(--color-primary);
-  color: #ffffff;
-  font-family: "Pretendard";
-  font-size: 14px;
-  font-weight: 500;
-  padding: 8px 40px;
-  border-radius: 30px;
-  transform: opacity linear 0.1s;
-  cursor: pointer;
-`;
+export const UploadLabel = styled(DrawingBtn)``;
 
 export const InputUpload = styled.input`
   display: none;
