@@ -14,16 +14,17 @@ import userImg from "../../../img/basic-profile.svg";
 import NewTopHeader from "../../../components/commons/newTopHeader/NewTopHeader";
 import PostModal from "../../../components/commons/postModal/PostModal";
 import { ModalContext } from "../../../context/ModalContext";
+import MenuBar from "../../../components/commons/menuBar/MenuBar";
 
 export default function ChatList() {
-  const { setIsOpenPostModal } = useContext (ModalContext);
+  const { setIsOpenPostModal } = useContext(ModalContext);
   return (
     <>
-      <NewTopHeader 
+      <NewTopHeader
         left={"back"}
         right={"more"}
         title={"채팅 리스트"}
-        onClickButton={()=>setIsOpenPostModal(true)}
+        onClickButton={() => setIsOpenPostModal(true)}
       />
       <ChatListUl>
         <ChatListLi>
@@ -69,12 +70,8 @@ export default function ChatList() {
           </ChatListLink>
         </ChatListLi>
       </ChatListUl>
-
-      <PostModal
-        menuList={[
-          { name: "초대" },
-        ]}
-      />
+      <MenuBar />
+      <PostModal menuList={[{ name: "초대" }]} />
     </>
   );
 }
