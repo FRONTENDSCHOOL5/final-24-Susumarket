@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import iconHome from "../../../img/icon-home.svg";
 import iconHomeFill from "../../../img/icon-home-fill.svg";
 import iconMessage from "../../../img/icon-message-circle.svg";
@@ -7,6 +7,8 @@ import iconEdit from "../../../img/icon-edit.svg";
 import iconEditFill from "../../../img/icon-edit-fill.svg";
 import iconUser from "../../../img/icon-user.svg";
 import iconUserFill from "../../../img/icon-user-fill.svg";
+import iconPalette from "../../../img/icon-palette.svg";
+import iconPaletteFill from "../../../img/icon-palette-fill.svg";
 import { useLocation } from "react-router-dom";
 import {
   MenuBarWrapper,
@@ -15,10 +17,8 @@ import {
   Img,
   LinkStyle,
 } from "./MenuBarStyle";
-import { UserContext } from "../../../context/UserContext";
 
 export default function MenuBar() {
-  const { account } = useContext(UserContext);
   const location = useLocation();
   const pathname = location.pathname;
   // 아이콘 default, fill을 키값으로 한 객체생성.
@@ -34,6 +34,10 @@ export default function MenuBar() {
     default: iconEdit,
     fill: iconEditFill,
   };
+  const IconPalette = {
+    default: iconPalette,
+    fill: iconPaletteFill,
+  };
   const IconUser = {
     default: iconUser,
     fill: iconUserFill,
@@ -43,7 +47,7 @@ export default function MenuBar() {
     <MenuBarWrapper>
       <MenuBarUl>
         <MenuBarLi>
-          <LinkStyle to={"/post" || "/search"}>
+          <LinkStyle to="/post">
             <>
               <Img
                 // url이 잘 이동되었을 때 아이콘 활성화
@@ -106,11 +110,32 @@ export default function MenuBar() {
           </LinkStyle>
         </MenuBarLi>
         <MenuBarLi>
-          <LinkStyle to={`/profile/${account}`}>
+          <LinkStyle to={`/drawing`}>
             <>
               <Img
                 src={
-                  pathname === `/profile/${account}`
+                  pathname === `/drawing`
+                    ? IconPalette.fill
+                    : IconPalette.default
+                }
+                alt="캔버스"
+              />
+              <p
+                style={{
+                  color: pathname === `/drawing` ? "#B51215" : "#767676",
+                }}
+              >
+                캔버스
+              </p>
+            </>
+          </LinkStyle>
+        </MenuBarLi>
+        <MenuBarLi>
+          <LinkStyle to={`/profile`}>
+            <>
+              <Img
+                src={
+                  pathname.includes("/profile")
                     ? IconUser.fill
                     : IconUser.default
                 }
@@ -118,8 +143,7 @@ export default function MenuBar() {
               />
               <p
                 style={{
-                  color:
-                    pathname === `/profile/${account}` ? "#B51215" : "#767676",
+                  color: pathname.includes("/profile") ? "#B51215" : "#767676",
                 }}
               >
                 프로필
