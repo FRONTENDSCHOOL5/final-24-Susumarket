@@ -31,88 +31,47 @@ import ChatList from "../pages/chat/chatList/ChatList";
 import ChatRoom from "../pages/chat/chatRoom/ChatRoom";
 
 import NotFound from "../pages/notFound/NotFound";
-import MenuBar from "../components/commons/menuBar/MenuBar";
 import { UserContext } from "../context/UserContext";
 import Drawing from "../pages/drawing/Drawing";
 
 export default function Router() {
-  const { accessToken, account } = useContext(UserContext);
+  const { accessToken } = useContext(UserContext);
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Splash />} />
         <Route
           path="/login/"
-          element={
-            accessToken && account ? <Navigate to={"/post"} /> : <Login />
-          }
+          element={accessToken ? <Navigate to={"/post"} /> : <Login />}
         />
         <Route
           path="/login/loginEmail/"
-          element={
-            accessToken && account ? <Navigate to={"/post"} /> : <LoginEmail />
-          }
+          element={accessToken ? <Navigate to={"/post"} /> : <LoginEmail />}
         />
         <Route
           path="/signup/userAccount/"
-          element={
-            accessToken && account ? <Navigate to={"/post"} /> : <UserAccount />
-          }
+          element={accessToken ? <Navigate to={"/post"} /> : <UserAccount />}
         />
         <Route
           path="/signup/profileSetting/"
-          element={
-            accessToken && account ? (
-              <Navigate to={"/post"} />
-            ) : (
-              <ProfileSetting />
-            )
-          }
+          element={accessToken ? <Navigate to={"/post"} /> : <ProfileSetting />}
         />
 
         <Route
           path="/drawing/"
-          element={
-            accessToken && account ? (
-              <>
-                <Drawing />
-                <MenuBar />
-              </>
-            ) : (
-              <Navigate to={"/post"} />
-            )
-          }
+          element={accessToken ? <Drawing /> : <Navigate to={"/post"} />}
         />
 
         <Route
           path="/search/"
-          element={
-            accessToken && account ? (
-              <>
-                <Search />
-                <MenuBar />
-              </>
-            ) : (
-              <Navigate to={"/login"} />
-            )
-          }
+          element={accessToken ? <Search /> : <Navigate to={"/login"} />}
         />
 
         <Route
           path="/post/"
-          element={
-            accessToken && account ? <Outlet /> : <Navigate to={"/login"} />
-          }
+          element={accessToken ? <Outlet /> : <Navigate to={"/login"} />}
         >
-          <Route
-            index
-            element={
-              <>
-                <Post />
-                <MenuBar />
-              </>
-            }
-          />
+          <Route index element={<Post />} />
           <Route path=":postId/" element={<PostDetail />} />
           <Route path=":postId/edit" element={<PostEdit />} />
           <Route path="upload" element={<PostUpload />} />
@@ -120,9 +79,7 @@ export default function Router() {
 
         <Route
           path="/product/"
-          element={
-            accessToken && account ? <Outlet /> : <Navigate to={"/login"} />
-          }
+          element={accessToken ? <Outlet /> : <Navigate to={"/login"} />}
         >
           <Route path=":productId/" element={<ProductDetail />} />
           <Route path=":productId/edit" element={<ProductEdit />} />
@@ -130,39 +87,21 @@ export default function Router() {
         </Route>
 
         <Route
-          path="/profile/:userId"
-          element={
-            accessToken && account ? (
-              <>
-                <Outlet />
-                <MenuBar />
-              </>
-            ) : (
-              <Navigate to={"/login"} />
-            )
-          }
+          path="/profile/"
+          element={accessToken ? <Outlet /> : <Navigate to={"/login"} />}
         >
           <Route index element={<UserProfile />} />
-          <Route path="edit" element={<ProfileEdit />} />
-          <Route path="followers" element={<Followers />} />
-          <Route path="following" element={<Following />} />
+          <Route path=":userId/" element={<UserProfile />} />
+          <Route path=":userId/edit" element={<ProfileEdit />} />
+          <Route path=":userId/followers" element={<Followers />} />
+          <Route path=":userId/following" element={<Following />} />
         </Route>
 
         <Route
           path="/chatList"
-          element={
-            accessToken && account ? <Outlet /> : <Navigate to={"/login"} />
-          }
+          element={accessToken ? <Outlet /> : <Navigate to={"/login"} />}
         >
-          <Route
-            index
-            element={
-              <>
-                <ChatList />
-                <MenuBar />
-              </>
-            }
-          />
+          <Route index element={<ChatList />} />
           <Route path=":chatId" element={<ChatRoom />} />
         </Route>
         <Route path="/*" element={<NotFound />} />
