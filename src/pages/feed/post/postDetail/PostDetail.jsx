@@ -10,6 +10,8 @@ import { ModalContext } from "../../../../context/ModalContext";
 import { useNavigate } from "react-router-dom";
 import ConfirmModal from "../../../../components/commons/confirmModal/confirmModal";
 import { UserContext } from "../../../../context/UserContext";
+import profileImg from "../../../../img/ProfileImg.svg";
+import noImg from "../../../../img/symbol-logo-404.svg";
 
 import {
   ProfilePostImgBtnLi,
@@ -88,8 +90,8 @@ export default function PostDetail() {
   // 컨펌 모달 창
   const [confirmModalProps, setConfirmModalProps] = useState([]);
   const { setIsOpenConfirmModal } = useContext(ModalContext);
-  // 로그아웃 버튼을 누른 경우 token과 account 삭제하기 위함
-  const { setAccessToken, setAccount } = useContext(UserContext);
+  // 로그아웃 버튼을 누른 경우 token과 삭제하기 위함
+  const { setAccessToken } = useContext(UserContext);
 
   // 다중 이미지 게시물 보기 위한 버튼 함수
   function onClickSliderBtn(e, idx) {
@@ -115,21 +117,8 @@ export default function PostDetail() {
     setIsOpenConfirmModal(false);
   }
 
-  // 유저 정보 불러오기
-  const fetchProfile = async () => {
-    try {
-      const userprofile = await customAxios.get(`profile/${myusername}`);
-      setUsername(userprofile.data.profile.username);
-      setAccountname(userprofile.data.profile.accountname);
-      setProfileImage(userprofile.data.profile.image);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   // 지속적인 실행 막기 위해 useEffect 사용
   useEffect(() => {
-    fetchProfile();
     fetchPostDetail();
   }, []);
 
@@ -137,6 +126,9 @@ export default function PostDetail() {
   const fetchPostDetail = async () => {
     try {
       const response = await customAxios.get(`post/${postId}`);
+      setUsername(response.data.post.author.username);
+      setAccountname(response.data.post.author.accountname);
+      setProfileImage(response.data.post.author.image);
       setPostContent(response.data.post.content);
       setPostImage(response.data.post.image);
       setImgArray(response.data.post.image.split(","));
@@ -145,15 +137,6 @@ export default function PostDetail() {
       console.error(error);
     }
   };
-
-  // const DeletePost = async () => {
-  //   try {
-  //     const response = await customAxios.delete(`post/${postId}`);
-  //     console.log(response);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
 
   // confirm modal 창에서 삭제 버튼 눌렀을 때, 게시글이 삭제될 수 있도록 하기 위한 함수
   const DeletePost = useCallback(async () => {
@@ -190,9 +173,7 @@ export default function PostDetail() {
                   cancelMessage: "취소",
                   handleSubmit: () => {
                     localStorage.removeItem("accessToken");
-                    localStorage.removeItem("account");
                     setAccessToken(null);
-                    setAccount(null);
                     closeModal();
                     navigate("/login");
                   },
@@ -204,7 +185,13 @@ export default function PostDetail() {
         }
       ></NewTopHeader>
       <UserWrapper>
-        <UserProfile src={profileImage} alt="프로필 사진"></UserProfile>
+        <UserProfile
+          src={profileImage}
+          alt="프로필 사진"
+          onError={(e) => {
+            e.target.src = profileImg;
+          }}
+        ></UserProfile>
         <UserInfo>
           <UserName>{username}</UserName>
           <AccountName>@ {accountname}</AccountName>
@@ -247,7 +234,13 @@ export default function PostDetail() {
               {imgArray.map((image, idx) => {
                 return (
                   <ProfilePostImgLi key={image + idx}>
-                    <ProfilePostImg src={image} alt="포스트 이미지" />
+                    <ProfilePostImg
+                      src={image}
+                      alt="포스트 이미지"
+                      onError={(e) => {
+                        e.target.src = noImg;
+                      }}
+                    />
                   </ProfilePostImgLi>
                 );
               })}

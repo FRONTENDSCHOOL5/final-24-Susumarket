@@ -1,13 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import { customAxios } from "../../../../library/customAxios";
-import UploadTopHeader from "../../../../components/commons/topHeader/UploadTopHeader";
+
 import imgUploadBtn from "../../../../img/upload-file.svg";
 import styled from "styled-components";
 import xbutton from "../../../../img/x.svg";
 import defaultImg from "../../../../img/ProfileImg.svg";
 import { useCallback } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHeader";
+import profileImg from "../../../../img/ProfileImg.svg";
 
 const PostImgButton = styled.button`
   // top: 70%;
@@ -118,7 +119,6 @@ export default function PostUpload() {
           "Content-type": "multipart/form-data",
         },
       });
-      console.log(response);
       let filenames = [];
       for (let i = 0; i < response.data.length; i++) {
         filenames.push(
@@ -207,11 +207,9 @@ export default function PostUpload() {
     return false;
   };
 
-  const accountname = localStorage.getItem("account");
-
   const navigate = useNavigate();
   const onClickNextPage = () => {
-    navigate(`/profile/${accountname}`);
+    navigate(`/profile`);
   };
 
   return (
@@ -224,7 +222,11 @@ export default function PostUpload() {
       ></NewTopHeader>
       <UploadMain>
         <ProfileImgLabel></ProfileImgLabel>
-        <ProfileImg src={profileImage || defaultImg} alt="프로필 사진" />
+        <ProfileImg
+          src={profileImage || defaultImg}
+          alt="프로필 사진"
+          onError={(e) => (e.target.src = profileImg)}
+        />
         <TextArea
           ref={textRef}
           placeholder="게시글 입력하기..."
