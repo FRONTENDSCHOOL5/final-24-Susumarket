@@ -13,12 +13,16 @@ export const DataInputStyle = styled.input`
 
   ::placeholder {
     color: #dbdbdb;
+    @media screen and (max-width: 380px){
+      font-size: 14px;
+    }
   }
 
   :focus {
     outline: none;
     border-bottom: 1px #b51215 solid;
   }
+
 `;
 export const Cont = styled.div`
   display: flex;

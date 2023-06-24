@@ -21,6 +21,7 @@ import Button from "../button/Button";
 // title은 헤더에 들어갈 h1 태그 내용 입니다.
 // text는 헤더에 들어갈 글자 입니다.
 // leftside는 왼쪽에만 요소들이 있는 경우를 의미합니다.
+// url은 backbtn를 눌렀을 경우 이동할 페이지를 의미합니다. 비워 두면 기본적으로 뒤로가기가 적용됩니다.
 export default function NewTopHeader({
   left,
   middle,
@@ -33,12 +34,13 @@ export default function NewTopHeader({
   searchInputValue,
   onChangeKeyword,
   searchInputId,
+  url
 }) {
   const navigate = useNavigate();
   const setLeft = () => {
     switch (left) {
       case "back":
-        return <TopHeaderBackBtn type="button" onClick={() => navigate(-1)} />;
+        return <TopHeaderBackBtn type="button" onClick={() => navigate(url||-1)} />;
       case "text":
         return <TopHeaderText>{text}</TopHeaderText>;
       default:
