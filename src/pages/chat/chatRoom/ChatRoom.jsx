@@ -54,6 +54,7 @@ export default function ChatRoom() {
       <NewTopHeader
         left={"back"}
         right={"more"}
+        middle={"text"}
         title={"채팅방"}
         text={
           pathnameNum === "1"
