@@ -6,9 +6,11 @@ import {
   ProfileProductName,
   ProfileProductPrice,
 } from "./ProfileProduct.styles";
+import noImg from "../../../../img/symbol-logo-404.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import { customAxios } from "../../../../library/customAxios";
-import { UserContext } from "../../../../context/UserContext";
+
+import { AccountContext } from "../../../../context/AccountContext";
 
 export default function ProfileProductList({
   onClickButton,
@@ -20,7 +22,7 @@ export default function ProfileProductList({
   const navigate = useNavigate();
   const params = useParams();
   const userAccountname = params.userId;
-  const { account } = useContext(UserContext);
+  const { account } = useContext(AccountContext);
   const onClickRemove = useCallback(async (id) => {
     try {
       await customAxios.delete(`product/${id}`);
@@ -30,7 +32,7 @@ export default function ProfileProductList({
   }, []);
 
   function onClickProduct() {
-    if (userAccountname !== account) {
+    if (userAccountname && userAccountname !== account) {
       navigate(`/product/${productList.id}`);
     } else {
       settingPostModalProps([
@@ -66,7 +68,11 @@ export default function ProfileProductList({
     <>
       <ProfileProductLi>
         <ProfileProductButton type="button" onClick={onClickProduct}>
-          <ProfileProductImg src={productList.itemImage} alt="상품 이미지" />
+          <ProfileProductImg
+            src={productList.itemImage}
+            alt="상품 이미지"
+            onError={(e) => (e.target.src = noImg)}
+          />
           <ProfileProductName>{productList.itemName}</ProfileProductName>
           <ProfileProductPrice>
             {productList.price.toLocaleString()} 원

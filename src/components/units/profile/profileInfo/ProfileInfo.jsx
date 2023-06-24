@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   ProfileInfoFollowering,
   ProfileInfoFolloweringCount,
@@ -23,12 +23,15 @@ import shareIcon from "../../../../img/icon-share.svg";
 import profileImg from "../../../../img/ProfileImg.svg";
 import Button from "../../../commons/button/Button";
 import { useNavigate, useParams } from "react-router-dom";
-import { UserContext } from "../../../../context/UserContext";
 import { customAxios } from "../../../../library/customAxios";
+import { AccountContext } from "../../../../context/AccountContext";
+import { useEffect } from "react";
+
 export default function ProfileInfo({ userData }) {
   const [isfollow, setIsfollow] = useState(userData.isfollow);
+  const [followCount, setFollowCount] = useState(userData.followerCount);
   const navigate = useNavigate();
-  const { account } = useContext(UserContext);
+  const { account } = useContext(AccountContext);
   const params = useParams();
   const userAccountname = params.userId;
   function onClickButton(url) {
@@ -39,6 +42,7 @@ export default function ProfileInfo({ userData }) {
     try {
       await customAxios.post(`profile/${userAccountname}/follow`);
       setIsfollow(true);
+      setFollowCount((prev) => prev - 1);
     } catch (error) {
       console.log(error);
     }
@@ -48,18 +52,19 @@ export default function ProfileInfo({ userData }) {
     try {
       await customAxios.delete(`profile/${userAccountname}/unfollow`);
       setIsfollow(false);
+      setFollowCount((prev) => prev + 1);
     } catch (error) {
       console.log(error);
     }
   }
-  
+
   return (
     <ProfileInfoWrapper>
       <ProfileInfoTitle className="a11y-hidden">프로필 정보</ProfileInfoTitle>
       <UserInfo>
         <ProfileInfoFollowers to={`/profile/${userData.accountname}/followers`}>
           <ProfileInfoFollowersCount>
-            {userData.followerCount || 0}
+            {followCount || 0}
           </ProfileInfoFollowersCount>
           <ProfileInfoFollowersText>followers</ProfileInfoFollowersText>
         </ProfileInfoFollowers>
@@ -69,7 +74,7 @@ export default function ProfileInfo({ userData }) {
               ? profileImg
               : userData.image || profileImg
           }
-          onError={(e)=>e.target.src = profileImg}
+          onError={(e) => (e.target.src = profileImg)}
           alt="유저 프로필 이미지"
         />
         <ProfileInfoFollowering
@@ -91,7 +96,7 @@ export default function ProfileInfo({ userData }) {
       <ProfileInfoButtonWrapper>
         {userData.accountname === account ? (
           <>
-            <Button className="medium" onClick={() => onClickButton(`edit`)}>
+            <Button className="medium" onClick={() => onClickButton(`${userData.accountname}/edit`)}>
               프로필 수정
             </Button>
             <Button
