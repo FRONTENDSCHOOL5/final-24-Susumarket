@@ -6,6 +6,7 @@ import { customAxios } from "../../../../library/customAxios";
 import defaultImg from "../../../../img/ProfileImg.svg";
 import { useParams } from "react-router-dom";
 import xbutton from "../../../../img/x.svg";
+import { useNavigate } from "react-router-dom";
 
 const PostImgButton = styled.button`
   // top: 70%;
@@ -220,11 +221,14 @@ export default function PostEdit() {
     const imgUrls = await uploadImages();
     console.log("업로드 포스트 이미지 : ", postImages);
     await uploadPostEdit(imgUrls);
+    navigate("/profile");
   };
 
   const handleFileButton = () => {
     fileInputRef.current.click();
   };
+
+  const navigate = useNavigate();
 
   return (
     <>
