@@ -7,12 +7,12 @@ import { useParams } from "react-router-dom";
 import { FollowerListUl } from "./followerList.style";
 import followerAPI from "./followerAPI";
 import MenuBar from "../../../../components/commons/menuBar/MenuBar";
+import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHeader";
 
 export default function Followers() {
   const [followerData, setFollowerData] = useState([]);
 
   const { userId } = useParams();
-
 
   // 팔로워 데이터 호출
   useEffect(() => {
@@ -33,7 +33,7 @@ export default function Followers() {
 
   return (
     <>
-      <FollowersTopHeader />
+      <NewTopHeader title={"FollowerListPage"} left={"back"} />
       <FollowersWrapper>
         <FollowerListUl>
           {followerData.map((follower) => {

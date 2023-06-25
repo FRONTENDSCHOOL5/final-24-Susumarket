@@ -9,12 +9,12 @@ import { FollowingListUl } from "./followingList.style";
 import followingAPI from "./followingAPI";
 import { customAxios } from "../../../../library/customAxios";
 import MenuBar from "../../../../components/commons/menuBar/MenuBar";
+import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHeader";
 
-export default function Following() {
+export default function Following({ text }) {
   const [followingData, setFollowingData] = useState([]);
 
   const { userId } = useParams();
-
 
   useEffect(() => {
     async function test() {
@@ -44,7 +44,12 @@ export default function Following() {
 
   return (
     <>
-      <FollowersTopHeader />
+      <NewTopHeader
+        text={"following"}
+        left={`back`}
+        title={"FollowingListPage"}
+        // url={}
+      />
       <FollowingWrapper>
         <FollowingListUl>
           {followingData.map((following) => {
