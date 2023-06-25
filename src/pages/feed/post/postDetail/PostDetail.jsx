@@ -49,6 +49,13 @@ const AccountName = styled.p`
   font-size: 13px;
   font-weight: 400;
   color: #767676;
+  ::before{
+    content: "@";
+    font-weight: 400;
+    font-size: 13px;
+    color: #767676;
+    margin-right: 3px;
+  }
 `;
 const UserButton = styled.button`
   background: url(${morebutton}) no-repeat center/16px 16px;
@@ -193,7 +200,7 @@ export default function PostDetail() {
         ></UserProfile>
         <UserInfo>
           <UserName>{username}</UserName>
-          <AccountName>@ {accountname}</AccountName>
+          <AccountName>{accountname}</AccountName>
         </UserInfo>
         <UserButton
           onClick={() =>
