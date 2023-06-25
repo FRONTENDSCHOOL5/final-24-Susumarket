@@ -12,19 +12,20 @@ import { deleteFollowAPI } from "./deleteFollowAPI";
 
 export default function FollowerList({ follower, account }) {
   const [isFollow, setIsFollow] = useState(follower.isfollow);
-  console.log(follower);
+
+  // 팔로워 추가 API호출
   const handleSubmitFollow = async () => {
-    const response = await addFollowAPI(follower.accountname);
+    await addFollowAPI(follower.accountname);
     setIsFollow(true);
-    console.log("response", response);
   };
 
+  // 팔로워 삭제 API호출
   const handleSubmitUnFollow = async () => {
-    const response = await deleteFollowAPI(follower.accountname);
+    await deleteFollowAPI(follower.accountname);
     setIsFollow(false);
-    console.log("response", response);
   };
 
+  // 버튼 클릭시 발생하는 함수
   const handleFollowBtn = (e) => {
     e.preventDefault();
     if (isFollow) {

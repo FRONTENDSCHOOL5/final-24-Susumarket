@@ -6,7 +6,6 @@ const followingAPI = async (accountname) => {
       `/profile/${accountname}/following?limit=1000`,
     );
     const data = response.data;
-    console.log("data", data);
     return data;
   } catch (error) {
     console.error("Account API 에러가 발생했습니다", error);

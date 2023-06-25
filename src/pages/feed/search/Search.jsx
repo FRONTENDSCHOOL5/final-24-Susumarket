@@ -14,7 +14,6 @@ export default function Search() {
   const handleInputChange = (e) => {
     const value = e.target.value;
     setSearchInputValue(value);
-
     if (value.trim() === "") {
       setUserList([]);
     } else {
@@ -22,6 +21,7 @@ export default function Search() {
     }
   };
 
+  // debounce패턴 적용한 유저 검색 함수
   const handleSearch = useCallback(
     debounce(async (value) => {
       try {
@@ -29,11 +29,10 @@ export default function Search() {
           `/user/searchuser/?keyword=${value}`,
         );
         setUserList(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error(error);
       }
-    }, 500),
+    }, 500), // 500ms 뒤에 함수실행
     [],
   );
 
@@ -43,8 +42,8 @@ export default function Search() {
         title={"SearchPage"}
         left={"back"}
         right={"searchInput"}
-        searchInputValue={searchInputValue} // Use searchInputValue instead of value
-        onChangeKeyword={handleInputChange} // Use onChangeKeyword instead of handleInputChange
+        searchInputValue={searchInputValue}
+        onChangeKeyword={handleInputChange}
       />
       <SearchWrapper>
         <SearchList inputValue={searchInputValue} userList={userList} />

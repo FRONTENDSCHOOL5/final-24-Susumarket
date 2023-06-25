@@ -9,7 +9,6 @@ import {
 import DefaultImg from "../../../img/basic-profile.svg";
 
 const defaultImage = DefaultImg;
-const word = "https";
 
 export default function SearchList({ userList, inputValue }) {
   // 검색어와 같은 단어에 하이라이트 시키는 함수
