@@ -85,6 +85,7 @@ export const UploadLabel = styled.label`
   transform: opacity linear 0.1s;
 `;
 
+
 export const InputUpload = styled.input`
   display: none;
 `;
