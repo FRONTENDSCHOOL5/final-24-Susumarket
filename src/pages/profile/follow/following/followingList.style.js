@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Button from "../../../../components/commons/button/Button";
 
 export const FollowingListUl = styled.ul`
-  padding: 24px 16px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   max-width: 390px;
@@ -16,13 +16,15 @@ export const FollowingListLi = styled.li`
   justify-content: space-between;
   align-items: center;
   height: 50px;
+  &:hover {
+    background-color: #f5f5f5;
+  }
 `;
 
 export const FollowingListLink = styled(Link)`
   display: flex;
   align-items: center;
-  /* gap: 12px; */
-  max-width: 358px;
+  max-width: 340px;
 `;
 
 export const UserWrapper = styled.div`
