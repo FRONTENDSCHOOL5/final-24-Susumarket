@@ -84,7 +84,7 @@ export default function PostEdit() {
   const textRef = useRef();
   const fileInputRef = useRef(null);
 
-  // 텍스트 사용자의 입력에 따른 자동 조절
+  // 사용자의 입력에 따른 textarea 자동 조절
   const handleTextAreaHeight = useCallback(() => {
     textRef.current.style.height = "auto";
     textRef.current.style.height = textRef.current.scrollHeight + "px";
@@ -99,12 +99,13 @@ export default function PostEdit() {
 
   const { postId } = useParams();
 
+  // 게시글 목록 불러오기
   useEffect(() => {
     const fetchPostList = async () => {
       try {
         await customAxios.get(`post/${accountname}/userpost`);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
     if (accountname) {
@@ -112,6 +113,7 @@ export default function PostEdit() {
     }
   }, [accountname]);
 
+  // 이미지 내 X버튼 클릭 시 미리보기, API 전송 이미지 모두 삭제 처리
   const handleDeleteImage = (id) => {
     // setPostImages(postImages.filter((_, index) => index !== id));
     // setImgArray((prevPreviewImages) =>
@@ -123,7 +125,7 @@ export default function PostEdit() {
     setPostImages(updatedPostArray);
   };
 
-  // 게시글 불러오기
+  // 선택한 게시글 불러오기
   useEffect(() => {
     const fetchPost = async () => {
       try {
@@ -146,6 +148,7 @@ export default function PostEdit() {
     fetchPost();
   }, [postId]);
 
+  // 이미지 변경 사항 확인 후, 상태 변경
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     const currentFileUrl = URL.createObjectURL(file);
@@ -182,6 +185,7 @@ export default function PostEdit() {
     }
   };
 
+  // 게시글 수정 API
   const uploadPostEdit = async (imgUrls) => {
     try {
       await customAxios.put(`post/${postId}`, {
