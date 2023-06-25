@@ -1,5 +1,4 @@
 import React from "react";
-import FollowersTopHeader from "../../../../components/commons/topHeader/FollowersTopHeader";
 import { FollowersWrapper } from "./followers.style";
 import FollowerList from "./FollowerList";
 import { useEffect, useState } from "react";
@@ -12,7 +11,6 @@ import TopButton from "../../../../components/commons/topButton/TopButton";
 
 export default function Followers() {
   const [followerData, setFollowerData] = useState([]);
-
   const { userId } = useParams();
 
   // 팔로워 데이터 호출
@@ -21,7 +19,6 @@ export default function Followers() {
       try {
         const data = await followerAPI(userId);
         setFollowerData(data);
-        console.log("followerData", followerData);
       } catch (error) {
         console.error(
           "팔로워 데이터를 가져오는 중 오류가 발생했습니다:",
