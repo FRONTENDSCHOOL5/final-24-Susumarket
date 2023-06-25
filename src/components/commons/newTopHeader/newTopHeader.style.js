@@ -14,6 +14,7 @@ export const TopHeaderWrapper = styled.header`
   font-size: 18px;
   border-bottom: 1px solid #dbdbdb;
   height: 48px;
+  z-index: 999;
 `;
 
 export const TopHeaderEl = styled.div`
