@@ -57,7 +57,7 @@ const PostImgInput = styled.input`
 
 const UploadImgArea = styled.section`
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;
   align-items: flex-start;
   margin-top: 30px;
 `;
@@ -73,8 +73,10 @@ const Delete = styled.button`
 `;
 
 const PostImg = styled.img`
-  width: 304px;
-  height: 220px;
+@media (max-width: 360px) {
+  max-width: 80%;
+}
+width: calc(33.33% -40px);
   border-radius: 20px;
   margin-left: 30px;
   position: relative;
