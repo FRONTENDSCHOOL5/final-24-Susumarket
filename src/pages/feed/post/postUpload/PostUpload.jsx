@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import { customAxios } from "../../../../library/customAxios";
-
 import imgUploadBtn from "../../../../img/upload-file.svg";
 import styled from "styled-components";
 import xbutton from "../../../../img/x.svg";
@@ -88,11 +87,14 @@ export default function PostUpload() {
   const [previewImages, setPreviewImages] = useState([]);
   const fileInputRef = useRef();
   const textRef = useRef();
+
+  // 게시글 사용자 입력 글자수에 따른 textarea 줄 바꿈 처리
   const handleTextAreaHeight = useCallback(() => {
     textRef.current.style.height = "auto";
     textRef.current.style.height = textRef.current.scrollHeight + "px";
   }, []);
 
+  // 나의 프로필 사진 API에서 가져오기
   useEffect(() => {
     const loadProfileImage = async () => {
       try {
@@ -105,7 +107,7 @@ export default function PostUpload() {
     loadProfileImage();
   }, []);
 
-  // 이미지 업로드
+  // 이미지 업로드 , 다중 이미지 API 업로드
   const uploadImages = async () => {
     const formData = new FormData();
 
@@ -132,7 +134,7 @@ export default function PostUpload() {
     }
   };
 
-  // 이미지 post
+  // 게시글과 이미지 전체 API POST
   const uploadPost = async (images) => {
     try {
       const response = await customAxios.post("post", {
@@ -146,49 +148,53 @@ export default function PostUpload() {
       console.error(error);
     }
   };
+
+  //탑헤더 업로드 버튼 클릭 시, 이미지 업로드 후 이미지와 게시글을 전체 업로드, 다음 페이지로 넘어가도록 연결
   const handleUploadWholePost = async () => {
     const images = await uploadImages();
     await uploadPost(images);
     onClickNextPage();
   };
 
-  // const handleFileUpload = (e) => {
-  //   const files = e.target.files[0];
-  //   let filelength = 0;
-
-  //   if (files.type.startsWith("image/")) {
-  //     const currentFileUrl = URL.createObjectURL(files);
-  //     setPreviewImages((prev) => [...prev, currentFileUrl]); //덮어씌워지지 않게 하기 위해 prev 사용
-  //     setImages((prev) => [...prev, files]);
-  //     console.log(files);
-  //   } else {
-  //     alert("이미지 파일 형식이 아닙니다!");
-  //   }
-  // };
-
-  // 이미지 파일 업로드
+  // 이미지 UI 화면에서 미리보기 설정
   const handleFileUpload = (e) => {
-    const files = e.target.files;
+    const files = e.target.files[0];
+    let filelength = 0;
 
-    if (files.length + images.length > 3) {
-      alert("이미지는 최대 3개까지 업로드 가능합니다:)");
-      return;
-    }
-
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-
-      if (file.type.startsWith("image/")) {
-        const currentFileUrl = URL.createObjectURL(file);
-        setPreviewImages((prev) => [...prev, currentFileUrl]);
-        setImages((prev) => [...prev, file]);
-        console.log(file);
-      } else {
-        alert("이미지 파일 형식이 아닙니다!");
-      }
+    if (files.type.startsWith("image/")) {
+      const currentFileUrl = URL.createObjectURL(files);
+      setPreviewImages((prev) => [...prev, currentFileUrl]); //덮어씌워지지 않게 하기 위해 prev 사용
+      setImages((prev) => [...prev, files]);
+      console.log(files);
+    } else {
+      alert("이미지 파일 형식이 아닙니다!");
     }
   };
 
+  // 이미지 파일 업로드
+  // const handleFileUpload = (e) => {
+  //   const files = e.target.files;
+
+  //   if (files.length + images.length > 3) {
+  //     alert("이미지는 최대 3개까지 업로드 가능합니다:)");
+  //     return;
+  //   }
+
+  //   for (let i = 0; i < files.length; i++) {
+  //     const file = files[i];
+
+  //     if (file.type.startsWith("image/")) {
+  //       const currentFileUrl = URL.createObjectURL(file);
+  //       setPreviewImages((prev) => [...prev, currentFileUrl]);
+  //       setImages((prev) => [...prev, file]);
+  //       console.log(file);
+  //     } else {
+  //       alert("이미지 파일 형식이 아닙니다!");
+  //     }
+  //   }
+  // };
+
+  // 이미지 내 X버튼 클릭 시 미리보기 이미지 및 실제 API 전송 위한 이미지 모두 삭제됨
   const handleDeleteImage = (id) => {
     setImages(images.filter((_, index) => index !== id));
     setPreviewImages((prevPreviewImages) =>
@@ -196,10 +202,12 @@ export default function PostUpload() {
     );
   };
 
+  // 이미지 업로드 버튼
   const handleFileButton = () => {
     fileInputRef.current.click();
   };
 
+  // 게시글과 이미지가 모두 없는 경우 탑헤더 업로드 버튼 disable 처리
   const UploadBtnDisable = () => {
     if (text === "" && images.length === 0) {
       return true;
@@ -207,6 +215,7 @@ export default function PostUpload() {
     return false;
   };
 
+  // 탑헤더 업로드 버튼 클릭 시 프로필 페이지로 이동
   const navigate = useNavigate();
   const onClickNextPage = () => {
     navigate(`/profile`);
