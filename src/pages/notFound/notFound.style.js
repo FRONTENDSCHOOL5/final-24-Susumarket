@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const NotFoundWrapper = styled.article`
-  height: 100vh;
+  height: 80vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,7 +15,7 @@ export const NotFoundTitle = styled.h2`
 `;
 
 export const NotFoundImage = styled.img`
-  width: 100%;
+  width: 80%;
   margin-bottom: 12px;
 `;
 
