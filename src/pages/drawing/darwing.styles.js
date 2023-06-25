@@ -73,7 +73,17 @@ export const DrawingBtn = styled.button`
   transform: opacity linear 0.1s;
 `;
 
-export const UploadLabel = styled(DrawingBtn)``;
+export const UploadLabel = styled.label`
+  padding: 10px 0px;
+  text-align: center;
+  background-color: var(--color-primary);
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 10px;
+  font-size: 14px;
+  transform: opacity linear 0.1s;
+`;
 
 export const InputUpload = styled.input`
   display: none;
