@@ -8,6 +8,7 @@ import { FollowerListUl } from "./followerList.style";
 import followerAPI from "./followerAPI";
 import MenuBar from "../../../../components/commons/menuBar/MenuBar";
 import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHeader";
+import TopButton from "../../../../components/commons/topButton/TopButton";
 
 export default function Followers() {
   const [followerData, setFollowerData] = useState([]);
@@ -33,7 +34,13 @@ export default function Followers() {
 
   return (
     <>
-      <NewTopHeader title={"FollowerListPage"} left={"back"} />
+      <NewTopHeader
+        title={"FollowersListPage"}
+        text={"followers"}
+        left={"back"}
+        leftSide={true}
+        middle={"text"}
+      />
       <FollowersWrapper>
         <FollowerListUl>
           {followerData.map((follower) => {
@@ -47,6 +54,7 @@ export default function Followers() {
           })}
         </FollowerListUl>
       </FollowersWrapper>
+      <TopButton />
       <MenuBar />
     </>
   );

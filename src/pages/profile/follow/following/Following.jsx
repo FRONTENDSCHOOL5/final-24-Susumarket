@@ -10,6 +10,7 @@ import followingAPI from "./followingAPI";
 import { customAxios } from "../../../../library/customAxios";
 import MenuBar from "../../../../components/commons/menuBar/MenuBar";
 import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHeader";
+import TopButton from "../../../../components/commons/topButton/TopButton";
 
 export default function Following({ text }) {
   const [followingData, setFollowingData] = useState([]);
@@ -45,10 +46,11 @@ export default function Following({ text }) {
   return (
     <>
       <NewTopHeader
-        text={"following"}
-        left={`back`}
         title={"FollowingListPage"}
-        // url={}
+        text={"following"}
+        left={"back"}
+        leftSide={true}
+        middle={"text"}
       />
       <FollowingWrapper>
         <FollowingListUl>
@@ -63,6 +65,7 @@ export default function Following({ text }) {
           })}
         </FollowingListUl>
       </FollowingWrapper>
+      <TopButton />
       <MenuBar />
     </>
   );
