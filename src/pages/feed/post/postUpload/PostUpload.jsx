@@ -228,6 +228,7 @@ export default function PostUpload() {
         right="upload"
         onClickButton={handleUploadWholePost}
         disabled={UploadBtnDisable()}
+        title = "수수마켓 게시글 업로드"
       ></NewTopHeader>
       <UploadMain>
         <ProfileImgLabel></ProfileImgLabel>

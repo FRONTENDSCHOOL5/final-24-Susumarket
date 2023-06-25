@@ -70,8 +70,6 @@ const PostWrapper = styled.section`
 
 const PostContent = styled.div``;
 
-// const PostImages = styled.div``;
-
 export default function PostDetail() {
   const [profileImage, setProfileImage] = useState(null);
   const [username, setUsername] = useState("");
@@ -155,6 +153,7 @@ export default function PostDetail() {
       <NewTopHeader
         left="back"
         right="more"
+        title = "수수마켓 게시글 상세"
         onClickButton={() =>
           settingPostModalProps([
             {

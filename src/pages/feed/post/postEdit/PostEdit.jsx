@@ -219,6 +219,7 @@ export default function PostEdit() {
         right="upload"
         // disabled
         onClickButton={handlePostEdit}
+        title = "수수마켓 게시글 수정"
       ></NewTopHeader>
       <UploadMain>
         <ProfileImgLabel></ProfileImgLabel>
