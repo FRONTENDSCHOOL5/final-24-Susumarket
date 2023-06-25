@@ -49,6 +49,7 @@ export default function ProductEdit() {
         setItemName(response.data.product.itemName);
         setPrice(response.data.product.price);
         setLink(response.data.product.link);
+      
         const data = response.data;
         console.log(data);
         console.log(itemImage)
@@ -144,6 +145,21 @@ export default function ProductEdit() {
     }
   };
 
+  
+  // const descriptionHandler = (e) => {
+  //   setDescription(e.target.value);
+  //   if (description.length>101) {
+  //     setLinkMessage('상품설명은 100자 이내여야 합니다.');
+  //     setIsLink(false);
+
+  //   } else {
+  //     setLinkMessage('');
+  //     setIsLink(true);
+  //     // setItemName(e.target.value);
+
+  //   }
+  // };
+
 
   const priceHandler = (e) => {
     const value = Number(e.target.value.toString().replaceAll(',', ''));
@@ -164,11 +180,10 @@ export default function ProductEdit() {
     }
   };
   const linkHandler = (e) => {
-    const linkRegex =
-      /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+
     setLink(e.target.value);
-    if (!linkRegex.test(link) || link.length < 1) {
-      setLinkMessage('사이트 주소를 정확하게 입력해주세요.');
+    if (link.length > 101) {
+      setLinkMessage('상품설명을 100자 이내로 기입하세요');
       setIsLink(false);
     } else {
       setLinkMessage('');
@@ -226,6 +241,17 @@ export default function ProductEdit() {
       </UserInput>
       {itemNameMessage && <ErrorMessage> {itemNameMessage} </ErrorMessage>}
 
+      <UserInput label="상품설명 수정">
+        <DataInput
+          placeholder="URL을 입력하여 수정해주세요."
+          value={link}
+          onChange={linkHandler}
+          required> </DataInput>
+      </UserInput>
+      {linkMessage && <ErrorMessage>
+        {linkMessage}
+      </ErrorMessage>}
+
 
       <UserInput label="가격 수정">
         <DataInput
@@ -241,17 +267,7 @@ export default function ProductEdit() {
         {priceMessage}
       </ErrorMessage>}
 
-      <UserInput label="판매링크 수정">
-        <DataInput
-          placeholder="URL을 입력하여 수정해주세요."
-          value={link}
-          onChange={linkHandler}
-          required> </DataInput>
-      </UserInput>
-      {linkMessage && <ErrorMessage>
-        {linkMessage}
-      </ErrorMessage>}
-
+    
 
     </Container>
 

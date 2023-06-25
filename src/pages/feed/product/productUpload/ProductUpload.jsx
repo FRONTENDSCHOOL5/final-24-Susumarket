@@ -83,7 +83,6 @@ export default function ProductUpload() {
     };
 
     try {
-
       const response = await customAxios.post(`product`, product);
       const data = response.data.product;
       console.log(data);
@@ -116,26 +115,6 @@ export default function ProductUpload() {
   };
 
 
-  // const uploadProfileImage = async (file) => {
-  //   try {
-  //     const formData = new FormData();
-  //     formData.append("image", file);
-
-  //     const response = await customAxios.post("image/uploadfile", formData, {
-  //       headers: {
-  //         "Content-type": "multipart/form-data",
-  //       }
-  //     });
-  //     console.log(response);
-  //     setSelectedImage(response.data.filename);
-  //   } catch (error) {
-  //     if (error.response.status === 422) {
-  //       console.error(error);
-  //       console.log('오류 메시지:', error.response.data);
-  //     }
-  //   }
-  // };
-
   const itemNameHandler = (e) => {
     setItemName(e.target.value);
     if (itemName.length < 1 || itemName.length > 16) {
@@ -145,7 +124,6 @@ export default function ProductUpload() {
     } else {
       setItemNameMessage('');
       setIsItemName(true);
-      // setItemName(e.target.value);
     }
   };
 
@@ -168,18 +146,14 @@ export default function ProductUpload() {
     }
   };
   const linkHandler = (e) => {
-    const linkRegex =
-      /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
     setLink(e.target.value);
-    if (!linkRegex.test(link) || link.length < 1) {
-      setLinkMessage('사이트 주소를 정확하게 입력해주세요.');
+    if (link.length > 101) {
+      setLinkMessage('상품명은 100자 이내여야 합니다.');
       setIsLink(false);
     } else {
       setLinkMessage('');
       setIsLink(true);
-      // setLink(e.target.value);
-
-
+      // setItemName(e.target.value);
     }
   };
 
@@ -236,6 +210,18 @@ export default function ProductUpload() {
         {itemNameMessage}
       </ErrorMessage>}
 
+      <UserInput label="상품설명">
+        <DataInput
+          placeholder="100자 이내로 적어주세요."
+          max="100"
+          value={link}
+          onChange={linkHandler}
+          required> </DataInput>
+      </UserInput>
+      {linkMessage && <ErrorMessage>
+        {linkMessage}
+      </ErrorMessage>}
+
       <UserInput label="가격">
         <DataInput
           // type=""
@@ -252,16 +238,7 @@ export default function ProductUpload() {
 
         
 
-      <UserInput label="판매링크">
-        <DataInput
-          placeholder="URL을 입력해 주세요."
-          value={link}
-          onChange={linkHandler}
-          required> </DataInput>
-      </UserInput>
-      {linkMessage && <ErrorMessage>
-        {linkMessage}
-      </ErrorMessage>}
+   
 
 
     </Container>
