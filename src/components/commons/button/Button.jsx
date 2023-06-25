@@ -3,12 +3,18 @@ const Button = styled.button`
   background-color: var(--color-primary); // 변경 예정
   color: #ffffff;
   font-family: "Pretendard";
+
   &.small {
     font-size: 12px;
     font-weight: 400;
     width: 56px;
     height: 28px;
     border-radius: 26px;
+    &:active {
+      background-color: var(--color-primary);
+      color: #fff;
+      transition: all 0.5s;
+    }
   }
 
   &.ms {
@@ -25,6 +31,11 @@ const Button = styled.button`
     width: 120px;
     height: 34px;
     border-radius: 30px;
+    &:active {
+      background-color: var(--color-primary);
+      color: #fff;
+      transition: all 0.5s;
+    }
   }
 
   &.large {
