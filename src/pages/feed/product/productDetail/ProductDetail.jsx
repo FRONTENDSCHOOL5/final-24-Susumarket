@@ -50,12 +50,13 @@ export default function ProductDetail() {
     font-weight: 900;
     display: flex;
     align-items: flex-start;
-    margin-top: 1px;
+    margin-top: 6px;
+    margin-bottom: 6px;
   `;
 
   const Icon = styled.img`
-    width: 35px;
-    height: 35px;
+    width: 50px;
+    height: 50px;
     -o-object-fit: cover;
     object-fit: cover;
     border-radius: 50%;
