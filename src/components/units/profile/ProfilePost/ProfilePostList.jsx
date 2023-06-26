@@ -42,9 +42,8 @@ export default function ProfilePostList({
   closeModal,
   reFetchPostData,
   post,
-  userData
+  userData,
 }) {
-
   const [activeButton, setActiveButton] = useState(0);
 
   // 서버 재요청하지 않고 클라이언트에서 처리 하기 위해 사용
@@ -52,7 +51,7 @@ export default function ProfilePostList({
   const [hearted, setHearted] = useState(post.hearted);
 
   // 서버에서 받아온 이미지는 문자열이기 때문에 배열로 바꿔줌
-  const imgArray = post.image.split(",");
+  const imgArray = post.image ? post.image.split(",") : [];
   // 이미지 슬라이드에서 transform 해주기 위해 ref 사용
   const ImgUlRef = useRef(null);
   const navigate = useNavigate();
@@ -88,10 +87,10 @@ export default function ProfilePostList({
     }
   }
 
-  // 좋아요 
+  // 좋아요
   async function onClickLike() {
     try {
-      if (post.author.accountname===userData.accountname) {
+      if (post.author.accountname === userData.accountname) {
         alert("자신의 글을 좋아요 할 수 없습니다!");
         return;
       }
@@ -115,8 +114,8 @@ export default function ProfilePostList({
 
   // 더보기 버튼
   function onClickMore() {
-    if (post.author.accountname===userData.accountname)
-    // post 모달창 버튼 props 지정
+    if (post.author.accountname === userData.accountname)
+      // post 모달창 버튼 props 지정
       settingPostModalProps([
         {
           name: "삭제",
@@ -144,7 +143,7 @@ export default function ProfilePostList({
         },
       ]);
     else {
-          // post 모달창 버튼 props 지정
+      // post 모달창 버튼 props 지정
       settingPostModalProps([
         {
           name: "신고",
@@ -167,85 +166,89 @@ export default function ProfilePostList({
   }
 
   return (
-    <ProfilePostLi>
-      <ProfilePostAuth>
-        <ProfilePostAuthImg
-          src={post.author.image.includes("Ellipse.png")
-          ? profileImg
-          : post.author.image}
-          alt="작성자 프로필 이미지"
-          onError={(e) => (e.target.src = profileImg)}
-        />
-        <ProfilePostAuthInfo>
-          <ProfilePostAuthName>{post.author.username}</ProfilePostAuthName>
-          <ProfilePostAuthId>{post.author.accountname}</ProfilePostAuthId>
-        </ProfilePostAuthInfo>
-        <ProfilePostMoreBtn>
-          <ProfilePostMoreBtnIcon
-            src={moreIcon}
-            alt="more 버튼"
-            onClick={onClickMore}
+    post.image && (
+      <ProfilePostLi>
+        <ProfilePostAuth>
+          <ProfilePostAuthImg
+            src={
+              post.author.image.includes("Ellipse.png")
+                ? profileImg
+                : post.author.image
+            }
+            alt="작성자 프로필 이미지"
+            onError={(e) => (e.target.src = profileImg)}
           />
-        </ProfilePostMoreBtn>
-      </ProfilePostAuth>
-
-      <ProfilePostContents>
-        <ProfilePostText>{post.content}</ProfilePostText>
-
-        {imgArray[0].length > 0 ? (
-          <ProfilePostImgWrapper>
-            <ProfilePostImgUl ref={ImgUlRef}>
-              {imgArray.map((image, idx) => {
-                return (
-                  <ProfilePostImgLi key={image + idx}>
-                    <ProfilePostImg
-                      src={image}
-                      alt="포스트 이미지"
-                      onError={(e) => (e.target.src = noImg)}
-                    />
-                  </ProfilePostImgLi>
-                );
-              })}
-            </ProfilePostImgUl>
-
-            <ProfilePostImgBtnUl>
-              {imgArray.map((image, idx) => {
-                return (
-                  <ProfilePostImgBtnLi key={image + idx}>
-                    {imgArray.length > 1 && (
-                      <ProfilePostImgBtn
-                        className={activeButton === idx ? "active" : ""}
-                        onClick={(e) => onClickSliderBtn(e, idx)}
-                      >
-                        <ProfilePostButtonSpan className="a11y-hidden">
-                          이미지 슬라이드 버튼
-                        </ProfilePostButtonSpan>
-                      </ProfilePostImgBtn>
-                    )}
-                  </ProfilePostImgBtnLi>
-                );
-              })}
-            </ProfilePostImgBtnUl>
-          </ProfilePostImgWrapper>
-        ) : null}
-
-        <ProfilePostLikeCommentBtns>
-          <ProfilePostLikeBtn onClick={onClickLike}>
-            <ProfilePostLikeBtnIcon
-              src={hearted ? heartFillIcon : heartIcon}
-              alt="좋아요"
+          <ProfilePostAuthInfo>
+            <ProfilePostAuthName>{post.author.username}</ProfilePostAuthName>
+            <ProfilePostAuthId>{post.author.accountname}</ProfilePostAuthId>
+          </ProfilePostAuthInfo>
+          <ProfilePostMoreBtn>
+            <ProfilePostMoreBtnIcon
+              src={moreIcon}
+              alt="more 버튼"
+              onClick={onClickMore}
             />
-            <ProfilePostHeartCount>{heartCount}</ProfilePostHeartCount>
-          </ProfilePostLikeBtn>
-          <ProfilePostCommentLink to={`/post/${post.id}`}>
-            <ProfilePostCommentLinkIcon src={commentIcon} alt="댓글" />
-            <ProfilePostCommentCount>
-              {post.commentCount}
-            </ProfilePostCommentCount>
-          </ProfilePostCommentLink>
-        </ProfilePostLikeCommentBtns>
-        <DateFormate dateString={post.createdAt} />
-      </ProfilePostContents>
-    </ProfilePostLi>
+          </ProfilePostMoreBtn>
+        </ProfilePostAuth>
+
+        <ProfilePostContents>
+          <ProfilePostText>{post.content}</ProfilePostText>
+
+          {imgArray[0].length > 0 ? (
+            <ProfilePostImgWrapper>
+              <ProfilePostImgUl ref={ImgUlRef}>
+                {imgArray.map((image, idx) => {
+                  return (
+                    <ProfilePostImgLi key={image + idx}>
+                      <ProfilePostImg
+                        src={image}
+                        alt="포스트 이미지"
+                        onError={(e) => (e.target.src = noImg)}
+                      />
+                    </ProfilePostImgLi>
+                  );
+                })}
+              </ProfilePostImgUl>
+
+              <ProfilePostImgBtnUl>
+                {imgArray.map((image, idx) => {
+                  return (
+                    <ProfilePostImgBtnLi key={image + idx}>
+                      {imgArray.length > 1 && (
+                        <ProfilePostImgBtn
+                          className={activeButton === idx ? "active" : ""}
+                          onClick={(e) => onClickSliderBtn(e, idx)}
+                        >
+                          <ProfilePostButtonSpan className="a11y-hidden">
+                            이미지 슬라이드 버튼
+                          </ProfilePostButtonSpan>
+                        </ProfilePostImgBtn>
+                      )}
+                    </ProfilePostImgBtnLi>
+                  );
+                })}
+              </ProfilePostImgBtnUl>
+            </ProfilePostImgWrapper>
+          ) : null}
+
+          <ProfilePostLikeCommentBtns>
+            <ProfilePostLikeBtn onClick={onClickLike}>
+              <ProfilePostLikeBtnIcon
+                src={hearted ? heartFillIcon : heartIcon}
+                alt="좋아요"
+              />
+              <ProfilePostHeartCount>{heartCount}</ProfilePostHeartCount>
+            </ProfilePostLikeBtn>
+            <ProfilePostCommentLink to={`/post/${post.id}`}>
+              <ProfilePostCommentLinkIcon src={commentIcon} alt="댓글" />
+              <ProfilePostCommentCount>
+                {post.commentCount}
+              </ProfilePostCommentCount>
+            </ProfilePostCommentLink>
+          </ProfilePostLikeCommentBtns>
+          <DateFormate dateString={post.createdAt} />
+        </ProfilePostContents>
+      </ProfilePostLi>
+    )
   );
 }
