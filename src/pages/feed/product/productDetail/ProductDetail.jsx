@@ -21,13 +21,17 @@ export default function ProductDetail() {
   const [heartFill, setHeartFill] = useState(iconHeart);
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const params = useParams();
+
+  // useState()를 활용해 하트 누르면 채워지는 효과. 추가적 기능은 없습니다. 
   const clickHeart = () => {
     heartFill === iconHeart ? setHeartFill(iconHeartFill) : setHeartFill(iconHeart);
   }
   const Navigate = useNavigate();
+
+  // get한 price를 원 단위로 쉼표로 구분합니다.
   const newPrice = new Intl.NumberFormat().format(parseInt(price, 10));
 
-  // 이미지 로딩
+  // ProductEdit 페이지에서 수정한 정보를 get API로 받고, 이를 useEffect로 로딩시켜줍니다.
   useEffect(() => {
     const loadProfileImage = async () => {
       const url = `${baseUrl}product/detail/${params.productId}`;
