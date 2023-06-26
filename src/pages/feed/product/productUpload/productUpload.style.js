@@ -34,12 +34,17 @@ export const Container = styled.main`
 width: 87%;
 max-width: 500px;
 margin: 0 auto;
+@media screen and (max-width: 360px) {
+  max-width: 100%;
+  margin: 20px;
+}
 `
 
 export const Form = styled.main`
   
   display: flex;
   flex-direction: column;
+  
 `;
 
 
@@ -61,10 +66,19 @@ export const ImgContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding-left: 50px;
+  @media screen and (max-width: 360px) {
+    width: 100%;
+    width: 280px;
+    height: 300px;
+  }
 `;
 
 export const ImgLabel = styled.label`
 text-align: center;
+@media screen and (max-width: 360px) {
+  margin-right: 60px;
+  margin-top: 30px;
+}
 `;
 
 export const InpLabel = styled.label`
