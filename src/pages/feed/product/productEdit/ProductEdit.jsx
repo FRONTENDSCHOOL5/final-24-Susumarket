@@ -10,8 +10,10 @@ import {
 } from "./productEdit.style.js";
 import { customAxios } from '../../../../library/customAxios'
 import ErrorMessage from '../../../../components/commons/errorMessage/ErrorMessage';
-import noImg from "../../../../img/symbol-logo-404.svg";
+import noImg from "../../../../img/no-image.png";
 import { imgValidation } from '../../../../library/imgValidation';
+import useAuth from "../../../../hook/useAuth";
+
 export default function ProductEdit() {
   const [profileImage, setProfileImage] = useState(defaultimg);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -19,6 +21,7 @@ export default function ProductEdit() {
   const [itemName, setItemName] = useState('');
   const [price, setPrice] = useState('');
   const [link, setLink] = useState('');
+  const [productid, setProductid] = useState('');
 
   const [itemImage, setItemImage] = useState('');
   const [isItemName, setIsItemName] = useState(false);
@@ -27,6 +30,8 @@ export default function ProductEdit() {
   const [isItemImage, setIsItemImage] = useState(false);
   const [BtnDisabled, setBtnDisabled] = useState(false);
   const [disabled, setDisabled] = useState(false);
+  const [accountname, setAccountName] = useState('');
+
 
   const [itemNameMessage, setItemNameMessage] = useState('');
   const [priceMessage, setPriceMessage] = useState('');
@@ -35,7 +40,7 @@ export default function ProductEdit() {
   const navigate = useNavigate();
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const params = useParams();
-
+  const myProfile = useAuth();
   // input 값 유효성 체크 후 버튼 isDisabled 값 변경
   useEffect(() => {
     const loadData = async () => {
@@ -46,16 +51,27 @@ export default function ProductEdit() {
         setItemName(response.data.product.itemName);
         setPrice(response.data.product.price);
         setLink(response.data.product.link);
-
+        setAccountName(response.data.product.author.accountname)
         const data = response.data;
         console.log(itemImage)
       } catch (error) {
         console.error(error);
       }
     };
-
+    if(myProfile)
     loadData();
-  }, [baseUrl, params]);
+  }, [baseUrl, params, myProfile]);
+
+  // 다른 유저 상품 수정으로 들어왔을 경우 예외 처리
+
+  useEffect(() => {
+    if ( myProfile && myProfile.accountname !== accountname && accountname) { 
+      alert("잘못된 접근입니다.");
+      navigate("/profile");
+      return;
+    }
+  }, [accountname]);
+
 
   // 저장 버튼 누를 때 상품수정 PUT API로 정보를 넘겨줍니다. 
   const onClickButton = async (e) => {
@@ -185,7 +201,7 @@ export default function ProductEdit() {
         <ImgTopLabel>이미지 수정</ImgTopLabel>
         <Img
           className="default"
-          src={itemImage}
+          src={itemImage.includes("Ellipse.png") ? noImg : itemImage}
           onError={(e) => e.target.src = noImg}
           alt="기본 이미지"
         />
