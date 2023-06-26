@@ -66,8 +66,6 @@ export const ImgContainer = styled.div`
 
 export const ImgLabel = styled.label`
 text-align: center;
-
-
 `;
 
 export const InpLabel = styled.label`

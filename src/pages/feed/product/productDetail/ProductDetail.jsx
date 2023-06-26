@@ -8,7 +8,7 @@ import iconHeart from "../../../../img/icon-heart.svg"
 import iconHeartFill from "../../../../img/icon-heart-fill.svg"
 import Button from "../../../../components/commons/button/Button";
 import { useNavigate } from 'react-router-dom';
-import {Title, Div, Image, Nickname, Icon, HeartIcon, Profile, Price, Contents, Account} from './productDetail.style.js'
+import { ProfileDiv, ContentDiv, Btn, Bottom, Title, Div, Image, Nickname, Icon, HeartIcon, Profile, Price, Contents, Account } from './productDetail.style.js'
 
 export default function ProductDetail() {
   const [itemName, setItemName] = useState("");
@@ -26,7 +26,7 @@ export default function ProductDetail() {
   }
   const Navigate = useNavigate();
   const newPrice = new Intl.NumberFormat().format(parseInt(price, 10));
- 
+
   // 이미지 로딩
   useEffect(() => {
     const loadProfileImage = async () => {
@@ -56,40 +56,31 @@ export default function ProductDetail() {
       <Div>
         <Image src={itemImage}></Image>
         <Profile >
-            <Icon src={profile}></Icon>
-          <div >
-            <div>
+          <Icon src={profile}></Icon>
+          <ContentDiv >
+            <ProfileDiv>
               <Nickname>{name}</Nickname>
               <Account>@{accountname}  </Account>
-              </div>
+            </ProfileDiv>
             <Title>{itemName}</Title>
             <Contents>{link}</Contents>
-          </div>
+          </ContentDiv>
         </Profile>
-        <div
-          style={{
-            display: "flex",
-            width: "450px",
-            marginTop: "30px",
-            marginBottom: "30px",
-            marginLeft: "10px"
-          }}
-        >
+        <Bottom>
           <HeartIcon src={heartFill} onClick={clickHeart}>
           </HeartIcon>
           <span style={{ fontSize: "31px", marginRight: "15px", marginLeft: "15px", color: "#CDCDCD" }}>|</span>
-          <Price style={{ fontSize: "26px", fontWeight: "400" }}>
+          <Price>
             {newPrice}원
           </Price>
-          <Button className="ms"
-            style={{ color: "white", fontSize: "15px", fontWeight: "500" }}
+          <Btn className="ms"
             onClick={() => {
               Navigate("/chatList/1")
             }}
           >
             채팅하기
-          </Button>
-        </div>
+          </Btn>
+        </Bottom>
 
       </Div>
     </>
