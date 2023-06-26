@@ -1,41 +1,41 @@
-import React from "react";
-import Button from "../../../components/commons/button/Button";
+import React, { useContext, useEffect, useState } from "react";
 import NewTopHeader from "../../../components/commons/newTopHeader/NewTopHeader";
-import LionImage from "../../../img/symbol-logo-gray.svg";
-import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import MenuBar from "../../../components/commons/menuBar/MenuBar";
-const UserSearchWrapper = styled.main`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin-top: 180px;
-  @media (max-height: 500px) {
-    margin-top: 70px;
-  }
-  @media (min-height: 500px) and (max-height: 600px) {
-    margin-top: 120px;
-  }
-`;
+import ProfilePost from "../../../components/units/profile/ProfilePost/ProfilePost";
+import { ModalContext } from "../../../context/ModalContext";
+import PostModal from "../../../components/commons/postModal/PostModal";
+import ConfirmModal from "../../../components/commons/confirmModal/confirmModal";
+import useAuth from "../../../hook/useAuth";
+import TopButton from "../../../components/commons/topButton/TopButton";
 
-const Img = styled.img`
-  width: 100px;
-  height: 100px;
-  margin: auto;
-  // vertical-align: middle;
-`;
-const Content = styled.div`
-  font-size: 15px;
-  color: #767676;
-  margin: 15px 0px;
-`;
 
 export default function Post() {
-  const navigate = useNavigate();
-  const clickSearchBtn = () => {
-    navigate("/search");
-  };
+  // confirm 모달창 props 설정 => 버튼 마다 confirm 모달창이 달라지기 때문에 사용
+  const [confirmProps, setConfirmProps] = useState({});
+  // post 모달창 props 설정 => 버튼 마다 post 모달창이 달라지기 때문에 사용
+  const [postModalProps, setPostModalProps] = useState([]);
+  const userData = useAuth();
+  const { setIsOpenConfirmModal, setIsOpenPostModal } =
+    useContext(ModalContext);
+  // post 모달창 props 설정 및 열기
+  function settingPostModalProps(modalProps) {
+    setPostModalProps(modalProps);
+    setIsOpenPostModal(true);
+  }
+
+  // postModal 창에 버튼을 누를경우 confirm 모달창의 props를 넘겨줌
+  function onClickButton(confirmMessage, submitMessage, handleSubmit) {
+    setConfirmProps({ confirmMessage, submitMessage, handleSubmit });
+    setIsOpenConfirmModal(true);
+  }
+
+  // 모달창을 닫는 함수
+  function closeModal() {
+    setIsOpenConfirmModal(false);
+    setIsOpenPostModal(false);
+  }
+
   return (
     <>
       <NewTopHeader
@@ -44,14 +44,23 @@ export default function Post() {
         right="search"
         title="수수마켓 피드"
       ></NewTopHeader>
-      <UserSearchWrapper>
-        <Img src={LionImage} alt="유저 검색 이미지" />
-        <Content>유저를 검색해 팔로우 해보세요!</Content>
-        <Button className="ms" onClick={clickSearchBtn}>
-          검색하기
-        </Button>
-      </UserSearchWrapper>
+      <ProfilePost
+        isFeed={true}
+        settingPostModalProps={settingPostModalProps}
+        onClickButton={onClickButton}
+        closeModal={closeModal}
+        userData={userData}
+      />
+
       <MenuBar />
+      <TopButton />
+      <PostModal menuList={postModalProps} />
+      <ConfirmModal
+        confirmMessage={confirmProps.confirmMessage}
+        submitMessage={confirmProps.submitMessage}
+        cancelMessage="취소"
+        handleSubmit={confirmProps.handleSubmit}
+      />
     </>
   );
 }
