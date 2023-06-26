@@ -1,5 +1,5 @@
 import { isMobile } from "react-device-detect";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   DrawingBtn,
   DrawingBtns,
@@ -14,23 +14,25 @@ import {
   PalettColorSpan,
   PaletteTitle,
   PaletteWrapper,
-  StyleNewTopHeader,
+  TopHedaerWrapper,
   UploadLabel,
 } from "./darwing.styles";
-import Button from "../../components/commons/button/Button";
 import { useNavigate } from "react-router-dom";
 import MenuBar from "../../components/commons/menuBar/MenuBar";
+import PostModal from "../../components/commons/postModal/PostModal";
+import { ModalContext } from "../../context/ModalContext";
+import NewTopHeader from "../../components/commons/newTopHeader/NewTopHeader";
 const colorData = [
-  "#1abc9c",
-  "#3498db",
-  "#34495e",
-  "#27ae60",
-  "#8e44ad",
-  "#f1c40f",
-  "#e74c3c",
-  "#d35400",
-  "#2ecc71",
-  "#e67e22",
+  "#ff0000",
+  "#ff8c00",
+  "#ffff00",
+  "#008000",
+  "#0000ff",
+  "#4b0082",
+  "#800080",
+  "#B51215",
+  "#000000",
+  "#eeeeee",
 ];
 export default function Drawing() {
   const navigate = useNavigate();
@@ -44,6 +46,7 @@ export default function Drawing() {
   const [lineWidth, setLineWidth] = useState("5");
   const CANVAS_WIDTH = 800;
   const CANVAS_HEIGHT = 800;
+  const { setIsOpenPostModal } = useContext(ModalContext);
 
   useEffect(() => {
     if (isMobile) {
@@ -69,7 +72,7 @@ export default function Drawing() {
   function onMove({ nativeEvent }) {
     const { offsetX, offsetY } = nativeEvent;
     if (ctx) {
-      if (isPainting) {
+      if (isPainting && !isFilling) {
         ctx.lineTo(offsetX, offsetY);
         ctx.stroke();
         return;
@@ -134,6 +137,7 @@ export default function Drawing() {
   function onEraserClick() {
     ctx.strokeStyle = "white";
     setIsFilling(false);
+    setColorCode("#FFFFFF");
   }
 
   function onSaveClick() {
@@ -168,12 +172,20 @@ export default function Drawing() {
 
   return (
     <>
-      <StyleNewTopHeader
-        left={"back"}
-        middle={"text"}
-        text={"수수마켓 캔버스"}
-        right={"more"}
-      ></StyleNewTopHeader>
+      <TopHedaerWrapper style={{width:"100%", minWidth:"1200px"}}>
+        {" "}
+        <NewTopHeader
+          left={"back"}
+          middle={"text"}
+          text={"수수마켓 캔버스"}
+          right={"more"}
+          title={"캔버스"}
+          onClickButton={() => {
+            setIsOpenPostModal(true);
+          }}
+        />
+      </TopHedaerWrapper>
+
       <DrawingWrapper>
         <PaletteWrapper>
           <PaletteTitle className="a11y-hidden">팔레트</PaletteTitle>
@@ -190,11 +202,11 @@ export default function Drawing() {
             return (
               <PalettColorBtn
                 key={color}
-                color={color}
+                colors={color}
                 onClick={() => onColorClick(color)}
               >
                 <PalettColorSpan className="a11y-hidden">
-                  {color}
+                  {color + "색상"}
                 </PalettColorSpan>
               </PalettColorBtn>
             );
@@ -271,6 +283,17 @@ export default function Drawing() {
         </DrawingBtns>
       </DrawingWrapper>
       <MenuBar />
+      <PostModal
+        menuList={[
+          {
+            name: "상품 등록 페이지로 이동",
+            func: () => {
+              setIsOpenPostModal(false);
+              navigate("/product/upload");
+            },
+          },
+        ]}
+      />
     </>
   );
 }
