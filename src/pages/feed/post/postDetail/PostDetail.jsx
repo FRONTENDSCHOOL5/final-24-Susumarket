@@ -31,6 +31,9 @@ const UserWrapper = styled.section`
   // text-align: center;
   margin-top: 20px;
   width: 400px;
+  @media (max-width: 400px) {
+    width: 360px;
+  }
 `;
 const UserProfile = styled.img`
   width: 40px;
@@ -49,12 +52,20 @@ const AccountName = styled.p`
   font-size: 13px;
   font-weight: 400;
   color: #767676;
+  ::before{
+    content: "@";
+    font-weight: 400;
+    font-size: 13px;
+    color: #767676;
+    margin-right: 3px;
+  }
 `;
 const UserButton = styled.button`
   background: url(${morebutton}) no-repeat center/16px 16px;
   width: 16px;
   height: 16px;
-  margin-left: 270px;
+  margin-left: auto;
+  margin-right: 20px;
 `;
 const PostWrapper = styled.section`
   margin: 0 auto;
@@ -63,14 +74,16 @@ const PostWrapper = styled.section`
   flex-direction: column;
   max-width: 390px;
   padding-left: 54px;
+  @media (max-width: 390) {
+    padding-left: 14px;
+    padding-right: 20px;
+  }
   gap: 20px;
   width: 350px;
   margin-top: 20px;
 `;
 
 const PostContent = styled.div``;
-
-// const PostImages = styled.div``;
 
 export default function PostDetail() {
   const [profileImage, setProfileImage] = useState(null);
@@ -155,6 +168,7 @@ export default function PostDetail() {
       <NewTopHeader
         left="back"
         right="more"
+        title = "수수마켓 게시글 상세"
         onClickButton={() =>
           settingPostModalProps([
             {
@@ -194,7 +208,7 @@ export default function PostDetail() {
         ></UserProfile>
         <UserInfo>
           <UserName>{username}</UserName>
-          <AccountName>@ {accountname}</AccountName>
+          <AccountName>{accountname}</AccountName>
         </UserInfo>
         <UserButton
           onClick={() =>

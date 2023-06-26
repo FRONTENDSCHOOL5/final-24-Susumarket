@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import NewTopHeader from "../../../components/commons/newTopHeader/NewTopHeader";
 import { useNavigate } from "react-router-dom";
+
 import MenuBar from "../../../components/commons/menuBar/MenuBar";
 import ProfilePost from "../../../components/units/profile/ProfilePost/ProfilePost";
 import { ModalContext } from "../../../context/ModalContext";
@@ -8,6 +9,7 @@ import PostModal from "../../../components/commons/postModal/PostModal";
 import ConfirmModal from "../../../components/commons/confirmModal/confirmModal";
 import useAuth from "../../../hook/useAuth";
 import TopButton from "../../../components/commons/topButton/TopButton";
+
 
 
 export default function Post() {
@@ -61,6 +63,7 @@ export default function Post() {
         cancelMessage="취소"
         handleSubmit={confirmProps.handleSubmit}
       />
-    </>
+
+  </>
   );
 }

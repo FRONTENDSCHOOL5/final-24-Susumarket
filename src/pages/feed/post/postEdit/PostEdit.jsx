@@ -24,6 +24,7 @@ const PostImgButton = styled.button`
 const UploadMain = styled.main`
   display: flex;
   flex-direction: row;
+  align-items: flex-start;
 `;
 
 const ProfileImgLabel = styled.label``;
@@ -33,7 +34,7 @@ const ProfileImg = styled.img`
   height: 50px;
   border-radius: 50%;
   object-fit: cover;
-  background-color: var(--color-sub);
+  // background-color: var(--color-sub);
   margin-left: 20px;
   margin-top: 20px;
 `;
@@ -55,13 +56,6 @@ const PostImgInput = styled.input`
   display: none;
 `;
 
-const UploadImgArea = styled.section`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  margin-top: 30px;
-`;
-
 const Delete = styled.button`
   background: url(${xbutton});
   width: 20px;
@@ -73,18 +67,27 @@ const Delete = styled.button`
 `;
 
 const PostImg = styled.img`
-  width: 304px;
-  height: 220px;
+  @media (max-width: 360px) {
+    max-width: 80%;
+  }
+  width: calc(33.33% -40px);
   border-radius: 20px;
   margin-left: 30px;
   position: relative;
+`;
+
+const UploadImgArea = styled.section`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin-top: 30px;
 `;
 
 export default function PostEdit() {
   const textRef = useRef();
   const fileInputRef = useRef(null);
 
-  // 텍스트 사용자의 입력에 따른 자동 조절
+  // 사용자의 입력에 따른 textarea 자동 조절
   const handleTextAreaHeight = useCallback(() => {
     textRef.current.style.height = "auto";
     textRef.current.style.height = textRef.current.scrollHeight + "px";
@@ -99,12 +102,13 @@ export default function PostEdit() {
 
   const { postId } = useParams();
 
+  // 게시글 목록 불러오기
   useEffect(() => {
     const fetchPostList = async () => {
       try {
         await customAxios.get(`post/${accountname}/userpost`);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
     if (accountname) {
@@ -112,6 +116,7 @@ export default function PostEdit() {
     }
   }, [accountname]);
 
+  // 이미지 내 X버튼 클릭 시 미리보기, API 전송 이미지 모두 삭제 처리
   const handleDeleteImage = (id) => {
     // setPostImages(postImages.filter((_, index) => index !== id));
     // setImgArray((prevPreviewImages) =>
@@ -123,7 +128,7 @@ export default function PostEdit() {
     setPostImages(updatedPostArray);
   };
 
-  // 게시글 불러오기
+  // 선택한 게시글 불러오기
   useEffect(() => {
     const fetchPost = async () => {
       try {
@@ -146,6 +151,7 @@ export default function PostEdit() {
     fetchPost();
   }, [postId]);
 
+  // 이미지 변경 사항 확인 후, 상태 변경
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     const currentFileUrl = URL.createObjectURL(file);
@@ -182,6 +188,7 @@ export default function PostEdit() {
     }
   };
 
+  // 게시글 수정 API
   const uploadPostEdit = async (imgUrls) => {
     try {
       await customAxios.put(`post/${postId}`, {
@@ -215,6 +222,7 @@ export default function PostEdit() {
         right="upload"
         // disabled
         onClickButton={handlePostEdit}
+        title = "수수마켓 게시글 수정"
       ></NewTopHeader>
       <UploadMain>
         <ProfileImgLabel></ProfileImgLabel>
