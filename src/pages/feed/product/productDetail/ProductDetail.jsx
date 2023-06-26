@@ -8,6 +8,7 @@ import iconHeart from "../../../../img/icon-heart.svg"
 import iconHeartFill from "../../../../img/icon-heart-fill.svg"
 import Button from "../../../../components/commons/button/Button";
 import { useNavigate } from 'react-router-dom';
+import {Div, Image, Nickname, Icon, HeartIcon, Profile, Price, Contents, Account} from './productDetail.style.js'
 
 export default function ProductDetail() {
   const [itemName, setItemName] = useState("");
@@ -99,8 +100,6 @@ export default function ProductDetail() {
     margin-top: 20px;
   `;
 
-
-
   const Price = styled.div`
   display: flex;
   align-items: center;
@@ -124,24 +123,12 @@ export default function ProductDetail() {
     
   `;
 
-  const Poststyle = styled.div`
-    width: 980px;
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    margin: 0px auto;
-  `;
   const Account = styled.div`
     font-size: 15px; 
     color: #CDCDCD;
     margin-top: 2px;
     `;
 
-   const Container = styled.main`
-    width: 87%;
-    max-width: 500px;
-    margin: 0 auto;
-    `;
   // 이미지 로딩
   useEffect(() => {
     const loadProfileImage = async () => {
