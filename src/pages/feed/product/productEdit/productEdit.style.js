@@ -13,8 +13,9 @@ export const imgLabel = styled.label`
   margin-bottom: 5px;
   display: block;
   margin-top: 40px;
-  @media screen and (max-width: 768px) {
-    font-size: 14px;
+  @media screen and (max-width: 360px) {
+    margin-right: 60px;
+    margin-top: 30px;
   }
 `;
 
@@ -62,12 +63,19 @@ export const ImgContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding-left: 50px;
+  @media screen and (max-width: 360px) {
+    width: 100%;
+    width: 280px;
+    height: 300px;
+  }
 `;
 
 export const ImgLabel = styled.label`
 text-align: center;
-
-
+@media screen and (max-width: 360px) {
+  margin-right: 60px;
+  margin-top: 30px;
+}
 `;
 
 export const InpLabel = styled.label`

@@ -10,11 +10,11 @@ import {
   Container, Img, ImgInput, ImgLabel, ImgContainer, ImgTopLabel
 } from "./productUpload.style";
 import { customAxios } from '../../../../library/customAxios'
-// import { useLocation } from "react-router-dom";
 import ErrorMessage from '../../../../components/commons/errorMessage/ErrorMessage';
-
+import { imgValidation } from '../../../../library/imgValidation';
 
 export default function ProductUpload() {
+  // API 정보들
   const [profileImage, setProfileImage] = useState(defaultimg);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -22,9 +22,8 @@ export default function ProductUpload() {
   const [price, setPrice] = useState('');
   const [link, setLink] = useState('');
   const [itemImage, setItemImage] = useState('');
-  const [description, setDescription] = useState('');
 
-  const [isDescription, setIsDescription] = useState(false);
+  // 세가지 요소 중 하나라도 안들어가면 버튼 disabled시키기 위해 input 상태의 변화를 감지
   const [isItemName, setIsItemName] = useState(false);
   const [isPrice, setIsPrice] = useState(false);
   const [isLink, setIsLink] = useState(false);
@@ -32,15 +31,14 @@ export default function ProductUpload() {
   const [BtnDisabled, setBtnDisabled] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
-
+  //유효성 검사 메세지 
   const [itemNameMessage, setItemNameMessage] = useState('');
   const [priceMessage, setPriceMessage] = useState('');
   const [linkMessage, setLinkMessage] = useState('');
   const [itemImageMessage, setItemImageMessage] = useState('');
-  const [descriptionMessage, setDescriptionMessage] = useState('');
   const navigate = useNavigate();
 
-  // 버튼 활성화
+  // input 값 유효성 체크 후 버튼 isDisabled 값 변경
   useEffect(() => {
     if (isItemName === true && isPrice === true && isLink === true) {
       setDisabled(false);
@@ -50,9 +48,11 @@ export default function ProductUpload() {
   }, [isItemName, isPrice, isLink]);
 
 
-
+  // 이미지 넣을 때 미리보기 + 유효성 검사
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+    const valid = imgValidation(file);
+    if (!valid) return;
     const reader = new FileReader();
     reader.onload = () => {
       setItemImage(reader.result);
@@ -68,7 +68,7 @@ export default function ProductUpload() {
     }
   };
 
-
+  // 저장 버튼 누를 때 상품등록 POST API로 정보를 넘겨줍니다. 
   const onClickButton = async (e) => {
     e.preventDefault();
     const priceNum = parseInt(price.replaceAll(',', ''), 10);
@@ -85,15 +85,13 @@ export default function ProductUpload() {
     try {
       const response = await customAxios.post(`product`, product);
       const data = response.data.product;
-      console.log(data);
-      // navigate(`/product/${data.id}`);
       navigate(`/profile`)
     } catch (error) {
       console.log(error);
     }
   }
 
-
+  // 이미지를 올릴 시, 이미지 POST API로 이미지를 넘겨줍니다.
   const uploadProfileImage = async (file) => {
     try {
       const formData = new FormData();
@@ -114,7 +112,7 @@ export default function ProductUpload() {
     }
   };
 
-
+  // 상품명 유효성 검사
   const itemNameHandler = (e) => {
     setItemName(e.target.value);
     if (itemName.length < 1 || itemName.length > 16) {
@@ -127,6 +125,7 @@ export default function ProductUpload() {
     }
   };
 
+  // 가격 유효성 검사
 
   const priceHandler = (e) => {
     const value = Number(e.target.value.replaceAll(',', ''));
@@ -145,6 +144,8 @@ export default function ProductUpload() {
 
     }
   };
+
+  // 상품설명 유효성 검사
   const linkHandler = (e) => {
     setLink(e.target.value);
     if (link.length > 101) {
@@ -153,23 +154,9 @@ export default function ProductUpload() {
     } else {
       setLinkMessage('');
       setIsLink(true);
-      // setItemName(e.target.value);
     }
   };
 
-  // const imgHandler = (e) => {
-  //   const correctForm = /(.*?)\.(jpg|gif|png|jpeg|bmp|tif|heic|)$/;
-  //   if (e.target.files[0].size > 5 * 1024 * 1024) {
-  //     setItemImageMessage('파일 사이즈는 5MB까지만 가능합니다.');
-  //     setIsItemImage(false);
-  //   } else if (!e.target.files[0].name.match(correctForm)) {
-  //     setItemImageMessage('이미지 파일만 업로드 가능합니다.');
-  //     setIsItemImage(false);
-  //   } else {
-  //     setItemImageMessage('');
-  //     setIsItemImage(true);
-  //   }
-  // };
 
   return (
     <Container>
@@ -224,7 +211,6 @@ export default function ProductUpload() {
 
       <UserInput label="가격">
         <DataInput
-          // type=""
           placeholder="숫자만 입력 가능합니다."
           min="1"
           max="20"
@@ -235,11 +221,6 @@ export default function ProductUpload() {
       {priceMessage && <ErrorMessage>
         {priceMessage}
       </ErrorMessage>}
-
-        
-
-   
-
 
     </Container>
 

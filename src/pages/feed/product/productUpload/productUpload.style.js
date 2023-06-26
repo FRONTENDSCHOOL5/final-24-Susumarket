@@ -34,16 +34,20 @@ export const Container = styled.main`
 width: 87%;
 max-width: 500px;
 margin: 0 auto;
+@media screen and (max-width: 360px) {
+  max-width: 100%;
+  margin: 20px;
+}
 `
 
 export const Form = styled.main`
   
   display: flex;
   flex-direction: column;
+  
 `;
 
 
-// userInput의 Inplabel 활용중이라 새로운 label 만들어줌(UserInput 공통 컴포넌트 사용x)
 export const ImgTopLabel = styled.label`
 width: 80px;
 font-size: 16px;
@@ -62,12 +66,19 @@ export const ImgContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding-left: 50px;
+  @media screen and (max-width: 360px) {
+    width: 100%;
+    width: 280px;
+    height: 300px;
+  }
 `;
 
 export const ImgLabel = styled.label`
 text-align: center;
-
-
+@media screen and (max-width: 360px) {
+  margin-right: 60px;
+  margin-top: 30px;
+}
 `;
 
 export const InpLabel = styled.label`
@@ -95,9 +106,7 @@ export const Img = styled.img`
     object-fit: cover;
     border: 0.5px solid #DBDBDB;
     border-radius: 10px;
-    
-
-  }
+    }
   &.uploadbtn {
     position: relative;
     left: 135px;

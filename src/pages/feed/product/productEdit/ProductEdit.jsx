@@ -11,7 +11,7 @@ import {
 import { customAxios } from '../../../../library/customAxios'
 import ErrorMessage from '../../../../components/commons/errorMessage/ErrorMessage';
 import noImg from "../../../../img/symbol-logo-404.svg";
-
+import { imgValidation } from '../../../../library/imgValidation';
 export default function ProductEdit() {
   const [profileImage, setProfileImage] = useState(defaultimg);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -19,7 +19,7 @@ export default function ProductEdit() {
   const [itemName, setItemName] = useState('');
   const [price, setPrice] = useState('');
   const [link, setLink] = useState('');
-  
+
   const [itemImage, setItemImage] = useState('');
   const [isItemName, setIsItemName] = useState(false);
   const [isPrice, setIsPrice] = useState(false);
@@ -33,13 +33,10 @@ export default function ProductEdit() {
   const [linkMessage, setLinkMessage] = useState('');
   const [itemImageMessage, setItemImageMessage] = useState('');
   const navigate = useNavigate();
-  // const location = useLocation();
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const params = useParams();
 
-
-  
-  // 저장되어있던 데이터 로딩
+  // input 값 유효성 체크 후 버튼 isDisabled 값 변경
   useEffect(() => {
     const loadData = async () => {
       const url = `${baseUrl}product/detail/${params.productId}`
@@ -49,9 +46,8 @@ export default function ProductEdit() {
         setItemName(response.data.product.itemName);
         setPrice(response.data.product.price);
         setLink(response.data.product.link);
-      
+
         const data = response.data;
-        console.log(data);
         console.log(itemImage)
       } catch (error) {
         console.error(error);
@@ -61,7 +57,7 @@ export default function ProductEdit() {
     loadData();
   }, [baseUrl, params]);
 
-
+  // 저장 버튼 누를 때 상품수정 PUT API로 정보를 넘겨줍니다. 
   const onClickButton = async (e) => {
     e.preventDefault();
     const priceNum = parseInt(price.toString().replaceAll(',', ''), 10);
@@ -72,13 +68,12 @@ export default function ProductEdit() {
         price: priceNum,
         link: link,
         itemImage: `${baseUrl}/${selectedImage}`,
-      } 
       }
-    
-      try {
+    }
+
+    try {
       const response = await customAxios.put(`${baseUrl}product/${params.productId}`, product);
       const data = response.data.product;
-      console.log(data);
       navigate(`/profile`)
 
     } catch (error) {
@@ -86,8 +81,7 @@ export default function ProductEdit() {
     }
   }
 
-
-  
+    // 이미지를 올릴 시, 이미지 POST API로 이미지를 넘겨줍니다.
   const uploadProfileImage = async (file) => {
     try {
       const formData = new FormData();
@@ -105,13 +99,16 @@ export default function ProductEdit() {
         console.error(error);
         console.log('오류 메시지:', error.response.data);
       }
-      // return null;
     }
   };
 
-  // onChange
+
+  // 이미지 넣을 때 미리보기 + 유효성 검사
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+    const valid = imgValidation(file);
+    if (!valid) return;
+
     const reader = new FileReader();
     reader.onload = () => {
       setItemImage(reader.result);
@@ -123,43 +120,24 @@ export default function ProductEdit() {
       setIsItemImage(true);
     } else {
       setItemImage(null);
-      setSelectedImage(null);      
+      setSelectedImage(null);
       setIsItemImage(false);
 
     }
   };
 
-
-
+  // 상품명 유효성 검사
   const itemNameHandler = (e) => {
     setItemName(e.target.value);
-    if (itemName.length < 1  || itemName.length > 16) {
+    if (itemName.length < 1 || itemName.length > 16) {
       setItemNameMessage('상품명은 2~15자 이내여야 합니다.');
       setIsItemName(false);
 
     } else {
       setItemNameMessage('');
       setIsItemName(true);
-      // setItemName(e.target.value);
-
     }
   };
-
-  
-  // const descriptionHandler = (e) => {
-  //   setDescription(e.target.value);
-  //   if (description.length>101) {
-  //     setLinkMessage('상품설명은 100자 이내여야 합니다.');
-  //     setIsLink(false);
-
-  //   } else {
-  //     setLinkMessage('');
-  //     setIsLink(true);
-  //     // setItemName(e.target.value);
-
-  //   }
-  // };
-
 
   const priceHandler = (e) => {
     const value = Number(e.target.value.toString().replaceAll(',', ''));
@@ -175,12 +153,12 @@ export default function ProductEdit() {
     } else {
       setPriceMessage('');
       setIsPrice(true);
-    // setPrice(numValue);
 
     }
   };
-  const linkHandler = (e) => {
 
+    // 가격 유효성 검사
+  const linkHandler = (e) => {
     setLink(e.target.value);
     if (link.length > 101) {
       setLinkMessage('상품설명을 100자 이내로 기입하세요');
@@ -188,12 +166,10 @@ export default function ProductEdit() {
     } else {
       setLinkMessage('');
       setIsLink(true);
-      
-
     }
   };
 
-
+  // input 값 유효성 체크 후 버튼 isDisabled 값 변경
   useEffect(() => {
     if (isItemImage === true || isItemName === true || isPrice === true || isLink === true) {
       setDisabled(false);
@@ -204,15 +180,14 @@ export default function ProductEdit() {
 
   return (
     <Container>
-    <NewTopHeader left={"back"} right={"save"} disabled={disabled} onClickButton={onClickButton} ></NewTopHeader>
-    {/* <div onChange={imgHandler}> */}
+      <NewTopHeader left={"back"} right={"save"} disabled={disabled} onClickButton={onClickButton} ></NewTopHeader>
       <ImgContainer>
         <ImgTopLabel>이미지 수정</ImgTopLabel>
         <Img
           className="default"
           src={itemImage}
-          onError={(e)=>e.target.src=noImg}
-        // alt="기본 이미지"
+          onError={(e) => e.target.src = noImg}
+          alt="기본 이미지"
         />
         <ImgLabel htmlFor="file-input">
           <Img
@@ -227,7 +202,7 @@ export default function ProductEdit() {
           accept="image/*"
           onChange={handleImageChange}
         ></ImgInput>
-         {itemImageMessage && <ErrorMessage> {itemImageMessage} </ErrorMessage>}
+        {itemImageMessage && <ErrorMessage> {itemImageMessage} </ErrorMessage>}
       </ImgContainer>
       {/* </div> */}
       <UserInput label="상품명 수정">
@@ -267,7 +242,7 @@ export default function ProductEdit() {
         {priceMessage}
       </ErrorMessage>}
 
-    
+
 
     </Container>
 
