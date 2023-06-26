@@ -36,7 +36,7 @@ export default function ProductEdit() {
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const params = useParams();
 
-
+  // input 값 유효성 체크 후 버튼 isDisabled 값 변경
   useEffect(() => {
     const loadData = async () => {
       const url = `${baseUrl}product/detail/${params.productId}`
@@ -57,6 +57,7 @@ export default function ProductEdit() {
     loadData();
   }, [baseUrl, params]);
 
+  // 저장 버튼 누를 때 상품수정 PUT API로 정보를 넘겨줍니다. 
   const onClickButton = async (e) => {
     e.preventDefault();
     const priceNum = parseInt(price.toString().replaceAll(',', ''), 10);
@@ -79,6 +80,8 @@ export default function ProductEdit() {
       console.log(error);
     }
   }
+
+    // 이미지를 올릴 시, 이미지 POST API로 이미지를 넘겨줍니다.
   const uploadProfileImage = async (file) => {
     try {
       const formData = new FormData();
@@ -99,6 +102,8 @@ export default function ProductEdit() {
     }
   };
 
+
+  // 이미지 넣을 때 미리보기 + 유효성 검사
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     const valid = imgValidation(file);
@@ -121,6 +126,7 @@ export default function ProductEdit() {
     }
   };
 
+  // 상품명 유효성 검사
   const itemNameHandler = (e) => {
     setItemName(e.target.value);
     if (itemName.length < 1 || itemName.length > 16) {
@@ -150,8 +156,9 @@ export default function ProductEdit() {
 
     }
   };
-  const linkHandler = (e) => {
 
+    // 가격 유효성 검사
+  const linkHandler = (e) => {
     setLink(e.target.value);
     if (link.length > 101) {
       setLinkMessage('상품설명을 100자 이내로 기입하세요');
@@ -159,12 +166,10 @@ export default function ProductEdit() {
     } else {
       setLinkMessage('');
       setIsLink(true);
-
-
     }
   };
 
-
+  // input 값 유효성 체크 후 버튼 isDisabled 값 변경
   useEffect(() => {
     if (isItemImage === true || isItemName === true || isPrice === true || isLink === true) {
       setDisabled(false);
