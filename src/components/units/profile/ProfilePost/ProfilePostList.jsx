@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   ProfilePostAuth,
   ProfilePostAuthId,
@@ -166,7 +166,6 @@ export default function ProfilePostList({
   }
 
   return (
-    post.image && (
       <ProfilePostLi>
         <ProfilePostAuth>
           <ProfilePostAuthImg
@@ -194,7 +193,7 @@ export default function ProfilePostList({
         <ProfilePostContents>
           <ProfilePostText>{post.content}</ProfilePostText>
 
-          {imgArray[0].length > 0 ? (
+          {imgArray[0]&&imgArray[0].length > 0 ? (
             <ProfilePostImgWrapper>
               <ProfilePostImgUl ref={ImgUlRef}>
                 {imgArray.map((image, idx) => {
@@ -249,6 +248,5 @@ export default function ProfilePostList({
           <DateFormate dateString={post.createdAt} />
         </ProfilePostContents>
       </ProfilePostLi>
-    )
   );
 }
