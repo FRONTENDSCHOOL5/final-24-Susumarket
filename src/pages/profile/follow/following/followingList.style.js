@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Button from "../../../../components/commons/button/Button";
 
 export const FollowingListUl = styled.ul`
-  height: 100%;
   display: flex;
   flex-direction: column;
   max-width: 390px;
@@ -18,6 +17,9 @@ export const FollowingListLi = styled.li`
   height: 50px;
   &:hover {
     background-color: #f5f5f5;
+  }
+  &:last-child {
+    margin-bottom: 50px;
   }
 `;
 
