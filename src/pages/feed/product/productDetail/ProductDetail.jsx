@@ -65,7 +65,7 @@ export default function ProductDetail() {
         }}
         ></Image>
         <Profile >
-          <Icon src={profile}
+          <Icon src={profile.includes("Ellipse.png") ? profileImg : profile}
           
           ></Icon>
           <ContentDiv >
