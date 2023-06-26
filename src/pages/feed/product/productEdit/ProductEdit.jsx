@@ -11,7 +11,7 @@ import {
 import { customAxios } from '../../../../library/customAxios'
 import ErrorMessage from '../../../../components/commons/errorMessage/ErrorMessage';
 import noImg from "../../../../img/symbol-logo-404.svg";
-
+import { imgValidation } from '../../../../library/imgValidation';
 export default function ProductEdit() {
   const [profileImage, setProfileImage] = useState(defaultimg);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -101,6 +101,9 @@ export default function ProductEdit() {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+    const valid = imgValidation(file);
+    if (!valid) return;
+
     const reader = new FileReader();
     reader.onload = () => {
       setItemImage(reader.result);

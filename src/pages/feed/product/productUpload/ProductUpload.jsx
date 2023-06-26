@@ -11,7 +11,7 @@ import {
 } from "./productUpload.style";
 import { customAxios } from '../../../../library/customAxios'
 import ErrorMessage from '../../../../components/commons/errorMessage/ErrorMessage';
-
+import { imgValidation } from '../../../../library/imgValidation';
 
 export default function ProductUpload() {
   const [profileImage, setProfileImage] = useState(defaultimg);
@@ -51,6 +51,8 @@ export default function ProductUpload() {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+    const valid = imgValidation(file);
+    if (!valid) return;
     const reader = new FileReader();
     reader.onload = () => {
       setItemImage(reader.result);
