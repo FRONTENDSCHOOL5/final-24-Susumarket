@@ -16,7 +16,7 @@ import ErrorMessage from "../../../components/commons/errorMessage/ErrorMessage"
 import { customAxios } from "../../../library/customAxios";
 import { useNavigate, useParams } from "react-router-dom";
 import useAuth from "../../../hook/useAuth";
-
+import { imgValidation } from "../../../library/imgValidation";
 export default function ProfileEdit() {
   const [imgPreviewURL, setImgPreviewURL] = useState(null);
   const [uploadFile, setUploadFile] = useState(null);
@@ -44,7 +44,7 @@ export default function ProfileEdit() {
   function onChangeImg(e) {
     e.preventDefault();
     const file = e.target.files[0];
-    const valid = validataionImg(file);
+    const valid = imgValidation(file);
     if (!valid) return;
     const reader = new FileReader();
     reader.onload = () => {
@@ -174,8 +174,8 @@ export default function ProfileEdit() {
 
   // 다른 유저 프로필 수정으로 들어왔을 경우 예외 처리
   useEffect(() => {
-    if (accountname && accountname!== myAccountname) {
-      console.log(userData)
+    if (accountname && accountname !== myAccountname) {
+      console.log(userData);
       alert("잘못된 접근입니다.");
       navigate("/profile");
       return;
@@ -198,35 +198,6 @@ export default function ProfileEdit() {
       setIsDisabled(true);
     }
   }, [accountnameValidation, usernameValidation]);
-
-  // 이미지 파일 유요성 검사
-  function validataionImg(file) {
-    // 파일이 없을 경우
-    if (!file) {
-      return false;
-    }
-    // 파일의 사이즈를 초과하는 경우
-    if (file.size > 1024 * 1024 * 10) {
-      alert("이미지 파일의 크기를 초과하였습니다.(최대 10MB)");
-      return false;
-    }
-    // 파일의 확장자가 불일치하는 경우
-    if (
-      !file.name.includes("png") &&
-      !file.name.includes("jpg") &&
-      !file.name.includes("jpeg") &&
-      !file.name.includes("bmp") &&
-      !file.name.includes("tif") &&
-      !file.name.includes("heic") &&
-      !file.name.includes("gif")
-    ) {
-      alert(
-        "이미지 형식을 확인해 주세요!\n(지원형식 : .jpg,.gif, .png,.jpeg, .bmp,.tif, *.heic)",
-      );
-      return false;
-    }
-    return true;
-  }
 
   // 이미지 파일 리셋
   function reset() {
