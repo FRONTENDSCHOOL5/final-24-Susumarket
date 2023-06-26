@@ -90,10 +90,10 @@ margin-top: 7px;
 margin-bottom: 20px;
 margin-right: 10px;
 width: max-content;
-max-width: 390px;
+max-width: 360px;
 word-break: break-all;
 font-size: 18px;
-line-height: 1.8;
+line-height: 1.5;
 letter-spacing: -0.6px;
 font-weight: 500;
 
