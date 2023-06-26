@@ -10,7 +10,7 @@ import {
 } from "./productEdit.style.js";
 import { customAxios } from '../../../../library/customAxios'
 import ErrorMessage from '../../../../components/commons/errorMessage/ErrorMessage';
-import noImg from "../../../../img/symbol-logo-404.svg";
+import noImg from "../../../../img/no-image.png";
 import { imgValidation } from '../../../../library/imgValidation';
 export default function ProductEdit() {
   const [profileImage, setProfileImage] = useState(defaultimg);
@@ -185,7 +185,7 @@ export default function ProductEdit() {
         <ImgTopLabel>이미지 수정</ImgTopLabel>
         <Img
           className="default"
-          src={itemImage}
+          src={itemImage.includes("Ellipse.png") ? noImg : itemImage}
           onError={(e) => e.target.src = noImg}
           alt="기본 이미지"
         />
