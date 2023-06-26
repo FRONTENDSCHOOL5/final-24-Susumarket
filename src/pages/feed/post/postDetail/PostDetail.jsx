@@ -31,6 +31,9 @@ const UserWrapper = styled.section`
   // text-align: center;
   margin-top: 20px;
   width: 400px;
+  @media (max-width: 400px) {
+    width: 360px;
+  }
 `;
 const UserProfile = styled.img`
   width: 40px;
@@ -61,7 +64,8 @@ const UserButton = styled.button`
   background: url(${morebutton}) no-repeat center/16px 16px;
   width: 16px;
   height: 16px;
-  margin-left: 270px;
+  margin-left: auto;
+  margin-right: 20px;
 `;
 const PostWrapper = styled.section`
   margin: 0 auto;
@@ -70,6 +74,10 @@ const PostWrapper = styled.section`
   flex-direction: column;
   max-width: 390px;
   padding-left: 54px;
+  @media (max-width: 390) {
+    padding-left: 14px;
+    padding-right: 20px;
+  }
   gap: 20px;
   width: 350px;
   margin-top: 20px;
