@@ -10,7 +10,6 @@ import {
   Container, Img, ImgInput, ImgLabel, ImgContainer, ImgTopLabel
 } from "./productUpload.style";
 import { customAxios } from '../../../../library/customAxios'
-// import { useLocation } from "react-router-dom";
 import ErrorMessage from '../../../../components/commons/errorMessage/ErrorMessage';
 
 
@@ -40,7 +39,6 @@ export default function ProductUpload() {
   const [descriptionMessage, setDescriptionMessage] = useState('');
   const navigate = useNavigate();
 
-  // 버튼 활성화
   useEffect(() => {
     if (isItemName === true && isPrice === true && isLink === true) {
       setDisabled(false);
@@ -85,8 +83,6 @@ export default function ProductUpload() {
     try {
       const response = await customAxios.post(`product`, product);
       const data = response.data.product;
-      console.log(data);
-      // navigate(`/product/${data.id}`);
       navigate(`/profile`)
     } catch (error) {
       console.log(error);
@@ -153,23 +149,9 @@ export default function ProductUpload() {
     } else {
       setLinkMessage('');
       setIsLink(true);
-      // setItemName(e.target.value);
     }
   };
 
-  // const imgHandler = (e) => {
-  //   const correctForm = /(.*?)\.(jpg|gif|png|jpeg|bmp|tif|heic|)$/;
-  //   if (e.target.files[0].size > 5 * 1024 * 1024) {
-  //     setItemImageMessage('파일 사이즈는 5MB까지만 가능합니다.');
-  //     setIsItemImage(false);
-  //   } else if (!e.target.files[0].name.match(correctForm)) {
-  //     setItemImageMessage('이미지 파일만 업로드 가능합니다.');
-  //     setIsItemImage(false);
-  //   } else {
-  //     setItemImageMessage('');
-  //     setIsItemImage(true);
-  //   }
-  // };
 
   return (
     <Container>
@@ -224,7 +206,6 @@ export default function ProductUpload() {
 
       <UserInput label="가격">
         <DataInput
-          // type=""
           placeholder="숫자만 입력 가능합니다."
           min="1"
           max="20"
@@ -235,11 +216,6 @@ export default function ProductUpload() {
       {priceMessage && <ErrorMessage>
         {priceMessage}
       </ErrorMessage>}
-
-        
-
-   
-
 
     </Container>
 

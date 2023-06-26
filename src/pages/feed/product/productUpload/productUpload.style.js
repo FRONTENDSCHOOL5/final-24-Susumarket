@@ -43,7 +43,6 @@ export const Form = styled.main`
 `;
 
 
-// userInput의 Inplabel 활용중이라 새로운 label 만들어줌(UserInput 공통 컴포넌트 사용x)
 export const ImgTopLabel = styled.label`
 width: 80px;
 font-size: 16px;
@@ -66,8 +65,6 @@ export const ImgContainer = styled.div`
 
 export const ImgLabel = styled.label`
 text-align: center;
-
-
 `;
 
 export const InpLabel = styled.label`
@@ -95,9 +92,7 @@ export const Img = styled.img`
     object-fit: cover;
     border: 0.5px solid #DBDBDB;
     border-radius: 10px;
-    
-
-  }
+    }
   &.uploadbtn {
     position: relative;
     left: 135px;

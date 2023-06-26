@@ -40,7 +40,6 @@ export default function ProductDetail() {
         setProfile(response.data.product.author.image);
         setAccountname(response.data.product.author.accountname)
         const data = response.data;
-        console.log(data);
       } catch (error) {
         console.error(error);
       }
@@ -51,9 +50,7 @@ export default function ProductDetail() {
   return (
     <>
       <NewTopHeader left={"back"} right={""}></NewTopHeader>
-
       <Div>
-
         <Image src={itemImage}></Image>
         <Profile >
             <Icon src={profile}></Icon>
@@ -65,12 +62,7 @@ export default function ProductDetail() {
             <Title>{itemName}</Title>
             <Contents>{link}</Contents>
           </div>
-
-
         </Profile>
-
-        {/* <Price>{price}</Price> */}
-
         <div
           style={{
             display: "flex",
@@ -78,18 +70,14 @@ export default function ProductDetail() {
             marginTop: "30px",
             marginBottom: "30px",
             marginLeft: "10px"
-
           }}
         >
           <HeartIcon src={heartFill} onClick={clickHeart}>
           </HeartIcon>
-
           <span style={{ fontSize: "31px", marginRight: "15px", marginLeft: "15px", color: "#CDCDCD" }}>|</span>
           <Price style={{ fontSize: "26px", fontWeight: "400" }}>
             {price}원
           </Price>
-          {/* <div class="heart"></div> */}
-
           <Button className="ms"
             style={{ color: "white", fontSize: "15px", fontWeight: "500" }}
             onClick={() => {
