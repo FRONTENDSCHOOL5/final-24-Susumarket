@@ -4,8 +4,8 @@ import multiflyImgIcon from "../../../../img/icon-img-layers.svg";
 export const ProfilePostWrapper = styled.section`
   position: relative;
   background-color: #fff;
-  border-top: 1px solid #dbdbdb;
   height: 100%;
+  min-height: 515px;
 `;
 export const ProfilePostTitle = styled.h2``;
 
@@ -46,22 +46,23 @@ export const ProfilePostUl = styled.ul`
   width: 100%;
   padding: 16px 16px 70px;
   margin: 0 auto;
-  gap: 20px;
+  gap: 24px;
 `;
 
 export const ProfilePostLi = styled.li`
   display: flex;
   flex-direction: column;
   position: relative;
-  max-width: 358px;
+  max-width: 304px;
   width: 100%;
+  padding-bottom: 24px;
 `;
 
 export const ProfilePostAuth = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 12px;
-  min-width: 358px;
+  min-width: 304px;
 `;
 
 export const ProfilePostAuthImg = styled.img`
@@ -89,6 +90,11 @@ export const ProfilePostAuthId = styled.span`
   font-size: 12px;
   line-height: 14px;
   color: #767676;
+  max-width: 100px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
   ::before {
     content: "@";
     margin-right: 3px;
@@ -112,9 +118,7 @@ export const ProfilePostMoreBtnIcon = styled.img`
   height: 18px;
 `;
 
-export const ProfilePostContents = styled.div`
-  padding-left: 54px;
-`;
+export const ProfilePostContents = styled.div``;
 
 export const ProfilePostText = styled.p`
   font-weight: 400;
@@ -122,6 +126,7 @@ export const ProfilePostText = styled.p`
   line-height: 18px;
   margin-bottom: 16px;
   word-break: break-all;
+  margin-left: 15px;
 `;
 export const ProfilePostImgWrapper = styled.div`
   position: relative;
@@ -150,6 +155,7 @@ export const ProfilePostImg = styled.img`
   border-radius: 10px;
   margin-bottom: 16px;
   width: 100%;
+  max-width: 304px;
   height: 100%;
   object-fit: cover;
   vertical-align: top;
@@ -170,7 +176,7 @@ export const ProfilePostImgBtn = styled.button`
   width: 6px;
   height: 6px;
   border-radius: 50%;
-
+  background-color: #f6d1d2;
   &.active {
     background-color: var(--color-primary);
   }
@@ -257,6 +263,7 @@ export const ProfilePostGalleryImg = styled.img`
 
 export const PostNoneWrapper = styled.div`
   position: absolute;
+  width: 100%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -272,4 +279,33 @@ export const PostNoneImg = styled.img`
 export const PostNoneText = styled.p`
   text-align: center;
   color: #767676;
+  @media screen and (max-width: 400px) {
+    font-size: 14px;
+  }
+`;
+
+export const UserSearchWrapper = styled.main`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 180px;
+  @media (max-height: 500px) {
+    margin-top: 70px;
+  }
+  @media (min-height: 500px) and (max-height: 600px) {
+    margin-top: 120px;
+  }
+`;
+
+export const Img = styled.img`
+  width: 100px;
+  height: 100px;
+  margin: auto;
+  // vertical-align: middle;
+`;
+export const Content = styled.div`
+  font-size: 15px;
+  color: #767676;
+  margin: 15px 0px;
 `;

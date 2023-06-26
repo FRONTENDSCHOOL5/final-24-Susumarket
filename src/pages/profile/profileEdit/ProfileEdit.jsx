@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ProfileEditForm,
   ProfileEditImg,
@@ -15,6 +15,7 @@ import UserInput from "../../../components/commons/dataInput/UserInput";
 import ErrorMessage from "../../../components/commons/errorMessage/ErrorMessage";
 import { customAxios } from "../../../library/customAxios";
 import { useNavigate, useParams } from "react-router-dom";
+import useAuth from "../../../hook/useAuth";
 
 export default function ProfileEdit() {
   const [imgPreviewURL, setImgPreviewURL] = useState(null);
@@ -31,7 +32,6 @@ export default function ProfileEdit() {
     isValid: true,
   });
   const [intro, setIntro] = useState("");
-  const [userData, setUserData] = useState({});
   const [isDisabled, setIsDisabled] = useState(false);
 
   const navigate = useNavigate();
@@ -39,6 +39,8 @@ export default function ProfileEdit() {
   const myAccountname = params.userId;
   const usernameReg = /^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣]{2,10}$/;
   const accountnameReg = /^[a-zA-Z0-9._]+$/;
+  const userData = useAuth();
+
   function onChangeImg(e) {
     e.preventDefault();
     const file = e.target.files[0];
@@ -52,6 +54,9 @@ export default function ProfileEdit() {
     setUploadFile(file);
   }
 
+  // 인자로 event 객체, 유효성 검사 정규표현식, valid 상태관리 함수, 경고 메세지 텍스트를 받음
+  // 인자로 받은 정규표현식 유효성 검사를 통해 유효하다면 에러 메세지를 없애고, isVali값을 true로
+  // 유효하지 않다면 인자로 받은 에러 메세지를 넣고, isVali값을 false로
   function vaildation(e, reg, setValid, text) {
     if (reg.test(e.target.value)) {
       setValid({ errorMessage: "", isValid: true });
@@ -74,13 +79,15 @@ export default function ProfileEdit() {
   function onChangeAccountname(e) {
     const value = e.target.value.trim();
     setAccountname(value);
-    console.log(e.target.value.length);
+    // onchange이벤트가 발생했을 경우 유효성 검사 실행
+    // 값이 있을 경우
     if (!value.length) {
       setAccountnameValidation({
         errorMessage: "계정 ID를 입력하세요",
         isValid: false,
       });
     } else {
+      // 값이 있을 경우 정규표현식을 이용해 유효성 검사
       vaildation(
         e,
         accountnameReg,
@@ -90,6 +97,7 @@ export default function ProfileEdit() {
     }
   }
 
+  // bulr 이벤트가 발생했을때 계정 중복 검사
   async function onBlurAccountname() {
     const user = {
       user: {
@@ -100,11 +108,12 @@ export default function ProfileEdit() {
       if (!accountname) return;
       const response = await customAxios.post("user/accountnamevalid", user);
       if (response.data.message !== "사용 가능한 계정ID 입니다.") {
-        if(accountname !== myAccountname)
-        setAccountnameValidation({
-          errorMessage: response.data.message,
-          isValid: false,
-        });
+        // 계정 ID와 일치하는 경우는 예외 처리 => 본인 계정 ID는 중복 가능하도록 함, 계정 ID 이외 다른 정보만 변경할 경우도 있기 때문
+        if (accountname !== myAccountname)
+          setAccountnameValidation({
+            errorMessage: response.data.message,
+            isValid: false,
+          });
       } else {
         setAccountnameValidation({ errorMessage: "", isValid: true });
       }
@@ -124,11 +133,13 @@ export default function ProfileEdit() {
 
   async function onSubmitSave(e) {
     e.preventDefault();
+    // 수정사항 없는지 체크 불필요한 데이터 전송 방지
     if (
       username === userData.username &&
       accountname === userData.accountname &&
       (imgPreviewURL === userData.image ||
-        imgPreviewURL === defaultProfileImg) &&
+        (imgPreviewURL === defaultProfileImg &&
+          userData.image.includes("Ellipse"))) &&
       intro === userData.intro
     ) {
       alert("수정사항이 없습니다!");
@@ -161,25 +172,25 @@ export default function ProfileEdit() {
     }
   }
 
+  // 다른 유저 프로필 수정으로 들어왔을 경우 예외 처리
   useEffect(() => {
-    async function fetchUserData() {
-      try {
-        const response = await customAxios.get("user/myinfo");
-        const data = response.data.user;
-        setImgPreviewURL(
-          data.image.includes("Ellipse.png") ? defaultProfileImg : data.image,
-        );
-        setUserData(data);
-        setAccountname(data.accountname);
-        setUsername(data.username);
-        setIntro(data.intro);
-      } catch (error) {
-        console.log(error);
-      }
+    if (accountname && accountname!== myAccountname) {
+      console.log(userData)
+      alert("잘못된 접근입니다.");
+      navigate("/profile");
+      return;
     }
-    fetchUserData();
-  }, []);
+  }, [myAccountname, accountname]);
 
+  useEffect(() => {
+    if (userData) {
+      setAccountname(userData.accountname);
+      setUsername(userData.username);
+      setIntro(userData.intro);
+    }
+  }, [userData]);
+
+  // 모든 값 유효성 체크
   useEffect(() => {
     if (accountnameValidation.isValid && usernameValidation.isValid) {
       setIsDisabled(false);
@@ -188,14 +199,18 @@ export default function ProfileEdit() {
     }
   }, [accountnameValidation, usernameValidation]);
 
+  // 이미지 파일 유요성 검사
   function validataionImg(file) {
+    // 파일이 없을 경우
     if (!file) {
       return false;
     }
+    // 파일의 사이즈를 초과하는 경우
     if (file.size > 1024 * 1024 * 10) {
       alert("이미지 파일의 크기를 초과하였습니다.(최대 10MB)");
       return false;
     }
+    // 파일의 확장자가 불일치하는 경우
     if (
       !file.name.includes("png") &&
       !file.name.includes("jpg") &&
@@ -212,9 +227,13 @@ export default function ProfileEdit() {
     }
     return true;
   }
+
+  // 이미지 파일 리셋
   function reset() {
+    setUploadFile("");
     setImgPreviewURL(defaultProfileImg);
   }
+
   return (
     <>
       <NewTopHeader
@@ -232,11 +251,11 @@ export default function ProfileEdit() {
               alt="유저 프로필 이미지"
               onError={(e) => (e.target.src = profileImg)}
             />
-            <ProfileEditImgRestBtn
-              type="button"
-              onClick={reset}
-            ></ProfileEditImgRestBtn>
           </ProfileEditLabel>
+
+          <ProfileEditImgRestBtn type="button" onClick={reset}>
+            <span className="a11y-hidden">이미지 초기화</span>
+          </ProfileEditImgRestBtn>
 
           <ProfileEditUploadInput
             type="file"
@@ -252,6 +271,7 @@ export default function ProfileEdit() {
               placeholder="2~10자 이내여야 합니다."
               value={username}
               onChange={onChangeUserame}
+              max={10}
             />
             {usernameValidation.errorMessage && (
               <ErrorMessage>{usernameValidation.errorMessage}</ErrorMessage>
@@ -279,6 +299,7 @@ export default function ProfileEdit() {
               placeholder="자신과 판매할 상품에 대해 소개해 주세요!"
               value={intro}
               onChange={onChangeIntro}
+              max={50}
             />
           </UserInput>
         </ProfileEditForm>

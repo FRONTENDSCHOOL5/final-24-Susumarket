@@ -4,13 +4,13 @@ import resetIcon from "../../../img/x.svg";
 export const ProfileEditWrapper = styled.main`
   display: flex;
   justify-content: center;
-  min-width: 390px;
   width: 100%;
   height: 100%;
   background-color: #fff;
   margin-top: 48px;
 `;
 export const ProfileEditForm = styled.form`
+  position: relative;
   width: 90%;
 `;
 
@@ -20,7 +20,7 @@ export const ProfileEditLabel = styled.label`
   width: 110px;
   height: 110px;
   margin: 0 auto 30px;
-  border: 1px solid #dbdbdb;
+  border: 2px solid #dbdbdb;
   border-radius: 50%;
   cursor: pointer;
   ::after {
@@ -39,18 +39,22 @@ export const ProfileEditImg = styled.img`
   display: flex;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   border-radius: 50%;
 `;
 
 export const ProfileEditUploadInput = styled.input``;
 
 export const ProfileEditImgRestBtn = styled.button`
+  position: absolute;
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  position: absolute;
   top: 0px;
-  right: -10px;
+  left: 50%;
+  margin-left: 50px;
+  transform: translateX(-50%);
   background: url(${resetIcon}) no-repeat center / contain #767676;
 `;
+
+export const ProfileEditSpan = styled.span``
