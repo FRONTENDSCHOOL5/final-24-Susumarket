@@ -9,6 +9,9 @@ import {
 } from "./followingList.style";
 import { addFollowAPI } from "../followers/addFollowAPI";
 import { deleteFollowAPI } from "../followers/deleteFollowAPI";
+import DefaultImg from "../../../../img/basic-profile.svg";
+
+const defaultImage = DefaultImg;
 
 export default function FollowingList({ following, account }) {
   const [isFollow, setIsFollow] = useState(following.isfollow);
@@ -39,7 +42,12 @@ export default function FollowingList({ following, account }) {
     <FollowingListLi>
       <FollowingListLink to={`/profile/${following.accountname}`}>
         <img
-          src={following.image}
+          src={
+            following.image.endsWith("Ellipse.png")
+              ? defaultImage
+              : following.image
+          }
+          onError={(e) => (e.target.src = DefaultImg)}
           alt="프로필 이미지"
           style={{
             objectFit: "cover",
