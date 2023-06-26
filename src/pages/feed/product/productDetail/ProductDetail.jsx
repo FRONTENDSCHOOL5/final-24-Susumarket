@@ -9,7 +9,7 @@ import iconHeartFill from "../../../../img/icon-heart-fill.svg"
 import Button from "../../../../components/commons/button/Button";
 import { useNavigate } from 'react-router-dom';
 import { ProfileDiv, ContentDiv, Btn, Bottom, Title, Div, Image, Nickname, Icon, HeartIcon, Profile, Price, Contents, Account } from './productDetail.style.js'
-
+import profileImg from "../../../../img/ProfileImg.svg";
 export default function ProductDetail() {
   const [itemName, setItemName] = useState("");
   const [price, setPrice] = useState("");
@@ -54,9 +54,16 @@ export default function ProductDetail() {
     <>
       <NewTopHeader left={"back"} right={""}></NewTopHeader>
       <Div>
-        <Image src={itemImage}></Image>
+        <Image src={itemImage}
+        alt="상품 사진"
+        onError={(e) => {
+          e.target.src = noImg;
+        }}
+        ></Image>
         <Profile >
-          <Icon src={profile}></Icon>
+          <Icon src={profile}
+          
+          ></Icon>
           <ContentDiv >
             <ProfileDiv>
               <Nickname>{name}</Nickname>
