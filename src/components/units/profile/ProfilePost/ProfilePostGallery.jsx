@@ -9,6 +9,7 @@ import ProfilePostGalleryList from "./ProfilePostGalleryList";
 import PostNoneImgIcon from "../../../../img/symbol-logo-404.svg";
 export default function ProfilePostGallery({ postData }) {
   return (
+    // posData에서 image가 있는 데이터만 찾음
     <>
       {postData.find((el) => el.image.length > 0) ? (
         <ProfilePostGalleryUl>

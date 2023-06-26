@@ -25,7 +25,7 @@ import Button from "../../../commons/button/Button";
 import { useNavigate, useParams } from "react-router-dom";
 import { customAxios } from "../../../../library/customAxios";
 import { AccountContext } from "../../../../context/AccountContext";
-import { useEffect } from "react";
+
 
 export default function ProfileInfo({ userData }) {
   const [isfollow, setIsfollow] = useState(userData.isfollow);
@@ -42,7 +42,7 @@ export default function ProfileInfo({ userData }) {
     try {
       await customAxios.post(`profile/${userAccountname}/follow`);
       setIsfollow(true);
-      setFollowCount((prev) => prev - 1);
+      setFollowCount((prev) => prev + 1);
     } catch (error) {
       console.log(error);
     }
@@ -52,7 +52,7 @@ export default function ProfileInfo({ userData }) {
     try {
       await customAxios.delete(`profile/${userAccountname}/unfollow`);
       setIsfollow(false);
-      setFollowCount((prev) => prev + 1);
+      setFollowCount((prev) => prev - 1);
     } catch (error) {
       console.log(error);
     }
@@ -72,7 +72,7 @@ export default function ProfileInfo({ userData }) {
           src={
             userData.image && userData.image.includes("Ellipse.png")
               ? profileImg
-              : userData.image || profileImg
+              : userData.image
           }
           onError={(e) => (e.target.src = profileImg)}
           alt="유저 프로필 이미지"
@@ -96,7 +96,7 @@ export default function ProfileInfo({ userData }) {
       <ProfileInfoButtonWrapper>
         {userData.accountname === account ? (
           <>
-            <Button className="medium" onClick={() => onClickButton(`${userData.accountname}/edit`)}>
+            <Button className="medium" onClick={() => onClickButton(`/profile/${userData.accountname}/edit`)}>
               프로필 수정
             </Button>
             <Button

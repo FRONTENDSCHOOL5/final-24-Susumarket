@@ -6,7 +6,7 @@ import {
   ProfileProductName,
   ProfileProductPrice,
 } from "./ProfileProduct.styles";
-import noImg from "../../../../img/symbol-logo-404.svg";
+import noImg from "../../../../img/no-image.png";
 import { useNavigate, useParams } from "react-router-dom";
 import { customAxios } from "../../../../library/customAxios";
 
@@ -31,6 +31,8 @@ export default function ProfileProductList({
     }
   }, []);
 
+  // 현재 자신의 accountname과 account가 일치할때만 삭제 수정 버튼이 활성화 되도록함
+  // 그렇지 않으면 그냥 상품 상세 페이지로 이동되도록 처리함
   function onClickProduct() {
     if (userAccountname && userAccountname !== account) {
       navigate(`/product/${productList.id}`);

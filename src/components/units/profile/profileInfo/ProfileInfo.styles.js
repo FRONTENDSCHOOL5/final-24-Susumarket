@@ -41,7 +41,9 @@ export const ProfileInfoeImg = styled.img`
   margin-bottom: 16px;
 `;
 export const ProfileInfoFollowering = styled(Link)``;
-export const ProfileInfoFolloweringCount = styled(ProfileInfoFollowersCount)``;
+export const ProfileInfoFolloweringCount = styled(ProfileInfoFollowersCount)`
+  color: #767676;
+`;
 export const ProfileInfoFolloweringText = styled(ProfileInfoFollowersText)``;
 
 export const ProfileInfoUserNameWrapper = styled.div``;
@@ -52,6 +54,12 @@ export const ProfileInfoUserId = styled.span`
   line-height: 20px;
   margin-bottom: 6px;
   min-height: 20px;
+  text-align: center;
+  max-width: 360px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
 `;
 export const ProfileInfoUserAccountName = styled.span`
   display: block;
@@ -60,6 +68,11 @@ export const ProfileInfoUserAccountName = styled.span`
   line-height: 14px;
   color: #767676;
   margin-bottom: 16px;
+  max-width: 180px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
   ::before {
     content: "@";
     font-weight: 400;
@@ -76,6 +89,11 @@ export const ProfileInfoIntro = styled.p`
   color: #767676;
   margin-bottom: 24px;
   min-height: 18px;
+  max-width: 300px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
 `;
 export const ProfileInfoButtonWrapper = styled.div`
   display: flex;

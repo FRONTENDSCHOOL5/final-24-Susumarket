@@ -7,24 +7,28 @@ import {
   UserIntro,
   FollowButton,
 } from "./followerList.style";
+import DefaultImg from "../../../../img/basic-profile.svg";
+
 import { addFollowAPI } from "./addFollowAPI";
 import { deleteFollowAPI } from "./deleteFollowAPI";
 
+const defaultImage = DefaultImg;
 export default function FollowerList({ follower, account }) {
   const [isFollow, setIsFollow] = useState(follower.isfollow);
-  console.log(follower);
+
+  // 팔로워 추가 API호출
   const handleSubmitFollow = async () => {
-    const response = await addFollowAPI(follower.accountname);
+    await addFollowAPI(follower.accountname);
     setIsFollow(true);
-    console.log("response", response);
   };
 
+  // 팔로워 삭제 API호출
   const handleSubmitUnFollow = async () => {
-    const response = await deleteFollowAPI(follower.accountname);
+    await deleteFollowAPI(follower.accountname);
     setIsFollow(false);
-    console.log("response", response);
   };
 
+  // 버튼 클릭시 발생하는 함수
   const handleFollowBtn = (e) => {
     e.preventDefault();
     if (isFollow) {
@@ -38,7 +42,12 @@ export default function FollowerList({ follower, account }) {
     <FollowerListLi>
       <FollowerListLink to={`/profile/${follower.accountname}`}>
         <img
-          src={follower.image}
+          src={
+            follower.image.endsWith("Ellipse.png")
+              ? follower.image
+              : defaultImage
+          }
+          onError={(e) => (e.target.src = DefaultImg)}
           alt="프로필 이미지"
           style={{
             objectFit: "cover",

@@ -27,9 +27,10 @@ export default function UserProfile() {
   const navigate = useNavigate();
   const params = useParams();
   const accountname = params.userId;
-  // confirm 모달창 props 설정
+
+  // confirm 모달창 props 설정 => 버튼 마다 confirm 모달창이 달라지기 때문에 사용
   const [confirmProps, setConfirmProps] = useState({});
-  // post 모달창 props 설정
+  // post 모달창 props 설정 => 버튼 마다 post 모달창이 달라지기 때문에 사용
   const [postModalProps, setPostModalProps] = useState([]);
 
   // 유저 데이터 저장
@@ -37,8 +38,11 @@ export default function UserProfile() {
 
   // 유효한 유저 인지 파악
   const [isInvalidProfile, setIsInvalidProfile] = useState(false);
+
+  // account 상태
   const [account, setAccount] = useState(null);
 
+  // 자신의 프로필 정보를 가져오는 커스텀 훅
   const myProfile = useAuth(null);
 
   // post 모달창 props 설정 및 열기
@@ -61,11 +65,13 @@ export default function UserProfile() {
 
   async function fecthUserDate() {
     try {
+      // accountname params가 존재할때 와 존재하지 않을때를 분기처리해줌
+      // accountname이 존재할 시 에는 accountname과 일치하는 유저 프로필을 불러옴
       if (accountname) {
         const response = await customAxios.get(`profile/${accountname}`);
         setUserData(response.data.profile);
         setIsInvalidProfile(false);
-      } else {
+      } else { // accountname이 존재하지 않을 시에는 자신의 프로필 정보를 불러옴
         setUserData(myProfile);
       }
     } catch (error) {
@@ -74,7 +80,7 @@ export default function UserProfile() {
     }
   }
 
-
+// 유저 정보가 있을 경우에만 유저 데이터를 받아옴
   useEffect(() => {
     if(myProfile){
       setAccount(myProfile.accountname);
@@ -84,11 +90,12 @@ export default function UserProfile() {
   }, [accountname, myProfile]);
 
   return (
+    // userData.accountname undeifined 방지
     userData.accountname&&<AccountContext.Provider value={{ setAccount, account }}>
       <NewTopHeader
         left={"back"}
         right={"more"}
-        title="유저 프로필"
+        title={"유저 프로필"}
         onClickButton={() => {
           settingPostModalProps([
             {
@@ -133,6 +140,7 @@ export default function UserProfile() {
               settingPostModalProps={settingPostModalProps}
               closeModal={closeModal}
               userData={userData}
+              isFeed={false}
             />
           </>
         )}

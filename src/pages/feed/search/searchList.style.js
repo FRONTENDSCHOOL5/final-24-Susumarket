@@ -15,6 +15,9 @@ export const SearchListLi = styled.li`
   background-color: #fff;
   justify-content: center;
   max-width: 390px;
+  &:hover {
+    background-color: #f5f5f5;
+  }
 `;
 
 export const SearchListLink = styled(Link)`

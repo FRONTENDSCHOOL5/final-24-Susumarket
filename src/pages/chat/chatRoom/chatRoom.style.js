@@ -1,19 +1,17 @@
 import styled from "styled-components";
-
+import imgBtn from "../../../img/img-button.svg";
+import imgBtnActive from "../../../img/img-button-active.svg";
+import { isMobile } from "react-device-detect";
 export const ChatRoomTitle = styled.h1``;
 export const ChatRoomWrapper = styled.div`
-  background-color: #f2f2f2;
-  width: 100%;
-  height: calc(100vh - 115px);
-  position: relative;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
+
+  height: ${(props) => `calc(${props.height}px - 115px)`};
+  background-color: rgb(242, 242, 242);
 `;
 
 export const ChatRoomUl = styled.ul`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
   overflow-y: scroll;
   padding: 20px 16px 16px;
 `;
@@ -25,7 +23,6 @@ export const ChatRoomMsgWrapper = styled.div`
   line-height: 18px;
   font-weight: 400;
   background-color: #fff;
-  border: 1px solid #c4c4c4;
   border-radius: 0 10px 10px 10px;
   &.imgMsg {
     padding: 0;
@@ -44,11 +41,12 @@ export const ChatRoomUserImg = styled.img`
 export const ChatRoomLi = styled.li`
   display: flex;
   gap: 10px;
+  margin-bottom: 10px;
   &.sent {
     flex-direction: row-reverse;
   }
   &.sent ${ChatRoomMsgWrapper} {
-    background-color: var(--color-primary);
+    background-color: var(--color-sub);
     color: #fff;
     border-radius: 10px 0 10px 10px;
   }
@@ -78,7 +76,7 @@ export const ChatRoomImgMsg = styled.img`
 `;
 
 export const ChatRoomMsgInputForm = styled.form`
-  position: absolute;
+  position: fixed;
   display: flex;
   gap: 10px;
   align-items: center;
@@ -87,16 +85,16 @@ export const ChatRoomMsgInputForm = styled.form`
   background-color: #fff;
   width: 100%;
 `;
-export const ChatRoomImgBtnIcon = styled.img`
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  fill: blue;
-`;
+
+export const ChatRoomBtnSpan = styled.span``;
+
 export const ChatRoomImgBtn = styled.button`
-  background: none;
+  background: url(${imgBtn}) no-repeat center / cover;
   width: 44px;
   height: 44px;
+  &:hover {
+    background: url(${isMobile ? imgBtn : imgBtnActive}) no-repeat center / cover;
+  }
 `;
 
 export const ChatRoomMsgInput = styled.input`
@@ -104,10 +102,10 @@ export const ChatRoomMsgInput = styled.input`
   border: none;
   padding: 10px;
 `;
+
 export const ChatRoomSubmitBtn = styled.button`
   text-align: right;
   background: none;
   font-weight: 14px;
-  color: ${(props) => (props.value ? "var(--color-primary)" : "#c4c4c4")};
+  color: ${(props) => (props.value ? "var(--color-primary)" : "#C4C4C4")};
 `;
-

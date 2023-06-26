@@ -15,6 +15,7 @@ import NewTopHeader from "../../../components/commons/newTopHeader/NewTopHeader"
 import PostModal from "../../../components/commons/postModal/PostModal";
 import { ModalContext } from "../../../context/ModalContext";
 import MenuBar from "../../../components/commons/menuBar/MenuBar";
+import TopButton from "../../../components/commons/topButton/TopButton";
 
 export default function ChatList() {
   const { setIsOpenPostModal } = useContext(ModalContext);
@@ -27,13 +28,28 @@ export default function ChatList() {
         onClickButton={() => setIsOpenPostModal(true)}
       />
       <ChatListUl>
-        <ChatListLi>
+      <ChatListLi>
           <ChatListLink to="/chatList/1">
             <ChatListUserImgWrapper className="active">
               <ChatListUserImg src={userImg} alt="유저 프로필 이미지" />
             </ChatListUserImgWrapper>
             <ChatListInfo>
-              <ChatListUserName>그림 그려 드려요 </ChatListUserName>
+              <ChatListUserName>cooll_bob_ross</ChatListUserName>
+              <ChatListLastChat>
+                자유롭게 대화 하세요~
+              </ChatListLastChat>
+            </ChatListInfo>
+            <ChatListDate dateTime="2023-06-10">2023.06.08</ChatListDate>
+          </ChatListLink>
+        </ChatListLi>
+
+        <ChatListLi>
+          <ChatListLink to="/chatList/2">
+            <ChatListUserImgWrapper className="active">
+              <ChatListUserImg src={userImg} alt="유저 프로필 이미지" />
+            </ChatListUserImgWrapper>
+            <ChatListInfo>
+              <ChatListUserName>그림쟁이</ChatListUserName>
               <ChatListLastChat>네, 그림 요청 받았습니다.</ChatListLastChat>
             </ChatListInfo>
             <ChatListDate dateTime="2023-06-10">2023.06.10</ChatListDate>
@@ -41,7 +57,7 @@ export default function ChatList() {
         </ChatListLi>
 
         <ChatListLi>
-          <ChatListLink to="/chatList/2">
+          <ChatListLink to="/chatList/3">
             <ChatListUserImgWrapper className="active">
               <ChatListUserImg src={userImg} alt="유저 프로필 이미지" />
             </ChatListUserImgWrapper>
@@ -56,7 +72,7 @@ export default function ChatList() {
         </ChatListLi>
 
         <ChatListLi>
-          <ChatListLink to="/chatList/3">
+          <ChatListLink to="/chatList/4">
             <ChatListUserImgWrapper>
               <ChatListUserImg src={userImg} alt="유저 프로필 이미지" />
             </ChatListUserImgWrapper>
@@ -70,6 +86,7 @@ export default function ChatList() {
           </ChatListLink>
         </ChatListLi>
       </ChatListUl>
+      <TopButton/>
       <MenuBar />
       <PostModal menuList={[{ name: "초대" }]} />
     </>
