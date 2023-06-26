@@ -25,11 +25,13 @@ export default function ProductDetail() {
     heartFill === iconHeart ? setHeartFill(iconHeartFill) : setHeartFill(iconHeart);
   }
   const Navigate = useNavigate();
+  const newPrice = new Intl.NumberFormat().format(parseInt(price, 10));
  
   // 이미지 로딩
   useEffect(() => {
     const loadProfileImage = async () => {
       const url = `${baseUrl}product/detail/${params.productId}`;
+
       try {
         const response = await customAxios.get(url);
         setItemImage(response.data.product.itemImage);
@@ -44,6 +46,7 @@ export default function ProductDetail() {
         console.error(error);
       }
     };
+
     loadProfileImage();
   }, [baseUrl, params]);
 
@@ -76,7 +79,7 @@ export default function ProductDetail() {
           </HeartIcon>
           <span style={{ fontSize: "31px", marginRight: "15px", marginLeft: "15px", color: "#CDCDCD" }}>|</span>
           <Price style={{ fontSize: "26px", fontWeight: "400" }}>
-            {price}원
+            {newPrice}원
           </Price>
           <Button className="ms"
             style={{ color: "white", fontSize: "15px", fontWeight: "500" }}
