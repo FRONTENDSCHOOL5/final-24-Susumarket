@@ -24,6 +24,7 @@ const PostImgButton = styled.button`
 const UploadMain = styled.main`
   display: flex;
   flex-direction: row;
+  align-items: flex-start;
 `;
 
 const ProfileImgLabel = styled.label``;
@@ -33,7 +34,7 @@ const ProfileImg = styled.img`
   height: 50px;
   border-radius: 50%;
   object-fit: cover;
-  background-color: var(--color-sub);
+  // background-color: var(--color-sub);
   margin-left: 20px;
   margin-top: 20px;
 `;
@@ -55,13 +56,6 @@ const PostImgInput = styled.input`
   display: none;
 `;
 
-const UploadImgArea = styled.section`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  margin-top: 30px;
-`;
-
 const Delete = styled.button`
   background: url(${xbutton});
   width: 20px;
@@ -73,13 +67,20 @@ const Delete = styled.button`
 `;
 
 const PostImg = styled.img`
-@media (max-width: 360px) {
-  max-width: 80%;
-}
-width: calc(33.33% -40px);
+  @media (max-width: 360px) {
+    max-width: 80%;
+  }
+  width: calc(33.33% -40px);
   border-radius: 20px;
   margin-left: 30px;
   position: relative;
+`;
+
+const UploadImgArea = styled.section`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin-top: 30px;
 `;
 
 export default function PostEdit() {
