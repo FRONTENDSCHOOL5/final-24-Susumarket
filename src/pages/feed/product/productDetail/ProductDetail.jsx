@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHeader";
 import { useParams } from "react-router-dom";
-import noImg from "../../../../img/symbol-logo-404.svg";
+import noImg from "../../../../img/no-image.png";
 import { customAxios } from "../../../../library/customAxios";
 import styled from "styled-components";
 import iconHeart from "../../../../img/icon-heart.svg"
