@@ -1,7 +1,9 @@
 import styled from "styled-components";
-import Button from "../../components/commons/button/Button";
-import NewTopHeader from "../../components/commons/newTopHeader/NewTopHeader";
 
+export const TopHedaerWrapper = styled.div`
+  width: 100%;
+  min-width: 1200px;
+`
 export const DrawingWrapper = styled.main`
   display: flex;
   height: 100vh;
@@ -9,6 +11,7 @@ export const DrawingWrapper = styled.main`
   justify-content: center;
   align-items: center;
   background-color: gainsboro;
+  min-width: 1200px;
 `;
 
 export const PaletteWrapper = styled.div`
@@ -26,7 +29,7 @@ export const PalettColorBtn = styled.button`
   border-radius: 50%;
   cursor: pointer;
   border: 5px solid white;
-  background-color: ${(props) => props.color};
+  background-color: ${(props) => props.colors};
   transition: transform ease-in-out 0.1s;
   :hover {
     transform: scale(1.2);
@@ -65,7 +68,7 @@ export const InputLabel = styled.label``;
 export const DrawingBtn = styled.button`
   padding: 10px 0px;
   text-align: center;
-  background-color: var(--color-primary);
+  background-color: var(--color-sub);
   color: white;
   font-weight: 500;
   cursor: pointer;
@@ -76,7 +79,7 @@ export const DrawingBtn = styled.button`
 export const UploadLabel = styled.label`
   padding: 10px 0px;
   text-align: center;
-  background-color: var(--color-primary);
+  background-color: var(--color-sub);
   color: white;
   font-weight: 500;
   cursor: pointer;
@@ -85,13 +88,9 @@ export const UploadLabel = styled.label`
   transform: opacity linear 0.1s;
 `;
 
-
 export const InputUpload = styled.input`
   display: none;
 `;
 
 export const BtnSaveImg = styled.button``;
 
-export const StyleNewTopHeader = styled(NewTopHeader)`
-  background-color: royalblue;
-`;
