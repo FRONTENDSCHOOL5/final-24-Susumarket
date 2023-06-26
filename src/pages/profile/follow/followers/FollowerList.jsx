@@ -60,7 +60,8 @@ export default function FollowerList({ follower, account }) {
           <UserName>{follower.username}</UserName>
           <UserIntro>{follower.intro}</UserIntro>
         </UserWrapper>
-        {follower.accountname === account ? null : (
+
+        {follower.accountname !== account && (
           <FollowButton
             className="small"
             active={!isFollow}

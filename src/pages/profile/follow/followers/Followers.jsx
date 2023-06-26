@@ -8,11 +8,13 @@ import followerAPI from "./followerAPI";
 import MenuBar from "../../../../components/commons/menuBar/MenuBar";
 import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHeader";
 import TopButton from "../../../../components/commons/topButton/TopButton";
+import useAuth from "../../../../hook/useAuth"
 
 export default function Followers() {
   const [followerData, setFollowerData] = useState([]);
   const { userId } = useParams();
-
+  const myProfile = useAuth();
+  
   // 팔로워 데이터 호출
   useEffect(() => {
     const fetchData = async () => {
@@ -26,8 +28,9 @@ export default function Followers() {
         );
       }
     };
+    if(myProfile)
     fetchData();
-  }, [userId]);
+  }, [userId, myProfile]);
 
   return (
     <>
@@ -43,7 +46,7 @@ export default function Followers() {
           {followerData.map((follower) => {
             return (
               <FollowerList
-                account={userId}
+                account={myProfile.accountname}
                 follower={follower}
                 key={follower._id}
               />
