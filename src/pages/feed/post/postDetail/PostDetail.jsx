@@ -3,15 +3,16 @@ import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHead
 import PostModal from "../../../../components/commons/postModal/PostModal";
 import { useState, useEffect, useRef, useContext, useCallback } from "react";
 import { customAxios } from "../../../../library/customAxios";
-import styled from "styled-components";
-import morebutton from "../../../../img/icon-more-vertical.svg";
 import { useParams } from "react-router-dom";
 import { ModalContext } from "../../../../context/ModalContext";
 import { useNavigate } from "react-router-dom";
 import ConfirmModal from "../../../../components/commons/confirmModal/confirmModal";
 import { UserContext } from "../../../../context/UserContext";
 import profileImg from "../../../../img/ProfileImg.svg";
-import noImg from "../../../../img/symbol-logo-404.svg";
+import noImg from "../../../../img/no-image.png";
+import defaultImg from "../../../../img/ProfileImg.svg";
+import useAuth from "../../../../hook/useAuth";
+import moreIcon from "../../../../img/icon-more-vertical.svg";
 
 import {
   ProfilePostImgBtnLi,
@@ -22,68 +23,37 @@ import {
   ProfilePostImg,
   ProfilePostImgBtnUl,
   ProfilePostImgBtn,
+  ProfilePostAuth,
+  ProfilePostAuthImg,
+  ProfilePostAuthInfo,
+  ProfilePostAuthId,
+  ProfilePostMoreBtn,
+  ProfilePostContents,
+  ProfilePostText,
+  ProfilePostAuthName,
+  ProfilePostMoreBtnIcon,
 } from "../../../../components/units/profile/ProfilePost/ProfilePost.styles";
 
-const UserWrapper = styled.section`
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  // text-align: center;
-  margin-top: 20px;
-  width: 400px;
-  @media (max-width: 400px) {
-    width: 360px;
-  }
-`;
-const UserProfile = styled.img`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-`;
-const UserInfo = styled.div`
-  margin-left: 10px;
-`;
-const UserName = styled.p`
-  font-size: 16px;
-  font-weight: 500;
-  margin-bottom: 5px;
-`;
-const AccountName = styled.p`
-  font-size: 13px;
-  font-weight: 400;
-  color: #767676;
-  ::before{
-    content: "@";
-    font-weight: 400;
-    font-size: 13px;
-    color: #767676;
-    margin-right: 3px;
-  }
-`;
-const UserButton = styled.button`
-  background: url(${morebutton}) no-repeat center/16px 16px;
-  width: 16px;
-  height: 16px;
-  margin-left: auto;
-  margin-right: 20px;
-`;
-const PostWrapper = styled.section`
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  max-width: 390px;
-  padding-left: 54px;
-  @media (max-width: 390) {
-    padding-left: 14px;
-    padding-right: 20px;
-  }
-  gap: 20px;
-  width: 350px;
-  margin-top: 20px;
-`;
-
-const PostContent = styled.div``;
+import {
+  UserWrapper,
+  AccountName,
+  CommentForm,
+  CommentInput,
+  CommentItem,
+  CommentList,
+  CommentUserImg,
+  CommentWrapper,
+  PostContent,
+  PostWrapper,
+  UserButton,
+  UserInfo,
+  UserName,
+  UserProfile,
+  CommentContent,
+  CommentBtnSpan,
+  CommentSubmitButton,
+  CommentDeleteButton,
+} from "./postDetail.style";
 
 export default function PostDetail() {
   const [profileImage, setProfileImage] = useState(null);
@@ -98,7 +68,10 @@ export default function PostDetail() {
   const ImgUlRef = useRef();
   const { setIsOpenPostModal } = useContext(ModalContext);
   console.log(postId);
-  const myusername = localStorage.getItem("account");
+  const myProfile = useAuth();
+
+  // 페이지 이동 위해 useNavigate() 사용
+  const navigate = useNavigate();
 
   // 컨펌 모달 창
   const [confirmModalProps, setConfirmModalProps] = useState([]);
@@ -132,8 +105,8 @@ export default function PostDetail() {
 
   // 지속적인 실행 막기 위해 useEffect 사용
   useEffect(() => {
-    fetchPostDetail();
-  }, []);
+    if (myProfile) fetchPostDetail();
+  }, [myProfile]);
 
   // api에서 업로드 된 post 내용과 이미지 불러오기
   const fetchPostDetail = async () => {
@@ -156,28 +129,106 @@ export default function PostDetail() {
     try {
       await customAxios.delete(`post/${postId}`);
     } catch (error) {
+      if (error.response.data.message === "존재하지 않는 게시글 입니다.") {
+        alert(error.response.data.message);
+      }
       console.log(error);
     }
   }, [postId]);
 
-  // 페이지 이동 위해 useNavigate() 사용
-  const navigate = useNavigate();
+  const ReportPost = useCallback(async () => {
+    try {
+      await customAxios.delete(`post/${postId}/report`);
+    } catch (error) {
+      if (error.response.data.message === "존재하지 않는 게시글 입니다.") {
+        alert(error.response.data.message);
+      }
+      console.log(error);
+    }
+  }, [postId]);
+
+  // 댓글 작성 처리 함수
+  const handleCommentSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await customAxios.post(`post/${postId}/comments`, {
+        comment: {
+          content: newComment,
+        },
+      });
+      const createdComment = response.data.comment;
+      setComments([...comments, createdComment]);
+      setNewComment("");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // 댓글 목록 불러오기
+  const fetchComments = async () => {
+    try {
+      const response = await customAxios.get(`post/${postId}/comments`);
+      const fetchedComments = response.data.comments;
+      setComments(fetchedComments);
+      console.log(user);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchComments();
+  }, []);
+
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
+
+  // 댓글 삭제 기능
+  const { user } = useContext(UserContext);
+
+  const handleDeleteComment = (commentId) => {
+    settingConfirmModalProps({
+      confirmMessage: "댓글을 삭제하시겠습니까?",
+      submitMessage: "삭제",
+      cancelMessage: "취소",
+      handleSubmit: () => {
+        deleteComment(commentId);
+        closeModal();
+      },
+    });
+  };
+
+  const deleteComment = async (commentId) => {
+    try {
+      await customAxios.delete(`post/${postId}/comments/${commentId}`);
+      setComments(comments.filter((comment) => comment.id !== commentId));
+    } catch (error) {
+      if (error.response.data.message === "존재하지 않는 게시글 입니다.") {
+        alert(error.response.data.message);
+      }
+      console.error(error);
+    }
+  };
+
+  const reportComment = async (commentId) => {
+    try {
+      await customAxios.delete(`post/${postId}/comments/${commentId}/report`);
+    } catch (error) {
+      if (error.response.data.message === "댓글이 존재하지 않습니다.") {
+        alert(error.response.data.message);
+      }
+      console.error(error);
+    }
+  };
 
   return (
     <>
       <NewTopHeader
         left="back"
         right="more"
-        title = "수수마켓 게시글 상세"
+        title="수수마켓 게시글 상세"
         onClickButton={() =>
           settingPostModalProps([
-            {
-              name: "설정 및 개인정보",
-              func: () => {
-                navigate(`../../profile/${myusername}/edit`);
-                // onClickProfileEdit();
-              },
-            },
             {
               name: "로그아웃",
               func: () => {
@@ -192,95 +243,219 @@ export default function PostDetail() {
                     navigate("/login");
                   },
                 });
-                console.log("로그아웃");
+              },
+            },
+            {
+              name: "설정 및 개인정보",
+              func: () => {
+                navigate(`../../profile/${myProfile.accountname}/edit`);
+                // onClickProfileEdit();
               },
             },
           ])
         }
       ></NewTopHeader>
-      <UserWrapper>
-        <UserProfile
-          src={profileImage}
-          alt="프로필 사진"
-          onError={(e) => {
-            e.target.src = profileImg;
-          }}
-        ></UserProfile>
-        <UserInfo>
-          <UserName>{username}</UserName>
-          <AccountName>{accountname}</AccountName>
-        </UserInfo>
-        <UserButton
-          onClick={() =>
-            settingPostModalProps([
-              {
-                name: "삭제",
-                func: () => {
-                  settingConfirmModalProps({
-                    confirmMessage: "게시글을 삭제할까요?",
-                    submitMessage: "삭제",
-                    cancelMessage: "취소",
-                    handleSubmit: () => {
-                      closeModal();
-                      DeletePost();
-                      navigate(`/profile/${myusername}`);
-                    },
-                  });
-                  console.log("삭제");
-                },
-              },
-              {
-                name: "수정",
-                func: () => {
-                  // onClickPostEdit();
-                  navigate(`../../post/${postId}/edit`);
-                },
-              },
-            ])
-          }
-        ></UserButton>
-      </UserWrapper>
       <PostWrapper>
-        <PostContent>{postcontent}</PostContent>
-        {imgArray.length > 0 ? (
-          <ProfilePostImgWrapper>
-            <ProfilePostImgUl ref={ImgUlRef}>
-              {imgArray.map((image, idx) => {
-                return (
-                  <ProfilePostImgLi key={image + idx}>
-                    <ProfilePostImg
-                      src={image}
-                      alt="포스트 이미지"
-                      onError={(e) => {
-                        e.target.src = noImg;
-                      }}
-                    />
-                  </ProfilePostImgLi>
-                );
-              })}
-            </ProfilePostImgUl>
+        <ProfilePostAuth to={`/profile/${accountname}`}>
+          <ProfilePostAuthImg
+            src={
+              profileImage && profileImage.endsWith("Ellipse.png")
+                ? defaultImg
+                : profileImage
+            }
+            alt="프로필 사진"
+            onError={(e) => {
+              e.target.src = profileImg;
+            }}
+          />
+          <ProfilePostAuthInfo>
+            <ProfilePostAuthName>{username}</ProfilePostAuthName>
+            <ProfilePostAuthId>{accountname}</ProfilePostAuthId>
+          </ProfilePostAuthInfo>
+          <ProfilePostMoreBtn
+            onClick={() => {
+              if (myProfile.accountname === accountname) {
+                settingPostModalProps([
+                  {
+                    name: "삭제",
+                    func: () => {
+                      settingConfirmModalProps({
+                        confirmMessage: "게시글을 삭제할까요?",
+                        submitMessage: "삭제",
+                        cancelMessage: "취소",
+                        handleSubmit: () => {
+                          closeModal();
+                          DeletePost();
+                          navigate(`/profile/${myProfile}`);
+                        },
+                      });
+                      console.log("삭제");
+                    },
+                  },
+                  {
+                    name: "수정",
+                    func: () => {
+                      // onClickPostEdit();
+                      navigate(`../../post/${postId}/edit`);
+                    },
+                  },
+                ]);
+              } else {
+                settingPostModalProps([
+                  {
+                    name: "신고",
+                    func: () => {
+                      settingConfirmModalProps({
+                        confirmMessage: "게시글을 신고할까요?",
+                        submitMessage: "신고",
+                        cancelMessage: "취소",
+                        handleSubmit: () => {
+                          closeModal();
 
-            <ProfilePostImgBtnUl>
-              {imgArray.map((image, idx) => {
-                return (
-                  <ProfilePostImgBtnLi key={image + idx}>
-                    {imgArray.length > 1 && (
-                      <ProfilePostImgBtn
-                        className={activeButton === idx ? "active" : ""}
-                        onClick={(e) => onClickSliderBtn(e, idx)}
-                      >
-                        <ProfilePostButtonSpan className="a11y-hidden">
-                          이미지 슬라이드 버튼
-                        </ProfilePostButtonSpan>
-                      </ProfilePostImgBtn>
-                    )}
-                  </ProfilePostImgBtnLi>
-                );
-              })}
-            </ProfilePostImgBtnUl>
-          </ProfilePostImgWrapper>
-        ) : null}
+                          alert("신고가 완료되었습니다.");
+                        },
+                      });
+                    },
+                  },
+                ]);
+              }
+            }}
+          >
+            <ProfilePostMoreBtnIcon src={moreIcon} alt="more 버튼" />
+          </ProfilePostMoreBtn>
+        </ProfilePostAuth>
+        <ProfilePostContents>
+          <ProfilePostText>{postcontent}</ProfilePostText>
+          {imgArray.length > 0 ? (
+            <ProfilePostImgWrapper>
+              <ProfilePostImgUl ref={ImgUlRef}>
+                {imgArray.map((image, idx) => {
+                  return (
+                    <ProfilePostImgLi key={image + idx}>
+                      <ProfilePostImg
+                        src={image}
+                        alt="포스트 이미지"
+                        onError={(e) => {
+                          e.target.src = noImg;
+                        }}
+                      />
+                    </ProfilePostImgLi>
+                  );
+                })}
+              </ProfilePostImgUl>
+
+              <ProfilePostImgBtnUl>
+                {imgArray.map((image, idx) => {
+                  return (
+                    <ProfilePostImgBtnLi key={image + idx}>
+                      {imgArray.length > 1 && (
+                        <ProfilePostImgBtn
+                          className={activeButton === idx ? "active" : ""}
+                          onClick={(e) => onClickSliderBtn(e, idx)}
+                        >
+                          <ProfilePostButtonSpan className="a11y-hidden">
+                            이미지 슬라이드 버튼
+                          </ProfilePostButtonSpan>
+                        </ProfilePostImgBtn>
+                      )}
+                    </ProfilePostImgBtnLi>
+                  );
+                })}
+              </ProfilePostImgBtnUl>
+            </ProfilePostImgWrapper>
+          ) : null}
+        </ProfilePostContents>
       </PostWrapper>
+      <CommentWrapper>
+        <CommentList>
+          {comments.map((comment) => (
+            <CommentItem key={comment.id}>
+              <UserWrapper to={`/profile/${comment.author.accountname}`}>
+                <UserProfile
+                  src={
+                    comment.author.image &&
+                    comment.author.image.endsWith("Ellipse.png")
+                      ? defaultImg
+                      : comment.author.image
+                  }
+                  onError={(e) => (e.target.src = defaultImg)}
+                  alt="프로필 이미지"
+                />
+                <UserInfo>
+                  <UserName>{comment.author.username}</UserName>
+                  <AccountName>{comment.author.accountname}</AccountName>
+                </UserInfo>
+
+                <CommentDeleteButton
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (myProfile.accountname === accountname) {
+                      settingPostModalProps([
+                        {
+                          name: "삭제",
+                          func: () => {
+                            settingConfirmModalProps({
+                              confirmMessage: "댓글을 삭제하시겠습니까?",
+                              submitMessage: "삭제",
+                              cancelMessage: "취소",
+                              handleSubmit: () => {
+                                deleteComment(comment.id);
+                                closeModal();
+                              },
+                            });
+                          },
+                        },
+                      ]);
+                    } else {
+                      settingPostModalProps([
+                        {
+                          name: "신고",
+                          func: () => {
+                            settingConfirmModalProps({
+                              confirmMessage: "신고하시겠습니까?",
+                              submitMessage: "신고",
+                              cancelMessage: "취소",
+                              handleSubmit: () => {
+                                reportComment(comment.id);
+                                alert("신고가 완료되었습니다.");
+                                closeModal();
+                              },
+                            });
+                          },
+                        },
+                      ]);
+                    }
+                  }}
+                >
+                  <CommentBtnSpan className="a11y-hidden">삭제</CommentBtnSpan>
+                </CommentDeleteButton>
+              </UserWrapper>
+              <CommentContent>{comment.content}</CommentContent>
+            </CommentItem>
+          ))}
+        </CommentList>
+
+        <CommentForm onSubmit={handleCommentSubmit}>
+          <CommentUserImg
+            src={
+              profileImage && profileImage.endsWith("Ellipse.png")
+                ? defaultImg
+                : profileImage
+            }
+            onError={(e) => (e.target.src = defaultImg)}
+          />
+          <CommentInput
+            type="text"
+            placeholder="댓글을 입력하세요"
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+          />
+          <CommentSubmitButton type="submit" value={newComment}>
+            작성
+          </CommentSubmitButton>
+        </CommentForm>
+      </CommentWrapper>
+
       <PostModal menuList={postModalProps}></PostModal>
       <ConfirmModal
         confirmMessage={confirmModalProps.confirmMessage}

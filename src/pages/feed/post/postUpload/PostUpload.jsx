@@ -8,6 +8,7 @@ import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHeader";
 import profileImg from "../../../../img/ProfileImg.svg";
+import { imgValidation } from "../../../../library/imgValidation";
 
 const PostImgButton = styled.button`
   // top: 70%;
@@ -66,13 +67,15 @@ const Delete = styled.button`
 `;
 
 const PostImg = styled.img`
-@media (max-width: 360px) {
-  max-width: 80%;
-}
-width: calc(33.33% -40px);
+  width: 322px;
+  height: 220px;
+  max-width: 100%;
   border-radius: 20px;
   margin-left: 30px;
   position: relative;
+  @media screen and (max-width: 361px) {
+    margin-left: 20px;
+  }
 `;
 
 const UploadImgArea = styled.section`
@@ -161,16 +164,13 @@ export default function PostUpload() {
   // 이미지 UI 화면에서 미리보기 설정
   const handleFileUpload = (e) => {
     const files = e.target.files[0];
-    let filelength = 0;
 
-    if (files.type.startsWith("image/")) {
-      const currentFileUrl = URL.createObjectURL(files);
-      setPreviewImages((prev) => [...prev, currentFileUrl]); //덮어씌워지지 않게 하기 위해 prev 사용
-      setImages((prev) => [...prev, files]);
-      console.log(files);
-    } else {
-      alert("이미지 파일 형식이 아닙니다!");
-    }
+    const valid = imgValidation(files);
+    if (!valid) return;
+    const currentFileUrl = URL.createObjectURL(files);
+    setPreviewImages((prev) => [...prev, currentFileUrl]); //덮어씌워지지 않게 하기 위해 prev 사용
+    setImages((prev) => [...prev, files]);
+    console.log(files);
   };
 
   // 이미지 파일 업로드
@@ -230,14 +230,18 @@ export default function PostUpload() {
         right="upload"
         onClickButton={handleUploadWholePost}
         disabled={UploadBtnDisable()}
-        title = "수수마켓 게시글 업로드"
+        title="수수마켓 게시글 업로드"
       ></NewTopHeader>
       <UploadMain>
         <ProfileImgLabel></ProfileImgLabel>
         <ProfileImg
-          src={profileImage || defaultImg}
+          src={
+            profileImage && profileImage.endsWith("Ellipse.png")
+              ? defaultImg
+              : profileImg
+          }
           alt="프로필 사진"
-          onError={(e) => (e.target.src = profileImg)}
+          onError={(e) => (e.target.src = defaultImg)}
         />
         <TextArea
           ref={textRef}

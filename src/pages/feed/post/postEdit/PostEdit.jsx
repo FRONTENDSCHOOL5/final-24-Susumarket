@@ -8,7 +8,9 @@ import { useParams } from "react-router-dom";
 import xbutton from "../../../../img/x.svg";
 import { useNavigate } from "react-router-dom";
 import profileImg from "../../../../img/ProfileImg.svg";
-import noImg from "../../../../img/symbol-logo-404.svg";
+import noImg from "../../../../img/no-image.png";
+import useAuth from "../../../../hook/useAuth";
+import { imgValidation } from "../../../../library/imgValidation";
 
 const PostImgButton = styled.button`
   // top: 70%;
@@ -67,13 +69,15 @@ const Delete = styled.button`
 `;
 
 const PostImg = styled.img`
-  @media (max-width: 360px) {
-    max-width: 80%;
-  }
-  width: calc(33.33% -40px);
+  width: 322px;
+  height: 220px;
+  max-width: 100%;
   border-radius: 20px;
   margin-left: 30px;
   position: relative;
+  @media screen and (max-width: 361px) {
+    margin-left: 20px;
+  }
 `;
 
 const UploadImgArea = styled.section`
@@ -101,6 +105,7 @@ export default function PostEdit() {
   const [imgArray, setImgArray] = useState([]);
 
   const { postId } = useParams();
+  const myProfile = useAuth();
 
   // 게시글 목록 불러오기
   useEffect(() => {
@@ -126,6 +131,8 @@ export default function PostEdit() {
     setImgArray(updatedImgArray);
     const updatedPostArray = postImages.filter((_, index) => index !== id);
     setPostImages(updatedPostArray);
+    const updateFileImg = imgFiles.filter((_, index) => index !== id);
+    setImgFiles(updateFileImg);
   };
 
   // 선택한 게시글 불러오기
@@ -147,13 +154,26 @@ export default function PostEdit() {
         console.error(error);
       }
     };
+    if (myProfile) fetchPost();
+  }, [postId, myProfile]);
 
-    fetchPost();
-  }, [postId]);
+  useEffect(() => {
+    if (myProfile && myProfile.accountname !== accountname && accountname) {
+      alert("잘못된 접근입니다!");
+      navigate("/profile");
+    }
+  }, [accountname]);
 
   // 이미지 변경 사항 확인 후, 상태 변경
   const handleImageChange = (e) => {
+    console.log("이미지Array :", imgArray, "이미지파일:", imgFiles);
+    if (imgArray.length > 2) {
+      alert("이미지 파일은 3개 까지 등록 가능합니다!");
+      return;
+    }
     const file = e.target.files[0];
+    const valid = imgValidation(file);
+    if (!valid) return;
     const currentFileUrl = URL.createObjectURL(file);
     setImgArray((prev) => [...prev, currentFileUrl]);
     setImgFiles((prev) => [...prev, file]);
@@ -161,6 +181,7 @@ export default function PostEdit() {
 
   // 다중 이미지 업로드
   const uploadImages = async () => {
+    console.log(imgFiles);
     if (imgFiles.length === 0) return [...postImages];
     const formData = new FormData();
 
@@ -222,12 +243,21 @@ export default function PostEdit() {
         right="upload"
         // disabled
         onClickButton={handlePostEdit}
-        title = "수수마켓 게시글 수정"
+        title="수수마켓 게시글 수정"
       ></NewTopHeader>
       <UploadMain>
         <ProfileImgLabel></ProfileImgLabel>
         <ProfileImg
-          src={profileImage || defaultImg}
+          // src={profileImage || defaultImg}
+          // alt="프로필 사진"
+          // onError={(e) => {
+          //   e.target.src = profileImg;
+          // }}
+          src={
+            profileImage && profileImage.endsWith("Ellipse.png")
+              ? defaultImg
+              : profileImage
+          }
           alt="프로필 사진"
           onError={(e) => {
             e.target.src = profileImg;
