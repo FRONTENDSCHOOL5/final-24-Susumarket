@@ -9,12 +9,7 @@ import { ModalContext } from "../../../context/ModalContext";
 import { UserContext } from "../../../context/UserContext";
 import ProfilePost from "../../../components/units/profile/ProfilePost/ProfilePost";
 import { customAxios } from "../../../library/customAxios";
-import {
-  UserProfileWrapper,
-  UserUndefinedImg,
-  UserUndefinedText,
-  UserUndefinedWrapper,
-} from "./userProfile.styles";
+import { UserProfileWrapper, UserUndefinedImg, UserUndefinedText, UserUndefinedWrapper } from "./userProfile.styles";
 import undefindImg from "../../../img/symbol-logo-404.svg";
 import NewTopHeader from "../../../components/commons/newTopHeader/NewTopHeader";
 import { AccountContext } from "../../../context/AccountContext";
