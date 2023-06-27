@@ -85,6 +85,8 @@ const UploadImgArea = styled.section`
   margin-top: 30px;
 `;
 
+const UploadImgAreaTitle = styled.h2``
+
 export default function PostUpload() {
   const [profileImage, setProfileImage] = useState(null);
   const [text, setText] = useState("");
@@ -142,13 +144,12 @@ export default function PostUpload() {
   // 게시글과 이미지 전체 API POST
   const uploadPost = async (images) => {
     try {
-      const response = await customAxios.post("post", {
+      await customAxios.post("post", {
         post: {
           content: text,
           image: images,
         },
       });
-      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -238,7 +239,7 @@ export default function PostUpload() {
           src={
             profileImage && profileImage.endsWith("Ellipse.png")
               ? defaultImg
-              : profileImg
+              : profileImage
           }
           alt="프로필 사진"
           onError={(e) => (e.target.src = defaultImg)}
@@ -261,6 +262,7 @@ export default function PostUpload() {
         onChange={handleFileUpload}
       />
       <UploadImgArea>
+        <UploadImgAreaTitle className="a11y-hidden">이미지 업로드</UploadImgAreaTitle>
         {previewImages.map((image, id) => (
           <div key={id}>
             <PostImg src={image} alt={`${image}-${id}`} />
