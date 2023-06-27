@@ -60,17 +60,16 @@ export default function FollowerList({ follower, account }) {
           <UserName>{follower.username}</UserName>
           <UserIntro>{follower.intro}</UserIntro>
         </UserWrapper>
-
-        {follower.accountname !== account && (
-          <FollowButton
-            className="small"
-            active={!isFollow}
-            onClick={handleFollowBtn}
-          >
-            {isFollow ? "취소" : "팔로우"}
-          </FollowButton>
-        )}
       </FollowerListLink>
+      {follower.accountname !== account && (
+        <FollowButton
+          className="small"
+          active={!isFollow}
+          onClick={handleFollowBtn}
+        >
+          {isFollow ? "취소" : "팔로우"}
+        </FollowButton>
+      )}
     </FollowerListLi>
   );
 }
