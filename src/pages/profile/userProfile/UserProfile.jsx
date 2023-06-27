@@ -65,7 +65,7 @@ export default function UserProfile() {
     try {
       // accountname params가 존재할때 와 존재하지 않을때를 분기처리해줌
       // accountname이 존재할 시 accountname과 일치하는 유저 프로필을 불러옴
-      if (accountname, accountname) {
+      if (accountname) {
         const response = await customAxios.get(`profile/${accountname}`);
         setUserData(response.data.profile);
         setIsInvalidProfile(false);
@@ -85,7 +85,7 @@ export default function UserProfile() {
       setAccount(myProfile.accountname);
       fecthUserDate();
     }
-  }, [myProfile]);
+  }, [myProfile, accountname]);
 
   return (
     // userData.accountname undeifined 방지
