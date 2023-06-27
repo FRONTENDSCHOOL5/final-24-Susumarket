@@ -11,6 +11,7 @@ import profileImg from "../../../../img/ProfileImg.svg";
 import noImg from "../../../../img/no-image.png";
 import useAuth from "../../../../hook/useAuth";
 import { imgValidation } from "../../../../library/imgValidation";
+import InvalidPage from "../../../../components/commons/inValidPage/InvaliPage";
 
 const PostImgButton = styled.button`
   // top: 70%;
@@ -96,7 +97,7 @@ export default function PostEdit() {
     textRef.current.style.height = "auto";
     textRef.current.style.height = textRef.current.scrollHeight + "px";
   }, []);
-
+  const [isInvalidPage, setIsInValidPage] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
   const [postContent, setPostContent] = useState("");
   const [accountname, setAccountname] = useState("");
@@ -106,20 +107,6 @@ export default function PostEdit() {
 
   const { postId } = useParams();
   const myProfile = useAuth();
-
-  // 게시글 목록 불러오기
-  useEffect(() => {
-    const fetchPostList = async () => {
-      try {
-        await customAxios.get(`post/${accountname}/userpost`);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    if (accountname) {
-      fetchPostList();
-    }
-  }, [accountname]);
 
   // 이미지 내 X버튼 클릭 시 미리보기, API 전송 이미지 모두 삭제 처리
   const handleDeleteImage = (id) => {
@@ -150,7 +137,9 @@ export default function PostEdit() {
           setPostImages(response.data.post.image.toString().split(","));
           setImgArray(response.data.post.image.toString().split(","));
         }
+        setIsInValidPage(false);
       } catch (error) {
+        setIsInValidPage(true);
         console.error(error);
       }
     };
@@ -245,58 +234,59 @@ export default function PostEdit() {
         onClickButton={handlePostEdit}
         title="수수마켓 게시글 수정"
       ></NewTopHeader>
-      <UploadMain>
-        <ProfileImgLabel></ProfileImgLabel>
-        <ProfileImg
-          // src={profileImage || defaultImg}
-          // alt="프로필 사진"
-          // onError={(e) => {
-          //   e.target.src = profileImg;
-          // }}
-          src={
-            profileImage && profileImage.endsWith("Ellipse.png")
-              ? defaultImg
-              : profileImage
-          }
-          alt="프로필 사진"
-          onError={(e) => {
-            e.target.src = profileImg;
-          }}
-        />
-        <TextArea
-          placeholder="게시글 입력하기..."
-          ref={textRef}
-          value={postContent}
-          onInput={handleTextAreaHeight}
-          onChange={(e) => setPostContent(e.target.value)}
-          rows="1"
-        ></TextArea>
-        <PostImgLabel htmlFor="input-file"></PostImgLabel>
-        <PostImgInput
-          type="file"
-          multiple="multiple"
-          id="input-file"
-          ref={fileInputRef}
-          onChange={handleImageChange}
-        ></PostImgInput>
-      </UploadMain>
-      <h2 className="a11y-hidden">포스팅 이미지 섹션</h2>
-      <UploadImgArea>
-        {imgArray.map((image, index) => (
-          <div key={index}>
-            <PostImg
-              key={index}
-              src={image}
-              alt={`Image ${index}`}
+      {isInvalidPage  ? (
+        <InvalidPage text={"존재하지 않는 게시물입니다."} size={"large"} />
+      ) : (
+        <>
+          <UploadMain>
+            <ProfileImgLabel></ProfileImgLabel>
+            <ProfileImg
+              src={
+                profileImage && profileImage.endsWith("Ellipse.png")
+                  ? defaultImg
+                  : profileImage
+              }
+              alt="프로필 사진"
               onError={(e) => {
-                e.target.src = noImg;
+                e.target.src = profileImg;
               }}
             />
-            <Delete onClick={() => handleDeleteImage(index)}></Delete>
-          </div>
-        ))}
-      </UploadImgArea>
-      <PostImgButton onClick={handleFileButton}></PostImgButton>
+            <TextArea
+              placeholder="게시글 입력하기..."
+              ref={textRef}
+              value={postContent}
+              onInput={handleTextAreaHeight}
+              onChange={(e) => setPostContent(e.target.value)}
+              rows="1"
+            ></TextArea>
+            <PostImgLabel htmlFor="input-file"></PostImgLabel>
+            <PostImgInput
+              type="file"
+              multiple="multiple"
+              id="input-file"
+              ref={fileInputRef}
+              onChange={handleImageChange}
+            ></PostImgInput>
+          </UploadMain>
+          <h2 className="a11y-hidden">포스팅 이미지 섹션</h2>
+          <UploadImgArea>
+            {imgArray.map((image, index) => (
+              <div key={index}>
+                <PostImg
+                  key={index}
+                  src={image}
+                  alt={`Image ${index}`}
+                  onError={(e) => {
+                    e.target.src = noImg;
+                  }}
+                />
+                <Delete onClick={() => handleDeleteImage(index)}></Delete>
+              </div>
+            ))}
+          </UploadImgArea>
+          <PostImgButton onClick={handleFileButton}></PostImgButton>
+        </>
+      )}
     </>
   );
 }
