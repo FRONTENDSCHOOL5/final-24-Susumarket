@@ -12,6 +12,7 @@ export const DrawingWrapper = styled.main`
   align-items: center;
   background-color: gainsboro;
   min-width: 1200px;
+  min-height: 1000px;
 `;
 
 export const PaletteWrapper = styled.div`
