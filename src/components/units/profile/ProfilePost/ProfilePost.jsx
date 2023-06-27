@@ -102,7 +102,7 @@ export default function ProfilePost({
           </ProfilePostDisplayGallery>
         </ProfilePostDisplayBtns>
       )}
-      {isNonePostData ? (
+      {isNonePostData||!postData.length ? (
         <>
           {!isFeed && (
             <PostNoneWrapper>
@@ -134,6 +134,7 @@ export default function ProfilePost({
                   closeModal={closeModal}
                   reFetchPostData={fetchPostData}
                   post={post}
+                  setPostData={setPostData}
                   isFeed={isFeed}
                   userData={userData}
                 />

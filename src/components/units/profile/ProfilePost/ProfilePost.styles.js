@@ -58,7 +58,14 @@ export const ProfilePostLi = styled.li`
   padding-bottom: 24px;
 `;
 
-export const ProfilePostAuth = styled.div`
+export const ProfilePostAuthWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  min-width: 304px;
+`;
+
+export const ProfilePostAuthLink = styled(Link)`
   display: flex;
   align-items: center;
   margin-bottom: 12px;
@@ -73,6 +80,9 @@ export const ProfilePostAuthImg = styled.img`
   margin-right: 12px;
 `;
 
+export const ProfilePostAuth = styled.div`
+  display: flex;
+`;
 export const ProfilePostAuthInfo = styled.div`
   display: flex;
   flex-direction: column;
@@ -173,12 +183,14 @@ export const ProfilePostImgBtnUl = styled.ul`
 export const ProfilePostImgBtnLi = styled.li``;
 
 export const ProfilePostImgBtn = styled.button`
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background-color: #f6d1d2;
+  transition: all 0.5s;
   &.active {
     background-color: var(--color-primary);
+    transform: scale(1.1);
   }
 `;
 
