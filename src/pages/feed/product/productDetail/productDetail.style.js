@@ -134,7 +134,7 @@ margin-top: 20px;
 @media screen and (max-width: 360px) {
   width: 100%;
   height: auto;
-
+}
 `;
 
 export const Price = styled.div`
