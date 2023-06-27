@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import {
   ProfileInfoFollowering,
   ProfileInfoFolloweringCount,
@@ -36,6 +36,11 @@ export default function ProfileInfo({ userData }) {
   function onClickButton(url) {
     navigate(url);
   }
+
+  // 좋은 방법이 아님 추후 수정예정
+  useEffect(()=>{
+    setFollowCount(userData.followerCount)
+  },[userData])
 
   const onClickFollow = useCallback(async () => {
     try {

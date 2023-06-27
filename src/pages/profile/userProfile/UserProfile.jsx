@@ -65,7 +65,7 @@ export default function UserProfile() {
     try {
       // accountname params가 존재할때 와 존재하지 않을때를 분기처리해줌
       // accountname이 존재할 시 accountname과 일치하는 유저 프로필을 불러옴
-      if (accountname) {
+      if (accountname, accountname) {
         const response = await customAxios.get(`profile/${accountname}`);
         setUserData(response.data.profile);
         setIsInvalidProfile(false);
@@ -77,7 +77,7 @@ export default function UserProfile() {
       setIsInvalidProfile(true);
       console.log(error);
     }
-  }, [myProfile]);
+  }, [myProfile, accountname]);
 
   // 유저 정보가 있을 경우에만 유저 데이터를 받아옴
   useEffect(() => {
