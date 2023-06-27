@@ -36,7 +36,7 @@ export default function ProfileEdit() {
 
   const navigate = useNavigate();
   const params = useParams();
-  const myAccountname = params.userId;
+  const userAccountname = params.userId;
   const usernameReg = /^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣]{2,10}$/;
   const accountnameReg = /^[a-zA-Z0-9._]+$/;
   const userData = useAuth();
@@ -109,7 +109,7 @@ export default function ProfileEdit() {
       const response = await customAxios.post("user/accountnamevalid", user);
       if (response.data.message !== "사용 가능한 계정ID 입니다.") {
         // 계정 ID와 일치하는 경우는 예외 처리 => 본인 계정 ID는 중복 가능하도록 함, 계정 ID 이외 다른 정보만 변경할 경우도 있기 때문
-        if (accountname !== myAccountname)
+        if (accountname !== userAccountname)
           setAccountnameValidation({
             errorMessage: response.data.message,
             isValid: false,
@@ -174,19 +174,20 @@ export default function ProfileEdit() {
 
   // 다른 유저 프로필 수정으로 들어왔을 경우 예외 처리
   useEffect(() => {
-    if (accountname && accountname !== myAccountname) {
-      console.log(userData);
+    if (userData && userData.accountname !== userAccountname) {
+      
       alert("잘못된 접근입니다.");
       navigate("/profile");
       return;
     }
-  }, [myAccountname, accountname]);
+  }, [userData]);
 
   useEffect(() => {
     if (userData) {
       setAccountname(userData.accountname);
       setUsername(userData.username);
       setIntro(userData.intro);
+      setImgPreviewURL(userData.image);
     }
   }, [userData]);
 
