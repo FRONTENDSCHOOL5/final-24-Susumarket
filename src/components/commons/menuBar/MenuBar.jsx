@@ -17,6 +17,7 @@ import {
   Img,
   LinkStyle,
 } from "./MenuBarStyle";
+import { isMobile } from "react-device-detect";
 
 export default function MenuBar() {
   const location = useLocation();
@@ -109,7 +110,7 @@ export default function MenuBar() {
             </>
           </LinkStyle>
         </MenuBarLi>
-        <MenuBarLi>
+        {!isMobile&&<MenuBarLi>
           <LinkStyle to={`/drawing`}>
             <>
               <Img
@@ -129,7 +130,7 @@ export default function MenuBar() {
               </p>
             </>
           </LinkStyle>
-        </MenuBarLi>
+        </MenuBarLi>}
         <MenuBarLi>
           <LinkStyle to={`/profile`}>
             <>
