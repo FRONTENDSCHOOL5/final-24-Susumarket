@@ -60,7 +60,8 @@ export default function FollowingList({ following, account }) {
           <UserName>{following.username}</UserName>
           <UserIntro>{following.intro}</UserIntro>
         </UserWrapper>
-        {following.accountname === account ? null : (
+      </FollowingListLink>
+      {following.accountname === account ? null : (
           <FollowButton
             className="small"
             active={!isFollow} // isFollow 상태 값을 반전시켜서 active prop으로 전달
@@ -69,7 +70,6 @@ export default function FollowingList({ following, account }) {
             {isFollow ? "취소" : "팔로우"}
           </FollowButton>
         )}
-      </FollowingListLink>
     </FollowingListLi>
   );
 }
