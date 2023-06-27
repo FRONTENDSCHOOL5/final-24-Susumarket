@@ -9,16 +9,11 @@ import { ModalContext } from "../../../context/ModalContext";
 import { UserContext } from "../../../context/UserContext";
 import ProfilePost from "../../../components/units/profile/ProfilePost/ProfilePost";
 import { customAxios } from "../../../library/customAxios";
-import {
-  UserProfileWrapper,
-  UserUndefinedImg,
-  UserUndefinedText,
-  UserUndefinedWrapper,
-} from "./userProfile.styles";
-import undefindImg from "../../../img/symbol-logo-404.svg";
+import { UserProfileWrapper } from "./userProfile.styles";
+import InvalidPage from "../../../components/commons/inValidPage/InvaliPage";
 import NewTopHeader from "../../../components/commons/newTopHeader/NewTopHeader";
 import { AccountContext } from "../../../context/AccountContext";
-import  useAuth  from "../../../hook/useAuth"
+import useAuth from "../../../hook/useAuth";
 import MenuBar from "../../../components/commons/menuBar/MenuBar";
 export default function UserProfile() {
   const { setAccessToken } = useContext(UserContext);
@@ -71,7 +66,8 @@ export default function UserProfile() {
         const response = await customAxios.get(`profile/${accountname}`);
         setUserData(response.data.profile);
         setIsInvalidProfile(false);
-      } else { // accountname이 존재하지 않을 시에는 자신의 프로필 정보를 불러옴
+      } else {
+        // accountname이 존재하지 않을 시에는 자신의 프로필 정보를 불러옴
         setUserData(myProfile);
       }
     } catch (error) {
@@ -80,18 +76,16 @@ export default function UserProfile() {
     }
   }
 
-// 유저 정보가 있을 경우에만 유저 데이터를 받아옴
+  // 유저 정보가 있을 경우에만 유저 데이터를 받아옴
   useEffect(() => {
-    if(myProfile){
+    if (myProfile) {
       setAccount(myProfile.accountname);
       fecthUserDate();
     }
-   
   }, [accountname, myProfile]);
 
   return (
-    // userData.accountname undeifined 방지
-    userData.accountname&&<AccountContext.Provider value={{ setAccount, account }}>
+    <AccountContext.Provider value={{ setAccount, account }}>
       <NewTopHeader
         left={"back"}
         right={"more"}
@@ -122,10 +116,7 @@ export default function UserProfile() {
       />
       <UserProfileWrapper>
         {isInvalidProfile ? (
-          <UserUndefinedWrapper>
-            <UserUndefinedImg src={undefindImg} alt="존재하지 않는 유저" />
-            <UserUndefinedText>유효하지 않은 프로필 입니다.</UserUndefinedText>
-          </UserUndefinedWrapper>
+          <InvalidPage text={"유효하지 않은 프로필 입니다."} size={"large"}/>
         ) : (
           <>
             <ProfileInfo userData={userData} reFetchUserData={fecthUserDate} />
