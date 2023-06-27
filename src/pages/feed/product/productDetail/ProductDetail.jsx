@@ -4,12 +4,28 @@ import { useParams } from "react-router-dom";
 import noImg from "../../../../img/no-image.png";
 import { customAxios } from "../../../../library/customAxios";
 import styled from "styled-components";
-import iconHeart from "../../../../img/icon-heart.svg"
-import iconHeartFill from "../../../../img/icon-heart-fill.svg"
+import iconHeart from "../../../../img/icon-heart.svg";
+import iconHeartFill from "../../../../img/icon-heart-fill.svg";
 import Button from "../../../../components/commons/button/Button";
-import { useNavigate } from 'react-router-dom';
-import { ProfileDiv, ContentDiv, Btn, Bottom, Title, Div, Image, Nickname, Icon, HeartIcon, Profile, Price, Contents, Account } from './productDetail.style.js'
+import { useNavigate } from "react-router-dom";
+import {
+  ProfileDiv,
+  ContentDiv,
+  Btn,
+  Bottom,
+  Title,
+  Div,
+  Image,
+  Nickname,
+  Icon,
+  HeartIcon,
+  Profile,
+  Price,
+  Contents,
+  Account,
+} from "./productDetail.style.js";
 import profileImg from "../../../../img/ProfileImg.svg";
+import InvalidPage from "../../../../components/commons/inValidPage/InvaliPage";
 export default function ProductDetail() {
   const [itemName, setItemName] = useState("");
   const [price, setPrice] = useState("");
@@ -19,13 +35,17 @@ export default function ProductDetail() {
   const [profile, setProfile] = useState("");
   const [accountname, setAccountname] = useState("");
   const [heartFill, setHeartFill] = useState(iconHeart);
+  const [isInValidPage, setIsInValidPage] = useState(false);
+
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const params = useParams();
 
-  // useState()를 활용해 하트 누르면 채워지는 효과. 추가적 기능은 없습니다. 
+  // useState()를 활용해 하트 누르면 채워지는 효과. 추가적 기능은 없습니다.
   const clickHeart = () => {
-    heartFill === iconHeart ? setHeartFill(iconHeartFill) : setHeartFill(iconHeart);
-  }
+    heartFill === iconHeart
+      ? setHeartFill(iconHeartFill)
+      : setHeartFill(iconHeart);
+  };
   const Navigate = useNavigate();
 
   // get한 price를 원 단위로 쉼표로 구분합니다.
@@ -44,9 +64,11 @@ export default function ProductDetail() {
         setLink(response.data.product.link);
         setName(response.data.product.author.username);
         setProfile(response.data.product.author.image);
-        setAccountname(response.data.product.author.accountname)
+        setAccountname(response.data.product.author.accountname);
+        setIsInValidPage(false);
         const data = response.data;
       } catch (error) {
+        setIsInValidPage(true);
         console.error(error);
       }
     };
@@ -56,45 +78,60 @@ export default function ProductDetail() {
 
   return (
     <>
-      <NewTopHeader left={"back"} right={""}></NewTopHeader>
-      <Div>
-        <Image src={itemImage}
-        alt="상품 사진"
-        onError={(e) => {
-          e.target.src = noImg;
-        }}
-        ></Image>
-        <Profile >
-          <Icon src={profile.includes("Ellipse.png") ? profileImg : profile}
-          
-          ></Icon>
-          <ContentDiv >
-            <ProfileDiv>
-              <Nickname>{name}</Nickname>
-              <Account>@{accountname}  </Account>
-            </ProfileDiv>
-            <Title>{itemName}</Title>
-            <Contents>{link}</Contents>
-          </ContentDiv>
-        </Profile>
-        <Bottom>
-          <HeartIcon src={heartFill} onClick={clickHeart}>
-          </HeartIcon>
-          <span style={{ fontSize: "31px", marginRight: "15px", marginLeft: "15px", color: "#CDCDCD" }}>|</span>
-          <Price>
-            {newPrice}원
-          </Price>
-          <Btn className="ms"
-            onClick={() => {
-              Navigate("/chatList/1")
+      <NewTopHeader
+        left={"back"}
+        right={""}
+        title={"상품 상세 페이지"}
+      ></NewTopHeader>
+      {!isInValidPage ? (
+        <Div>
+          <Image
+            src={itemImage}
+            alt="상품 사진"
+            onError={(e) => {
+              e.target.src = noImg;
             }}
-          >
-            채팅하기
-          </Btn>
-        </Bottom>
-
-      </Div>
+          ></Image>
+          <Profile>
+            <Icon
+              src={profile.includes("Ellipse.png") ? profileImg : profile}
+              alt="프로필 이미지"
+            />
+            <ContentDiv>
+              <ProfileDiv>
+                <Nickname>{name}</Nickname>
+                <Account>@{accountname} </Account>
+              </ProfileDiv>
+              <Title>{itemName}</Title>
+              <Contents>{link}</Contents>
+            </ContentDiv>
+          </Profile>
+          <Bottom>
+            <HeartIcon src={heartFill} onClick={clickHeart} alt="좋아요" />
+            <span
+              style={{
+                fontSize: "31px",
+                marginRight: "15px",
+                marginLeft: "15px",
+                color: "#CDCDCD",
+              }}
+            >
+              |
+            </span>
+            <Price>{newPrice}원</Price>
+            <Btn
+              className="ms"
+              onClick={() => {
+                Navigate("/chatList/1");
+              }}
+            >
+              채팅하기
+            </Btn>
+          </Bottom>
+        </Div>
+      ) : (
+        <InvalidPage text={"현재 판매중인 상품이 아닙니다."} size={"large"} />
+      )}
     </>
-  )
-
-};
+  );
+}
