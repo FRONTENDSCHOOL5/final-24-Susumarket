@@ -57,6 +57,9 @@ export const ProfileProductName = styled.span`
   font-size: 14px;
   line-height: 18px;
   margin: 6px 0px;
+  max-width: 140px;
+  text-align: left;
+  word-break: break-all;
 `;
 export const ProfileProductPrice = styled.span`
   font-weight: 700;
