@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import {
   ProfileInfoFollowering,
   ProfileInfoFolloweringCount,
@@ -26,7 +26,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { customAxios } from "../../../../library/customAxios";
 import { AccountContext } from "../../../../context/AccountContext";
 
-
 export default function ProfileInfo({ userData }) {
   const [isfollow, setIsfollow] = useState(userData.isfollow);
   const [followCount, setFollowCount] = useState(userData.followerCount);
@@ -38,7 +37,7 @@ export default function ProfileInfo({ userData }) {
     navigate(url);
   }
 
-  async function onClickFollow() {
+  const onClickFollow = useCallback(async () => {
     try {
       await customAxios.post(`profile/${userAccountname}/follow`);
       setIsfollow(true);
@@ -46,9 +45,9 @@ export default function ProfileInfo({ userData }) {
     } catch (error) {
       console.log(error);
     }
-  }
+  }, [isfollow, followCount]);
 
-  async function onClickUnfollow() {
+  const onClickUnfollow = useCallback(async () => {
     try {
       await customAxios.delete(`profile/${userAccountname}/unfollow`);
       setIsfollow(false);
@@ -56,7 +55,7 @@ export default function ProfileInfo({ userData }) {
     } catch (error) {
       console.log(error);
     }
-  }
+  }, [isfollow, followCount]);
 
   return (
     <ProfileInfoWrapper>
@@ -96,7 +95,12 @@ export default function ProfileInfo({ userData }) {
       <ProfileInfoButtonWrapper>
         {userData.accountname === account ? (
           <>
-            <Button className="medium" onClick={() => onClickButton(`/profile/${userData.accountname}/edit`)}>
+            <Button
+              className="medium"
+              onClick={() =>
+                onClickButton(`/profile/${userData.accountname}/edit`)
+              }
+            >
               프로필 수정
             </Button>
             <Button

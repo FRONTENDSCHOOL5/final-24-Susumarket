@@ -34,6 +34,9 @@ export const UserWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 250px;
+  @media screen and (max-width: 361px) {
+    width: 200px;
+  }
 `;
 
 export const UserName = styled.strong`
