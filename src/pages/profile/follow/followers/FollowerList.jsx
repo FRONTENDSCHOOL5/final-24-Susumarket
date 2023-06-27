@@ -44,8 +44,8 @@ export default function FollowerList({ follower, account }) {
         <img
           src={
             follower.image.endsWith("Ellipse.png")
-              ? follower.image
-              : defaultImage
+            ? defaultImage
+            : follower.image
           }
           onError={(e) => (e.target.src = DefaultImg)}
           alt="프로필 이미지"
