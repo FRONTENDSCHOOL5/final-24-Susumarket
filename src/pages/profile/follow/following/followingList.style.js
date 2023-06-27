@@ -6,6 +6,7 @@ export const FollowingListUl = styled.ul`
   display: flex;
   flex-direction: column;
   max-width: 390px;
+
 `;
 
 export const FollowingListLi = styled.li`
@@ -19,14 +20,14 @@ export const FollowingListLi = styled.li`
     background-color: #f5f5f5;
   }
   &:last-child {
-    margin-bottom: 50px;
+    margin-bottom: 90px;
   }
 `;
 
 export const FollowingListLink = styled(Link)`
   display: flex;
   align-items: center;
-  max-width: 340px;
+  max-width: 390px;
 `;
 
 export const UserWrapper = styled.div`
@@ -34,6 +35,9 @@ export const UserWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 250px;
+  @media screen and (max-width:361px){
+    width: 200px;
+  }
 `;
 
 export const UserName = styled.strong`
@@ -54,6 +58,5 @@ export const UserIntro = styled.strong`
 `;
 
 export const FollowButton = styled(Button)`
-  width: 90px;
-  padding: 7px 0px !important;
+  
 `;
