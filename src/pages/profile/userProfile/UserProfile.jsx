@@ -9,12 +9,18 @@ import { ModalContext } from "../../../context/ModalContext";
 import { UserContext } from "../../../context/UserContext";
 import ProfilePost from "../../../components/units/profile/ProfilePost/ProfilePost";
 import { customAxios } from "../../../library/customAxios";
-import { UserProfileWrapper, UserUndefinedImg, UserUndefinedText, UserUndefinedWrapper } from "./userProfile.styles";
+import {
+  UserProfileWrapper,
+  UserUndefinedImg,
+  UserUndefinedText,
+  UserUndefinedWrapper,
+} from "./userProfile.styles";
 import undefindImg from "../../../img/symbol-logo-404.svg";
 import NewTopHeader from "../../../components/commons/newTopHeader/NewTopHeader";
 import { AccountContext } from "../../../context/AccountContext";
 import useAuth from "../../../hook/useAuth";
 import MenuBar from "../../../components/commons/menuBar/MenuBar";
+import Loading from "../../../components/commons/loading/Loading";
 export default function UserProfile() {
   const { setAccessToken } = useContext(UserContext);
   const { setIsOpenPostModal, setIsOpenConfirmModal } =
@@ -36,7 +42,7 @@ export default function UserProfile() {
 
   // account 상태
   const [account, setAccount] = useState(null);
-
+  const [loading, setLoading] = useState(true); // Loading state
   // 자신의 프로필 정보를 가져오는 커스텀 훅
   const myProfile = useAuth(null);
 
@@ -69,9 +75,11 @@ export default function UserProfile() {
         const response = await customAxios.get(`profile/${accountname}`);
         setUserData(response.data.profile);
         setIsInvalidProfile(false);
+        setLoading(false); // Set loading to false when data is fetched
       } else {
         // accountname이 존재하지 않을 시에는 자신의 프로필 정보를 불러옴
         setUserData(myProfile);
+        setLoading(false); // Set loading to false when data is fetched
       }
     } catch (error) {
       setIsInvalidProfile(true);
@@ -87,8 +95,12 @@ export default function UserProfile() {
     }
   }, [myProfile, accountname]);
 
+  if (loading) {
+    return <Loading />;
+  }
   return (
     // userData.accountname undeifined 방지
+
     userData.accountname && (
       <AccountContext.Provider value={{ setAccount, account }}>
         <NewTopHeader
