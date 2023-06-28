@@ -172,15 +172,6 @@ export default function ProfileEdit() {
     }
   }
 
-  // 다른 유저 프로필 수정으로 들어왔을 경우 예외 처리
-  useEffect(() => {
-    if (userData && userData.accountname !== userAccountname) {
-      
-      alert("잘못된 접근입니다.");
-      navigate("/profile");
-      return;
-    }
-  }, [userData]);
 
   useEffect(() => {
     if (userData) {

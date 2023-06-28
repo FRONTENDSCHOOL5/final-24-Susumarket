@@ -103,7 +103,7 @@ export default function ProfileInfo({ userData }) {
             <Button
               className="medium"
               onClick={() =>
-                onClickButton(`/profile/${userData.accountname}/edit`)
+                onClickButton(`/profile/myinfo/edit`)
               }
             >
               프로필 수정
