@@ -21,12 +21,14 @@ import postListIconOff from "../../../../img/icon-post-list-off.svg";
 import postGalleryIconOn from "../../../../img/icon-post-album-on.svg";
 import postGalleryIconOff from "../../../../img/icon-post-album-off.svg";
 import PostNoneImgIcon from "../../../../img/symbol-logo-404.svg";
-
+import loadingImg from "../../../../img/loading.gif";
 import ProfilePostList from "./ProfilePostList";
 import ProfilePostGallery from "./ProfilePostGallery";
 import { customAxios } from "../../../../library/customAxios";
 import Button from "../../../commons/button/Button";
 import { useNavigate } from "react-router-dom";
+import Loading from "../../../commons/loading/Loading";
+import { useInView } from "react-intersection-observer";
 
 export default function ProfilePost({
   onClickButton,
@@ -38,16 +40,27 @@ export default function ProfilePost({
   const [postData, setPostData] = useState([]);
   const [isNonePostData, setIsNonePostData] = useState(false);
   const [isGallery, setIsGallery] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [ref, inVeiw] = useInView();
+  const limit = 5;
+  const [skip, setSkip] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
   const navigate = useNavigate();
 
   // 게시물 정보를 받아옴
   const fetchPostData = async () => {
     try {
       const response = await customAxios(
-        `post/${userData.accountname}/userpost`,
+        isFeed
+          ? `post/feed?limit=${limit}&skip=${skip}`
+          : `post/${userData.accountname}/userpost?limit=${limit}&skip=${skip}`,
       );
-      setPostData(response.data.post);
-      if (response.data.post.length === 0) {
+      const data = isFeed ? response.data.posts : response.data.post;
+      setPostData((prev) => [...prev, ...data]);
+      setHasMore(data.length === limit);
+      setSkip((prev) => prev + limit);
+      setIsLoading(false);
+      if (data.length === 0 && skip === 0) {
         setIsNonePostData(true);
       } else {
         setIsNonePostData(false);
@@ -57,30 +70,15 @@ export default function ProfilePost({
     }
   };
 
-  // 팔로잉된 유저들의 게시물 목록을 가져옴
-  const fetchFeedPostData = async () => {
-    try {
-      const response = await customAxios(`post/feed?limit=1000&skip=0`);
-      setPostData(response.data.posts);
-      if (response.data.posts.length === 0) {
-        setIsNonePostData(true);
-      } else {
-        setIsNonePostData(false);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // userData.accountname이 있을 경우에 게시물 정보를 받아옴 => userData.accountname undefined 방지
   useEffect(() => {
-    // isFeed를 통해 profile페이지와 feed(post)페이지에 적용될 데이터를 다르게 처리
-    if (isFeed) {
-      fetchFeedPostData();
-    } else if (!isFeed && userData.accountname) {
+    if (skip === 0) {
       fetchPostData();
     }
-  }, [userData]);
+    if (hasMore && inVeiw) {
+      fetchPostData();
+    }
+  }, [inVeiw]);
+
   return (
     // isFeed를 통해 profile 페이지에서 출력될 요소와 feed 페이지에서 출력될 요소를 구분
     <ProfilePostWrapper>
@@ -102,24 +100,28 @@ export default function ProfilePost({
           </ProfilePostDisplayGallery>
         </ProfilePostDisplayBtns>
       )}
-      {isNonePostData||!postData.length ? (
-        <>
-          {!isFeed && (
-            <PostNoneWrapper>
-              <PostNoneImg src={PostNoneImgIcon} alt="게시물 없음 아이콘" />
-              <PostNoneText>현재 등록된 게시물이 없어요.</PostNoneText>
-            </PostNoneWrapper>
-          )}
-          {isFeed && (
-            <UserSearchWrapper>
-              <Img src={LionImage} alt="유저 검색 이미지" />
-              <Content>유저를 검색해 팔로우 해보세요!</Content>
-              <Button className="ms" onClick={() => navigate("/search")}>
-                검색하기
-              </Button>
-            </UserSearchWrapper>
-          )}
-        </>
+      {isNonePostData || !postData.length ? (
+        isLoading ? (
+          <Loading />
+        ) : (
+          <>
+            {!isFeed && (
+              <PostNoneWrapper>
+                <PostNoneImg src={PostNoneImgIcon} alt="게시물 없음 아이콘" />
+                <PostNoneText>현재 등록된 게시물이 없어요.</PostNoneText>
+              </PostNoneWrapper>
+            )}
+            {isFeed && (
+              <UserSearchWrapper>
+                <Img src={LionImage} alt="유저 검색 이미지" />
+                <Content>유저를 검색해 팔로우 해보세요!</Content>
+                <Button className="ms" onClick={() => navigate("/search")}>
+                  검색하기
+                </Button>
+              </UserSearchWrapper>
+            )}
+          </>
+        )
       ) : (
         <>
           {postData && isGallery ? (
@@ -139,6 +141,7 @@ export default function ProfilePost({
                   userData={userData}
                 />
               ))}
+              <div ref={ref}></div>
             </ProfilePostUl>
           )}
         </>
