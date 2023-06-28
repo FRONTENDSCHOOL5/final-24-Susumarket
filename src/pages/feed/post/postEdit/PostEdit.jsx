@@ -12,6 +12,7 @@ import noImg from "../../../../img/no-image.png";
 import useAuth from "../../../../hook/useAuth";
 import { imgValidation } from "../../../../library/imgValidation";
 import InvalidPage from "../../../../components/commons/inValidPage/InvaliPage";
+import Loading from "../../../../components/commons/loading/Loading";
 
 const PostImgButton = styled.button`
   // top: 70%;
@@ -104,6 +105,7 @@ export default function PostEdit() {
   const [imgFiles, setImgFiles] = useState([]);
   const [postImages, setPostImages] = useState([]);
   const [imgArray, setImgArray] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const { postId } = useParams();
   const myProfile = useAuth();
@@ -138,6 +140,7 @@ export default function PostEdit() {
           setImgArray(response.data.post.image.toString().split(","));
         }
         setIsInValidPage(false);
+        setIsLoading(false);
       } catch (error) {
         setIsInValidPage(true);
         console.error(error);
@@ -234,7 +237,9 @@ export default function PostEdit() {
         onClickButton={handlePostEdit}
         title="수수마켓 게시글 수정"
       ></NewTopHeader>
-      {isInvalidPage  ? (
+      {isLoading ? (
+        <Loading />
+      ) : isInvalidPage ? (
         <InvalidPage text={"존재하지 않는 게시물입니다."} size={"large"} />
       ) : (
         <>

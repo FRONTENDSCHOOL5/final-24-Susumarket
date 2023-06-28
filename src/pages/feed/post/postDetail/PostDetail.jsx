@@ -71,6 +71,7 @@ import {
   CommentMoreBtn,
 } from "./postDetail.style";
 import InvalidPage from "../../../../components/commons/inValidPage/InvaliPage";
+import Loading from "../../../../components/commons/loading/Loading";
 
 export default function PostDetail() {
   const [profileImage, setProfileImage] = useState(null);
@@ -85,6 +86,7 @@ export default function PostDetail() {
   const [postData, setPostData] = useState({});
   const [activeButton, setActiveButton] = useState(0);
   const [isvalidPage, setIsValidPage] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { postId } = useParams();
   const ImgUlRef = useRef();
   const { setIsOpenPostModal } = useContext(ModalContext);
@@ -125,7 +127,9 @@ export default function PostDetail() {
 
   // 지속적인 실행 막기 위해 useEffect 사용
   useEffect(() => {
-    if (myProfile) fetchPostDetail();
+    if (myProfile) {
+      fetchPostDetail();
+    }
   }, [myProfile]);
 
   // api에서 업로드 된 post 내용과 이미지 불러오기
@@ -145,6 +149,7 @@ export default function PostDetail() {
       setHeartCount(response.data.post.heartCount);
       setHearted(response.data.post.hearted);
       setPostData(response.data.post);
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
       setIsValidPage(true);
@@ -298,7 +303,9 @@ export default function PostDetail() {
         }
       ></NewTopHeader>
       <>
-        {!isvalidPage ? (
+        {isLoading ? (
+          <Loading />
+        ) : !isvalidPage ? (
           <>
             <PostWrapper>
               <PostWrapperTitle className="a11y-hidden">

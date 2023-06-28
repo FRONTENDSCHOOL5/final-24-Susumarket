@@ -26,6 +26,7 @@ import {
 } from "./productDetail.style.js";
 import profileImg from "../../../../img/ProfileImg.svg";
 import InvalidPage from "../../../../components/commons/inValidPage/InvaliPage";
+import Loading from "../../../../components/commons/loading/Loading";
 export default function ProductDetail() {
   const [itemName, setItemName] = useState("");
   const [price, setPrice] = useState("");
@@ -36,6 +37,7 @@ export default function ProductDetail() {
   const [accountname, setAccountname] = useState("");
   const [heartFill, setHeartFill] = useState(iconHeart);
   const [isInValidPage, setIsInValidPage] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const params = useParams();
@@ -66,6 +68,7 @@ export default function ProductDetail() {
         setProfile(response.data.product.author.image);
         setAccountname(response.data.product.author.accountname);
         setIsInValidPage(false);
+        setIsLoading(false);
         const data = response.data;
       } catch (error) {
         setIsInValidPage(true);
@@ -83,7 +86,9 @@ export default function ProductDetail() {
         right={""}
         title={"상품 상세 페이지"}
       ></NewTopHeader>
-      {!isInValidPage ? (
+      {isLoading ? (
+        <Loading />
+      ) : !isInValidPage ? (
         <Div>
           <Image
             src={itemImage}
