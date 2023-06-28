@@ -238,6 +238,10 @@ export const ProfilePostGalleryUl = styled.ul`
   width: 100%;
   padding: 16px 16px 70px;
   margin: 0 auto;
+  @media screen and (max-width: 400px) {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+  }
 `;
 
 export const ProfilePostGalleryLi = styled.li`
@@ -246,6 +250,10 @@ export const ProfilePostGalleryLi = styled.li`
   height: 250px;
   border-radius: 10px;
   overflow: hidden;
+  @media screen and (max-width: 400px) {
+    width: 114px;
+    height: 114px;
+  }
   &.multifly::before {
     content: "";
     display: block;
