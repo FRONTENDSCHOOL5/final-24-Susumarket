@@ -71,7 +71,7 @@ export default function ProfilePost({
   };
 
   useEffect(() => {
-    if (skip === 0) {
+    if (skip === 0 && !inVeiw) {
       fetchPostData();
     }
     if (hasMore && inVeiw) {
@@ -141,7 +141,7 @@ export default function ProfilePost({
                   userData={userData}
                 />
               ))}
-              <div ref={ref}></div>
+              <div ref={ref}>스크롤</div>
             </ProfilePostUl>
           )}
         </>
