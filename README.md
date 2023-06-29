@@ -97,7 +97,6 @@ prettier: 2.8.8
 <details>
   <summary><b>컨벤션 및 api학습을 위한 사전과제(날씨앱) 진행 : 2023-06-08 ~ 2023-06-11</b></summary>
   <div markdown="1">
-   사전과제(날씨앱)을 함으로써 얻었던 이점
     기대효과 프로젝트에 사용되는 기능을 미리 사용해봄으로써 직후 1차 기능 구현할 때 도움이 됨 <br>
     코드 컨벤션 연습 <br>
     API 비동기 이해 <br>
@@ -144,7 +143,6 @@ prettier: 2.8.8
 
 <img src="https://github.com/24-gitTest/demo-repository/assets/87430624/3beb9c15-3633-489f-af1d-efd5c7ee1c8d"/>
 
-   팔로우 좋아요 게시물작성(3개까지) 캔버스 댓글
   </div>
 </details>
 <details>
