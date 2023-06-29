@@ -402,7 +402,7 @@ prettier: 2.8.8
 <br/>
 
 
-## 10.🖥️ 핵심 기능 및 코드 설명
+## 10.🖥️ 차별화 코드 설명
 
 ### 1 ) CustomAxios
 - CustomAxios : axios를 커스텀 하여 반복되어 들어가는 헤더 값과 baseUrl를 설정하여 axios 사용 시 헤더값과 baseUrl를 생략하도록 하였습니다.
