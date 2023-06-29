@@ -361,7 +361,7 @@ prettier: 2.8.8
 ### 1) 홈
 |시작 화면|회원가입 페이지|로그인 페이지|
 |---|---|---|
-|![splash](https://user-images.githubusercontent.com/87430624/249319346-a5a4c19e-3bd7-457a-8d05-48fbc24d939d.gif)|![회원가입](https://user-images.githubusercontent.com/87430624/249319546-6693669f-378c-47d6-b46b-d5a1d004f46b.gif)|![로그인](https://user-images.githubusercontent.com/87430624/249319406-98aab599-d54b-4f7b-b85b-cfefe35bcef7.gif)|
+|![splash](https://user-images.githubusercontent.com/87430624/249319346-a5a4c19e-3bd7-457a-8d05-48fbc24d939d.gif)|![회원가입](https://user-images.githubusercontent.com/87430624/249319546-6693669f-378c-47d6-b46b-d5a1d004f46b.gif)|![로그인](https://user-images.githubusercontent.com/47853679/249639398-ae65abd2-a102-4e08-bce8-7376ca3f3a17.gif)|
 
 |피드 페이지|검색 페이지|404 페이지|
 |:---:|:---:|:---:|
