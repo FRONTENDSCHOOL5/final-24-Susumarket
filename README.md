@@ -97,6 +97,7 @@ prettier: 2.8.8
 <details>
   <summary><b>컨벤션 및 api학습을 위한 사전과제(날씨앱) 진행 : 2023-06-08 ~ 2023-06-11</b></summary>
   <div markdown="1">
+   사전과제(날씨앱)을 함으로써 얻었던 이점
     기대효과 프로젝트에 사용되는 기능을 미리 사용해봄으로써 직후 1차 기능 구현할 때 도움이 됨 <br>
     코드 컨벤션 연습 <br>
     API 비동기 이해 <br>
@@ -133,11 +134,34 @@ prettier: 2.8.8
 <details>
   <summary><b>1차 개발 : 2023-06-14 ~ 2023-06-19</b></summary>
   <div markdown="1">
-  <img src="https://github-production-user-asset-포 : 2023-06-24 ~ 2023-06-27</b></summary>
+  <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/87430624/249535797-acf0a71a-2645-4469-83fb-38a1ab6fd39c.png"/>
+
+  </div>
+</details>
+<details>
+  <summary><b>2차 개발 : 2023-06-19 ~ 2023-06-24</b></summary>
+  <div markdown="1">
+
+<img src="https://github.com/24-gitTest/demo-repository/assets/87430624/3beb9c15-3633-489f-af1d-efd5c7ee1c8d"/>
+
+   팔로우 좋아요 게시물작성(3개까지) 캔버스 댓글
+  </div>
+</details>
+<details>
+  <summary><b>버그 수정 및 유지보수 : 2023-06-24 ~ 2023-06-27</b></summary>
+  <div markdown="1">
+   <img src="https://github.com/24-gitTest/demo-repository/assets/87430624/33db4bf8-b0dd-4f5e-8d0e-d23a1e2bd0d7"/>
+   <img src="https://github.com/24-gitTest/demo-repository/assets/87430624/0df4e7f1-b267-4aa5-a130-a3f270ef075d"/>
+"
+  </div>
+</details>
+<details>
+  <summary><b>추가 구현 및 배포 : 2023-06-26 ~ 2023-06-28</b></summary>
   <div markdown="1">
    <img src="https://github.com/24-gitTest/demo-repository/assets/87430624/6a7fad2a-263b-4b14-9d71-64e037120df0"/>"
   </div>
 </details>
+
 
 <br/>
 
@@ -367,7 +391,7 @@ prettier: 2.8.8
 
 
 ### 5) 판매 상품
-|상품 등록 페이지 & 상품 링크 이동|상품 수정 페이지|상품 삭제 페이지|
+|상품 등록 페이지|상품 수정 페이지|상품 삭제 페이지|
 |---|---|---|
 |![상품 등록](https://user-images.githubusercontent.com/87430624/249319407-d702a7b8-a95e-47be-91d6-2f5d2fbbdf61.gif)|![상품 수정](https://user-images.githubusercontent.com/87430624/249319414-51176a23-ea3e-4340-8c15-68f375b389c7.gif)|![상품 삭제](https://user-images.githubusercontent.com/87430624/249319410-014593a9-5c4c-4788-8e91-862b500d7d5c.gif)|
 |상품 상세페이지|
