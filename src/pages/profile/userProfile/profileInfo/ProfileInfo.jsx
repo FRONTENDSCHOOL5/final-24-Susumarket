@@ -21,7 +21,7 @@ import messageIcon from "../../../../img/icon-message-circle.svg";
 import shareIcon from "../../../../img/icon-share.svg";
 
 import profileImg from "../../../../img/ProfileImg.svg";
-import Button from "../../../commons/button/Button";
+import Button from "../../../../components/commons/button/Button";
 import { useNavigate, useParams } from "react-router-dom";
 import { customAxios } from "../../../../library/customAxios";
 import { AccountContext } from "../../../../context/AccountContext";
