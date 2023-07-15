@@ -1,13 +1,12 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import ProfileInfo from "../../../components/units/profile/profileInfo/ProfileInfo";
-import ProfileProduct from "../../../components/units/profile/ProfileProduct/ProfileProduct";
+import ProfileInfo from "./profileInfo/ProfileInfo";
+import ProfileProduct from "./profileProduct/ProfileProduct";
 import PostModal from "../../../components/commons/postModal/PostModal";
 import ConfirmModal from "../../../components/commons/confirmModal/confirmModal";
 import TopButton from "../../../components/commons/topButton/TopButton";
 import { useNavigate, useParams } from "react-router-dom";
 import { ModalContext } from "../../../context/ModalContext";
 import { UserContext } from "../../../context/UserContext";
-import ProfilePost from "../../../components/units/profile/ProfilePost/ProfilePost";
 import { customAxios } from "../../../library/customAxios";
 import {
   UserProfileWrapper,
@@ -21,6 +20,7 @@ import { AccountContext } from "../../../context/AccountContext";
 import useAuth from "../../../hook/useAuth";
 import MenuBar from "../../../components/commons/menuBar/MenuBar";
 import Loading from "../../../components/commons/loading/Loading";
+import PostList from "../../../components/commons/postList/PostList";
 export default function UserProfile() {
   const { setAccessToken } = useContext(UserContext);
   const { setIsOpenPostModal, setIsOpenConfirmModal } =
@@ -155,7 +155,7 @@ export default function UserProfile() {
                 closeModal={closeModal}
                 userData={userData}
               />
-              <ProfilePost
+              <PostList
                 onClickButton={onClickButton}
                 settingPostModalProps={settingPostModalProps}
                 closeModal={closeModal}
