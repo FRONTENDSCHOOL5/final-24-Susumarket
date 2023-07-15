@@ -10,7 +10,7 @@ import {
   PostNoneImg,
   PostNoneText,
   PostNoneWrapper,
-} from "../ProfilePost/ProfilePost.styles";
+} from "../../../../components/commons/postList/postList.styles"
 import ProductNoneImgIcon from "../../../../img/symbol-logo-404.svg";
 
 export default function ProfileProduct({
