@@ -6,12 +6,13 @@ export const UserProfileLink = styled.div`
   position: relative;
   display: flex;
   align-items: center;
+  margin-bottom: 12px;
   cursor: pointer;
 `;
 
 export const UserProfileImg = styled.img`
-  width: 42px;
-  height: 42px;
+  width: ${(props) => (props.commentDate ? "34px" : "42px")};
+  height: ${(props) => (props.commentDate ? "34px" : "42px")};
   border: 0.5px solid #dbdbdb;
   border-radius: 50%;
   margin-right: 12px;
@@ -21,9 +22,12 @@ export const UserProfileImg = styled.img`
 export const UserIdWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 5px;
   width: calc(100% - 120px);
   flex-grow: 1;
 `;
+
+export const UserNameWrapper = styled.div``;
 
 export const UserName = styled.span`
   font-weight: 400;
@@ -31,6 +35,7 @@ export const UserName = styled.span`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-right: 8px;
 `;
 
 export const UserAccount = styled.span`
@@ -54,8 +59,8 @@ export const UserAccount = styled.span`
 `;
 
 export const UserInfoModalBtn = styled.button`
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
   background: url(${IconModalBtn}) no-repeat center / 18px;
   align-self: flex-start;
   margin-top: 3px;

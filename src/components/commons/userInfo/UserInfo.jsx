@@ -10,9 +10,12 @@ import {
   UserProfileLink,
   UserInfoModalBtn,
   UserInfoDate,
+  UserNameWrapper,
 } from "./userInfo.style";
 import Button from "../button/Button";
 import { useNavigate } from "react-router-dom";
+import defaultImg from "../../../img/ProfileImg.svg";
+import DateFormat from "../dateFormat/DateFormat";
 
 export default function UserInfo({
   right,
@@ -20,6 +23,7 @@ export default function UserInfo({
   date,
   bottom,
   lastChat,
+  commentDate,
   onClickModalBtn,
   onClickFollowBtn,
 }) {
@@ -75,9 +79,23 @@ export default function UserInfo({
       <UserProfileLink
         onClick={() => navigate(`/profile/${userData.accountname}`)}
       >
-        <UserProfileImg src={userData.image} alt="유저 프로필 이미지" />
+        <UserProfileImg
+          src={
+            userData.image.includes("Ellipse.png") ? defaultImg : userData.image
+          }
+          alt="유저 프로필 이미지"
+          onError={(e) => (e.target.src = defaultImg)}
+          commentDate={commentDate}
+        />
         <UserIdWrapper>
-          <UserName>{userData.username}</UserName>
+          {commentDate ? (
+            <UserNameWrapper>
+              <UserName>{userData.username}</UserName>
+              <DateFormat dateString={commentDate} />
+            </UserNameWrapper>
+          ) : (
+            <UserName>{userData.username}</UserName>
+          )}
           {setBottom()}
         </UserIdWrapper>
         {setRight()}
