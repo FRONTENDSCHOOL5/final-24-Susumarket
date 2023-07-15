@@ -1,16 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import NewTopHeader from "../../../components/commons/newTopHeader/NewTopHeader";
-import { useNavigate } from "react-router-dom";
 
 import MenuBar from "../../../components/commons/menuBar/MenuBar";
-import ProfilePost from "../../../components/units/profile/ProfilePost/ProfilePost";
 import { ModalContext } from "../../../context/ModalContext";
 import PostModal from "../../../components/commons/postModal/PostModal";
 import ConfirmModal from "../../../components/commons/confirmModal/confirmModal";
 import useAuth from "../../../hook/useAuth";
 import TopButton from "../../../components/commons/topButton/TopButton";
-
-
+import PostList from "../../../components/commons/postList/PostList";
 
 export default function Post() {
   // confirm 모달창 props 설정 => 버튼 마다 confirm 모달창이 달라지기 때문에 사용
@@ -46,7 +43,7 @@ export default function Post() {
         right="search"
         title="수수마켓 피드"
       ></NewTopHeader>
-      <ProfilePost
+      <PostList
         isFeed={true}
         settingPostModalProps={settingPostModalProps}
         onClickButton={onClickButton}
