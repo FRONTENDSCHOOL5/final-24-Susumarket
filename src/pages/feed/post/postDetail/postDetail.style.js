@@ -19,9 +19,7 @@ export const UserProfile = styled.img`
   border-radius: 50%;
   vertical-align: top;
 `;
-export const UserInfo = styled.div`
-  margin-left: 10px;
-`;
+
 
 export const UserName = styled.span`
   display: flex;
@@ -55,6 +53,7 @@ export const UserButton = styled.button`
 export const PostWrapper = styled.section`
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: 100%;
   padding-bottom: 24px;
   margin-top: 20px;
@@ -154,5 +153,6 @@ export const CommentList = styled.ul`
 
 export const CommentItem = styled.li`
   /* margin-top: 10px; */
+  width: 100%;
 `;
 export const CommentBtnSpan = styled.span``;
