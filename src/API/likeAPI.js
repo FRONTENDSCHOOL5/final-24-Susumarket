@@ -1,5 +1,8 @@
 
 // 좋아요 API
+
+import { customAxios } from "../library/customAxios";
+
 // 좋아요를 한 게시물 정보를 리턴
 export const likeAPI = async (postId) => {
   try{

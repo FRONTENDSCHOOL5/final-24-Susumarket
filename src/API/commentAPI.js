@@ -1,5 +1,8 @@
 
 // 댓글 작성 API postId comment 객체를 인자로 받습니다.
+
+import { customAxios } from "../library/customAxios";
+
 // 작성한 comment 정보를 리턴
 export const writeCommentAPI = async (postId, comment) => {
   try {
