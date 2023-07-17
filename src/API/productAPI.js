@@ -1,5 +1,4 @@
 // 상품 업로드 API prodcut 객체를 인자로 받습니다.
-
 import { customAxios } from "../library/customAxios";
 
 // 업로드한 상품 정보를 리턴
@@ -15,6 +14,7 @@ export const uploadProductAPI = async (product) => {
 
 // 상품 목록 API accountname를 인자로 받습니다.
 // 유저의 상품 목록 정보를 리턴
+
 export const productListAPI = async (accountname, product) => {
   try {
     const response = await customAxios.get(`/product/${accountname}`, product);
@@ -32,6 +32,7 @@ export const productListPageAPI = async (accountname, product, limit, skip) => {
     const response = await customAxios.get(
       `/product/${accountname}/?limit=${limit}&skip=${skip}`,
       product,
+
     );
     return response.data.product;
   } catch (error) {

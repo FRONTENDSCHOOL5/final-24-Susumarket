@@ -1,5 +1,3 @@
-// 게시물 등록 API post 객체를 인자로 받음
-
 import { customAxios } from "../library/customAxios";
 
 // 업로드한 게시물 정보를 리턴
