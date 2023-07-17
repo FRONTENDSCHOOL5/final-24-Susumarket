@@ -1,7 +1,7 @@
 import { customAxios } from "../library/customAxios";
 
 // 업로드한 게시물 정보를 리턴
-const postUploadAPI = async (post) => {
+export const postUploadAPI = async (post) => {
   try {
     const response = await customAxios.post("post", post);
     return response.data.post;
@@ -13,7 +13,7 @@ const postUploadAPI = async (post) => {
 
 // 게시물 피드 API
 // 내가 팔로우하고 있는 유저의 게시글 목록 리턴
-const postFeedAPI = async () => {
+export const postFeedAPI = async () => {
   try {
     const response = await customAxios.get("post/feed");
     return response.data.posts;
@@ -25,7 +25,7 @@ const postFeedAPI = async () => {
 
 // 게시물 피드 페이징 API
 // 페이징 처리된 내가 팔로우하고 있는 유저의 게시글 목록 리턴
-const postFeedPageAPI = async (limt, skip) => {
+export const postFeedPageAPI = async (limt, skip) => {
   try {
     const response = await customAxios.get(
       `post/feed/?limit=${limt}&skip=${skip}`
@@ -39,7 +39,7 @@ const postFeedPageAPI = async (limt, skip) => {
 
 // 자신의 게시물 목록 API
 // 자신의 게시물 목록을 리턴
-const myPostAPI = async (accountname) => {
+export const myPostAPI = async (accountname) => {
   try {
     const response = await customAxios.post(`post/${accountname}/userpost`);
     return response.data.post;
@@ -51,7 +51,7 @@ const myPostAPI = async (accountname) => {
 
 // 자신의 게시물 페이징 목록 API
 // 페이징 처리된 자신의 게시물 목록을 리턴
-const myPostPageAPI = async (accountname, limit, skip) => {
+export const myPostPageAPI = async (accountname, limit, skip) => {
   try {
     const response = await customAxios.post(
       `post/${accountname}/userpost?limit=${limit}&skip=${skip}`
@@ -65,7 +65,7 @@ const myPostPageAPI = async (accountname, limit, skip) => {
 
 // 게시물 상세 API
 // 게시물의 상세 정보 리턴
-const postDetailAPI = async (postId) => {
+export const postDetailAPI = async (postId) => {
   try {
     const response = await customAxios.get(`post/${postId}`);
     return response.data.post;
@@ -77,7 +77,7 @@ const postDetailAPI = async (postId) => {
 
 // 게시물 수정 API
 // 게시물의 수정 정보 리턴
-const postEditAPI = async (postId) => {
+export const postEditAPI = async (postId) => {
   try {
     const response = await customAxios.put(`post/${postId}`);
     return response.data.post;
@@ -88,7 +88,7 @@ const postEditAPI = async (postId) => {
 };
 
 // 게시물 삭제 API
-const postDeleteAPI = async (postId) => {
+export const postDeleteAPI = async (postId) => {
   try {
     const response = await customAxios.delete(`post/${postId}`);
     return response.data.message;
@@ -99,7 +99,7 @@ const postDeleteAPI = async (postId) => {
 };
 
 // 게시물 신고 API
-const postReportAPI = async (postId) => {
+export const postReportAPI = async (postId) => {
   try {
     const response = await customAxios.post(`post/${postId}/report`);
     return response.data.report;
@@ -111,7 +111,7 @@ const postReportAPI = async (postId) => {
 
 // 전체 게시물 API
 // 전체 게시물 정보를 리턴
-const postAPI = async () => {
+export const postAPI = async () => {
   try {
     const response = await customAxios.get("post");
     return response.data.report;
