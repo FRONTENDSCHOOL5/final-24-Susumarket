@@ -1,3 +1,5 @@
+import { customAxios } from "../library/customAxios";
+
 // 마이 프로필 API 자신의 프로필 정보를 리턴
 export const myProfileAPI = async () => {
   try {

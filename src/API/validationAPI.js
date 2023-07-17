@@ -1,3 +1,5 @@
+import { customAxios } from "../library/customAxios";
+
 export const emailValidationAPI = async (user) => {
   try {
     const response = await customAxios.post(`user/emailvalid`, user);

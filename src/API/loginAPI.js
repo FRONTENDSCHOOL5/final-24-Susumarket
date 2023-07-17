@@ -1,3 +1,5 @@
+import { customAxios } from "../library/customAxios";
+
 // 로그인 API  data를 리턴 => 리턴 값을 통해 에러 메세지 출력 acessToken, account 저장
 export const loginAPI = async (user) => {
   try {

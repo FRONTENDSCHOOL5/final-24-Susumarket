@@ -1,4 +1,6 @@
 // 상품 업로드 API prodcut 객체를 인자로 받습니다.
+import { customAxios } from "../library/customAxios";
+
 // 업로드한 상품 정보를 리턴
 export const uploadProductAPI = async (product) => {
   try {
@@ -12,7 +14,8 @@ export const uploadProductAPI = async (product) => {
 
 // 상품 목록 API accountname를 인자로 받습니다.
 // 유저의 상품 목록 정보를 리턴
-export const productListAPI = async (accountname) => {
+
+export const productListAPI = async (accountname, product) => {
   try {
     const response = await customAxios.get(`/product/${accountname}`, product);
     return response.data.product;
@@ -24,11 +27,12 @@ export const productListAPI = async (accountname) => {
 
 // 상품 목록 페이징 API accountname, limit, skip를 인자로 받습니다.
 // 페이징 처리된 유저의 상품 목록 정보를 리턴
-export const productListPageAPI = async (accountname, limit, skip) => {
+export const productListPageAPI = async (accountname, product, limit, skip) => {
   try {
     const response = await customAxios.get(
       `/product/${accountname}/?limit=${limit}&skip=${skip}`,
-      product
+      product,
+
     );
     return response.data.product;
   } catch (error) {
@@ -53,7 +57,10 @@ export const productDetailAPI = async (productId) => {
 // 수정된 상품 정보를 리턴
 export const productEditAPI = async (productId, product) => {
   try {
-    const response = await customAxios.put(`product/detail/${productId}`, product);
+    const response = await customAxios.put(
+      `product/detail/${productId}`,
+      product,
+    );
     return response.data.product;
   } catch (error) {
     console.log(error);

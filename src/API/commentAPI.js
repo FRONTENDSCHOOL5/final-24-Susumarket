@@ -1,3 +1,4 @@
+import { customAxios } from "../library/customAxios";
 
 // 댓글 작성 API postId comment 객체를 인자로 받습니다.
 // 작성한 comment 정보를 리턴

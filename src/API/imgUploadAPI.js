@@ -1,3 +1,5 @@
+import { customAxios } from "../library/customAxios";
+
 // 이미지 업로드 API 이미지 이름을 리턴
 export const imgUploadAPI = async (formData) => {
   try {
