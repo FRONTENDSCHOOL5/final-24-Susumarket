@@ -11,6 +11,7 @@ import DefaultImg from "../../../../img/basic-profile.svg";
 
 import { addFollowAPI } from "./addFollowAPI";
 import { deleteFollowAPI } from "./deleteFollowAPI";
+import UserInfo from "../../../../components/commons/userInfo/UserInfo";
 
 const defaultImage = DefaultImg;
 export default function FollowerList({ follower, account }) {
@@ -41,35 +42,17 @@ export default function FollowerList({ follower, account }) {
   return (
     <FollowerListLi>
       <FollowerListLink to={`/profile/${follower.accountname}`}>
-        <img
-          src={
-            follower.image.endsWith("Ellipse.png")
-            ? defaultImage
-            : follower.image
-          }
-          onError={(e) => (e.target.src = DefaultImg)}
-          alt="프로필 이미지"
-          style={{
-            objectFit: "cover",
-            width: "50px",
-            height: "50px",
-            borderRadius: "50%",
-          }}
-        />
-        <UserWrapper>
-          <UserName>{follower.username}</UserName>
-          <UserIntro>{follower.intro}</UserIntro>
-        </UserWrapper>
+        <UserInfo bottom="intro" userData={follower} />
+        {follower.accountname !== account && (
+          <FollowButton
+            className="small"
+            active={!isFollow}
+            onClick={handleFollowBtn}
+          >
+            {isFollow ? "취소" : "팔로우"}
+          </FollowButton>
+        )}
       </FollowerListLink>
-      {follower.accountname !== account && (
-        <FollowButton
-          className="small"
-          active={!isFollow}
-          onClick={handleFollowBtn}
-        >
-          {isFollow ? "취소" : "팔로우"}
-        </FollowButton>
-      )}
     </FollowerListLi>
   );
 }
