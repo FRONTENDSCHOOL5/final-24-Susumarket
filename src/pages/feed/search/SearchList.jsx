@@ -7,6 +7,7 @@ import {
   UserAccount,
 } from "./searchList.style.js";
 import DefaultImg from "../../../img/basic-profile.svg";
+import UserInfo from "../../../components/commons/userInfo/UserInfo.jsx";
 
 const defaultImage = DefaultImg;
 
@@ -38,25 +39,7 @@ export default function SearchList({ userList, inputValue }) {
           <SearchListLi key={index}>
             {/* 유저 리스트 클릭시 유저 프로필 페이지로 이동 */}
             <SearchListLink to={`/profile/${user.accountname}`}>
-              <img
-                src={
-                  !user.image.endsWith("Ellipse.png")
-                    ? user.image
-                    : defaultImage
-                }
-                onError={(e) => (e.target.src = DefaultImg)}
-                alt="프로필 이미지"
-                style={{
-                  objectFit: "cover",
-                  width: "50px",
-                  height: "50px",
-                  borderRadius: "50%",
-                }}
-              />
-              <UserWrapper>
-                <UserId>{highlightText(user.username, inputValue)}</UserId>
-                <UserAccount>{user.accountname}</UserAccount>
-              </UserWrapper>
+              <UserInfo bottom="intro" userData={user} />
             </SearchListLink>
           </SearchListLi>
         ))}
