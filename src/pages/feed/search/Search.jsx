@@ -2,9 +2,9 @@ import React, { useState, useCallback } from "react";
 import { debounce } from "lodash";
 import { SearchWrapper } from "./search.style";
 import SearchList from "./SearchList";
-import { customAxios } from "../../../library/customAxios";
 import MenuBar from "../../../components/commons/menuBar/MenuBar";
 import TopButton from "../../../components/commons/topButton/TopButton";
+import { searchAPI } from "../../../API/searchAPI";
 import NewTopHeader from "../../../components/commons/newTopHeader/NewTopHeader";
 
 export default function Search() {
@@ -25,14 +25,12 @@ export default function Search() {
   const handleSearch = useCallback(
     debounce(async (value) => {
       try {
-        const response = await customAxios.get(
-          `/user/searchuser/?keyword=${value}`,
-        );
-        setUserList(response.data);
+        const data = await searchAPI(value); // searchAPI 함수를 호출하여 검색 결과를 가져옵니다.
+        setUserList(data); // 검색 결과를 userList 상태에 저장합니다.
       } catch (error) {
         console.error(error);
       }
-    }, 500), // 500ms 뒤에 함수실행
+    }, 500),
     [],
   );
 
