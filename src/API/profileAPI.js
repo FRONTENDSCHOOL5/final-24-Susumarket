@@ -39,8 +39,8 @@ export const profileEdit = async (user) => {
 // 한 유저 프로필 정보 리턴
 export const followAPI = async (accountname) => {
   try {
-    const response = await customAxios.put(`profile/${accountname}/follow`);
-    return response.data.profile;
+    const response = await customAxios.post(`profile/${accountname}/follow`);
+    return response.data;
   } catch (error) {
     console.log(error);
     return error.response.data.message;
@@ -52,9 +52,9 @@ export const followAPI = async (accountname) => {
 export const unFollowAPI = async (accountname) => {
   try {
     const response = await customAxios.delete(
-      `profile/${accountname}/unfollow`
+      `profile/${accountname}/unfollow`,
     );
-    return response.data.profile;
+    return response.data;
   } catch (error) {
     console.log(error);
     return error.response.data.message;
