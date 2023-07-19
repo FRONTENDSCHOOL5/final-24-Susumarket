@@ -4,7 +4,6 @@ import FollowingList from "./FollowingList";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FollowingListUl } from "./followingList.style";
-// import followingAPI from "./followingAPI";
 import { followingAPI } from "../../../../API/profileAPI";
 import MenuBar from "../../../../components/commons/menuBar/MenuBar";
 import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHeader";

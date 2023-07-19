@@ -8,9 +8,6 @@ import {
   FollowButton,
 } from "./followerList.style";
 import DefaultImg from "../../../../img/basic-profile.svg";
-
-import { addFollowAPI } from "./addFollowAPI";
-import { deleteFollowAPI } from "./deleteFollowAPI";
 import { followAPI } from "../../../../API/profileAPI";
 import { unFollowAPI } from "../../../../API/profileAPI";
 import UserInfo from "../../../../components/commons/userInfo/UserInfo";
