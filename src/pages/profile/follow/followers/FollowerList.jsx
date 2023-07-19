@@ -11,6 +11,8 @@ import DefaultImg from "../../../../img/basic-profile.svg";
 
 import { addFollowAPI } from "./addFollowAPI";
 import { deleteFollowAPI } from "./deleteFollowAPI";
+import { followAPI } from "../../../../API/profileAPI";
+import { unFollowAPI } from "../../../../API/profileAPI";
 import UserInfo from "../../../../components/commons/userInfo/UserInfo";
 
 const defaultImage = DefaultImg;
@@ -19,13 +21,13 @@ export default function FollowerList({ follower, account }) {
 
   // 팔로워 추가 API호출
   const handleSubmitFollow = async () => {
-    await addFollowAPI(follower.accountname);
+    await followAPI(follower.accountname);
     setIsFollow(true);
   };
 
   // 팔로워 삭제 API호출
   const handleSubmitUnFollow = async () => {
-    await deleteFollowAPI(follower.accountname);
+    await unFollowAPI(follower.accountname);
     setIsFollow(false);
   };
 
