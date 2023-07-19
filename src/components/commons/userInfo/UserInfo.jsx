@@ -26,9 +26,9 @@ export default function UserInfo({
   commentDate,
   onClickModalBtn,
   onClickFollowBtn,
+  isFollow,
 }) {
   const navigate = useNavigate();
-
   const setRight = () => {
     switch (right) {
       case "modalBtn":
@@ -47,14 +47,14 @@ export default function UserInfo({
         return (
           <Button
             type="button"
-            active={true}
+            active={!isFollow}
             className="small"
             onClick={(e) => {
               e.stopPropagation();
-              onClickFollowBtn();
+              onClickFollowBtn(e);
             }}
           >
-            팔로우
+            {isFollow ? "취소" : "팔로우"}
           </Button>
         );
       default:
