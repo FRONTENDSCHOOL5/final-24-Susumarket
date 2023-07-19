@@ -4,7 +4,6 @@ import FollowerList from "./FollowerList";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FollowerListUl } from "./followerList.style";
-// import followerAPI from "./followerAPI";
 import { followerAPI } from "../../../../API/profileAPI";
 import MenuBar from "../../../../components/commons/menuBar/MenuBar";
 import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHeader";

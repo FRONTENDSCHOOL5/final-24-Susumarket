@@ -7,8 +7,6 @@ import {
   UserIntro,
   FollowButton,
 } from "./followingList.style";
-import { addFollowAPI } from "../followers/addFollowAPI";
-import { deleteFollowAPI } from "../followers/deleteFollowAPI";
 import { followAPI } from "../../../../API/profileAPI";
 import { unFollowAPI } from "../../../../API/profileAPI";
 import DefaultImg from "../../../../img/basic-profile.svg";
