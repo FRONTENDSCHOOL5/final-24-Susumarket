@@ -7,7 +7,7 @@ export const postUploadAPI = async (post) => {
     return response.data.post;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;
+    throw new Error(error.response.data.message);
   }
 };
 
@@ -19,7 +19,7 @@ export const postFeedAPI = async () => {
     return response.data.posts;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;
+    throw new Error(error.response.data.message);
   }
 };
 
@@ -28,12 +28,12 @@ export const postFeedAPI = async () => {
 export const postFeedPageAPI = async (limt, skip) => {
   try {
     const response = await customAxios.get(
-      `post/feed/?limit=${limt}&skip=${skip}`
+      `post/feed/?limit=${limt}&skip=${skip}`,
     );
     return response.data.posts;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;
+    throw new Error(error.response.data.message);
   }
 };
 
@@ -45,7 +45,7 @@ export const myPostAPI = async (accountname) => {
     return response.data.post;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;
+    throw new Error(error.response.data.message);
   }
 };
 
@@ -54,12 +54,13 @@ export const myPostAPI = async (accountname) => {
 export const myPostPageAPI = async (accountname, limit, skip) => {
   try {
     const response = await customAxios.get(
-      `post/${accountname}/userpost?limit=${limit}&skip=${skip}`
+      `post/${accountname}/userpost?limit=${limit}&skip=${skip}`,
     );
+
     return response.data.post;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;
+    throw new Error(error.response.data.message);
   }
 };
 
@@ -71,7 +72,7 @@ export const postDetailAPI = async (postId) => {
     return response.data.post;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;
+    throw new Error(error.response.data.message);
   }
 };
 
@@ -88,7 +89,7 @@ export const postEditAPI = async (postId, postContent, imgUrls) => {
     // return response.data.post;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;
+    throw new Error(error.response.data.message);
   }
 };
 // export const postEditAPI = async (postId) => {
@@ -108,7 +109,7 @@ export const postDeleteAPI = async (postId) => {
     return response.data.message;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;
+    throw new Error(error.response.data.message);
   }
 };
 
@@ -119,7 +120,7 @@ export const postReportAPI = async (postId) => {
     return response.data.report;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;
+    throw new Error(error.response.data.message);
   }
 };
 
@@ -131,6 +132,6 @@ export const postAPI = async () => {
     return response.data.report;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;
+    throw new Error(error.response.data.message);
   }
 };
