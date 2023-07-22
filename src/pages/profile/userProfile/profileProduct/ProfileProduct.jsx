@@ -5,13 +5,13 @@ import {
   ProfileProductWrapper,
 } from "./ProfileProduct.styles";
 import ProfileProductList from "./ProfileProductList";
-import { customAxios } from "../../../../library/customAxios";
 import {
   PostNoneImg,
   PostNoneText,
   PostNoneWrapper,
 } from "../../../../components/commons/postList/postList.styles"
 import ProductNoneImgIcon from "../../../../img/symbol-logo-404.svg";
+import { productListAPI } from "../../../../API/productAPI";
 
 export default function ProfileProduct({
   onClickButton,
@@ -24,9 +24,9 @@ export default function ProfileProduct({
 
   const fetchProdcutData = useCallback(async () => {
     try {
-      const response = await customAxios.get(`product/${userData.accountname}`);
-      setProductData(response.data.product);
-      if (response.data.product.length === 0) {
+      const response = await productListAPI(userData.accountname);
+      setProductData(response);
+      if (response.length === 0) {
         setIsNoneProductData(true);
       } else {
         setIsNoneProductData(false);
