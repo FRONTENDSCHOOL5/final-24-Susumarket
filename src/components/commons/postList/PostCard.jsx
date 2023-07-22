@@ -5,8 +5,7 @@ import DateFormate from "../../commons/dateFormat/DateFormat";
 import heartIcon from "../../../img/icon-heart.svg";
 import heartFillIcon from "../../../img/icon-heart-fill.svg";
 import commentIcon from "../../../img/icon-message-circle.svg";
-import { useLocation, useNavigate } from "react-router-dom";
-import { customAxios } from "../../../library/customAxios";
+import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AccountContext } from "../../../context/AccountContext";
 import UserInfo from "../../commons/userInfo/UserInfo";
@@ -30,6 +29,8 @@ import {
   PostCommentLink,
   PostCommentCount,
 } from "./postList.styles";
+import { postDeleteAPI, postReportAPI } from "../../../API/postAPI";
+import { likeAPI, unikeAPI } from "../../../API/likeAPI";
 
 export default function PostCard({
   onClickButton,
@@ -63,29 +64,20 @@ export default function PostCard({
   // 게시물 제거
   const onClickRemovePost = useCallback(async () => {
     try {
-      await customAxios.delete(`post/${post.id}`);
+      await postDeleteAPI(post.id);
       setPostData((prev) => prev.filter((prev) => prev.id !== post.id));
     } catch (error) {
-      if (error.response.data.message) {
-        alert(error.response.data.message);
-        reFetchPostData();
-      }
-      console.log(error);
+      alert(error);
     }
   }, []);
 
   // 게시물 신고
   async function onClickReportPost() {
     try {
-      const response = await customAxios.post(`post/${post.id}/report`);
-      if (response.data.report) {
-        alert("신고가 완료 되었습니다.");
-      }
+      await postReportAPI(post.id);
+      alert("신고가 완료 되었습니다.");
     } catch (error) {
-      console.log(error);
-      if (error.response.data.message) {
-        alert(error.response.data.message);
-      }
+      alert(error);
     }
   }
 
@@ -104,20 +96,17 @@ export default function PostCard({
         return;
       }
       if (hearted) {
-        await customAxios.delete(`post/${post.id}/unheart`);
+        await unikeAPI(post.id);
         setHeartCount((prev) => parseInt(prev) - 1);
         setHearted(false);
       } else {
-        await customAxios.post(`post/${post.id}/heart`);
+        await likeAPI(post.id);
         setHeartCount((prev) => parseInt(prev) + 1);
         setHearted(true);
       }
     } catch (error) {
-      console.log(error);
-      if (error.response.data.message) {
-        alert(error.response.data.message);
-        reFetchPostData();
-      }
+      alert(error);
+      reFetchPostData();
     }
   }, [hearted]);
 
@@ -194,17 +183,17 @@ export default function PostCard({
         ]);
       } else {
         // post 모달창 버튼 props 지정
-      settingPostModalProps([
-        {
-          name: "신고",
-          func: () => {
-            onClickButton("정말 신고 하시겠습니까?", "신고", async () => {
-              closeModal();
-              await onClickReportPost();
-            });
+        settingPostModalProps([
+          {
+            name: "신고",
+            func: () => {
+              onClickButton("정말 신고 하시겠습니까?", "신고", async () => {
+                closeModal();
+                await onClickReportPost();
+              });
+            },
           },
-        },
-      ]);
+        ]);
       }
     }
   }, []);
