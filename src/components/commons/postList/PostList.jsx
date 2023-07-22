@@ -22,12 +22,12 @@ import postGalleryIconOn from "../../../img/icon-post-album-on.svg";
 import postGalleryIconOff from "../../../img/icon-post-album-off.svg";
 import PostNoneImgIcon from "../../../img/symbol-logo-404.svg";
 import PostGalleries from "./postGalleries";
-import { customAxios } from "../../../library/customAxios";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../commons/loading/Loading";
 import { useInView } from "react-intersection-observer";
 import PostCard from "./PostCard";
 import Button from "../button/Button";
+import { myPostPageAPI, postFeedPageAPI } from "../../../API/postAPI";
 
 export default function PostList({
   onClickButton,
@@ -49,12 +49,9 @@ export default function PostList({
   // 게시물 정보를 받아옴
   const fetchPostData = async () => {
     try {
-      const response = await customAxios(
-        isFeed
-          ? `post/feed?limit=${limit}&skip=${skip}`
-          : `post/${userData.accountname}/userpost?limit=${limit}&skip=${skip}`,
-      );
-      const data = isFeed ? response.data.posts : response.data.post;
+      const data = isFeed
+        ? await postFeedPageAPI(limit, skip)
+        : await myPostPageAPI(userData.accountname, limit, skip);
       setPostData((prev) => [...prev, ...data]);
       setHasMore(data.length === limit);
       setSkip((prev) => prev + limit);
