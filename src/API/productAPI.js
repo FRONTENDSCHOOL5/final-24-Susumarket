@@ -8,20 +8,20 @@ export const uploadProductAPI = async (product) => {
     return response.data.product;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;
+    throw new Error(error.response.data.message);
   }
 };
 
 // 상품 목록 API accountname를 인자로 받습니다.
 // 유저의 상품 목록 정보를 리턴
 
-export const productListAPI = async (accountname, product) => {
+export const productListAPI = async (accountname) => {
   try {
-    const response = await customAxios.get(`/product/${accountname}`, product);
+    const response = await customAxios.get(`/product/${accountname}`);
     return response.data.product;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;
+    throw new Error(error);
   }
 };
 
@@ -37,7 +37,7 @@ export const productListPageAPI = async (accountname, product, limit, skip) => {
     return response.data.product;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;
+    throw new Error(error);
   }
 };
 
@@ -49,7 +49,7 @@ export const productDetailAPI = async (productId) => {
     return response.data.product;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;
+    throw new Error(error);
   }
 };
 
@@ -64,7 +64,7 @@ export const productEditAPI = async (productId, product) => {
     return response.data.product;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;
+    throw new Error(error.response.data.message);
   }
 };
 
@@ -75,6 +75,6 @@ export const productDeleteAPI = async (productId) => {
     return response.data.message;
   } catch (error) {
     console.log(error);
-    return error.response.message;
+    throw new Error(error.response.message);
   }
 };
