@@ -7,7 +7,6 @@ import TopButton from "../../../components/commons/topButton/TopButton";
 import { useNavigate, useParams } from "react-router-dom";
 import { ModalContext } from "../../../context/ModalContext";
 import { UserContext } from "../../../context/UserContext";
-import { customAxios } from "../../../library/customAxios";
 import {
   UserProfileWrapper,
   UserUndefinedImg,
@@ -21,6 +20,7 @@ import useAuth from "../../../hook/useAuth";
 import MenuBar from "../../../components/commons/menuBar/MenuBar";
 import Loading from "../../../components/commons/loading/Loading";
 import PostList from "../../../components/commons/postList/PostList";
+import { userProfileAPI } from "../../../API/profileAPI";
 export default function UserProfile() {
   const { setAccessToken } = useContext(UserContext);
   const { setIsOpenPostModal, setIsOpenConfirmModal } =
@@ -72,8 +72,8 @@ export default function UserProfile() {
       // accountname params가 존재할때 와 존재하지 않을때를 분기처리해줌
       // accountname이 존재할 시 accountname과 일치하는 유저 프로필을 불러옴
       if (accountname) {
-        const response = await customAxios.get(`profile/${accountname}`);
-        setUserData(response.data.profile);
+        const response = await userProfileAPI(accountname);
+        setUserData(response);
         setIsInvalidProfile(false);
         setLoading(false); // Set loading to false when data is fetched
       } else {
