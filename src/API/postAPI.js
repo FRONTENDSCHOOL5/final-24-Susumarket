@@ -41,7 +41,7 @@ export const postFeedPageAPI = async (limt, skip) => {
 // 자신의 게시물 목록을 리턴
 export const myPostAPI = async (accountname) => {
   try {
-    const response = await customAxios.post(`post/${accountname}/userpost`);
+    const response = await customAxios.get(`post/${accountname}/userpost`);
     return response.data.post;
   } catch (error) {
     console.log(error);
@@ -53,7 +53,7 @@ export const myPostAPI = async (accountname) => {
 // 페이징 처리된 자신의 게시물 목록을 리턴
 export const myPostPageAPI = async (accountname, limit, skip) => {
   try {
-    const response = await customAxios.post(
+    const response = await customAxios.get(
       `post/${accountname}/userpost?limit=${limit}&skip=${skip}`
     );
     return response.data.post;
