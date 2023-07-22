@@ -13,10 +13,12 @@ import NewTopHeader from "../../../components/commons/newTopHeader/NewTopHeader"
 import DataInput from "../../../components/commons/dataInput/DataInput";
 import UserInput from "../../../components/commons/dataInput/UserInput";
 import ErrorMessage from "../../../components/commons/errorMessage/ErrorMessage";
-import { customAxios } from "../../../library/customAxios";
 import { useNavigate, useParams } from "react-router-dom";
 import useAuth from "../../../hook/useAuth";
 import { imgValidation } from "../../../library/imgValidation";
+import { imgUploadAPI } from "../../../API/imgUploadAPI";
+import { accountValidationAPI } from "../../../API/validationAPI";
+import { profileEditAPI } from "../../../API/profileAPI";
 export default function ProfileEdit() {
   const [imgPreviewURL, setImgPreviewURL] = useState(null);
   const [uploadFile, setUploadFile] = useState(null);
@@ -106,12 +108,12 @@ export default function ProfileEdit() {
     };
     try {
       if (!accountname) return;
-      const response = await customAxios.post("user/accountnamevalid", user);
-      if (response.data.message !== "사용 가능한 계정ID 입니다.") {
+      const response = await accountValidationAPI(user);
+      if (response !== "사용 가능한 계정ID 입니다.") {
         // 계정 ID와 일치하는 경우는 예외 처리 => 본인 계정 ID는 중복 가능하도록 함, 계정 ID 이외 다른 정보만 변경할 경우도 있기 때문
         if (accountname !== userAccountname)
           setAccountnameValidation({
-            errorMessage: response.data.message,
+            errorMessage: response,
             isValid: false,
           });
       } else {
@@ -148,19 +150,14 @@ export default function ProfileEdit() {
     const formData = new FormData();
     formData.append("image", uploadFile);
     try {
-      const imgUrlRes = await customAxios.post("image/uploadfile", formData, {
-        headers: {
-          "Content-type": "multipart/form-data",
-        },
-      });
-      const imgURLResult = imgUrlRes.data;
-      await customAxios.put("user", {
+      const filename = await imgUploadAPI(formData);
+      await profileEditAPI({
         user: {
           username,
           accountname,
           intro,
           image: uploadFile
-            ? `${process.env.REACT_APP_BASE_URL}${imgURLResult.filename}`
+            ? `${process.env.REACT_APP_BASE_URL}${filename}`
             : imgPreviewURL === defaultProfileImg
             ? `${process.env.REACT_APP_BASE_URL}Ellipse.png`
             : imgPreviewURL,
