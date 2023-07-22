@@ -1,26 +1,13 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import ProfileInfo from "./profileInfo/ProfileInfo";
-import ProfileProduct from "./profileProduct/ProfileProduct";
-import PostModal from "../../../components/commons/postModal/PostModal";
-import ConfirmModal from "../../../components/commons/confirmModal/confirmModal";
-import TopButton from "../../../components/commons/topButton/TopButton";
 import { useNavigate, useParams } from "react-router-dom";
 import { ModalContext } from "../../../context/ModalContext";
 import { UserContext } from "../../../context/UserContext";
-import {
-  UserProfileWrapper,
-  UserUndefinedImg,
-  UserUndefinedText,
-  UserUndefinedWrapper,
-} from "./userProfile.styles";
-import undefindImg from "../../../img/symbol-logo-404.svg";
-import NewTopHeader from "../../../components/commons/newTopHeader/NewTopHeader";
+
 import { AccountContext } from "../../../context/AccountContext";
 import useAuth from "../../../hook/useAuth";
-import MenuBar from "../../../components/commons/menuBar/MenuBar";
 import Loading from "../../../components/commons/loading/Loading";
-import PostList from "../../../components/commons/postList/PostList";
 import { userProfileAPI } from "../../../API/profileAPI";
+import UserProfileUI from "./UserProfile.presenter";
 export default function UserProfile() {
   const { setAccessToken } = useContext(UserContext);
   const { setIsOpenPostModal, setIsOpenConfirmModal } =
@@ -100,80 +87,21 @@ export default function UserProfile() {
   }
   return (
     // userData.accountname undeifined 방지
-
     userData.accountname && (
       <AccountContext.Provider value={{ setAccount, account }}>
-        <NewTopHeader
-          left={"back"}
-          right={"more"}
-          title={"유저 프로필"}
-          onClickButton={() => {
-            settingPostModalProps([
-              {
-                name: "로그아웃",
-                func: () =>
-                  onClickButton(
-                    "정말 로그아웃 하시겠습니까?",
-                    "로그아웃",
-                    () => {
-                      localStorage.removeItem("accessToken");
-                      localStorage.removeItem("account");
-                      setAccessToken(null);
-                      setAccount(null);
-                      closeModal();
-                      navigate("/login");
-                    },
-                  ),
-              },
-              {
-                name: "설정 및 개인 정보",
-                func: () => {
-                  closeModal();
-                  navigate("/profile/test/edit");
-                },
-              },
-            ]);
-          }}
+        <UserProfileUI
+          settingPostModalProps={settingPostModalProps}
+          onClickButton={onClickButton}
+          setAccessToken={setAccessToken}
+          setAccount={setAccount}
+          closeModal={closeModal}
+          navigate={navigate}
+          confirmProps={confirmProps}
+          postModalProps={postModalProps}
+          isInvalidProfile={isInvalidProfile}
+          userData={userData}
+          fecthUserDate={fecthUserDate}
         />
-        <UserProfileWrapper>
-          {isInvalidProfile ? (
-            <UserUndefinedWrapper>
-              <UserUndefinedImg src={undefindImg} alt="존재하지 않는 유저" />
-              <UserUndefinedText>
-                유효하지 않은 프로필 입니다.
-              </UserUndefinedText>
-            </UserUndefinedWrapper>
-          ) : (
-            <>
-              <ProfileInfo
-                userData={userData}
-                reFetchUserData={fecthUserDate}
-              />
-              <ProfileProduct
-                onClickButton={onClickButton}
-                settingPostModalProps={settingPostModalProps}
-                closeModal={closeModal}
-                userData={userData}
-              />
-              <PostList
-                onClickButton={onClickButton}
-                settingPostModalProps={settingPostModalProps}
-                closeModal={closeModal}
-                userData={userData}
-                isFeed={false}
-              />
-            </>
-          )}
-          <PostModal menuList={postModalProps} />
-          <ConfirmModal
-            confirmMessage={confirmProps.confirmMessage}
-            submitMessage={confirmProps.submitMessage}
-            cancelMessage="취소"
-            handleSubmit={confirmProps.handleSubmit}
-          />
-        </UserProfileWrapper>
-        <TopButton />
-        <MenuBar />
       </AccountContext.Provider>
     )
   );
