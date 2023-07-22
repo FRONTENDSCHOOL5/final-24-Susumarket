@@ -8,9 +8,8 @@ import {
 } from "./ProfileProduct.styles";
 import noImg from "../../../../img/no-image.png";
 import { useNavigate, useParams } from "react-router-dom";
-import { customAxios } from "../../../../library/customAxios";
-
 import { AccountContext } from "../../../../context/AccountContext";
+import { productDeleteAPI } from "../../../../API/productAPI";
 
 export default function ProfileProductList({
   onClickButton,
@@ -25,9 +24,10 @@ export default function ProfileProductList({
   const { account } = useContext(AccountContext);
   const onClickRemove = useCallback(async (id) => {
     try {
-      await customAxios.delete(`product/${id}`);
+      await productDeleteAPI(id);
     } catch (error) {
-      console.log(error);
+      alert(error);
+      reFetchProdcutData();
     }
   }, []);
 
