@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   PostDisplayBtns,
   PostDisplayGallery,
@@ -25,7 +25,7 @@ import PostGalleries from "./postGalleries";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../commons/loading/Loading";
 import { useInView } from "react-intersection-observer";
-import PostCard from "./PostCard";
+import PostCard from "./PostCard.container";
 import Button from "../button/Button";
 import { myPostPageAPI, postFeedPageAPI } from "../../../API/postAPI";
 
@@ -47,7 +47,7 @@ export default function PostList({
   const navigate = useNavigate();
 
   // 게시물 정보를 받아옴
-  const fetchPostData = async () => {
+  const fetchPostData = useCallback(async () => {
     try {
       const data = isFeed
         ? await postFeedPageAPI(limit, skip)
@@ -64,7 +64,7 @@ export default function PostList({
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [skip]);
 
   useEffect(() => {
     if (skip === 0) {

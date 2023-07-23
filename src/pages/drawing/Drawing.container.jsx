@@ -1,5 +1,11 @@
 import { isMobile } from "react-device-detect";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import { ModalContext } from "../../context/ModalContext";
 import DrawingUI from "./Drawing.presenter";
@@ -45,12 +51,12 @@ export default function Drawing() {
     ctx.lineCap = "round"; // 선을 둥글게
   }, []);
 
-  function onChangeText(e) {
+  const onChangeText = useCallback((e) => {
     setText(e.target.value);
-  }
+  }, []);
 
   ////// 캔버스에 마우스로 그림그리기 ////////
-  function onMove({ nativeEvent }) {
+  const onMove = useCallback(({ nativeEvent }) => {
     const { offsetX, offsetY } = nativeEvent;
     if (ctx) {
       if (isPainting && !isFilling) {
@@ -62,38 +68,40 @@ export default function Drawing() {
       ctx.beginPath();
       ctx.moveTo(offsetX, offsetY);
     }
-  }
+  }, [ctx, isFilling, isPainting]);
+
   // 마우스 클릭이 있는 경우 그림을 그리게 해줌
-  function startPainting() {
+  const startPainting = useCallback(() => {
     setIsPainting(true);
-  }
+  }, []);
+
   // 마우스 클릭 떼는 경우 연필을 움직이게끔만
-  function cancelPainting() {
+  const cancelPainting = useCallback(() => {
     setIsPainting(false);
-  }
+  }, []);
 
   //////// 그림 그리는 선 굵기 조절 //////
-  function onLineWidthChange(e) {
+  const onLineWidthChange = useCallback((e) => {
     setLineWidth(e.target.value);
     ctx.lineWidth = e.target.value;
-  }
+  }, [ctx]);
 
   /////// 선 색상 직접 선택해 조절 /////////
-  function onColorChange(e) {
+  const onColorChange = useCallback((e) => {
     setColorCode(e.target.value);
     ctx.strokeStyle = e.target.value;
     ctx.fillStyle = e.target.value;
-  }
+  }, [ctx]);
 
   /////// 선 색상 정해진 색상 중 클릭해서 조절 //////////
-  function onColorClick(colorValue) {
+  const onColorClick = useCallback((colorValue) => {
     ctx.strokeStyle = colorValue;
     ctx.fillStyle = colorValue;
     setColorCode(colorValue);
-  }
+  }, [ctx]);
 
   /////// 채우기인지 그리기인지
-  function onModeClick() {
+  const onModeClick = useCallback(() => {
     // 그리기 모드
     if (isFilling) {
       setIsFilling(false);
@@ -102,35 +110,36 @@ export default function Drawing() {
     else {
       setIsFilling(true);
     }
-  }
-  function onCanvasClick() {
+  }, [isFilling]);
+
+  const onCanvasClick = useCallback(() => {
     if (isFilling) {
       ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     }
-  }
+  }, [ctx, isFilling]);
 
-  function onDestroyClick() {
+  const onDestroyClick = useCallback(() => {
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     ctx.fillStyle = colorCode;
-  }
+  }, [ctx, colorCode]);
 
-  function onEraserClick() {
+  const onEraserClick = useCallback(() => {
     ctx.strokeStyle = "white";
     setIsFilling(false);
     setColorCode("#FFFFFF");
-  }
+  }, [ctx]);
 
-  function onSaveClick() {
+  const onSaveClick = useCallback(() => {
     // 이미지 데이터 url 불러오기
     const url = canversRef.current.toDataURL();
     const a = document.createElement("a");
     a.href = url;
     a.download = "myDrawing.png";
     a.click();
-  }
+  }, []);
 
-  function onDoubleClick({ nativeEvent }) {
+  const onDoubleClick = useCallback(({ nativeEvent }) => {
     const { offsetX, offsetY } = nativeEvent;
     if (text !== "") {
       ctx.save();
@@ -139,9 +148,9 @@ export default function Drawing() {
       ctx.fillText(text, offsetX, offsetY);
       ctx.restore();
     }
-  }
+  }, [ctx, text]);
 
-  function onFileChange(event) {
+  const onFileChange = useCallback((event) => {
     const file = event.target.files[0];
     const url = URL.createObjectURL(file);
     const image = new Image(); //html의 <img src=""/>와 동일
@@ -149,7 +158,7 @@ export default function Drawing() {
     image.onload = function () {
       ctx.drawImage(image, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     };
-  }
+  }, [ctx]);
 
   return (
     <DrawingUI
