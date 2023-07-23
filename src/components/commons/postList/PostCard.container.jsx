@@ -12,7 +12,6 @@ export default function PostCard({
   onClickButton,
   settingPostModalProps,
   closeModal,
-  reFetchPostData,
   post,
   userData,
   isFeed, // post feed 페이지와 post profile 페이지 구분
@@ -43,7 +42,9 @@ export default function PostCard({
       await postDeleteAPI(post.id);
       setPostData((prev) => prev.filter((prev) => prev.id !== post.id));
     } catch (error) {
-      alert(error);
+      if (error.response.data.message === "존재하지 않는 게시글입니다.") {
+        setPostData((prev) => prev.filter((prev) => prev.id !== post.id));
+      }
     }
   }, []);
 
@@ -53,7 +54,9 @@ export default function PostCard({
       await postReportAPI(post.id);
       alert("신고가 완료 되었습니다.");
     } catch (error) {
-      alert(error);
+      if (error.response.data.message === "존재하지 않는 게시글입니다.") {
+        setPostData((prev) => prev.filter((prev) => prev.id !== post.id));
+      }
     }
   }, []);
 
@@ -81,8 +84,9 @@ export default function PostCard({
         setHearted(true);
       }
     } catch (error) {
-      alert(error);
-      reFetchPostData();
+      if (error.response.data.message === "존재하지 않는 게시글입니다.") {
+        setPostData((prev) => prev.filter((prev) => prev.id !== post.id));
+      }
     }
   }, [hearted]);
 

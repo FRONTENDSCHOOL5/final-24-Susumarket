@@ -16,19 +16,15 @@ export default function ProfileProductList({
   closeModal,
   settingPostModalProps,
   productList,
-  reFetchProdcutData,
+  setProductData
 }) {
   const navigate = useNavigate();
   const params = useParams();
   const userAccountname = params.userId;
   const { account } = useContext(AccountContext);
   const onClickRemove = useCallback(async (id) => {
-    try {
       await productDeleteAPI(id);
-    } catch (error) {
-      alert(error);
-      reFetchProdcutData();
-    }
+      setProductData(prev=>prev.filter(item=>item.id!==id));  
   }, []);
 
   // 현재 자신의 accountname과 account가 일치할때만 삭제 수정 버튼이 활성화 되도록함
@@ -41,9 +37,8 @@ export default function ProfileProductList({
         {
           name: "삭제",
           func: () => {
-            onClickButton("정말 삭제하시겠습니까?", "삭제", async () => {
-              await onClickRemove(productList.id);
-              reFetchProdcutData();
+            onClickButton("정말 삭제하시겠습니까?", "삭제", () => {
+              onClickRemove(productList.id);
               closeModal();
             });
           },
