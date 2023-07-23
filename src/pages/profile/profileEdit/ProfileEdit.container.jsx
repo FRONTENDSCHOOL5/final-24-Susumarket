@@ -93,7 +93,6 @@ export default function ProfileEdit() {
         accountname,
       },
     };
-    try {
       if (!accountname) return;
       const response = await accountValidationAPI(user);
       if (response !== "사용 가능한 계정ID 입니다.") {
@@ -106,9 +105,6 @@ export default function ProfileEdit() {
       } else {
         setAccountnameValidation({ errorMessage: "", isValid: true });
       }
-    } catch (error) {
-      console.log(error);
-    }
   }, [userData, accountname]);
 
   const onChangeIntro = useCallback((e) => {
@@ -137,7 +133,6 @@ export default function ProfileEdit() {
       }
       const formData = new FormData();
       formData.append("image", uploadFile);
-      try {
         const filename = await imgUploadAPI(formData);
         await profileEditAPI({
           user: {
@@ -152,9 +147,6 @@ export default function ProfileEdit() {
           },
         });
         navigate(`/profile`);
-      } catch (error) {
-        console.log(error);
-      }
     }
 
   useEffect(() => {

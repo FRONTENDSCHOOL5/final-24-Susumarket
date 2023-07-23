@@ -48,7 +48,6 @@ export default function PostList({
 
   // 게시물 정보를 받아옴
   const fetchPostData = useCallback(async () => {
-    try {
       const data = isFeed
         ? await postFeedPageAPI(limit, skip)
         : await myPostPageAPI(userData.accountname, limit, skip);
@@ -61,9 +60,6 @@ export default function PostList({
       } else {
         setIsNonePostData(false);
       }
-    } catch (error) {
-      console.log(error);
-    }
   }, [skip]);
 
   useEffect(() => {
@@ -130,7 +126,6 @@ export default function PostList({
                   onClickButton={onClickButton}
                   settingPostModalProps={settingPostModalProps}
                   closeModal={closeModal}
-                  reFetchPostData={fetchPostData}
                   post={post}
                   setPostData={setPostData}
                   isFeed={isFeed}

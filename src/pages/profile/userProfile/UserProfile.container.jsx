@@ -70,7 +70,6 @@ export default function UserProfile() {
       }
     } catch (error) {
       setIsInvalidProfile(true);
-      console.log(error);
     }
   }, [myProfile, accountname]);
 

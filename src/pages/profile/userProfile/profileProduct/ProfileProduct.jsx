@@ -23,17 +23,13 @@ export default function ProfileProduct({
   const [isNoneProductData, setIsNoneProductData] = useState(false);
 
   const fetchProdcutData = useCallback(async () => {
-    try {
       const response = await productListAPI(userData.accountname);
       setProductData(response);
       if (response.length === 0) {
         setIsNoneProductData(true);
       } else {
         setIsNoneProductData(false);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+      }   
   }, [userData]);
 
   useEffect(() => {
@@ -60,7 +56,7 @@ export default function ProfileProduct({
                   settingPostModalProps={settingPostModalProps}
                   closeModal={closeModal}
                   productList={product}
-                  reFetchProdcutData={fetchProdcutData}
+                  setProductData={setProductData}
                 />
               );
             })}
