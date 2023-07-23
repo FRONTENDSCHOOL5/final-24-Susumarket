@@ -4,7 +4,7 @@ import { customAxios } from "../library/customAxios";
 export const loginAPI = async (user) => {
   try {
     const response = await customAxios.post(`user/login`, user);
-    const data = response.data.user;
+    const data = response.data;
     return data;
   } catch (error) {
     console.log(error.response.data.message);
