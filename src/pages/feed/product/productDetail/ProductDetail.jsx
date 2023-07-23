@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHeader";
 import { useParams } from "react-router-dom";
 import noImg from "../../../../img/no-image.png";
-import { customAxios } from "../../../../library/customAxios";
 import styled from "styled-components";
 import iconHeart from "../../../../img/icon-heart.svg";
 import iconHeartFill from "../../../../img/icon-heart-fill.svg";
@@ -60,7 +59,6 @@ export default function ProductDetail() {
       const url = `${baseUrl}product/detail/${params.productId}`;
 
       try {
-        // const response = await customAxios.get(url);
         const data = await productDetailAPI(params.productId);
 
         setItemImage(data.itemImage);
