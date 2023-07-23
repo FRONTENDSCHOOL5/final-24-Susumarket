@@ -1,36 +1,12 @@
 import React, { useCallback, useRef, useState } from "react";
 
-import noImg from "../../../img/no-image.png";
-import DateFormate from "../../commons/dateFormat/DateFormat";
-import heartIcon from "../../../img/icon-heart.svg";
-import heartFillIcon from "../../../img/icon-heart-fill.svg";
-import commentIcon from "../../../img/icon-message-circle.svg";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AccountContext } from "../../../context/AccountContext";
-import UserInfo from "../../commons/userInfo/UserInfo";
-import {
-  PostContents,
-  PostButtonSpan,
-  PostImg,
-  PostImgBtn,
-  PostImgBtnLi,
-  PostImgBtnUl,
-  PostImgLi,
-  PostImgUl,
-  PostImgWrapper,
-  PostLi,
-  PostText,
-  PostLikeBtnIcon,
-  PostCommentLinkIcon,
-  PostLikeCommentBtns,
-  PostLikeBtn,
-  PostHeartCount,
-  PostCommentLink,
-  PostCommentCount,
-} from "./postList.styles";
+
 import { postDeleteAPI, postReportAPI } from "../../../API/postAPI";
 import { likeAPI, unikeAPI } from "../../../API/likeAPI";
+import PostCardUI from "./PostCard.presenter";
 
 export default function PostCard({
   onClickButton,
@@ -72,14 +48,14 @@ export default function PostCard({
   }, []);
 
   // 게시물 신고
-  async function onClickReportPost() {
+  const onClickReportPost = useCallback(async () => {
     try {
       await postReportAPI(post.id);
       alert("신고가 완료 되었습니다.");
     } catch (error) {
       alert(error);
     }
-  }
+  }, []);
 
   // 좋아요
   const onClickLike = useCallback(async () => {
@@ -197,71 +173,19 @@ export default function PostCard({
       }
     }
   }, []);
-
   return (
     userData && (
-      <PostLi>
-        <UserInfo
-          right={"modalBtn"}
-          userData={post.author}
-          bottom={"account"}
-          onClickModalBtn={onClickMore}
-        />
-        <PostContents>
-          <PostText>{post.content}</PostText>
-          {imgArray[0] && imgArray[0].length > 0 ? (
-            <PostImgWrapper>
-              <PostImgUl ref={ImgUlRef}>
-                {imgArray.map((image, idx) => {
-                  return (
-                    <PostImgLi key={image + idx}>
-                      <PostImg
-                        src={image}
-                        alt="포스트 이미지"
-                        onError={(e) => (e.target.src = noImg)}
-                      />
-                    </PostImgLi>
-                  );
-                })}
-              </PostImgUl>
-
-              <PostImgBtnUl>
-                {imgArray.map((image, idx) => {
-                  return (
-                    <PostImgBtnLi key={image + idx}>
-                      {imgArray.length > 1 && (
-                        <PostImgBtn
-                          className={activeButton === idx ? "active" : ""}
-                          onClick={(e) => onClickSliderBtn(e, idx)}
-                        >
-                          <PostButtonSpan className="a11y-hidden">
-                            이미지 슬라이드 버튼
-                          </PostButtonSpan>
-                        </PostImgBtn>
-                      )}
-                    </PostImgBtnLi>
-                  );
-                })}
-              </PostImgBtnUl>
-            </PostImgWrapper>
-          ) : null}
-
-          <PostLikeCommentBtns>
-            <PostLikeBtn onClick={onClickLike}>
-              <PostLikeBtnIcon
-                src={hearted ? heartFillIcon : heartIcon}
-                alt="좋아요"
-              />
-              <PostHeartCount>{heartCount}</PostHeartCount>
-            </PostLikeBtn>
-            <PostCommentLink to={`/post/${post.id}`}>
-              <PostCommentLinkIcon src={commentIcon} alt="댓글" />
-              <PostCommentCount>{post.commentCount}</PostCommentCount>
-            </PostCommentLink>
-          </PostLikeCommentBtns>
-          <DateFormate dateString={post.createdAt} />
-        </PostContents>
-      </PostLi>
+      <PostCardUI
+        post={post}
+        onClickMore={onClickMore}
+        imgArray={imgArray}
+        hearted={hearted}
+        heartCount={heartCount}
+        ImgUlRef={ImgUlRef}
+        activeButton={activeButton}
+        onClickSliderBtn={onClickSliderBtn}
+        onClickLike={onClickLike}
+      />
     )
   );
 }
