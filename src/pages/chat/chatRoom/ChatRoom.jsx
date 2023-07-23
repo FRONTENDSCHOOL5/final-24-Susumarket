@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import {
   ChatRoomDate,
   ChatRoomLi,
@@ -45,23 +45,22 @@ export default function ChatRoom() {
 
   const location = useLocation();
   const navgate = useNavigate();
-  const pathnameNum = location.pathname.slice(10, 11);
+  const pathname = location.pathname.slice(10, location.pathname.length);
 
-  function onChangeMsg(e) {
+  const onChangeMsg = useCallback((e) => {
     setMsgValue(e.target.value);
-  }
+  }, []);
 
-  function onClickExit() {
+  const onClickExit = useCallback(() => {
     navgate("/chatList");
     setIsOpenConfirmModal(false);
     setIsOpenPostModal(false);
-  }
+  }, []);
 
-  function onSubmitMsg(e) {
+  const onSubmitMsg = useCallback((e) => {
     e.preventDefault();
     setMsgValue("");
-  }
-
+  }, []);
   return (
     <>
       <NewTopHeader
@@ -69,21 +68,13 @@ export default function ChatRoom() {
         right={"more"}
         middle={"text"}
         title={"채팅방"}
-        text={
-          pathnameNum === "1"
-            ? "coolll_bob_ross"
-            : pathnameNum === "2"
-            ? "그림쟁이"
-            : pathnameNum === "3"
-            ? "수제 핸드 메이드 가방"
-            : "귀여운 수제 키링"
-        }
+        text={pathname}
         onClickButton={() => setIsOpenPostModal(true)}
       />
 
       <ChatRoomWrapper height={height}>
         <ChatRoomUl>
-          {pathnameNum === "1" ? (
+          {pathname==="cooll_bob_ross" ? (
             <>
               <ChatRoomLi>
                 <ChatRoomUserImg src={userImg} alt="유저 프로필 이미지" />
