@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FollowersWrapper } from "./followers.style";
 import FollowerList from "./FollowerList";
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FollowerListUl } from "./followerList.style";
 import { followerAPI } from "../../../../API/profileAPI";
@@ -10,6 +9,7 @@ import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHead
 import TopButton from "../../../../components/commons/topButton/TopButton";
 import useAuth from "../../../../hook/useAuth";
 import Loading from "../../../../components/commons/loading/Loading";
+import { useInView } from "react-intersection-observer"; // 추가
 
 export default function Followers() {
   const [followerData, setFollowerData] = useState([]);
@@ -17,13 +17,22 @@ export default function Followers() {
   const myProfile = useAuth();
 
   const [isLoading, setIsLoading] = useState(true);
+  const [ref, inView] = useInView(); // 추가
+  const limit = 5; // 추가
+  const [skip, setSkip] = useState(0); // 추가
+  const [hasMore, setHasMore] = useState(true); // 추가
 
   // 팔로워 데이터 호출
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await followerAPI(userId);
-        setFollowerData(data);
+        const data = await followerAPI(userId, limit, skip); // 수정
+        if (skip === 0) {
+          setFollowerData(data);
+        } else {
+          setFollowerData((prevData) => [...prevData, ...data]);
+        }
+        setHasMore(data.length === limit);
         setIsLoading(false);
       } catch (error) {
         console.error(
@@ -33,7 +42,13 @@ export default function Followers() {
       }
     };
     if (myProfile) fetchData();
-  }, [userId, myProfile]);
+  }, [userId, myProfile, skip]);
+
+  useEffect(() => {
+    if (inView && !isLoading && hasMore) {
+      setSkip((prevSkip) => prevSkip + limit);
+    }
+  }, [inView, isLoading, hasMore]);
 
   return (
     <>
@@ -59,6 +74,7 @@ export default function Followers() {
               );
             })}
           </FollowerListUl>
+          {hasMore && <div ref={ref} />} {/* 추가 */}
         </FollowersWrapper>
       )}
 
