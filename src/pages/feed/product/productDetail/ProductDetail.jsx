@@ -7,6 +7,7 @@ import styled from "styled-components";
 import iconHeart from "../../../../img/icon-heart.svg";
 import iconHeartFill from "../../../../img/icon-heart-fill.svg";
 import Button from "../../../../components/commons/button/Button";
+import { productDetailAPI } from "../../../../API/productAPI";
 import { useNavigate } from "react-router-dom";
 import {
   ProfileDiv,
@@ -59,17 +60,18 @@ export default function ProductDetail() {
       const url = `${baseUrl}product/detail/${params.productId}`;
 
       try {
-        const response = await customAxios.get(url);
-        setItemImage(response.data.product.itemImage);
-        setItemName(response.data.product.itemName);
-        setPrice(response.data.product.price);
-        setLink(response.data.product.link);
-        setName(response.data.product.author.username);
-        setProfile(response.data.product.author.image);
-        setAccountname(response.data.product.author.accountname);
+        // const response = await customAxios.get(url);
+        const data = await productDetailAPI(params.productId);
+
+        setItemImage(data.itemImage);
+        setItemName(data.itemName);
+        setPrice(data.price);
+        setLink(data.link);
+        setName(data.author.username);
+        setProfile(data.author.image);
+        setAccountname(data.author.accountname);
         setIsInValidPage(false);
         setIsLoading(false);
-        const data = response.data;
       } catch (error) {
         setIsInValidPage(true);
         console.error(error);
