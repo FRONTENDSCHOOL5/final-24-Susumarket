@@ -1,11 +1,7 @@
 import React, { useRef, useCallback, useEffect, useState } from "react";
 import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHeader";
-import styled from "styled-components";
-import imgUploadBtn from "../../../../img/upload-file.svg";
-import { customAxios } from "../../../../library/customAxios";
 import defaultImg from "../../../../img/ProfileImg.svg";
 import { useParams } from "react-router-dom";
-import xbutton from "../../../../img/x.svg";
 import { useNavigate } from "react-router-dom";
 import profileImg from "../../../../img/ProfileImg.svg";
 import noImg from "../../../../img/no-image.png";
@@ -13,81 +9,21 @@ import useAuth from "../../../../hook/useAuth";
 import { imgValidation } from "../../../../library/imgValidation";
 import InvalidPage from "../../../../components/commons/inValidPage/InvaliPage";
 import Loading from "../../../../components/commons/loading/Loading";
-
-const PostImgButton = styled.button`
-  // top: 70%;
-  position: fixed;
-  bottom: 70px;
-  right: 40px;
-  width: 50px;
-  height: 50px;
-  background: url(${imgUploadBtn}) no-repeat;
-  background-position: 0 0;
-`;
-
-const UploadMain = styled.main`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-`;
-
-const ProfileImgLabel = styled.label``;
-
-const ProfileImg = styled.img`
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
-  // background-color: var(--color-sub);
-  margin-left: 20px;
-  margin-top: 20px;
-`;
-
-const TextArea = styled.textarea`
-  font-size: 15px;
-  width: calc(85% - 90px);
-  outline: none;
-  border: none;
-  resize: none;
-  margin-left: 20px;
-  margin-top: 35px;
-`;
-const PostImgLabel = styled.label`
-  margin-top: 10px;
-`;
-
-const PostImgInput = styled.input`
-  display: none;
-`;
-
-const Delete = styled.button`
-  background: url(${xbutton});
-  width: 20px;
-  height: 20px;
-  z-index: 999;
-  position: absolute;
-  margin-left: -35px;
-  margin-top: 5px;
-`;
-
-const PostImg = styled.img`
-  width: 322px;
-  height: 220px;
-  max-width: 100%;
-  border-radius: 20px;
-  margin-left: 30px;
-  position: relative;
-  @media screen and (max-width: 361px) {
-    margin-left: 20px;
-  }
-`;
-
-const UploadImgArea = styled.section`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  margin-top: 30px;
-`;
+import { postDetailAPI } from "../../../../API/postAPI";
+import { postEditAPI } from "../../../../API/postAPI";
+import {
+  PostImgButton,
+  UploadMain,
+  ProfileImgLabel,
+  ProfileImg,
+  TextArea,
+  PostImgLabel,
+  PostImgInput,
+  Delete,
+  PostImg,
+  UploadImgArea,
+} from "./postEdit.style";
+import { mutiImgUploadAPI } from "../../../../API/imgUploadAPI";
 
 export default function PostEdit() {
   const textRef = useRef();
@@ -124,20 +60,18 @@ export default function PostEdit() {
     setImgFiles(updateFileImg);
   };
 
-  // 선택한 게시글 불러오기
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await customAxios.get(`post/${postId}`);
-        const postData = response.data;
+        const postData = await postDetailAPI(postId);
 
         // 게시물의 텍스트 설정
-        setPostContent(postData.post.content);
-        setAccountname(postData.post.author.accountname);
-        setProfileImage(postData.post.author.image);
-        if (postData.post.image !== "") {
-          setPostImages(response.data.post.image.toString().split(","));
-          setImgArray(response.data.post.image.toString().split(","));
+        setPostContent(postData.content);
+        setAccountname(postData.author.accountname);
+        setProfileImage(postData.author.image);
+        if (postData.image !== "") {
+          setPostImages(postData.image.toString().split(","));
+          setImgArray(postData.image.toString().split(","));
         }
         setIsInValidPage(false);
         setIsLoading(false);
@@ -146,7 +80,10 @@ export default function PostEdit() {
         console.error(error);
       }
     };
-    if (myProfile) fetchPost();
+
+    if (myProfile) {
+      fetchPost();
+    }
   }, [postId, myProfile]);
 
   useEffect(() => {
@@ -171,7 +108,6 @@ export default function PostEdit() {
     setImgFiles((prev) => [...prev, file]);
   };
 
-  // 다중 이미지 업로드
   const uploadImages = async () => {
     console.log(imgFiles);
     if (imgFiles.length === 0) return [...postImages];
@@ -182,34 +118,8 @@ export default function PostEdit() {
     }
 
     try {
-      const response = await customAxios.post("image/uploadfiles", formData, {
-        headers: {
-          "Content-type": "multipart/form-data",
-        },
-      });
-      let filenames = [];
-      for (let i = 0; i < response.data.length; i++) {
-        filenames.push(
-          `${process.env.REACT_APP_BASE_URL}/${response.data[i].filename}`,
-        );
-      }
-      // setPostImages((prev) => [...prev, filenames.join(",")]);
-      return [...postImages, filenames.join(",")];
-      // onClickNextPage();
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  // 게시글 수정 API
-  const uploadPostEdit = async (imgUrls) => {
-    try {
-      await customAxios.put(`post/${postId}`, {
-        post: {
-          content: postContent,
-          image: imgUrls.join(","),
-        },
-      });
+      const imageURLs = await mutiImgUploadAPI(formData); // 이미지 업로드 함수 호출
+      return [...postImages, imageURLs]; // 기존 postImages 배열에 업로드된 이미지 URL 추가하여 반환
     } catch (error) {
       console.error(error);
     }
@@ -218,7 +128,8 @@ export default function PostEdit() {
   // // 게시글 수정 api
   const handlePostEdit = async () => {
     const imgUrls = await uploadImages();
-    await uploadPostEdit(imgUrls);
+    // await uploadPostEdit(imgUrls);
+    await postEditAPI(postId, postContent, imgUrls);
     navigate("/profile");
   };
 
