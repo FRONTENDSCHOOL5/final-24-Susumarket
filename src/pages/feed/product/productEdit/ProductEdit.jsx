@@ -13,12 +13,13 @@ import {
   ImgContainer,
   ImgTopLabel,
 } from "./productEdit.style.js";
-import { customAxios } from "../../../../library/customAxios";
 import ErrorMessage from "../../../../components/commons/errorMessage/ErrorMessage";
 import noImg from "../../../../img/no-image.png";
 import { imgValidation } from "../../../../library/imgValidation";
 import useAuth from "../../../../hook/useAuth";
 import InvalidPage from "../../../../components/commons/inValidPage/InvaliPage";
+import { productDetailAPI, productEditAPI } from "../../../../API/productAPI";
+import { multiImgUploadAPI } from "../../../../API/imgUploadAPI";
 
 export default function ProductEdit() {
   const [profileImage, setProfileImage] = useState(defaultimg);
@@ -52,17 +53,15 @@ export default function ProductEdit() {
   // input 값 유효성 체크 후 버튼 isDisabled 값 변경
   useEffect(() => {
     const loadData = async () => {
-      const url = `${baseUrl}product/detail/${params.productId}`;
+      // const url = `${baseUrl}product/detail/${params.productId}`;
       try {
-        const response = await customAxios.get(url);
-        setItemImage(response.data.product.itemImage);
-        setItemName(response.data.product.itemName);
-        setPrice(response.data.product.price);
-        setLink(response.data.product.link);
-        setAccountName(response.data.product.author.accountname);
+        const data = await productDetailAPI(params.productId);
+        setItemImage(data.itemImage);
+        setItemName(data.itemName);
+        setPrice(data.price);
+        setLink(data.link);
+        setAccountName(data.accountname);
         setIsInValidPage(false);
-        const data = response.data;
-        console.log(itemImage);
       } catch (error) {
         setIsInValidPage(true);
         console.error(error);
@@ -96,11 +95,12 @@ export default function ProductEdit() {
     };
 
     try {
-      const response = await customAxios.put(
-        `${baseUrl}product/${params.productId}`,
-        product,
-      );
-      const data = response.data.product;
+      const data = await productEditAPI(params.productId, product);
+      console.log(data);
+      setItemName(data.itemName);
+      setPrice(data.price);
+      setLink(data.link);
+      setItemImage(data.itemImage);
       navigate(`/profile`);
     } catch (error) {
       console.log(error);
@@ -112,14 +112,9 @@ export default function ProductEdit() {
     try {
       const formData = new FormData();
       formData.append("image", file);
+      const data = await multiImgUploadAPI(file);
 
-      const response = await customAxios.post("image/uploadfile", formData, {
-        headers: {
-          "Content-type": "multipart/form-data",
-        },
-      });
-      console.log(response);
-      setSelectedImage(response.data.filename);
+      setSelectedImage(data);
     } catch (error) {
       if (error.response.status === 422) {
         console.error(error);

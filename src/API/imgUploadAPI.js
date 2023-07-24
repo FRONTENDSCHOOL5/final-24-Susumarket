@@ -9,7 +9,7 @@ export const imgUploadAPI = async (formData) => {
       },
     });
     const imgURLResult = imgUrlRes.data;
-    return imgURLResult.filname;
+    return imgURLResult.filename;
   } catch (error) {
     console.log(error);
     return error.response.data.message;
@@ -17,7 +17,7 @@ export const imgUploadAPI = async (formData) => {
 };
 
 // 다중 이미지 업로드 API 여러 이미지 이름 합쳐서 리턴
-export const mutiImgUploadAPI = async (formData) => {
+export const multiImgUploadAPI = async (formData) => {
   try {
     const imgUrlRes = await customAxios.post("image/uploadfiles", formData, {
       headers: {
