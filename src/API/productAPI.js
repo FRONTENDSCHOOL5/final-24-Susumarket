@@ -8,7 +8,7 @@ export const uploadProductAPI = async (product) => {
     return response.data.product;
   } catch (error) {
     console.log(error);
-    throw new Error(error.response.data.message);
+    throw error;
   }
 };
 
@@ -21,7 +21,7 @@ export const productListAPI = async (accountname) => {
     return response.data.product;
   } catch (error) {
     console.log(error);
-    throw new Error(error);
+    throw error;
   }
 };
 
@@ -37,7 +37,7 @@ export const productListPageAPI = async (accountname, product, limit, skip) => {
     return response.data.product;
   } catch (error) {
     console.log(error);
-    throw new Error(error);
+    throw error;
   }
 };
 
@@ -45,11 +45,11 @@ export const productListPageAPI = async (accountname, product, limit, skip) => {
 // 상품 상세 정보를 리턴
 export const productDetailAPI = async (productId) => {
   try {
-    const response = await customAxios.get(`product/detail/${productId}`);
+    const response = await customAxios.get(`product/${productId}`);
     return response.data.product;
   } catch (error) {
     console.log(error);
-    throw new Error(error);
+    throw error;
   }
 };
 
@@ -64,7 +64,10 @@ export const productEditAPI = async (productId, product) => {
     return response.data.product;
   } catch (error) {
     console.log(error);
-    throw new Error(error.response.data.message);
+    if(error.response.data.message){
+      alert(error.response.data.message);
+    }
+    throw error;
   }
 };
 
@@ -75,6 +78,9 @@ export const productDeleteAPI = async (productId) => {
     return response.data.message;
   } catch (error) {
     console.log(error);
-    throw new Error(error.response.message);
+    if(error.response.data.message){
+      alert(error.response.data.message);
+    }
+    throw error;
   }
 };

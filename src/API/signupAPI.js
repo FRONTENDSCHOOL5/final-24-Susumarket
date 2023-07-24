@@ -6,6 +6,6 @@ export const signupAPI = async (user) => {
     return response.data;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;
+    throw error;
   }
 };

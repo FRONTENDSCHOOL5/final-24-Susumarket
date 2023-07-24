@@ -7,7 +7,10 @@ export const likeAPI = async (postId) => {
     return response.data.post;
   } catch (error) {
     console.log(error);
-    throw new Error(error.response.data.message);
+    if (error.response.data.message) {
+      alert(error.response.data.message);
+    }
+    throw error;
   }
 };
 
@@ -19,6 +22,9 @@ export const unikeAPI = async (postId) => {
     return response.data.post;
   } catch (error) {
     console.log(error);
-    throw new Error(error.response.data.message);
+    if (error.response.data.message) {
+      alert(error.response.data.message);
+    }
+    throw error;
   }
 };

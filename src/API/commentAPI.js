@@ -8,7 +8,7 @@ export const writeCommentAPI = async (postId, comment) => {
     return response.data.comment;
   } catch (error) {
     console.log(error);
-    return error;
+    throw error;
   }
 };
 
@@ -20,7 +20,7 @@ export const commentListAPI = async (postId) => {
     return response.data.comments;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;
+    throw error;
   }
 };
 
@@ -32,7 +32,7 @@ export const commentListPageAPI = async (postId, limit, skip) => {
     return response.data.comment;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;
+    throw error;;
   }
 };
 
@@ -44,7 +44,7 @@ export const commentDeleteAPI = async (postId, commentId) => {
     return response.data.message;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;
+    throw error;
   }
 };
 
@@ -56,6 +56,6 @@ export const commentReportAPI = async (postId, commentId) => {
     return response.data.report.comment;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;
+    throw error;
   }
 };

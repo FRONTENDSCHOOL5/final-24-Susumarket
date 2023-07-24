@@ -7,7 +7,7 @@ export const postUploadAPI = async (post) => {
     return response.data.post;
   } catch (error) {
     console.log(error);
-    throw new Error(error.response.data.message);
+    throw error;
   }
 };
 
@@ -19,7 +19,7 @@ export const postFeedAPI = async () => {
     return response.data.posts;
   } catch (error) {
     console.log(error);
-    throw new Error(error.response.data.message);
+    throw error;
   }
 };
 
@@ -33,7 +33,7 @@ export const postFeedPageAPI = async (limt, skip) => {
     return response.data.posts;
   } catch (error) {
     console.log(error);
-    throw new Error(error.response.data.message);
+    throw error;
   }
 };
 
@@ -45,7 +45,7 @@ export const myPostAPI = async (accountname) => {
     return response.data.post;
   } catch (error) {
     console.log(error);
-    throw new Error(error.response.data.message);
+    throw error;
   }
 };
 
@@ -60,7 +60,7 @@ export const myPostPageAPI = async (accountname, limit, skip) => {
     return response.data.post;
   } catch (error) {
     console.log(error);
-    throw new Error(error.response.data.message);
+    throw error;
   }
 };
 
@@ -72,7 +72,7 @@ export const postDetailAPI = async (postId) => {
     return response.data.post;
   } catch (error) {
     console.log(error);
-    throw new Error(error.response.data.message);
+    throw error;
   }
 };
 
@@ -89,7 +89,8 @@ export const postEditAPI = async (postId, postContent, imgUrls) => {
     // return response.data.post;
   } catch (error) {
     console.log(error);
-    throw new Error(error.response.data.message);
+    // return error.response.data.message;
+    throw error;
   }
 };
 // export const postEditAPI = async (postId) => {
@@ -109,7 +110,10 @@ export const postDeleteAPI = async (postId) => {
     return response.data.message;
   } catch (error) {
     console.log(error);
-    throw new Error(error.response.data.message);
+    if(error.response.data.message){
+      alert(error.response.data.message);
+    }
+    throw error;
   }
 };
 
@@ -120,7 +124,10 @@ export const postReportAPI = async (postId) => {
     return response.data.report;
   } catch (error) {
     console.log(error);
-    throw new Error(error.response.data.message);
+    if(error.response.data.message){
+      alert(error.response.data.message);
+    }
+    throw error;
   }
 };
 
@@ -132,6 +139,6 @@ export const postAPI = async () => {
     return response.data.report;
   } catch (error) {
     console.log(error);
-    throw new Error(error.response.data.message);
+    throw error;
   }
 };
