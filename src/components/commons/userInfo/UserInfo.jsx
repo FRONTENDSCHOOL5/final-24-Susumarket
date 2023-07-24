@@ -77,7 +77,7 @@ export default function UserInfo({
   return (
     <UserInfoWrapper>
       <UserProfileLink
-        onClick={() => navigate(`/profile/${userData.accountname}`)}
+        onClick={() => bottom==="chat" ? navigate(`/chatList/${userData.accountname}`) : navigate(`/profile/${userData.accountname}`)}
       >
         <UserProfileImg
           src={
