@@ -9,7 +9,7 @@ import UserInput from "../../../components/commons/dataInput/UserInput";
 import DataInput from "../../../components/commons/dataInput/DataInput";
 import { useNavigate } from "react-router-dom";
 import ErrorMessage from "../../../components/commons/errorMessage/ErrorMessage";
-import { customAxios } from "../../../library/customAxios";
+import { loginAPI } from "../../../API/loginAPI";
 import { UserContext } from "../../../context/UserContext";
 import {
   Title,
@@ -73,10 +73,9 @@ export default function LoginEmail() {
   async function onSubmit(e) {
     e.preventDefault();
     try {
-      const response = await customAxios.post(`user/login`, user);
-      const data = response.data;
-
-      //<기능 구현: 이메일과 비밀번호를 모두 입력하면 `다음` 버튼이 활성화 됩니다. 입력되지 않은 입력창이 있다면 버튼은 활성되지 않습니다.>
+      const data = await loginAPI(user);
+  
+        //<기능 구현: 이메일과 비밀번호를 모두 입력하면 `다음` 버튼이 활성화 됩니다. 입력되지 않은 입력창이 있다면 버튼은 활성되지 않습니다.>
       if (data.message === "이메일 또는 비밀번호가 일치하지 않습니다.") {
         //로그인 실패시
         setErrorMsg(data.message); //ErrorMsg로 '이메일 또는 일치하지 않습니다' 전달
@@ -93,6 +92,30 @@ export default function LoginEmail() {
       console.log(error);
     }
   }
+
+  // async function onSubmit(e) {
+  //   e.preventDefault();
+  //   try {
+  //     const response = await customAxios.post(`user/login`, user);
+  //     const data = response.data;
+
+  //     //<기능 구현: 이메일과 비밀번호를 모두 입력하면 `다음` 버튼이 활성화 됩니다. 입력되지 않은 입력창이 있다면 버튼은 활성되지 않습니다.>
+  //     if (data.message === "이메일 또는 비밀번호가 일치하지 않습니다.") {
+  //       //로그인 실패시
+  //       setErrorMsg(data.message); //ErrorMsg로 '이메일 또는 일치하지 않습니다' 전달
+  //       setEmailValue(""); //'이메일 또는 일치하지 않습니다' 기 message로 전달->이메일 초기화
+  //       setPasswordValue(""); //'이메일 또는 일치하지 않습니다' 기 message로 전달->비밀번호 초기화
+  //       return;
+  //     } else {
+  //       //로그인 성공시
+  //       setAccessToken(data.user.token); //저장된 토큰 AccessToken에 저장(App에 전역)
+  //       localStorage.setItem("accessToken", data.user.token); //localStorage에 토큰 저장
+  //       Navigate("/post"); //로그인 성공하면 post로 이동
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
   return (
     <Container>
       <LoginForm>

@@ -14,7 +14,8 @@ import {
   ImgContainer,
   ImgTopLabel,
 } from "./productUpload.style";
-import { customAxios } from "../../../../library/customAxios";
+import { uploadProductAPI } from "../../../../API/productAPI"; 
+import { imgUploadAPI } from "../../../../API/imgUploadAPI";
 import ErrorMessage from "../../../../components/commons/errorMessage/ErrorMessage";
 import { imgValidation } from "../../../../library/imgValidation";
 
@@ -87,8 +88,11 @@ export default function ProductUpload() {
     };
 
     try {
-      const response = await customAxios.post(`product`, product);
-      const data = response.data.product;
+      const data = await uploadProductAPI(product);
+      setItemName(data.itemName);
+      setPrice(data.price);
+      setLink(data.link);
+      setItemImage(data.itemImage);
       navigate(`/profile`);
     } catch (error) {
       console.log(error);
@@ -101,12 +105,8 @@ export default function ProductUpload() {
       const formData = new FormData();
       formData.append("image", file);
 
-      const response = await customAxios.post("image/uploadfile", formData, {
-        headers: {
-          "Content-type": "multipart/form-data",
-        },
-      });
-      setSelectedImage(response.data.filename);
+      const data = await imgUploadAPI(file);
+      setSelectedImage(data);
     } catch (error) {
       if (error.response.status === 422) {
         console.error(error);

@@ -58,7 +58,7 @@ export const productDetailAPI = async (productId) => {
 export const productEditAPI = async (productId, product) => {
   try {
     const response = await customAxios.put(
-      `product/detail/${productId}`,
+      `product/${productId}`,
       product,
     );
     return response.data.product;
@@ -71,7 +71,7 @@ export const productEditAPI = async (productId, product) => {
 // 상품 삭제 API prodcutId를 인자로 받습니다.
 export const productDeleteAPI = async (productId) => {
   try {
-    const response = await customAxios.delete(`product/detail/${productId}`);
+    const response = await customAxios.delete(`product/${productId}`);
     return response.data.message;
   } catch (error) {
     console.log(error);
