@@ -1,70 +1,24 @@
 import React, { useState } from "react";
-import styled from "styled-components";
-import Button from "../../../components/commons/button/Button";
 import UserInput from "../../../components/commons/dataInput/UserInput";
 import DataInput from "../../../components/commons/dataInput/DataInput";
 import defaultimg from "../../../img/ProfileImg.svg";
 import uploadfile from "../../../img/upload-file.svg";
-import { customAxios } from "../../../library/customAxios";
 import { useLocation } from "react-router-dom";
 import ErrorMessage from "../../../components/commons/errorMessage/ErrorMessage";
 import { useNavigate } from "react-router-dom";
-
-const ProfileContainer = styled.main`
-  width: 87%;
-  max-width: 500px;
-  margin: 20px auto;
-`;
-
-const ProfileForm = styled.form`
-  margin: auto 0;
-  margin-top: 54px;
-  display: flex;
-  flex-direction: column;
-`;
-
-const Title = styled.h1`
-  font-weight: 500;
-  font-size: 28px;
-  text-align: center;
-  margin-bottom: 40px;
-`;
-
-const Subtitle = styled.h2`
-  text-align: center;
-  color: #767676;
-  font-weight: 400;
-  font-size: 18px;
-`;
-
-const ProfileButton = styled(Button)`
-  margin-top: 50px;
-`;
-
-const ImgLabel = styled.label`
-  text-align: center;
-  margin-top: 20px;
-  margin-bottom: 50px;
-`;
-const ImgInput = styled.input`
-  display: none;
-`;
-
-const Img = styled.img`
-  &.defaultlion {
-    position: absolute;
-    margin-left: -30px;
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  &.uploadbtn {
-    position: relative;
-    top: 70px;
-    left: 50px;
-  }
-`;
+import {
+  ProfileContainer,
+  ProfileForm,
+  Title,
+  Subtitle,
+  ProfileButton,
+  ImgLabel,
+  ImgInput,
+  Img,
+} from "./profileSetting.style";
+import { accountValidationAPI } from "../../../API/validationAPI";
+import { signupAPI } from "../../../API/signupAPI";
+import { imgUploadAPI } from "../../../API/imgUploadAPI";
 
 export default function ProfileSetting() {
   const [profileImage, setProfileImage] = useState(defaultimg);
@@ -107,13 +61,9 @@ export default function ProfileSetting() {
       const formData = new FormData();
       formData.append("image", file);
 
-      const response = await customAxios.post("image/uploadfile", formData, {
-        headers: {
-          "Content-type": "multipart/form-data",
-        },
-      });
+      const response = await imgUploadAPI(formData);
       console.log(response);
-      setSelectedImage(response.data.filename);
+      setSelectedImage(response);
     } catch (error) {
       console.error(error);
       return null;
@@ -141,17 +91,16 @@ export default function ProfileSetting() {
   // 이미 가입된 계정id의 경우 input에서 focus가 벗어나면 가입된 계정id라는 에러 메시지를 출력하도록 함함
   const handleNickNameBlur = async () => {
     try {
-      const response = await customAxios.post(`user/accountnamevalid`, {
+      const data = await accountValidationAPI({
         user: {
           accountname: nickName,
         },
       });
-      const data = response.data;
-      if (data.message === "이미 가입된 계정ID 입니다.") {
-        setNickNameErrorMsg(data.message);
+      if (data === "이미 가입된 계정ID 입니다.") {
+        setNickNameErrorMsg(data);
         return;
       }
-      console.log(data.message);
+      console.log(data);
     } catch (error) {
       console.error(error);
     }
@@ -195,13 +144,12 @@ export default function ProfileSetting() {
         password: location.state.password,
         accountname: nickName,
         intro: intro,
-        image: selectedImage ? `${baseUrl}/${selectedImage}` : "", // 예시) https://api.mandarin.weniv.co.kr/1641906557953.png
+        image: selectedImage ? `${baseUrl}/${selectedImage}` : "",
       },
     };
 
     try {
-      const response = await customAxios.post(`user`, user);
-      const data = response.data;
+      const data = await signupAPI(user);
       console.log(data);
       onClickNextPage();
     } catch (error) {
