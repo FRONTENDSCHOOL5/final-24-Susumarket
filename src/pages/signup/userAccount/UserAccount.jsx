@@ -1,43 +1,15 @@
 import React, { useEffect, useState } from "react";
-import Button from "../../../components/commons/button/Button";
 import UserInput from "../../../components/commons/dataInput/UserInput";
 import DataInput from "../../../components/commons/dataInput/DataInput";
-import styled from "styled-components";
-import { css } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import ErrorMessage from "../../../components/commons/errorMessage/ErrorMessage";
-import { customAxios } from "../../../library/customAxios";
-
-const SignupContainer = styled.main`
-  width: 87%;
-  max-width: 500px;
-  margin: 20px auto;
-`;
-
-const SignupForm = styled.form`
-  margin: auto 0;
-  margin-top: 54px;
-  display: flex;
-  flex-direction: column;
-`;
-
-const Title = styled.h1`
-  font-weight: 500;
-  font-size: 28px;
-  text-align: center;
-  margin-bottom: 40px;
-`;
-
-const SignupButton = styled(Button)`
-  margin-top: 50px;
-
-  ${(props) =>
-    props.disabled &&
-    css`
-      background-color: var(--color-sub);
-      cursor: not-allowed;
-    `}
-`;
+import { emailValidationAPI } from "../../../API/validationAPI";
+import {
+  SignupContainer,
+  SignupForm,
+  Title,
+  SignupButton,
+} from "./UserAccount.style";
 
 export default function UserAccount() {
   const [email, setEmail] = useState("");
@@ -73,20 +45,20 @@ export default function UserAccount() {
     }
   };
 
+  //qwe11@naver.com
   // 이메일 input에서 focus가 벗어나는 경우 가입된 이메일 주소인지 아닌지 확인 (api 사용)
   const handleEmailBlur = async () => {
     try {
-      const response = await customAxios.post(`user/emailvalid`, {
+      const data = await emailValidationAPI({
         user: {
           email: email,
         },
       });
-      const data = response.data;
-      if (data.message === "이미 가입된 이메일 주소 입니다.") {
-        setEmailErrorMsg(data.message);
+      if (data === "이미 가입된 이메일 주소 입니다.") {
+        setEmailErrorMsg(data);
         return;
       }
-      console.log(data.message);
+      console.log(data);
     } catch (error) {
       console.error(error);
     }
@@ -107,14 +79,14 @@ export default function UserAccount() {
   // 다음 페이지 이동 시 이메일, 패스워드 값을 넘겨주도록 함함
   const navigate = useNavigate();
   const onClickNextPage = () => {
-    if(isFormValid) {
+    if (isFormValid) {
       navigate("/signup/profileSetting", { state: { email, password } });
     }
   };
 
   // useEffect로 유효성 검사 상태 관리
   useEffect(() => {
-    if(validateEmail(email) && password.length >= 6){
+    if (validateEmail(email) && password.length >= 6) {
       setIsFormValid(true);
     } else {
       setIsFormValid(false);

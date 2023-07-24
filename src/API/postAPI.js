@@ -77,15 +77,29 @@ export const postDetailAPI = async (postId) => {
 
 // 게시물 수정 API
 // 게시물의 수정 정보 리턴
-export const postEditAPI = async (postId) => {
+export const postEditAPI = async (postId, postContent, imgUrls) => {
   try {
-    const response = await customAxios.put(`post/${postId}`);
-    return response.data.post;
+    await customAxios.put(`post/${postId}`, {
+      post: {
+        content: postContent,
+        image: imgUrls.join(","),
+      },
+    });
+    // return response.data.post;
   } catch (error) {
     console.log(error);
     return error.response.data.message;
   }
 };
+// export const postEditAPI = async (postId) => {
+//   try {
+//     const response = await customAxios.put(`post/${postId}`);
+//     return response.data.post;
+//   } catch (error) {
+//     console.log(error);
+//     return error.response.data.message;
+//   }
+// };
 
 // 게시물 삭제 API
 export const postDeleteAPI = async (postId) => {

@@ -112,3 +112,12 @@ export const followerPageAPI = async (accountname, limit, Number) => {
     return error.response.data.message;
   }
 };
+
+export const loadProfileImageAPI = async () => {
+  try {
+    const response = await customAxios.get(`user/myinfo`);
+    return response.data.user.image;
+  } catch (error) {
+    console.error(error);
+  }
+};
