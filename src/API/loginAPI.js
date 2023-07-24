@@ -7,6 +7,7 @@ export const loginAPI = async (user) => {
     const data = response.data;
     return data;
   } catch (error) {
-    console.log(error.response.data.message);
+    console.log(error);
+    throw error;
   }
 };

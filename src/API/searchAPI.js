@@ -8,5 +8,6 @@ export const searchAPI = async (keyword) => {
     return response.data;
   } catch(error) {
     console.log(error);
+    throw error;
   }
 }

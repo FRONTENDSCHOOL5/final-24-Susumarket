@@ -12,7 +12,7 @@ export const imgUploadAPI = async (formData) => {
     return imgURLResult.filename;
   } catch (error) {
     console.log(error);
-    throw new Error(error.response.data.message);
+    throw error;
   }
 };
 
@@ -33,6 +33,6 @@ export const mutiImgUploadAPI = async (formData) => {
     return imageURLs.join(","); // 쉼표로 구분된 문자열로 변환하여 반환
   } catch (error) {
     console.log(error);
-    throw new Error(error.response.data.message);
+    throw error;
   }
 };

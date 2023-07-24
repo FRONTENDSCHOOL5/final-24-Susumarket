@@ -6,7 +6,7 @@ export const emailValidationAPI = async (user) => {
     return response.data.message;
   } catch (error) {
     console.log(error);
-    throw new Error(error.response.data.message);
+    throw error;
   }
 };
 
@@ -16,6 +16,6 @@ export const accountValidationAPI = async (user) => {
     return response.data.message;
   } catch (error) {
     console.log(error);
-    throw new Error(error.response.data.message);
+    throw error;
   }
 };

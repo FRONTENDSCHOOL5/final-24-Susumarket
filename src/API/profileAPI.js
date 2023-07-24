@@ -3,11 +3,11 @@ import { customAxios } from "../library/customAxios";
 // 마이 프로필 API 자신의 프로필 정보를 리턴
 export const myProfileAPI = async () => {
   try {
-    const response = await customAxios.get("profile/myinfo");
+    const response = await customAxios.get("user/myinfo");
     return response.data.user;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;
+    throw error;
   }
 };
 
@@ -19,19 +19,19 @@ export const userProfileAPI = async (accountname) => {
     return response.data.profile;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;
+    throw error;
   }
 };
 
 // 유저 프로필 수정 API 인자로 user 객체를 받습니다.
 // 수정된 유저 프로필 정보를 리턴
-export const profileEdit = async (user) => {
+export const profileEditAPI = async (user) => {
   try {
     const response = await customAxios.put(`user`, user);
     return response.data.user;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;
+    throw error;
   }
 };
 
@@ -43,7 +43,10 @@ export const followAPI = async (accountname) => {
     return response.data;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;
+    if(error.response.data.message){
+      alert(error.response.data.message)
+    }
+    throw error;
   }
 };
 
@@ -57,7 +60,10 @@ export const unFollowAPI = async (accountname) => {
     return response.data;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;
+    if(error.response.data.message){
+      alert(error.response.data.message)
+    }
+    throw error;
   }
 };
 
@@ -69,7 +75,7 @@ export const followingAPI = async (accountname) => {
     return response.data;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;
+    throw error;
   }
 };
 
@@ -78,12 +84,12 @@ export const followingAPI = async (accountname) => {
 export const followingPageAPI = async (accountname, limit, Number) => {
   try {
     const response = await customAxios.get(
-      `/profile/${accountname}/following?limit=${limit}&skip=${Number}`
+      `/profile/${accountname}/following?limit=${limit}&skip=${Number}`,
     );
     return response.data;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;
+    throw error;
   }
 };
 
@@ -95,7 +101,7 @@ export const followerAPI = async (accountname) => {
     return response.data;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;
+    throw error;
   }
 };
 
@@ -104,12 +110,12 @@ export const followerAPI = async (accountname) => {
 export const followerPageAPI = async (accountname, limit, Number) => {
   try {
     const response = await customAxios.get(
-      `/profile/${accountname}/follower?limit=${limit}&skip=${Number}`
+      `/profile/${accountname}/follower?limit=${limit}&skip=${Number}`,
     );
     return response.data;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;
+    throw error;
   }
 };
 
