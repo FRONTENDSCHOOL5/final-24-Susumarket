@@ -17,7 +17,7 @@ export const writeCommentAPI = async (postId, comment) => {
 export const commentListAPI = async (postId) => {
   try {
     const response = await customAxios.get(`post/${postId}/comments`);
-    return response.data.comment;
+    return response.data.comments;
   } catch (error) {
     console.log(error);
     return error.response.data.message;
@@ -44,7 +44,7 @@ export const commentDeleteAPI = async (postId, commentId) => {
     return response.data.message;
   } catch (error) {
     console.log(error);
-    return error.response.data.message;;
+    return error.response.data.message;
   }
 };
 
