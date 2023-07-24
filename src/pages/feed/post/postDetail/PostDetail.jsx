@@ -25,7 +25,7 @@ import {
 } from "./postDetail.style";
 import InvalidPage from "../../../../components/commons/inValidPage/InvaliPage";
 import Loading from "../../../../components/commons/loading/Loading";
-import PostCard from "../../../../components/commons/postList/PostCard";
+import PostCard from "../../../../components/commons/postList/PostCard.container"
 import { postDetailAPI } from "../../../../API/postAPI";
 import {
   writeCommentAPI,
