@@ -19,7 +19,7 @@ import { imgValidation } from "../../../../library/imgValidation";
 import useAuth from "../../../../hook/useAuth";
 import InvalidPage from "../../../../components/commons/inValidPage/InvaliPage";
 import { productDetailAPI, productEditAPI } from "../../../../API/productAPI";
-import { multiImgUploadAPI } from "../../../../API/imgUploadAPI";
+import { mutiImgUploadAPI } from "../../../../API/imgUploadAPI";
 
 export default function ProductEdit() {
   const [profileImage, setProfileImage] = useState(defaultimg);
@@ -112,7 +112,7 @@ export default function ProductEdit() {
     try {
       const formData = new FormData();
       formData.append("image", file);
-      const data = await multiImgUploadAPI(file);
+      const data = await mutiImgUploadAPI(file);
 
       setSelectedImage(data);
     } catch (error) {
