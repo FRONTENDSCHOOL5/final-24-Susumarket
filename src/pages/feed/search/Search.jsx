@@ -48,8 +48,6 @@ export default function Search() {
         setHasMore(data.length > 0); // 가져온 데이터가 있으면 더 많은 데이터가 있는 것으로 간주
       } catch (error) {
         console.error(error);
-      } finally {
-        setIsLoading(false);
       }
     }, 500),
     [],
@@ -85,7 +83,7 @@ export default function Search() {
       />
       <SearchWrapper>
         <SearchList inputValue={searchInputValue} userList={userList} />
-        {isLoading && <div>로딩 중...</div>}
+        {/* {isLoading && <div>로딩 중...</div>} */}
         {hasMore && <div ref={inViewRef} />}
       </SearchWrapper>
       <TopButton />

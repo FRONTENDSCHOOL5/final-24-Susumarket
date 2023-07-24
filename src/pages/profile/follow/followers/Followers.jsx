@@ -9,7 +9,7 @@ import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHead
 import TopButton from "../../../../components/commons/topButton/TopButton";
 import useAuth from "../../../../hook/useAuth";
 import Loading from "../../../../components/commons/loading/Loading";
-import { useInView } from "react-intersection-observer"; // 추가
+import { useInView } from "react-intersection-observer";
 
 export default function Followers() {
   const [followerData, setFollowerData] = useState([]);
@@ -17,16 +17,16 @@ export default function Followers() {
   const myProfile = useAuth();
 
   const [isLoading, setIsLoading] = useState(true);
-  const [ref, inView] = useInView(); // 추가
-  const limit = 5; // 추가
-  const [skip, setSkip] = useState(0); // 추가
-  const [hasMore, setHasMore] = useState(true); // 추가
+  const [ref, inView] = useInView();
+  const limit = 5;
+  const [skip, setSkip] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
 
   // 팔로워 데이터 호출
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await followerAPI(userId, limit, skip); // 수정
+        const data = await followerAPI(userId, limit, skip);
         if (skip === 0) {
           setFollowerData(data);
         } else {
@@ -74,7 +74,7 @@ export default function Followers() {
               );
             })}
           </FollowerListUl>
-          {hasMore && <div ref={ref} />} {/* 추가 */}
+          {hasMore && <div ref={ref} />}
         </FollowersWrapper>
       )}
 
