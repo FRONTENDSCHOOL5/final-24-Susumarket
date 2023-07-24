@@ -22,8 +22,8 @@ import ProductDetail from "../pages/feed/product/productDetail/ProductDetail";
 import ProductEdit from "../pages/feed/product/productEdit/ProductEdit";
 import ProductUpload from "../pages/feed/product/productUpload/ProductUpload";
 
-import UserProfile from "../pages/profile/userProfile/UserProfile";
-import ProfileEdit from "../pages/profile/profileEdit/ProfileEdit";
+import UserProfile from "../pages/profile/userProfile/UserProfile.container";
+import ProfileEdit from "../pages/profile/profileEdit/ProfileEdit.container";
 import Followers from "../pages/profile/follow/followers/Followers";
 import Following from "../pages/profile/follow/following/Following";
 
@@ -32,7 +32,7 @@ import ChatRoom from "../pages/chat/chatRoom/ChatRoom";
 
 import NotFound from "../pages/notFound/NotFound";
 import { UserContext } from "../context/UserContext";
-import Drawing from "../pages/drawing/Drawing";
+import Drawing from "../pages/drawing/Drawing.container";
 
 export default function Router() {
   const { accessToken } = useContext(UserContext);
