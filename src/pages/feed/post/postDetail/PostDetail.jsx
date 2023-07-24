@@ -2,7 +2,6 @@ import React from "react";
 import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHeader";
 import PostModal from "../../../../components/commons/postModal/PostModal";
 import { useState, useEffect, useRef, useContext, useCallback } from "react";
-import { customAxios } from "../../../../library/customAxios";
 import { useParams } from "react-router-dom";
 import { ModalContext } from "../../../../context/ModalContext";
 import DateFormate from "../../../../components/commons/dateFormat/DateFormat";
@@ -27,6 +26,13 @@ import {
 import InvalidPage from "../../../../components/commons/inValidPage/InvaliPage";
 import Loading from "../../../../components/commons/loading/Loading";
 import PostCard from "../../../../components/commons/postList/PostCard";
+import { postDetailAPI } from "../../../../API/postAPI";
+import {
+  writeCommentAPI,
+  commentListAPI,
+  commentDeleteAPI,
+  commentReportAPI,
+} from "../../../../API/commentAPI";
 
 export default function PostDetail() {
   const [postModalProps, setPostModalProps] = useState([]);
@@ -71,11 +77,10 @@ export default function PostDetail() {
     }
   }, [myProfile]);
 
-  // api에서 업로드 된 post 내용과 이미지 불러오기
   const fetchPostDetail = async () => {
     try {
-      const response = await customAxios.get(`post/${postId}`);
-      setPostData(response.data.post);
+      const response = await postDetailAPI(postId);
+      setPostData(response);
       setIsLoading(false);
     } catch (error) {
       console.error(error);
@@ -83,11 +88,10 @@ export default function PostDetail() {
     }
   };
 
-  // 댓글 작성 처리 함수
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     try {
-      await customAxios.post(`post/${postId}/comments`, {
+      await writeCommentAPI(postId, {
         comment: {
           content: newComment,
         },
@@ -105,11 +109,9 @@ export default function PostDetail() {
     }
   };
 
-  // 댓글 목록 불러오기
   const fetchComments = async () => {
     try {
-      const response = await customAxios.get(`post/${postId}/comments`);
-      const fetchedComments = response.data.comments;
+      const fetchedComments = await commentListAPI(postId);
       setComments(fetchedComments);
     } catch (error) {
       console.error(error);
@@ -131,7 +133,7 @@ export default function PostDetail() {
 
   const deleteComment = async (commentId) => {
     try {
-      await customAxios.delete(`post/${postId}/comments/${commentId}`);
+      await commentDeleteAPI(postId, commentId);
       setComments(comments.filter((comment) => comment.id !== commentId));
     } catch (error) {
       if (error.response.data.message === "존재하지 않는 게시글 입니다.") {
@@ -144,7 +146,7 @@ export default function PostDetail() {
 
   const reportComment = async (commentId) => {
     try {
-      await customAxios.delete(`post/${postId}/comments/${commentId}/report`);
+      await commentReportAPI(postId, commentId);
     } catch (error) {
       if (error.response.data.message === "댓글이 존재하지 않습니다.") {
         alert(error.response.data.message);
@@ -256,7 +258,7 @@ export default function PostDetail() {
                       right={"modalBtn"}
                       userData={comment.author}
                       bottom={"account"}
-                      onClickModalBtn={()=>onClickModalBtn(comment)}
+                      onClickModalBtn={() => onClickModalBtn(comment)}
                       commentDate={comment.createdAt}
                     />
 
