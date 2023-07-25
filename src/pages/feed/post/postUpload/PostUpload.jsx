@@ -1,10 +1,19 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  useMemo,
+  memo,
+} from "react";
 import defaultImg from "../../../../img/ProfileImg.svg";
-import { useNavigate } from "react-router-dom";
-import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHeader";
 import { imgValidation } from "../../../../library/imgValidation";
 import { postUploadAPI } from "../../../../API/postAPI";
 import { mutiImgUploadAPI } from "../../../../API/imgUploadAPI";
+import { loadProfileImageAPI } from "../../../../API/profileAPI";
+import { useNavigate } from "react-router-dom";
+import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHeader";
+
 import {
   PostImgButton,
   UploadMain,
@@ -18,7 +27,15 @@ import {
   UploadImgArea,
   UploadImgAreaTitle,
 } from "./postUpload.style";
-import { loadProfileImageAPI } from "../../../../API/profileAPI";
+
+const UploadImgPreview = memo(({ image, id, handleDeleteImage }) => {
+  return (
+    <div>
+      <PostImg src={image} alt={`${image}-${id}`} />
+      <Delete onClick={() => handleDeleteImage(id)} />
+    </div>
+  );
+});
 
 export default function PostUpload() {
   const [profileImage, setProfileImage] = useState(null);
@@ -28,13 +45,11 @@ export default function PostUpload() {
   const fileInputRef = useRef();
   const textRef = useRef();
 
-  // 게시글 사용자 입력 글자수에 따른 textarea 줄 바꿈 처리
   const handleTextAreaHeight = useCallback(() => {
     textRef.current.style.height = "auto";
     textRef.current.style.height = textRef.current.scrollHeight + "px";
   }, []);
 
-  // 나의 프로필 사진 API에서 가져오기
   useEffect(() => {
     const loadProfileImage = async () => {
       try {
@@ -47,7 +62,7 @@ export default function PostUpload() {
     loadProfileImage();
   }, []);
 
-  const uploadImages = async () => {
+  const uploadImages = useCallback(async () => {
     const formData = new FormData();
 
     for (let i = 0; i < images.length; i++) {
@@ -55,17 +70,36 @@ export default function PostUpload() {
     }
 
     try {
-      const imageURLs = await mutiImgUploadAPI(formData); // 이미지 업로드 함수 호출
+      const imageURLs = await mutiImgUploadAPI(formData);
       return imageURLs;
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [images]);
 
-  //탑헤더 업로드 버튼 클릭 시, 이미지 업로드 후 이미지와 게시글을 전체 업로드, 다음 페이지로 넘어가도록 연결
-  const handleUploadWholePost = async () => {
+  const handleFileUpload = useCallback((e) => {
+    const files = e.target.files[0];
+
+    const valid = imgValidation(files);
+    if (!valid) return;
+    const currentFileUrl = URL.createObjectURL(files);
+    setPreviewImages((prev) => [...prev, currentFileUrl]);
+    setImages((prev) => [...prev, files]);
+  }, []);
+
+  const handleDeleteImage = useCallback((id) => {
+    setImages((prevImages) => prevImages.filter((_, index) => index !== id));
+    setPreviewImages((prevPreviewImages) =>
+      prevPreviewImages.filter((_, index) => index !== id),
+    );
+  }, []);
+
+  const handleFileButton = useCallback(() => {
+    fileInputRef.current.click();
+  }, []);
+
+  const handleUploadWholePost = useCallback(async () => {
     const images = await uploadImages();
-    // await uploadPost(images); - 삭제 o
     await postUploadAPI({
       post: {
         content: text,
@@ -73,42 +107,19 @@ export default function PostUpload() {
       },
     });
     onClickNextPage();
-  };
+  }, [uploadImages, text]);
 
-  // 이미지 UI 화면에서 미리보기 설정
-  const handleFileUpload = (e) => {
-    const files = e.target.files[0];
+  const UploadBtnDisable = useMemo(() => {
+    return text === "" && images.length === 0;
+  }, [text, images]);
 
-    const valid = imgValidation(files);
-    if (!valid) return;
-    const currentFileUrl = URL.createObjectURL(files);
-    setPreviewImages((prev) => [...prev, currentFileUrl]); //덮어씌워지지 않게 하기 위해 prev 사용
-    setImages((prev) => [...prev, files]);
-    console.log(files);
-  };
-
-  // 이미지 내 X버튼 클릭 시 미리보기 이미지 및 실제 API 전송 위한 이미지 모두 삭제됨
-  const handleDeleteImage = (id) => {
-    setImages(images.filter((_, index) => index !== id));
-    setPreviewImages((prevPreviewImages) =>
-      prevPreviewImages.filter((_, index) => index !== id),
+  const profileImageSrc = useMemo(() => {
+    return (
+      (profileImage && profileImage.endsWith("Ellipse.png") && defaultImg) ||
+      profileImage
     );
-  };
+  }, [profileImage]);
 
-  // 이미지 업로드 버튼
-  const handleFileButton = () => {
-    fileInputRef.current.click();
-  };
-
-  // 게시글과 이미지가 모두 없는 경우 탑헤더 업로드 버튼 disable 처리
-  const UploadBtnDisable = () => {
-    if (text === "" && images.length === 0) {
-      return true;
-    }
-    return false;
-  };
-
-  // 탑헤더 업로드 버튼 클릭 시 프로필 페이지로 이동
   const navigate = useNavigate();
   const onClickNextPage = () => {
     navigate(`/profile`);
@@ -120,17 +131,13 @@ export default function PostUpload() {
         left="back"
         right="upload"
         onClickButton={handleUploadWholePost}
-        disabled={UploadBtnDisable()}
+        disabled={UploadBtnDisable}
         title="수수마켓 게시글 업로드"
       ></NewTopHeader>
       <UploadMain>
         <ProfileImgLabel></ProfileImgLabel>
         <ProfileImg
-          src={
-            profileImage && profileImage.endsWith("Ellipse.png")
-              ? defaultImg
-              : profileImage
-          }
+          src={profileImageSrc}
           alt="프로필 사진"
           onError={(e) => (e.target.src = defaultImg)}
         />
@@ -156,10 +163,12 @@ export default function PostUpload() {
           이미지 업로드
         </UploadImgAreaTitle>
         {previewImages.map((image, id) => (
-          <div key={id}>
-            <PostImg src={image} alt={`${image}-${id}`} />
-            <Delete onClick={() => handleDeleteImage(id)} />
-          </div>
+          <UploadImgPreview
+            key={id}
+            image={image}
+            id={id}
+            handleDeleteImage={handleDeleteImage}
+          />
         ))}
       </UploadImgArea>
       <PostImgButton onClick={handleFileButton}></PostImgButton>
