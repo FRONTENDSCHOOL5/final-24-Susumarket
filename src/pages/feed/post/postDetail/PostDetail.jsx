@@ -25,7 +25,7 @@ import {
 } from "./postDetail.style";
 import InvalidPage from "../../../../components/commons/inValidPage/InvaliPage";
 import Loading from "../../../../components/commons/loading/Loading";
-import PostCard from "../../../../components/commons/postList/PostCard.container"
+import PostCard from "../../../../components/commons/postList/PostCard.container";
 import { postDetailAPI } from "../../../../API/postAPI";
 import {
   writeCommentAPI,
@@ -109,18 +109,18 @@ export default function PostDetail() {
     }
   };
 
-  const fetchComments = async () => {
+  const fetchComments = useCallback(async () => {
     try {
       const fetchedComments = await commentListAPI(postId);
       setComments(fetchedComments);
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [postId]);
 
   useEffect(() => {
     fetchComments();
-  }, []);
+  }, [fetchComments]);
 
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
@@ -131,30 +131,36 @@ export default function PostDetail() {
     setIsOpenConfirmModal(true);
   }
 
-  const deleteComment = async (commentId) => {
-    try {
-      await commentDeleteAPI(postId, commentId);
-      setComments(comments.filter((comment) => comment.id !== commentId));
-    } catch (error) {
-      if (error.response.data.message === "존재하지 않는 게시글 입니다.") {
-        alert(error.response.data.message);
-        navigate("/post");
+  const deleteComment = useCallback(
+    async (commentId) => {
+      try {
+        await commentDeleteAPI(postId, commentId);
+        setComments(comments.filter((comment) => comment.id !== commentId));
+      } catch (error) {
+        if (error.response.data.message === "존재하지 않는 게시글 입니다.") {
+          alert(error.response.data.message);
+          navigate("/post");
+        }
+        console.error(error);
       }
-      console.error(error);
-    }
-  };
+    },
+    [postId, comments],
+  );
 
-  const reportComment = async (commentId) => {
-    try {
-      await commentReportAPI(postId, commentId);
-    } catch (error) {
-      if (error.response.data.message === "댓글이 존재하지 않습니다.") {
-        alert(error.response.data.message);
-        fetchComments();
+  const reportComment = useCallback(
+    async (commentId) => {
+      try {
+        await commentReportAPI(postId, commentId);
+      } catch (error) {
+        if (error.response.data.message === "댓글이 존재하지 않습니다.") {
+          alert(error.response.data.message);
+          fetchComments();
+        }
+        console.error(error);
       }
-      console.error(error);
-    }
-  };
+    },
+    [postId, fetchComments],
+  );
 
   const onClickModalBtn = (comment) => {
     if (myProfile.accountname === comment.author.accountname) {
