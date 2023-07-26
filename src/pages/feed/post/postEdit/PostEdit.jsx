@@ -47,18 +47,17 @@ export default function PostEdit() {
   const myProfile = useAuth();
 
   // 이미지 내 X버튼 클릭 시 미리보기, API 전송 이미지 모두 삭제 처리
-  const handleDeleteImage = (id) => {
-    // setPostImages(postImages.filter((_, index) => index !== id));
-    // setImgArray((prevPreviewImages) =>
-    //   prevPreviewImages.filter((_, index) => index !== id),
-    // );
-    const updatedImgArray = imgArray.filter((_, index) => index !== id);
-    setImgArray(updatedImgArray);
-    const updatedPostArray = postImages.filter((_, index) => index !== id);
-    setPostImages(updatedPostArray);
-    const updateFileImg = imgFiles.filter((_, index) => index !== id);
-    setImgFiles(updateFileImg);
-  };
+  const handleDeleteImage = useCallback(
+    (id) => {
+      const updatedImgArray = imgArray.filter((_, index) => index !== id);
+      setImgArray(updatedImgArray);
+      const updatedPostArray = postImages.filter((_, index) => index !== id);
+      setPostImages(updatedPostArray);
+      const updateFileImg = imgFiles.filter((_, index) => index !== id);
+      setImgFiles(updateFileImg);
+    },
+    [imgArray, postImages, imgFiles],
+  );
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -94,19 +93,21 @@ export default function PostEdit() {
   }, [accountname]);
 
   // 이미지 변경 사항 확인 후, 상태 변경
-  const handleImageChange = (e) => {
-    console.log("이미지Array :", imgArray, "이미지파일:", imgFiles);
-    if (imgArray.length > 2) {
-      alert("이미지 파일은 3개 까지 등록 가능합니다!");
-      return;
-    }
-    const file = e.target.files[0];
-    const valid = imgValidation(file);
-    if (!valid) return;
-    const currentFileUrl = URL.createObjectURL(file);
-    setImgArray((prev) => [...prev, currentFileUrl]);
-    setImgFiles((prev) => [...prev, file]);
-  };
+  const handleImageChange = useCallback(
+    (e) => {
+      if (imgArray.length > 2) {
+        alert("이미지 파일은 3개 까지 등록 가능합니다!");
+        return;
+      }
+      const file = e.target.files[0];
+      const valid = imgValidation(file);
+      if (!valid) return;
+      const currentFileUrl = URL.createObjectURL(file);
+      setImgArray((prev) => [...prev, currentFileUrl]);
+      setImgFiles((prev) => [...prev, file]);
+    },
+    [imgArray],
+  );
 
   const uploadImages = async () => {
     console.log(imgFiles);
@@ -126,16 +127,15 @@ export default function PostEdit() {
   };
 
   // // 게시글 수정 api
-  const handlePostEdit = async () => {
+  const handlePostEdit = useCallback(async () => {
     const imgUrls = await uploadImages();
-    // await uploadPostEdit(imgUrls);
     await postEditAPI(postId, postContent, imgUrls);
     navigate("/profile");
-  };
+  }, [postId, postContent, uploadImages]);
 
-  const handleFileButton = () => {
+  const handleFileButton = useCallback(() => {
     fileInputRef.current.click();
-  };
+  }, []);
 
   const navigate = useNavigate();
 
