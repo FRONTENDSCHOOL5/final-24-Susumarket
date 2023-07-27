@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import UserInput from "../../../components/commons/dataInput/UserInput";
 import DataInput from "../../../components/commons/dataInput/DataInput";
 import defaultimg from "../../../img/ProfileImg.svg";
@@ -37,7 +37,7 @@ export default function ProfileSetting() {
   // 이미지 미리보기
   // 이미지를 변경 시 변경한 이미지 대로 출력
   // 이미지를 변경하지 않으면 default image인 수수마켓 이미지가 출력되도록 함
-  const handleImageChange = (e) => {
+  const handleImageChange = useCallback((e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
 
@@ -53,10 +53,9 @@ export default function ProfileSetting() {
       setProfileImage(defaultimg);
       setSelectedImage(null);
     }
-  };
+  }, []);
 
-  // api 이미지
-  const uploadProfileImage = async (file) => {
+  const uploadProfileImage = useCallback(async (file) => {
     try {
       const formData = new FormData();
       formData.append("image", file);
@@ -68,28 +67,31 @@ export default function ProfileSetting() {
       console.error(error);
       return null;
     }
-  };
+  }, []);
 
   // 계정 id 유효성 검사
-  const validateNickName = (nickName) => {
+  const validateNickName = useCallback((nickName) => {
     const nickNamePattern = /^[a-zA-Z0-9._]+$/;
     return nickNamePattern.test(nickName);
-  };
+  }, []);
 
   // 계정 id 에러 메시지 출력, 영문 숫자 밑줄 마침표가 아닌 다른 문자 입력 시 에러 메시지 출력
-  const handleNickNameChange = (e) => {
-    const value = e.target.value;
-    setNickName(value);
+  const handleNickNameChange = useCallback(
+    (e) => {
+      const value = e.target.value;
+      setNickName(value);
 
-    if (!validateNickName(value)) {
-      setNickNameErrorMsg("*영문, 숫자 밑줄 및 마침표만 사용할 수 있습니다.");
-    } else {
-      setNickNameErrorMsg("");
-    }
-  };
+      if (!validateNickName(value)) {
+        setNickNameErrorMsg("*영문, 숫자 밑줄 및 마침표만 사용할 수 있습니다.");
+      } else {
+        setNickNameErrorMsg("");
+      }
+    },
+    [validateNickName],
+  );
 
   // 이미 가입된 계정id의 경우 input에서 focus가 벗어나면 가입된 계정id라는 에러 메시지를 출력하도록 함함
-  const handleNickNameBlur = async () => {
+  const handleNickNameBlur = useCallback(async () => {
     try {
       const data = await accountValidationAPI({
         user: {
@@ -104,10 +106,10 @@ export default function ProfileSetting() {
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [nickName]);
 
   // 사용자 이름이 2~10자가 아닌 경우 에러 메시지를 출력하도록 함
-  const handleUserNameChange = (e) => {
+  const handleUserNameChange = useCallback((e) => {
     const newUserName = e.target.value;
     setUserName(newUserName);
 
@@ -116,15 +118,15 @@ export default function ProfileSetting() {
     } else {
       setUserNameErrorMsg("");
     }
-  };
+  }, []);
 
   // 소개란에 입력 받은 값을 상태 관리. 입력이 필수 사항은 아님
-  const handleIntroChange = (e) => {
+  const handleIntroChange = useCallback((e) => {
     const value = e.target.value;
     setIntro(value);
-  };
+  }, []);
 
-  // form이 유효하도록 하는 함수, 계정 id 코드의 경우 return 내 코드에 추가가
+  // form이 유효하도록 하는 함수, 계정 id 코드의 경우 return 내 코드에 추가
   const isFormValid = () => {
     return (
       validateNickName(nickName) &&
