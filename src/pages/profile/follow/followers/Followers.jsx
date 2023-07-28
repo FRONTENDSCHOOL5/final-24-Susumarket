@@ -7,17 +7,12 @@ import { followerAPI } from "../../../../API/profileAPI";
 import MenuBar from "../../../../components/commons/menuBar/MenuBar";
 import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHeader";
 import TopButton from "../../../../components/commons/topButton/TopButton";
-import useAuth from "../../../../hook/useAuth";
 import Loading from "../../../../components/commons/loading/Loading";
-import { useInView } from "react-intersection-observer";
 
 export default function Followers() {
   const [followerData, setFollowerData] = useState([]);
-  const { userId } = useParams();
-  const myProfile = useAuth();
-
   const [isLoading, setIsLoading] = useState(true);
-  const [ref, inView] = useInView();
+  const { userId } = useParams();
   const limit = 5;
   const [skip, setSkip] = useState(0);
   const [hasMore, setHasMore] = useState(true);
@@ -26,6 +21,7 @@ export default function Followers() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoading(true);
         const data = await followerAPI(userId, limit, skip);
         if (skip === 0) {
           setFollowerData(data);
@@ -39,16 +35,30 @@ export default function Followers() {
           "팔로워 데이터를 가져오는 중 오류가 발생했습니다:",
           error,
         );
+        setIsLoading(false);
       }
     };
-    if (myProfile) fetchData();
-  }, [userId, myProfile, skip]);
+    fetchData();
+  }, [userId, skip]);
+
+  // 스크롤 이벤트 핸들러
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop ===
+      document.documentElement.offsetHeight
+    ) {
+      if (!isLoading && hasMore) {
+        setSkip((prevSkip) => prevSkip + limit);
+      }
+    }
+  };
 
   useEffect(() => {
-    if (inView && !isLoading && hasMore) {
-      setSkip((prevSkip) => prevSkip + limit);
-    }
-  }, [inView, isLoading, hasMore]);
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [handleScroll]);
 
   return (
     <>
@@ -67,14 +77,13 @@ export default function Followers() {
             {followerData.map((follower) => {
               return (
                 <FollowerList
-                  account={myProfile.accountname}
+                  account={userId}
                   follower={follower}
                   key={follower._id}
                 />
               );
             })}
           </FollowerListUl>
-          {hasMore && <div ref={ref} />}
         </FollowersWrapper>
       )}
 
