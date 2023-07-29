@@ -60,14 +60,14 @@ export default function ProductDetail() {
 
       try {
         const data = await productDetailAPI(params.productId);
-
-        setItemImage(data.itemImage);
-        setItemName(data.itemName);
-        setPrice(data.price);
-        setLink(data.link);
-        setName(data.author.username);
-        setProfile(data.author.image);
-        setAccountname(data.author.accountname);
+        // data.product가 빠져 있어 오류발생
+        setItemImage(data.product.itemImage);
+        setItemName(data.product.itemName);
+        setPrice(data.product.price);
+        setLink(data.product.link);
+        setName(data.product.author.username);
+        setProfile(data.product.author.image);
+        setAccountname(data.product.author.accountname);
         setIsInValidPage(false);
         setIsLoading(false);
       } catch (error) {

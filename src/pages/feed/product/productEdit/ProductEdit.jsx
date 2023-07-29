@@ -56,11 +56,11 @@ export default function ProductEdit() {
       // const url = `${baseUrl}product/detail/${params.productId}`;
       try {
         const data = await productDetailAPI(params.productId);
-        setItemImage(data.itemImage);
-        setItemName(data.itemName);
-        setPrice(data.price);
-        setLink(data.link);
-        setAccountName(data.accountname);
+        setItemImage(data.product.itemImage);
+        setItemName(data.product.itemName);
+        setPrice(data.product.price);
+        setLink(data.product.link);
+        setAccountName(data.product.accountname);
         setIsInValidPage(false);
       } catch (error) {
         setIsInValidPage(true);
