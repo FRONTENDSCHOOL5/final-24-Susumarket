@@ -50,7 +50,7 @@ export default function Search() {
         console.error(error);
       }
     }, 500),
-    [],
+    [userList],
   );
 
   const [inViewRef, inView] = useInView({
