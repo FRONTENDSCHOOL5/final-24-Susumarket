@@ -2,11 +2,12 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Button from "../../../../components/commons/button/Button";
 
+export const FollowingTitle = styled.h2``;
+
 export const FollowingListUl = styled.ul`
   display: flex;
   flex-direction: column;
   max-width: 390px;
-
 `;
 
 export const FollowingListLi = styled.li`
@@ -35,7 +36,7 @@ export const UserWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 250px;
-  @media screen and (max-width:361px){
+  @media screen and (max-width: 361px) {
     width: 200px;
   }
 `;
@@ -57,6 +58,4 @@ export const UserIntro = styled.strong`
   text-overflow: ellipsis;
 `;
 
-export const FollowButton = styled(Button)`
-  
-`;
+export const FollowButton = styled(Button)``;

@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { FollowersWrapper } from "./followers.style";
 import FollowerList from "./FollowerList";
 import { useParams } from "react-router-dom";
-import { FollowerListUl } from "./followerList.style";
+import { FollowerListUl, FollowerTitle } from "./followerList.style";
 import { followerAPI } from "../../../../API/profileAPI";
 import MenuBar from "../../../../components/commons/menuBar/MenuBar";
 import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHeader";
 import TopButton from "../../../../components/commons/topButton/TopButton";
 import Loading from "../../../../components/commons/loading/Loading";
+import { useCallback } from "react";
 
 export default function Followers() {
   const [followerData, setFollowerData] = useState([]);
@@ -42,7 +43,7 @@ export default function Followers() {
   }, [userId, skip]);
 
   // 스크롤 이벤트 핸들러
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     if (
       window.innerHeight + document.documentElement.scrollTop ===
       document.documentElement.offsetHeight
@@ -51,7 +52,7 @@ export default function Followers() {
         setSkip((prevSkip) => prevSkip + limit);
       }
     }
-  };
+  }, [hasMore]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -73,6 +74,7 @@ export default function Followers() {
         <Loading />
       ) : (
         <FollowersWrapper>
+          <FollowerTitle className="a11y-hidden">팔로워리스트</FollowerTitle>
           <FollowerListUl>
             {followerData.map((follower) => {
               return (

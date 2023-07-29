@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Button from "../../../../components/commons/button/Button";
 
+export const FollowerTitle = styled.h2``;
+
 export const FollowerListUl = styled.ul`
   display: flex;
   flex-direction: column;
