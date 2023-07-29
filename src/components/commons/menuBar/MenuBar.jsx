@@ -51,6 +51,7 @@ export default function MenuBar() {
           <LinkStyle to="/post">
             <>
               <Img
+                aria-label="홈 버튼"
                 // url이 잘 이동되었을 때 아이콘 활성화
                 src={
                   pathname === "/post" || pathname === "/search"
@@ -74,12 +75,13 @@ export default function MenuBar() {
           <LinkStyle to="/chatList">
             <>
               <Img
+                aria-label="채팅방 이동버튼"
                 src={
                   pathname === "/chatList"
                     ? IconMessage.fill
                     : IconMessage.default
                 }
-                alt="메세지"
+                alt="채팅"
               />
               <p
                 style={{
@@ -95,6 +97,7 @@ export default function MenuBar() {
           <LinkStyle to="/post/upload">
             <>
               <Img
+                aria-label="게시물 작성버튼"
                 src={
                   pathname === "/post/upload" ? IconEdit.fill : IconEdit.default
                 }
@@ -110,31 +113,35 @@ export default function MenuBar() {
             </>
           </LinkStyle>
         </MenuBarLi>
-        {!isMobile&&<MenuBarLi>
-          <LinkStyle to={`/drawing`}>
-            <>
-              <Img
-                src={
-                  pathname === `/drawing`
-                    ? IconPalette.fill
-                    : IconPalette.default
-                }
-                alt="캔버스"
-              />
-              <p
-                style={{
-                  color: pathname === `/drawing` ? "#B51215" : "#767676",
-                }}
-              >
-                캔버스
-              </p>
-            </>
-          </LinkStyle>
-        </MenuBarLi>}
+        {!isMobile && (
+          <MenuBarLi>
+            <LinkStyle to={`/drawing`}>
+              <>
+                <Img
+                  aria-label="캔버스 버튼"
+                  src={
+                    pathname === `/drawing`
+                      ? IconPalette.fill
+                      : IconPalette.default
+                  }
+                  alt="캔버스"
+                />
+                <p
+                  style={{
+                    color: pathname === `/drawing` ? "#B51215" : "#767676",
+                  }}
+                >
+                  캔버스
+                </p>
+              </>
+            </LinkStyle>
+          </MenuBarLi>
+        )}
         <MenuBarLi>
           <LinkStyle to={`/profile`}>
             <>
               <Img
+                aria-label="프로필 버튼"
                 src={
                   pathname.includes("/profile")
                     ? IconUser.fill
