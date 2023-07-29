@@ -24,10 +24,9 @@ const UploadImgPreview = React.memo(({ image, id, handleDeleteImage }) => {
   );
 });
 
-const PostUpload = ({
+const PostUploadUI = ({
   profileImageSrc,
   text,
-  images,
   previewImages,
   fileInputRef,
   textRef,
@@ -37,7 +36,6 @@ const PostUpload = ({
   handleFileButton,
   handleUploadWholePost,
   UploadBtnDisable,
-  onClickNextPage,
   setText,
 }) => {
   return (
@@ -91,4 +89,4 @@ const PostUpload = ({
   );
 };
 
-export default PostUpload;
+export default PostUploadUI;

@@ -4,7 +4,6 @@ import React, {
   useEffect,
   useCallback,
   useMemo,
-  memo,
 } from "react";
 import defaultImg from "../../../../img/ProfileImg.svg";
 import { imgValidation } from "../../../../library/imgValidation";
@@ -12,31 +11,7 @@ import { postUploadAPI } from "../../../../API/postAPI";
 import { mutiImgUploadAPI } from "../../../../API/imgUploadAPI";
 import { loadProfileImageAPI } from "../../../../API/profileAPI";
 import { useNavigate } from "react-router-dom";
-import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHeader";
-
-import {
-  PostImgButton,
-  UploadMain,
-  ProfileImgLabel,
-  ProfileImg,
-  TextArea,
-  PostImgLabel,
-  PostImgInput,
-  Delete,
-  PostImg,
-  UploadImgArea,
-  UploadImgAreaTitle,
-} from "./postUpload.style";
-import PostUpload from "./PostUpload.presenter";
-
-const UploadImgPreview = memo(({ image, id, handleDeleteImage }) => {
-  return (
-    <div>
-      <PostImg src={image} alt={`${image}-${id}`} />
-      <Delete onClick={() => handleDeleteImage(id)} />
-    </div>
-  );
-});
+import PostUploadUI from "./PostUpload.presenter";
 
 const PostUploadContainer = () => {
   const [profileImage, setProfileImage] = useState(null);
@@ -127,7 +102,7 @@ const PostUploadContainer = () => {
   };
 
   return (
-    <PostUpload
+    <PostUploadUI
       profileImageSrc={profileImageSrc}
       text={text}
       images={images}
