@@ -27,6 +27,7 @@ import {
   UploadImgArea,
   UploadImgAreaTitle,
 } from "./postUpload.style";
+import PostUpload from "./PostUpload.presenter";
 
 const UploadImgPreview = memo(({ image, id, handleDeleteImage }) => {
   return (
@@ -37,7 +38,7 @@ const UploadImgPreview = memo(({ image, id, handleDeleteImage }) => {
   );
 });
 
-export default function PostUpload() {
+const PostUploadContainer = () => {
   const [profileImage, setProfileImage] = useState(null);
   const [text, setText] = useState("");
   const [images, setImages] = useState([]);
@@ -126,52 +127,23 @@ export default function PostUpload() {
   };
 
   return (
-    <>
-      <NewTopHeader
-        left="back"
-        right="upload"
-        onClickButton={handleUploadWholePost}
-        disabled={UploadBtnDisable}
-        title="수수마켓 게시글 업로드"
-      ></NewTopHeader>
-      <UploadMain>
-        <ProfileImgLabel></ProfileImgLabel>
-        <ProfileImg
-          src={profileImageSrc}
-          alt="프로필 사진"
-          onError={(e) => (e.target.src = defaultImg)}
-        />
-        <TextArea
-          ref={textRef}
-          placeholder="게시글 입력하기..."
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          onInput={handleTextAreaHeight}
-          rows="1"
-        />
-      </UploadMain>
-      <PostImgLabel htmlFor="input-file"></PostImgLabel>
-      <PostImgInput
-        type="file"
-        multiple
-        id="input-file"
-        ref={fileInputRef}
-        onChange={handleFileUpload}
-      />
-      <UploadImgArea>
-        <UploadImgAreaTitle className="a11y-hidden">
-          이미지 업로드
-        </UploadImgAreaTitle>
-        {previewImages.map((image, id) => (
-          <UploadImgPreview
-            key={id}
-            image={image}
-            id={id}
-            handleDeleteImage={handleDeleteImage}
-          />
-        ))}
-      </UploadImgArea>
-      <PostImgButton onClick={handleFileButton}></PostImgButton>
-    </>
+    <PostUpload
+      profileImageSrc={profileImageSrc}
+      text={text}
+      images={images}
+      previewImages={previewImages}
+      fileInputRef={fileInputRef}
+      textRef={textRef}
+      handleTextAreaHeight={handleTextAreaHeight}
+      handleFileUpload={handleFileUpload}
+      handleDeleteImage={handleDeleteImage}
+      handleFileButton={handleFileButton}
+      handleUploadWholePost={handleUploadWholePost}
+      UploadBtnDisable={UploadBtnDisable}
+      onClickNextPage={onClickNextPage}
+      setText={setText}
+    />
   );
-}
+};
+
+export default PostUploadContainer;
