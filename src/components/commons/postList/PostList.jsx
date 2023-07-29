@@ -22,7 +22,7 @@ import postGalleryIconOn from "../../../img/icon-post-album-on.svg";
 import postGalleryIconOff from "../../../img/icon-post-album-off.svg";
 import PostNoneImgIcon from "../../../img/symbol-logo-404.svg";
 import PostGalleries from "./postGalleries";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Loading from "../../commons/loading/Loading";
 import { useInView } from "react-intersection-observer";
 import PostCard from "./PostCard.container";
@@ -45,31 +45,50 @@ export default function PostList({
   const [skip, setSkip] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const navigate = useNavigate();
+  const pathname = useLocation().pathname;
 
   // 게시물 정보를 받아옴
-  const fetchPostData = useCallback(async () => {
-      const data = isFeed
-        ? await postFeedPageAPI(limit, skip)
-        : await myPostPageAPI(userData.accountname, limit, skip);
-      setPostData((prev) => [...prev, ...data]);
-      setHasMore(data.length === limit);
-      setSkip((prev) => prev + limit);
-      setIsLoading(false);
-      if (data.length === 0 && skip === 0) {
-        setIsNonePostData(true);
-      } else {
-        setIsNonePostData(false);
-      }
-  }, [skip]);
+  const fetchFirstPostData = async () => {
+    const data = isFeed
+      ? await postFeedPageAPI(limit, 0)
+      : await myPostPageAPI(userData.accountname, limit, 0);
+    setPostData(data);
+    setHasMore(data.length === limit);
+    setSkip((prev) => prev + limit);
+    setIsLoading(false);
+    if (data.length === 0 && skip === 0) {
+      setIsNonePostData(true);
+    } else {
+      setIsNonePostData(false);
+    }
+  };
+  const fetchPostData = async () => {
+    const data = isFeed
+      ? await postFeedPageAPI(limit, skip)
+      : await myPostPageAPI(userData.accountname, limit, skip);
+    setPostData((prev) => [...prev, ...data]);
+    setHasMore(data.length === limit);
+    setSkip((prev) => prev + limit);
+    setIsLoading(false);
+    if (data.length === 0 && skip === 0) {
+      setIsNonePostData(true);
+    } else {
+      setIsNonePostData(false);
+    }
+  };
 
   useEffect(() => {
     if (skip === 0) {
-      fetchPostData();
+      fetchFirstPostData();
     }
     if (hasMore && inVeiw) {
       fetchPostData();
     }
-  }, [inVeiw]);
+  }, [inVeiw, skip]);
+
+  useEffect(()=>{
+    setSkip(0);
+  },[pathname])
 
   return (
     // isFeed를 통해 profile 페이지에서 출력될 요소와 feed 페이지에서 출력될 요소를 구분

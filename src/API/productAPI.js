@@ -32,7 +32,6 @@ export const productListPageAPI = async (accountname, product, limit, skip) => {
     const response = await customAxios.get(
       `/product/${accountname}/?limit=${limit}&skip=${skip}`,
       product,
-
     );
     return response.data.product;
   } catch (error) {
@@ -43,10 +42,11 @@ export const productListPageAPI = async (accountname, product, limit, skip) => {
 
 // 상품 상세 API productId를 인자로 받습니다.
 // 상품 상세 정보를 리턴
+// API 주소에 detail이 빠져있음
 export const productDetailAPI = async (productId) => {
   try {
-    const response = await customAxios.get(`product/${productId}`);
-    return response.data.product;
+    const response = await customAxios.get(`product/detail/${productId}`);
+    return response.data;
   } catch (error) {
     console.log(error);
     throw error;
@@ -57,14 +57,11 @@ export const productDetailAPI = async (productId) => {
 // 수정된 상품 정보를 리턴
 export const productEditAPI = async (productId, product) => {
   try {
-    const response = await customAxios.put(
-      `product/${productId}`,
-      product,
-    );
-    return response.data.product;
+    const response = await customAxios.put(`product/${productId}`, product);
+    return response.data;
   } catch (error) {
     console.log(error);
-    if(error.response.data.message){
+    if (error.response.data.message) {
       alert(error.response.data.message);
     }
     throw error;
@@ -78,7 +75,7 @@ export const productDeleteAPI = async (productId) => {
     return response.data.message;
   } catch (error) {
     console.log(error);
-    if(error.response.data.message){
+    if (error.response.data.message) {
       alert(error.response.data.message);
     }
     throw error;
