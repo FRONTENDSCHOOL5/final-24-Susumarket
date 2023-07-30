@@ -14,7 +14,6 @@ export const uploadProductAPI = async (product) => {
 
 // 상품 목록 API accountname를 인자로 받습니다.
 // 유저의 상품 목록 정보를 리턴
-
 export const productListAPI = async (accountname) => {
   try {
     const response = await customAxios.get(`/product/${accountname}`);
@@ -42,7 +41,6 @@ export const productListPageAPI = async (accountname, product, limit, skip) => {
 
 // 상품 상세 API productId를 인자로 받습니다.
 // 상품 상세 정보를 리턴
-// API 주소에 detail이 빠져있음
 export const productDetailAPI = async (productId) => {
   try {
     const response = await customAxios.get(`product/detail/${productId}`);

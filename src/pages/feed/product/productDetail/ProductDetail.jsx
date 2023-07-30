@@ -60,7 +60,6 @@ export default function ProductDetail() {
 
       try {
         const data = await productDetailAPI(params.productId);
-        // data.product가 빠져 있어 오류발생
         setItemImage(data.product.itemImage);
         setItemName(data.product.itemName);
         setPrice(data.product.price);
