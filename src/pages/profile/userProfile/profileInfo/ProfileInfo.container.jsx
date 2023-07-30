@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AccountContext } from "../../../../context/AccountContext";
 import ProfileInfoUI from "./ProfileInfo.presenter";
@@ -19,17 +19,17 @@ export default function ProfileInfo({ userData }) {
     setFollowCount(userData.followerCount);
   }, [userData]);
 
-  const onClickFollow = useCallback(async () => {
+  const onClickFollow = async () => {
       await followAPI(userAccountname);
       setIsfollow(true);
       setFollowCount((prev) => prev + 1);
-  }, [isfollow, followCount]);
+  };
 
-  const onClickUnfollow = useCallback(async () => {
+  const onClickUnfollow = async () => {
       await unFollowAPI(userAccountname);
       setIsfollow(false);
       setFollowCount((prev) => prev - 1);
-  }, [isfollow, followCount]);
+  };
 
   return (
     <ProfileInfoUI

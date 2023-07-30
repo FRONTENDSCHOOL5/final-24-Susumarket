@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
@@ -31,13 +31,13 @@ export default function PostCard({
   const navigate = useNavigate();
 
   // 이미지 슬라이드를 위해 해당 이미지의 이미지 크기에 인덱스를 곱해 translateX 해줌
-  const onClickSliderBtn = useCallback((e, idx) => {
+  const onClickSliderBtn = (e, idx) => {
     ImgUlRef.current.style.transform = `translateX(-${307 * idx}px)`;
     setActiveButton(idx);
-  }, []);
+  };
 
   // 게시물 제거
-  const onClickRemovePost = useCallback(async () => {
+  const onClickRemovePost = async () => {
     try {
       await postDeleteAPI(post.id);
       setPostData((prev) => prev.filter((prev) => prev.id !== post.id));
@@ -46,10 +46,10 @@ export default function PostCard({
         setPostData((prev) => prev.filter((prev) => prev.id !== post.id));
       }
     }
-  }, []);
+  };
 
   // 게시물 신고
-  const onClickReportPost = useCallback(async () => {
+  const onClickReportPost = async () => {
     try {
       await postReportAPI(post.id);
       alert("신고가 완료 되었습니다.");
@@ -58,10 +58,10 @@ export default function PostCard({
         setPostData((prev) => prev.filter((prev) => prev.id !== post.id));
       }
     }
-  }, []);
+  };
 
   // 좋아요
-  const onClickLike = useCallback(async () => {
+  const onClickLike = async () => {
     try {
       // feed 페이지라면 userData가 자신의 유저정보를 나타냄, 페이지의 경우에는 params가 존재할 경우 다른유저의 정보를 나타냄
       // 따라서 feed 페이지와  페이지의 조건문을 다르게 처리함
@@ -88,10 +88,10 @@ export default function PostCard({
         setPostData((prev) => prev.filter((prev) => prev.id !== post.id));
       }
     }
-  }, [hearted]);
+  };
 
   // 더보기 버튼
-  const onClickMore = useCallback(() => {
+  const onClickMore = () => {
     if (post.author.accountname === account)
       if (!isPostDetail) {
         // post 모달창 버튼 props 지정
@@ -176,7 +176,7 @@ export default function PostCard({
         ]);
       }
     }
-  }, []);
+  };
   return (
     userData && (
       <PostCardUI
