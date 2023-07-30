@@ -101,7 +101,6 @@ export default function ProfileInfoUI({
               </Button>
             ) : (
               <Button
-                style={{ width: "136px" }}
                 type="button"
                 className="medium"
                 active={true}
