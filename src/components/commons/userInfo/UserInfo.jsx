@@ -43,7 +43,7 @@ export default function UserInfo({
           ></UserInfoModalBtn>
         );
       case "date":
-        return <UserInfoDate datetime={date}>{date}</UserInfoDate>;
+        return <UserInfoDate dateTime={date.replace(/\./g,"-")}>{date}</UserInfoDate>;
       case "followBtn":
         return (
           <Button
