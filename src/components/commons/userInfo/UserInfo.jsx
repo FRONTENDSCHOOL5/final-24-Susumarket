@@ -39,6 +39,7 @@ export default function UserInfo({
               e.stopPropagation();
               onClickModalBtn();
             }}
+            aria-label="더 보기"
           ></UserInfoModalBtn>
         );
       case "date":
@@ -77,7 +78,11 @@ export default function UserInfo({
   return (
     <UserInfoWrapper>
       <UserProfileLink
-        onClick={() => bottom==="chat" ? navigate(`/chatList/${userData.accountname}`) : navigate(`/profile/${userData.accountname}`)}
+        onClick={() =>
+          bottom === "chat"
+            ? navigate(`/chatList/${userData.accountname}`)
+            : navigate(`/profile/${userData.accountname}`)
+        }
       >
         <UserProfileImg
           src={

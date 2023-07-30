@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import NewTopHeader from "../../../components/commons/newTopHeader/NewTopHeader";
 
 import MenuBar from "../../../components/commons/menuBar/MenuBar";
@@ -18,10 +18,10 @@ export default function Post() {
   const { setIsOpenConfirmModal, setIsOpenPostModal } =
     useContext(ModalContext);
   // post 모달창 props 설정 및 열기
-  const settingPostModalProps = useCallback((modalProps) => {
+  const settingPostModalProps =(modalProps) => {
     setPostModalProps(modalProps);
     setIsOpenPostModal(true);
-  },[])
+  }
 
   // postModal 창에 버튼을 누를경우 confirm 모달창의 props를 넘겨줌
   function onClickButton(confirmMessage, submitMessage, handleSubmit) {
@@ -30,10 +30,10 @@ export default function Post() {
   }
 
   // 모달창을 닫는 함수
-  const closeModal = useCallback(() => {
+  const closeModal = () => {
     setIsOpenConfirmModal(false);
     setIsOpenPostModal(false);
-  }, []);
+  };
 
   return (
     <>
