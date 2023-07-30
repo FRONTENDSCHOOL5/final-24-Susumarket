@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import profileImg from "../../../img/ProfileImg.svg";
 import defaultProfileImg from "../../../img/ProfileImg.svg";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useAuth from "../../../hook/useAuth";
 import { imgValidation } from "../../../library/imgValidation";
 import { imgUploadAPI } from "../../../API/imgUploadAPI";
@@ -30,7 +30,7 @@ export default function ProfileEdit() {
   const accountnameReg = /^[a-zA-Z0-9._]+$/;
   const userData = useAuth();
 
-  const onChangeImg = useCallback((e) => {
+  const onChangeImg = (e) => {
     e.preventDefault();
     const file = e.target.files[0];
     const valid = imgValidation(file);
@@ -41,20 +41,20 @@ export default function ProfileEdit() {
     };
     reader.readAsDataURL(file);
     setUploadFile(file);
-  }, []);
+  };
 
   // 인자로 event 객체, 유효성 검사 정규표현식, valid 상태관리 함수, 경고 메세지 텍스트를 받음
   // 인자로 받은 정규표현식 유효성 검사를 통해 유효하다면 에러 메세지를 없애고, isVali값을 true로
   // 유효하지 않다면 인자로 받은 에러 메세지를 넣고, isVali값을 false로
-  const vaildation = useCallback((e, reg, setValid, text) => {
+  const vaildation = (e, reg, setValid, text) => {
     if (reg.test(e.target.value)) {
       setValid({ errorMessage: "", isValid: true });
     } else {
       setValid({ errorMessage: text, isValid: false });
     }
-  }, []);
+  };
 
-  const onChangeUserame = useCallback((e) => {
+  const onChangeUserame = (e) => {
     const value = e.target.value.trim();
     setUsername(value);
     vaildation(
@@ -63,9 +63,9 @@ export default function ProfileEdit() {
       setUsernameValidation,
       "2~10자 이내 이름을 입력하세요.",
     );
-  }, []);
+  };
 
-  const onChangeAccountname = useCallback((e) => {
+  const onChangeAccountname = (e) => {
     const value = e.target.value.trim();
     setAccountname(value);
     // onchange이벤트가 발생했을 경우 유효성 검사 실행
@@ -84,10 +84,10 @@ export default function ProfileEdit() {
         "영문, 숫자, 특수문자( . )( _ )만 사용가능합니다.",
       );
     }
-  }, []);
+  };
 
   // bulr 이벤트가 발생했을때 계정 중복 검사
-  const onBlurAccountname = useCallback(async () => {
+  const onBlurAccountname = async () => {
     const user = {
       user: {
         accountname,
@@ -105,16 +105,16 @@ export default function ProfileEdit() {
       } else {
         setAccountnameValidation({ errorMessage: "", isValid: true });
       }
-  }, [userData, accountname]);
+  };
 
-  const onChangeIntro = useCallback((e) => {
+  const onChangeIntro = (e) => {
     const value = e.target.value;
     if (value.trim() === "") {
       setIntro(value.trim());
     } else {
       setIntro(value);
     }
-  }, []);
+  };
 
   const onSubmitSave = 
     async (e) => {

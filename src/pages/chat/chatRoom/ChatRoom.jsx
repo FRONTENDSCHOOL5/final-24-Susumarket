@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   ChatRoomDate,
   ChatRoomLi,
@@ -47,20 +47,19 @@ export default function ChatRoom() {
   const navgate = useNavigate();
   const pathname = location.pathname.slice(10, location.pathname.length);
 
-  const onChangeMsg = useCallback((e) => {
+  const onChangeMsg = (e) => {
     setMsgValue(e.target.value);
-  }, []);
+  };
 
-  const onClickExit = useCallback(() => {
+  const onClickExit = () => {
     navgate("/chatList");
     setIsOpenConfirmModal(false);
     setIsOpenPostModal(false);
-  }, []);
-
-  const onSubmitMsg = useCallback((e) => {
+  };
+  const onSubmitMsg =(e) => {
     e.preventDefault();
     setMsgValue("");
-  }, []);
+  };
   return (
     <>
       <NewTopHeader
