@@ -71,6 +71,7 @@ const PostEditPresenter = ({
               onInput={handleTextAreaHeight}
               onChange={(e) => setPostContent(e.target.value)}
               rows="1"
+              aria-label = "게시글 입력칸"
             ></TextArea>
             <PostImgLabel htmlFor="input-file"></PostImgLabel>
             <PostImgInput
@@ -97,7 +98,7 @@ const PostEditPresenter = ({
               </div>
             ))}
           </UploadImgArea>
-          <PostImgButton onClick={handleFileButton}></PostImgButton>
+          <PostImgButton onClick={handleFileButton} aria-label = "이미지 선택 버튼"></PostImgButton>
         </>
       )}
     </>
