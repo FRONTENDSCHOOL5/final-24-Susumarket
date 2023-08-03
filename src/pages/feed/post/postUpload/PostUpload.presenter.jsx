@@ -61,6 +61,7 @@ const PostUploadUI = ({
           onChange={(e) => setText(e.target.value)}
           onInput={handleTextAreaHeight}
           rows="1"
+          aria-label = "게시글 입력칸"
         />
       </UploadMain>
       <PostImgLabel htmlFor="input-file"></PostImgLabel>
@@ -71,7 +72,7 @@ const PostUploadUI = ({
         ref={fileInputRef}
         onChange={handleFileUpload}
       />
-      <UploadImgArea>
+      <UploadImgArea aria-label = "선택된 이미지 프리뷰칸">
         <UploadImgAreaTitle className="a11y-hidden">
           이미지 업로드
         </UploadImgAreaTitle>
