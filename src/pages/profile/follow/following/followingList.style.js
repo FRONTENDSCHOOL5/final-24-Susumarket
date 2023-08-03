@@ -21,7 +21,7 @@ export const FollowingListLi = styled.li`
     background-color: #f5f5f5;
   }
   &:last-child {
-    margin-bottom: 90px;
+    /* margin-bottom: 90px; */
   }
 `;
 
