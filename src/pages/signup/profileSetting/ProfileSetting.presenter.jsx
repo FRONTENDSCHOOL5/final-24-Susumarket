@@ -44,6 +44,7 @@ const ProfileSettingUI = ({
           id="file-input"
           accept="image/*"
           onChange={handleImageChange}
+          aria-label = "프로필 사진 업로드"
         ></ImgInput>
 
         <UserInput inputId="registernickname" label="사용자 이름">
@@ -53,6 +54,7 @@ const ProfileSettingUI = ({
             placeholder="2~10자 이내여야 합니다."
             value={userName}
             onChange={handleUserNameChange}
+            aria-label = "사용자 이름 입력칸"
           ></DataInput>
           {userNameErrorMsg && <ErrorMessage>{userNameErrorMsg}</ErrorMessage>}
         </UserInput>
@@ -65,6 +67,7 @@ const ProfileSettingUI = ({
             value={nickName}
             onChange={handleNickNameChange}
             onBlur={handleNickNameBlur}
+            aria-label = "계정 아이디 입력칸"
           ></DataInput>
           {nickNameErrorMsg && <ErrorMessage>{nickNameErrorMsg}</ErrorMessage>}
         </UserInput>
@@ -76,6 +79,7 @@ const ProfileSettingUI = ({
             placeholder="자신과 판매할 상품에 대해 소개해 주세요!"
             value={intro}
             onChange={handleIntroChange}
+            aria-label = "소개 입력칸"
           ></DataInput>
         </UserInput>
 
@@ -85,6 +89,7 @@ const ProfileSettingUI = ({
             !isFormValid() || nickNameErrorMsg === "이미 가입된 계정ID 입니다."
           }
           onClick={handleSubmit}
+          aria-label = "수수마켓 시작하기 버튼"
         >
           수수마켓 시작하기
         </ProfileButton>

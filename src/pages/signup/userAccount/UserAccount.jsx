@@ -107,6 +107,7 @@ export default function UserAccount() {
             value={email}
             onChange={handleEmailChange}
             onBlur={handleEmailBlur}
+            aria-label = "이메일 주소 입력칸"
           ></DataInput>
           {emailErrorMsg && <ErrorMessage>{emailErrorMsg}</ErrorMessage>}
         </UserInput>
@@ -118,6 +119,7 @@ export default function UserAccount() {
           placeholder="비밀번호를 설정해 주세요."
           value={password}
           onChange={handlePasswordChange}
+          aria-label = "비밀번호 입력칸"
         ></DataInput>
         {passwordMsg && <ErrorMessage>{passwordMsg}</ErrorMessage>}
         <SignupButton
@@ -127,6 +129,7 @@ export default function UserAccount() {
             emailErrorMsg === "이미 가입된 이메일 주소 입니다."
           }
           onClick={handleSubmit}
+          aria-label = "다음 버튼"
         >
           다음
         </SignupButton>
