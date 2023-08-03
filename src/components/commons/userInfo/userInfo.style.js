@@ -24,8 +24,8 @@ export const UserIdWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
-  /* width: calc(100% - 120px); */
-  max-width: 220px;
+  width: calc(100% - 120px);
+  /* max-width: 220px; */
   flex-grow: 1;
 `;
 
