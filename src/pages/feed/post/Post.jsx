@@ -21,7 +21,7 @@ export default function Post() {
   const settingPostModalProps = useCallback((modalProps) => {
     setPostModalProps(modalProps);
     setIsOpenPostModal(true);
-  },[])
+  }, []);
 
   // postModal 창에 버튼을 누를경우 confirm 모달창의 props를 넘겨줌
   function onClickButton(confirmMessage, submitMessage, handleSubmit) {
