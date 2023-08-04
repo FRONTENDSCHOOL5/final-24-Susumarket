@@ -10,10 +10,17 @@ const Button = styled.button`
     width: 56px;
     height: 28px;
     border-radius: 26px;
-    &:active {
+    /* &:active {
       background-color: var(--color-primary);
       color: #fff;
       transition: all 0.5s;
+    } */
+    @media (hover: hover) {
+      :hover {
+        transition: all 0.3s;
+        background: var(--color-sub);
+        color: #fff;
+      }
     }
   }
 
@@ -31,10 +38,17 @@ const Button = styled.button`
     width: 120px;
     height: 34px;
     border-radius: 30px;
-    &:active {
+    /* &:active {
       background-color: var(--color-primary);
       color: #fff;
-      transition: all 0.5s;
+      transition: all 0.3s;
+    } */
+    @media (hover: hover) {
+      :hover {
+        transition: all 0.3s;
+        background: var(--color-sub);
+        color: #fff;
+      }
     }
   }
 
