@@ -1,29 +1,35 @@
 import React, { useEffect, useState } from "react";
+import { Img } from "./progressiveImg.style";
 import { useInView } from "react-intersection-observer";
-import { Img } from "./progressiveImg.styles";
 
-export default function ProgressiveImg({ placeholderSrc, src, ...props }) {
-  const [imgSrc, setImgSrc] = useState("");
-  const [isLazy, setIsLazy] = useState(true);
+export default function ProgressiveImg({
+  placeholderSrc,
+  src,
+  ...props
+}) {
+   // 이미지 src를 관리
+  const [imgSrc, setImgSrc] = useState(placeholderSrc || src);
+  // 현재 로딩이 상태
+  const [isLoading, setIsLoading] = useState(true);
   const { ref, inView } = useInView();
-  const customClass = isLazy ? "loading" : "loaded";
   useEffect(() => {
-    if (inView && imgSrc === "") {
-      console.log(imgSrc);
+     // 이미지가 화면에서 보이고, imgSrc가 placholder이미지 일때 이미지를 받아옴
+    if (inView && imgSrc === placeholderSrc) {
       const img = new Image();
       img.src = src;
       img.onload = () => {
         setImgSrc(src);
-        setIsLazy(false);
+        setIsLoading(false);
       };
     }
   }, [src, inView]);
 
   return (
     <Img
-      {...props}
-      src={imgSrc}
-      className={customClass}
+      {...{ src: imgSrc, ...props }}
+      isLoading={isLoading}
+       // 로딩 상태일 때 blur효과를 주기위해 사용
+      className={isLoading ? "loading" : "loaded"}
       onError={(e) => (e.target.src = placeholderSrc)}
       ref={ref}
     />
