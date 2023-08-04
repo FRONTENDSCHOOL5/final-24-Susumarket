@@ -10,6 +10,7 @@ export const MenuBarWrapper = styled.div`
   font-weight: 400;
   border-top: 1px solid #dbdbdb;
   background-color: #fff;
+  z-index: 999;
 `;
 
 export const MenuBarUl = styled.ul`
