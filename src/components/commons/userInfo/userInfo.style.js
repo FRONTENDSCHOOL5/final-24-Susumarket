@@ -8,6 +8,7 @@ export const UserProfileLink = styled.div`
   align-items: center;
   margin-bottom: 12px;
   cursor: pointer;
+  width: 280px;
 `;
 
 export const UserProfileImg = styled.img`
@@ -24,6 +25,7 @@ export const UserIdWrapper = styled.div`
   flex-direction: column;
   gap: 5px;
   width: calc(100% - 120px);
+  /* max-width: 220px; */
   flex-grow: 1;
 `;
 

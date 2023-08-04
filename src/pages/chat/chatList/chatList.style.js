@@ -5,6 +5,7 @@ export const ChatListTitle = styled.h1``;
 export const ChatListUl = styled.ul`
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 12px;
   padding: 24px 16px;
   position: relative;

@@ -1,64 +1,44 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FollowingWrapper } from "./following.style";
 import FollowingList from "./FollowingList";
 import { useParams } from "react-router-dom";
-import { FollowingListUl } from "./followingList.style";
-import { followingAPI } from "../../../../API/profileAPI";
+import { FollowingListUl, FollowingTitle } from "./followingList.style";
+import { followingPageAPI } from "../../../../API/profileAPI";
 import MenuBar from "../../../../components/commons/menuBar/MenuBar";
 import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHeader";
 import TopButton from "../../../../components/commons/topButton/TopButton";
 import Loading from "../../../../components/commons/loading/Loading";
+import { useInView } from "react-intersection-observer";
 
 export default function Following() {
   const [followingData, setFollowingData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { userId } = useParams();
+  const [ref, inView] = useInView();
   const limit = 5;
   const [skip, setSkip] = useState(0);
   const [hasMore, setHasMore] = useState(true);
 
-  // 팔로잉 데이터 호출
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true);
-        const data = await followingAPI(userId, limit, skip);
-        if (skip === 0) {
-          setFollowingData(data);
-        } else {
-          setFollowingData((prevData) => [...prevData, ...data]);
-        }
-        setHasMore(data.length === limit);
-        setIsLoading(false);
-      } catch (error) {
-        console.error(
-          "팔로워 데이터를 가져오는 중 오류가 발생했습니다:",
-          error,
-        );
-        setIsLoading(false);
-      }
-    };
-    fetchData();
-  }, [userId, skip]);
-
-  // 스크롤 이벤트 핸들러
-  const handleScroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop ===
-      document.documentElement.offsetHeight
-    ) {
-      if (!isLoading && hasMore) {
-        setSkip((prevSkip) => prevSkip + limit);
-      }
+  const fetchFollowingData = useCallback(async () => {
+    try {
+      const data = await followingPageAPI(userId);
+      setIsLoading(false);
+      setFollowingData((prevData) => [...prevData, ...data]); // 기존 데이터와 합침
+      setHasMore(data.length === limit);
+      setSkip((prev) => prev + limit);
+    } catch (error) {
+      console.error("팔로워 데이터를 가져오는 중 오류가 발생했습니다:", error);
     }
-  };
+  }, [skip]);
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [handleScroll]);
+    if (skip === 0) {
+      fetchFollowingData();
+    }
+    if (hasMore && inView) {
+      fetchFollowingData();
+    }
+  }, [inView]);
 
   return (
     <>
@@ -73,6 +53,7 @@ export default function Following() {
         <Loading />
       ) : (
         <FollowingWrapper>
+          <FollowingTitle className="a11y-hidden">팔로잉리스트</FollowingTitle>
           <FollowingListUl>
             {followingData.map((following) => {
               return (
@@ -83,6 +64,7 @@ export default function Following() {
                 />
               );
             })}
+            <div ref={ref}></div>
           </FollowingListUl>
         </FollowingWrapper>
       )}
