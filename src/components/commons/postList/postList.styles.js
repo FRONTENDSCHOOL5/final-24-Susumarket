@@ -58,7 +58,6 @@ export const PostLi = styled.li`
   padding-bottom: 24px;
 `;
 
-
 export const PostContents = styled.div``;
 
 export const PostText = styled.p`
@@ -259,4 +258,10 @@ export const Content = styled.div`
   font-size: 15px;
   color: #767676;
   margin: 15px 0px;
+`;
+
+export const LoadingWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 110px);
 `;
