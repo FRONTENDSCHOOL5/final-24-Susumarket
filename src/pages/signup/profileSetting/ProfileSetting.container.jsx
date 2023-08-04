@@ -1,26 +1,13 @@
-import React, { useState } from "react";
-import UserInput from "../../../components/commons/dataInput/UserInput";
-import DataInput from "../../../components/commons/dataInput/DataInput";
+import React, { useState, useCallback } from "react";
 import defaultimg from "../../../img/ProfileImg.svg";
-import uploadfile from "../../../img/upload-file.svg";
 import { useLocation } from "react-router-dom";
-import ErrorMessage from "../../../components/commons/errorMessage/ErrorMessage";
 import { useNavigate } from "react-router-dom";
-import {
-  ProfileContainer,
-  ProfileForm,
-  Title,
-  Subtitle,
-  ProfileButton,
-  ImgLabel,
-  ImgInput,
-  Img,
-} from "./profileSetting.style";
 import { accountValidationAPI } from "../../../API/validationAPI";
 import { signupAPI } from "../../../API/signupAPI";
 import { imgUploadAPI } from "../../../API/imgUploadAPI";
+import ProfileSettingUI from "./ProfileSetting.presenter";
 
-export default function ProfileSetting() {
+const ProfileSettingContainer = () => {
   const [profileImage, setProfileImage] = useState(defaultimg);
   const [selectedImage, setSelectedImage] = useState(null);
 
@@ -37,7 +24,7 @@ export default function ProfileSetting() {
   // 이미지 미리보기
   // 이미지를 변경 시 변경한 이미지 대로 출력
   // 이미지를 변경하지 않으면 default image인 수수마켓 이미지가 출력되도록 함
-  const handleImageChange = (e) => {
+  const handleImageChange = useCallback((e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
 
@@ -53,10 +40,9 @@ export default function ProfileSetting() {
       setProfileImage(defaultimg);
       setSelectedImage(null);
     }
-  };
+  }, []);
 
-  // api 이미지
-  const uploadProfileImage = async (file) => {
+  const uploadProfileImage = useCallback(async (file) => {
     try {
       const formData = new FormData();
       formData.append("image", file);
@@ -68,28 +54,31 @@ export default function ProfileSetting() {
       console.error(error);
       return null;
     }
-  };
+  }, []);
 
   // 계정 id 유효성 검사
-  const validateNickName = (nickName) => {
+  const validateNickName = useCallback((nickName) => {
     const nickNamePattern = /^[a-zA-Z0-9._]+$/;
     return nickNamePattern.test(nickName);
-  };
+  }, []);
 
   // 계정 id 에러 메시지 출력, 영문 숫자 밑줄 마침표가 아닌 다른 문자 입력 시 에러 메시지 출력
-  const handleNickNameChange = (e) => {
-    const value = e.target.value;
-    setNickName(value);
+  const handleNickNameChange = useCallback(
+    (e) => {
+      const value = e.target.value;
+      setNickName(value);
 
-    if (!validateNickName(value)) {
-      setNickNameErrorMsg("*영문, 숫자 밑줄 및 마침표만 사용할 수 있습니다.");
-    } else {
-      setNickNameErrorMsg("");
-    }
-  };
+      if (!validateNickName(value)) {
+        setNickNameErrorMsg("*영문, 숫자 밑줄 및 마침표만 사용할 수 있습니다.");
+      } else {
+        setNickNameErrorMsg("");
+      }
+    },
+    [validateNickName],
+  );
 
   // 이미 가입된 계정id의 경우 input에서 focus가 벗어나면 가입된 계정id라는 에러 메시지를 출력하도록 함함
-  const handleNickNameBlur = async () => {
+  const handleNickNameBlur = useCallback(async () => {
     try {
       const data = await accountValidationAPI({
         user: {
@@ -104,10 +93,10 @@ export default function ProfileSetting() {
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [nickName]);
 
   // 사용자 이름이 2~10자가 아닌 경우 에러 메시지를 출력하도록 함
-  const handleUserNameChange = (e) => {
+  const handleUserNameChange = useCallback((e) => {
     const newUserName = e.target.value;
     setUserName(newUserName);
 
@@ -116,15 +105,15 @@ export default function ProfileSetting() {
     } else {
       setUserNameErrorMsg("");
     }
-  };
+  }, []);
 
   // 소개란에 입력 받은 값을 상태 관리. 입력이 필수 사항은 아님
-  const handleIntroChange = (e) => {
+  const handleIntroChange = useCallback((e) => {
     const value = e.target.value;
     setIntro(value);
-  };
+  }, []);
 
-  // form이 유효하도록 하는 함수, 계정 id 코드의 경우 return 내 코드에 추가가
+  // form이 유효하도록 하는 함수, 계정 id 코드의 경우 return 내 코드에 추가
   const isFormValid = () => {
     return (
       validateNickName(nickName) &&
@@ -164,64 +153,23 @@ export default function ProfileSetting() {
   };
 
   return (
-    <ProfileContainer>
-      <ProfileForm>
-        <Title>프로필 설정</Title>
-        <Subtitle>나중에 언제든지 변경할 수 있습니다.</Subtitle>
-        <ImgLabel htmlFor="file-input">
-          <Img className="defaultlion" src={profileImage} alt="기본 이미지" />
-          <Img className="uploadbtn" src={uploadfile} alt="업로드 버튼" />
-        </ImgLabel>
-        <ImgInput
-          type="file"
-          id="file-input"
-          accept="image/*"
-          onChange={handleImageChange}
-        ></ImgInput>
-
-        <UserInput inputId="registernickname" label="사용자 이름">
-          <DataInput
-            type="text"
-            id="registernickname"
-            placeholder="2~10자 이내여야 합니다."
-            value={userName}
-            onChange={handleUserNameChange}
-          ></DataInput>
-          {userNameErrorMsg && <ErrorMessage>{userNameErrorMsg}</ErrorMessage>}
-        </UserInput>
-
-        <UserInput inputId="registerid" label="계정 ID">
-          <DataInput
-            type="text"
-            id="registerid"
-            placeholder="영문, 숫자, 특수문자(.),(_)만 사용 가능합니다."
-            value={nickName}
-            onChange={handleNickNameChange}
-            onBlur={handleNickNameBlur}
-          ></DataInput>
-          {nickNameErrorMsg && <ErrorMessage>{nickNameErrorMsg}</ErrorMessage>}
-        </UserInput>
-
-        <UserInput inputId="registerintro" label="소개">
-          <DataInput
-            type="text"
-            id="registerintro"
-            placeholder="자신과 판매할 상품에 대해 소개해 주세요!"
-            value={intro}
-            onChange={handleIntroChange}
-          ></DataInput>
-        </UserInput>
-
-        <ProfileButton
-          className="large"
-          disabled={
-            !isFormValid() || nickNameErrorMsg === "이미 가입된 계정ID 입니다."
-          }
-          onClick={handleSubmit}
-        >
-          수수마켓 시작하기
-        </ProfileButton>
-      </ProfileForm>
-    </ProfileContainer>
+    <ProfileSettingUI
+      profileImage={profileImage}
+      userName={userName}
+      userNameErrorMsg={userNameErrorMsg}
+      nickName={nickName}
+      nickNameErrorMsg={nickNameErrorMsg}
+      intro={intro}
+      handleImageChange={handleImageChange}
+      handleNickNameChange={handleNickNameChange}
+      handleNickNameBlur={handleNickNameBlur}
+      handleUserNameChange={handleUserNameChange}
+      handleIntroChange={handleIntroChange}
+      isFormValid={isFormValid}
+      handleSubmit={handleSubmit}
+      onClickNextPage={onClickNextPage}
+    />
   );
-}
+};
+
+export default ProfileSettingContainer;

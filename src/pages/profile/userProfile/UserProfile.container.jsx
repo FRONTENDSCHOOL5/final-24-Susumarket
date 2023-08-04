@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ModalContext } from "../../../context/ModalContext";
 import { UserContext } from "../../../context/UserContext";
@@ -34,27 +34,25 @@ export default function UserProfile() {
   const myProfile = useAuth(null);
 
   // post 모달창 props 설정 및 열기
-  function settingPostModalProps(modalProps) {
+  const settingPostModalProps = (modalProps) => {
     setPostModalProps(modalProps);
     setIsOpenPostModal(true);
   }
 
   // postModal 창에 버튼을 누를경우 confirm 모달창의 props를 넘겨줌
-  const onClickButton = useCallback(
+  const onClickButton = 
     (confirmMessage, submitMessage, handleSubmit) => {
       setConfirmProps({ confirmMessage, submitMessage, handleSubmit });
       setIsOpenConfirmModal(true);
-    },
-    [],
-  );
-
+    }
+  
   // 모달창을 닫는 함수
-  const closeModal = useCallback(() => {
+  const closeModal = () => {
     setIsOpenConfirmModal(false);
     setIsOpenPostModal(false);
-  }, []);
+  }
 
-  const fecthUserDate = useCallback(async () => {
+  const fecthUserDate = async () => {
     try {
       // accountname params가 존재할때 와 존재하지 않을때를 분기처리해줌
       // accountname이 존재할 시 accountname과 일치하는 유저 프로필을 불러옴
@@ -71,7 +69,7 @@ export default function UserProfile() {
     } catch (error) {
       setIsInvalidProfile(true);
     }
-  }, [myProfile, accountname]);
+  };
 
   // 유저 정보가 있을 경우에만 유저 데이터를 받아옴
   useEffect(() => {

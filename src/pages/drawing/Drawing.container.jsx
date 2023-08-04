@@ -71,37 +71,37 @@ export default function Drawing() {
   }, [ctx, isFilling, isPainting]);
 
   // 마우스 클릭이 있는 경우 그림을 그리게 해줌
-  const startPainting = useCallback(() => {
+  const startPainting = () => {
     setIsPainting(true);
-  }, []);
+  };
 
   // 마우스 클릭 떼는 경우 연필을 움직이게끔만
-  const cancelPainting = useCallback(() => {
+  const cancelPainting = () => {
     setIsPainting(false);
-  }, []);
+  }
 
   //////// 그림 그리는 선 굵기 조절 //////
-  const onLineWidthChange = useCallback((e) => {
+  const onLineWidthChange = (e) => {
     setLineWidth(e.target.value);
     ctx.lineWidth = e.target.value;
-  }, [ctx]);
+  }
 
   /////// 선 색상 직접 선택해 조절 /////////
-  const onColorChange = useCallback((e) => {
+  const onColorChange = (e) => {
     setColorCode(e.target.value);
     ctx.strokeStyle = e.target.value;
     ctx.fillStyle = e.target.value;
-  }, [ctx]);
+  };
 
   /////// 선 색상 정해진 색상 중 클릭해서 조절 //////////
-  const onColorClick = useCallback((colorValue) => {
+  const onColorClick = (colorValue) => {
     ctx.strokeStyle = colorValue;
     ctx.fillStyle = colorValue;
     setColorCode(colorValue);
-  }, [ctx]);
+  };
 
   /////// 채우기인지 그리기인지
-  const onModeClick = useCallback(() => {
+  const onModeClick = () => {
     // 그리기 모드
     if (isFilling) {
       setIsFilling(false);
@@ -110,36 +110,36 @@ export default function Drawing() {
     else {
       setIsFilling(true);
     }
-  }, [isFilling]);
+  };
 
-  const onCanvasClick = useCallback(() => {
+  const onCanvasClick = () => {
     if (isFilling) {
       ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     }
-  }, [ctx, isFilling]);
+  };
 
-  const onDestroyClick = useCallback(() => {
+  const onDestroyClick = () => {
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     ctx.fillStyle = colorCode;
-  }, [ctx, colorCode]);
+  };
 
-  const onEraserClick = useCallback(() => {
+  const onEraserClick = () => {
     ctx.strokeStyle = "white";
     setIsFilling(false);
     setColorCode("#FFFFFF");
-  }, [ctx]);
+  };
 
-  const onSaveClick = useCallback(() => {
+  const onSaveClick = () => {
     // 이미지 데이터 url 불러오기
     const url = canversRef.current.toDataURL();
     const a = document.createElement("a");
     a.href = url;
     a.download = "myDrawing.png";
     a.click();
-  }, []);
+  };
 
-  const onDoubleClick = useCallback(({ nativeEvent }) => {
+  const onDoubleClick = ({ nativeEvent }) => {
     const { offsetX, offsetY } = nativeEvent;
     if (text !== "") {
       ctx.save();
@@ -148,9 +148,9 @@ export default function Drawing() {
       ctx.fillText(text, offsetX, offsetY);
       ctx.restore();
     }
-  }, [ctx, text]);
+  };
 
-  const onFileChange = useCallback((event) => {
+  const onFileChange = (event) => {
     const file = event.target.files[0];
     const url = URL.createObjectURL(file);
     const image = new Image(); //html의 <img src=""/>와 동일
@@ -158,7 +158,7 @@ export default function Drawing() {
     image.onload = function () {
       ctx.drawImage(image, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     };
-  }, [ctx]);
+  };
 
   return (
     <DrawingUI

@@ -48,8 +48,7 @@ export default function ProfileEditUI({
             />
           </ProfileEditLabel>
 
-          <ProfileEditImgRestBtn type="button" onClick={reset}>
-            <span className="a11y-hidden">이미지 초기화</span>
+          <ProfileEditImgRestBtn type="button" onClick={reset} area-label="이미지 초기화">
           </ProfileEditImgRestBtn>
 
           <ProfileEditUploadInput

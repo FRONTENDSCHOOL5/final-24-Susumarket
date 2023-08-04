@@ -34,13 +34,19 @@ export default function NewTopHeader({
   searchInputValue,
   onChangeKeyword,
   searchInputId,
-  url
+  url,
 }) {
   const navigate = useNavigate();
   const setLeft = () => {
     switch (left) {
       case "back":
-        return <TopHeaderBackBtn type="button" onClick={() => navigate(url||-1)} />;
+        return (
+          <TopHeaderBackBtn
+            type="button"
+            onClick={() => navigate(url || -1)}
+            aria-label="뒤로가기"
+          />
+        );
       case "text":
         return <TopHeaderText>{text}</TopHeaderText>;
       default:
@@ -64,6 +70,7 @@ export default function NewTopHeader({
           <TopHeaderSearchBtn
             type="button"
             onClick={() => navigate("/search")}
+            aria-label="검색"
           />
         );
       case "searchInput":
@@ -84,7 +91,13 @@ export default function NewTopHeader({
           </>
         );
       case "more":
-        return <TopHeaderMoreBtn type="button" onClick={onClickButton} />;
+        return (
+          <TopHeaderMoreBtn
+            type="button"
+            onClick={onClickButton}
+            aria-label="더 보기"
+          />
+        );
       case "upload":
         return (
           <Button

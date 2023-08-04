@@ -11,13 +11,13 @@ import Splash from "../pages/splash/Splash";
 import Login from "../pages/login/Login";
 import LoginEmail from "../pages/login/loginEmail/LoginEmail";
 import UserAccount from "../pages/signup/userAccount/UserAccount";
-import ProfileSetting from "../pages/signup/profileSetting/ProfileSetting";
+import ProfileSettingContainer from "../pages/signup/profileSetting/ProfileSetting.container";
 
 import Search from "../pages/feed/search/Search";
 import Post from "../pages/feed/post/Post";
 import PostDetail from "../pages/feed/post/postDetail/PostDetail";
-import PostEdit from "../pages/feed/post/postEdit/PostEdit";
-import PostUpload from "../pages/feed/post/postUpload/PostUpload";
+import PostEditContainer from "../pages/feed/post/postEdit/PostEdit.container";
+import PostUploadContainer from "../pages/feed/post/postUpload/PostUpload.container";
 import ProductDetail from "../pages/feed/product/productDetail/ProductDetail";
 import ProductEdit from "../pages/feed/product/productEdit/ProductEdit";
 import ProductUpload from "../pages/feed/product/productUpload/ProductUpload";
@@ -54,7 +54,7 @@ export default function Router() {
         />
         <Route
           path="/signup/profileSetting/"
-          element={accessToken ? <Navigate to={"/post"} /> : <ProfileSetting />}
+          element={accessToken ? <Navigate to={"/post"} /> : <ProfileSettingContainer />}
         />
 
         <Route
@@ -73,8 +73,8 @@ export default function Router() {
         >
           <Route index element={<Post />} />
           <Route path=":postId/" element={<PostDetail />} />
-          <Route path=":postId/edit" element={<PostEdit />} />
-          <Route path="upload" element={<PostUpload />} />
+          <Route path=":postId/edit" element={<PostEditContainer />} />
+          <Route path="upload" element={<PostUploadContainer />} />
         </Route>
 
         <Route
