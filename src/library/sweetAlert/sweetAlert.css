@@ -17,6 +17,7 @@
   word-break: keep-all;
   width: 100%;
   margin-top: 10px;
+  line-height: 1.2;
 }
 .swal2-toast {
   width: calc(100% - 30px) !important;;
@@ -49,17 +50,4 @@
   }
 }
 
-@media screen and (max-width: 400px) {
-  .swal2-toast #swal2-title {
-    font-size: 12px !important;
-  }
-  .swal2-icon {
-    width: 1.5em !important;
-    height: 1.5em !important;
-    min-width: 1.5em !important;
-    margin: 0 !important;
-  }
-  .swal2-icon-content {
-    font-size: 1.5em !important;
-  }
-}
+

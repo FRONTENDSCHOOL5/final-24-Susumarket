@@ -112,7 +112,7 @@ export default function PostList({
         </PostDisplayBtns>
       )}
       {isNonePostData || !postData.length ? (
-        isLoading ? (
+        isLoading&&isFeed ? (
           <Loading />
         ) : (
           <>
