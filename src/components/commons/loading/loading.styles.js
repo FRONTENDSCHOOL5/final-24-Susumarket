@@ -4,7 +4,7 @@ export const Background = styled.div`
   position: relative;
   height: calc(100vh - 115px);
   background: #ffffffb7;
-  z-index: 999;
+  z-index: 990;
 `;
 
 export const LoadingImg = styled.img`
