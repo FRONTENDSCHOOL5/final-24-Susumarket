@@ -86,9 +86,9 @@ export default function PostList({
     }
   }, [inVeiw, skip]);
 
-  useEffect(()=>{
+  useEffect(() => {
     setSkip(0);
-  },[pathname])
+  }, [pathname]);
 
   return (
     // isFeed를 통해 profile 페이지에서 출력될 요소와 feed 페이지에서 출력될 요소를 구분
@@ -112,8 +112,12 @@ export default function PostList({
         </PostDisplayBtns>
       )}
       {isNonePostData || !postData.length ? (
-        isLoading&&isFeed ? (
-          <Loading />
+        isLoading ? (
+          isFeed ? (
+            <Loading />
+          ) : (
+            <></>
+          )
         ) : (
           <>
             {!isFeed && (
