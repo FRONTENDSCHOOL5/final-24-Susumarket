@@ -2,14 +2,14 @@ import styled from "styled-components";
 
 export const BottomSheetModal = styled.div`
   position: fixed;
-  bottom: 0;
+  bottom: 62px;
   left: 0;
   width: 100%;
   padding-top: 36px;
   background-color: #ffffff;
   box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px 10px 0 0;
-  z-index: 999;
+  z-index: 990;
   transition: transform 0.3s ease-in-out;
   transform: ${(props) =>
     props.isOpen ? "translateY(0)" : "translateY(100%)"};
@@ -25,6 +25,9 @@ export const BottomSheetModal = styled.div`
     height: 4px;
     border-radius: 5px;
     background-color: #bdbdbd;
+  }
+  :focus {
+    outline: none;
   }
 `;
 export const BottomSheetUl = styled.ul`
@@ -53,6 +56,11 @@ export const BottomSheetBtn = styled.button`
     background-color: var(--color-sub);
     color: #fff;
   }
+  :focus {
+    outline: none;
+    background-color: var(--color-sub);
+    color: #fff;
+  }
 `;
 export const BottomSheetBackdrop = styled.div`
   position: fixed;
@@ -61,6 +69,6 @@ export const BottomSheetBackdrop = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 998;
+  z-index: 980;
   display: ${(props) => (props.isOpen ? "block" : "none")};
 `;
