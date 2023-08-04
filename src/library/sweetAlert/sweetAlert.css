@@ -1,0 +1,65 @@
+.swal2-modal {
+  display: inline-block;
+  width: calc(100% - 30px) !important;
+  max-width: 360px;
+  margin-top: 30px;
+  padding-bottom: 10px;
+}
+.swal2-toast #swal2-title {
+  font-size: 14px;
+  line-height: 1.5;
+  word-break: keep-all;
+  width: 100%;
+}
+#swal2-title {
+  display: inline-block;
+  font-size: 16px;
+  word-break: keep-all;
+  width: 100%;
+  margin-top: 10px;
+}
+.swal2-toast {
+  width: calc(100% - 30px) !important;;
+  display: inline-block;
+  margin-top: 30px;
+}
+
+.swal2-actions {
+  display: block !important;
+  text-align: right;
+  margin-left: auto;
+  width: 100%;
+  padding-right: 20px;
+}
+
+.swal2-styled[type="button"] {
+  font-size: 12px;
+  display: block;
+  margin-left: auto;
+  width: auto;
+  margin-left: 5px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 2;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .swal2-toast #swal2-title {
+    font-size: 12px !important;
+  }
+  .swal2-icon {
+    width: 1.5em !important;
+    height: 1.5em !important;
+    min-width: 1.5em !important;
+    margin: 0 !important;
+  }
+  .swal2-icon-content {
+    font-size: 1.5em !important;
+  }
+}
