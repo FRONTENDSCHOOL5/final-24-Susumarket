@@ -33,7 +33,7 @@ export default function Post() {
   const closeModal = useCallback(() => {
     setIsOpenConfirmModal(false);
     setIsOpenPostModal(false);
-  }, []);
+  },[])
 
   return (
     <>
