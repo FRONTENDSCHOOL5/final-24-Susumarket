@@ -15,7 +15,7 @@ import {
   ChatRoomBtnSpan,
 } from "./chatRoom.style";
 import userImg from "../../../img/basic-profile.svg";
-import catImg from "../../../img/cat.jpg";
+import catImg from "../../../img/cat.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ModalContext } from "../../../context/ModalContext";
 import PostModal from "../../../components/commons/postModal/PostModal";
