@@ -13,13 +13,17 @@ function App() {
   const [isOpenPostModal, setIsOpenPostModal] = useState(false);
   const [isWebpSupported, setIsWebpSupported] = useState(false);
 
-  useEffect(() => {
-    detectWebpSupport();
-    if (document.body.classList.contains("webp")) {
+  const checkWebp = async () => {
+    const res = await detectWebpSupport();
+    if (res) {
       setIsWebpSupported(true);
     } else {
       setIsWebpSupported(false);
     }
+  };
+
+  useEffect(() => {
+    checkWebp();
   }, []);
 
   return (
@@ -31,7 +35,7 @@ function App() {
           setAccessToken,
         }}
       >
-        <WebpContext.Provider value={isWebpSupported}>
+        <WebpContext.Provider value={{ isWebpSupported }}>
           <ModalContext.Provider
             value={{
               isOpenConfirmModal,
