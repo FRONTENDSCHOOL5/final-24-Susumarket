@@ -19,17 +19,17 @@ export default function Following() {
   const [skip, setSkip] = useState(0);
   const [hasMore, setHasMore] = useState(true);
 
-  const fetchFollowingData = useCallback(async () => {
+  async function fetchFollowingData() {
     try {
       const data = await followingPageAPI(userId);
       setIsLoading(false);
-      setFollowingData((prevData) => [...prevData, ...data]); // 기존 데이터와 합침
+      setFollowingData((prevData) => [...prevData, ...data]);
       setHasMore(data.length === limit);
       setSkip((prev) => prev + limit);
     } catch (error) {
-      console.error("팔로워 데이터를 가져오는 중 오류가 발생했습니다:", error);
+      console.error("팔로워 데이터를 가져오는 중 오류가 발생했습니다.", error);
     }
-  }, [skip]);
+  }
 
   useEffect(() => {
     if (skip === 0) {
