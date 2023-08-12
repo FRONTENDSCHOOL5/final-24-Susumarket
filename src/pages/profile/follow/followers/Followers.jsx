@@ -8,7 +8,6 @@ import MenuBar from "../../../../components/commons/menuBar/MenuBar";
 import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHeader";
 import TopButton from "../../../../components/commons/topButton/TopButton";
 import Loading from "../../../../components/commons/loading/Loading";
-import { useCallback } from "react";
 import { useInView } from "react-intersection-observer";
 
 export default function Followers() {
@@ -16,7 +15,7 @@ export default function Followers() {
   const [isLoading, setIsLoading] = useState(true);
   const { userId } = useParams();
   const [ref, inView] = useInView();
-  const limit = 5;
+  let limit;
   const [skip, setSkip] = useState(0);
   const [hasMore, setHasMore] = useState(true);
 

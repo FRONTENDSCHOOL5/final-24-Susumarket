@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FollowingWrapper } from "./following.style";
 import FollowingList from "./FollowingList";
 import { useParams } from "react-router-dom";
@@ -15,7 +15,7 @@ export default function Following() {
   const [isLoading, setIsLoading] = useState(true);
   const { userId } = useParams();
   const [ref, inView] = useInView();
-  const limit = 5;
+  let limit;
   const [skip, setSkip] = useState(0);
   const [hasMore, setHasMore] = useState(true);
 
