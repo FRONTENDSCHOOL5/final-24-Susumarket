@@ -5,8 +5,8 @@ import DataInput from "../../../../components/commons/dataInput/DataInput";
 import ErrorMessage from "../../../../components/commons/errorMessage/ErrorMessage";
 import InvalidPage from "../../../../components/commons/inValidPage/InvaliPage";
 import { Container, Img, ImgInput, ImgLabel, ImgContainer, ImgTopLabel } from "./productEdit.style.js";
-import defaultimg from "../../../../img/ProfileImg.svg";
-import uploadfile from "../../../../img/upload-file.svg";
+import defaultimg from "../../../../img/webp/ProfileImg.webp";
+import uploadfile from "../../../../img/webp/upload-file.webp";
 import noImg from "../../../../img/no-image.png";
 
 export default function ProductEditPresenter({
