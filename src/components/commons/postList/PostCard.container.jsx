@@ -6,6 +6,7 @@ import { AccountContext } from "../../../context/AccountContext";
 import { postDeleteAPI, postReportAPI } from "../../../API/postAPI";
 import { likeAPI, unikeAPI } from "../../../API/likeAPI";
 import PostCardUI from "./PostCard.presenter";
+import { sweetToast } from "../../../library/sweetAlert/sweetAlert";
 
 export default function PostCard({
   onClickButton,
@@ -51,7 +52,7 @@ export default function PostCard({
   const onClickReportPost = async () => {
     try {
       await postReportAPI(post.id);
-      alert("신고가 완료 되었습니다.");
+      sweetToast("신고가 완료 되었습니다.", "warning");
     } catch (error) {
       if (error.response.data.message === "존재하지 않는 게시글입니다.") {
         setPostData((prev) => prev.filter((prev) => prev.id !== post.id));
@@ -70,7 +71,7 @@ export default function PostCard({
           ? post.author.accountname === userData.accountname
           : post.author.accountname === account
       ) {
-        alert("자신의 글을 좋아요 할 수 없습니다!");
+        sweetToast("자신의 글을 좋아요 할 수 없습니다!", "warning");
         return;
       }
       if (hearted) {
