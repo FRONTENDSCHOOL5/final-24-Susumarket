@@ -21,6 +21,12 @@ import postListIconOff from "../../../img/icon-post-list-off.svg";
 import postGalleryIconOn from "../../../img/icon-post-album-on.svg";
 import postGalleryIconOff from "../../../img/icon-post-album-off.svg";
 import PostNoneImgIcon from "../../../img/symbol-logo-404.svg";
+import lionImageWebp from "../../../img/webp/symbol-logo-gray.webp";
+import postListIconOnWebp from "../../../img/webp/icon-post-list-on.webp";
+import postListIconOffWebp from "../../../img/webp/icon-post-list-off.webp";
+import postGalleryIconOnWebp from "../../../img/webp/icon-post-album-on.webp";
+import postGalleryIconOffWebp from "../../../img/webp/icon-post-album-off.webp";
+import postNoneImgIconWebp from "../../../img/webp/symbol-logo-404.webp";
 import PostGalleries from "./postGalleries";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loading from "../../commons/loading/Loading";
@@ -28,6 +34,7 @@ import { useInView } from "react-intersection-observer";
 import PostCard from "./PostCard.container";
 import Button from "../button/Button";
 import { myPostPageAPI, postFeedPageAPI } from "../../../API/postAPI";
+import { resolveWebp } from "../../../library/checkWebpSupport";
 
 export default function PostList({
   onClickButton,
@@ -98,13 +105,21 @@ export default function PostList({
         <PostDisplayBtns>
           <PostDisplayList onClick={() => setIsGallery(false)}>
             <PostDisplayListImg
-              src={isGallery ? postListIconOff : postListIconOn}
+              src={
+                isGallery
+                  ? resolveWebp(postListIconOffWebp, postListIconOff)
+                  : resolveWebp(postListIconOnWebp, postListIconOn)
+              }
               alt="목록 보기"
             />
           </PostDisplayList>
           <PostDisplayGallery>
             <PostDisplayGalleryImg
-              src={isGallery ? postGalleryIconOn : postGalleryIconOff}
+              src={
+                isGallery
+                  ? resolveWebp(postGalleryIconOnWebp, postGalleryIconOn)
+                  : resolveWebp(postGalleryIconOffWebp, postGalleryIconOff)
+              }
               alt="갤러리 보기"
               onClick={() => setIsGallery(true)}
             />
@@ -122,13 +137,13 @@ export default function PostList({
           <>
             {!isFeed && (
               <PostNoneWrapper>
-                <PostNoneImg src={PostNoneImgIcon} alt="게시물 없음 아이콘" />
+                <PostNoneImg src={resolveWebp(postNoneImgIconWebp, PostNoneImgIcon)} alt="게시물 없음 아이콘" />
                 <PostNoneText>현재 등록된 게시물이 없어요.</PostNoneText>
               </PostNoneWrapper>
             )}
             {isFeed && (
               <UserSearchWrapper>
-                <Img src={lionImage} alt="유저 검색 이미지" />
+                <Img src={resolveWebp(lionImageWebp, lionImage)} alt="유저 검색 이미지" />
                 <Content>유저를 검색해 팔로우 해보세요!</Content>
                 <Button className="ms" onClick={() => navigate("/search")}>
                   검색하기

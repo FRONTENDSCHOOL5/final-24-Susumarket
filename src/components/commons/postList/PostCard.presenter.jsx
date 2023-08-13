@@ -1,13 +1,17 @@
 import React from "react";
-import noImg from "../../../img/no-image.png";
 import DateFormate from "../../commons/dateFormat/DateFormat";
 import heartIcon from "../../../img/icon-heart.svg";
-import heartFillIcon from "../../../img/icon-heart-fill.svg";
+import heartIconFill from "../../../img/icon-heart-fill.svg";
 import commentIcon from "../../../img/icon-message-circle.svg";
+import placeholderImg from "../../../img/placeholderImg.svg";
+import heartIconWebp from "../../../img/webp/icon-heart.webp";
+import heartIconFillWebp from "../../../img/webp/icon-heart-fill.webp";
+import commentIconWebp from "../../../img/webp/icon-message-circle.webp";
+import placeholderImgWebp from "../../../img/webp/placeholderImg.webp";
+
 import {
   PostContents,
   PostButtonSpan,
-  PostImg,
   PostImgBtn,
   PostImgBtnLi,
   PostImgBtnUl,
@@ -25,6 +29,8 @@ import {
   PostCommentCount,
 } from "./postList.styles";
 import UserInfo from "../userInfo/UserInfo";
+import ProgressiveImg from "../progressiveImg/ProgressiveImg";
+import { resolveWebp } from "../../../library/checkWebpSupport";
 export default function PostCardUI({
   post,
   onClickMore,
@@ -52,10 +58,19 @@ export default function PostCardUI({
               {imgArray.map((image, idx) => {
                 return (
                   <PostImgLi key={image + idx}>
-                    <PostImg
+                    <ProgressiveImg
+                      style={{
+                        borderRadius: "10px",
+                        marginBottom: "16px",
+                        width: "100%",
+                        maxWidth: "304px",
+                        height: "100%",
+                        objectFit: "cover",
+                        verticalAlign: "top",
+                      }}
+                      placeholderSrc={placeholderImgWebp}
                       src={image}
                       alt="포스트 이미지"
-                      onError={(e) => (e.target.src = noImg)}
                     />
                   </PostImgLi>
                 );
@@ -86,13 +101,20 @@ export default function PostCardUI({
         <PostLikeCommentBtns>
           <PostLikeBtn onClick={onClickLike}>
             <PostLikeBtnIcon
-              src={hearted ? heartFillIcon : heartIcon}
+              src={
+                hearted
+                  ? resolveWebp( heartIconFillWebp, heartIconFill)
+                  : resolveWebp(heartIconWebp, heartIcon)
+              }
               alt="좋아요"
             />
             <PostHeartCount>{heartCount}</PostHeartCount>
           </PostLikeBtn>
           <PostCommentLink to={`/post/${post.id}`}>
-            <PostCommentLinkIcon src={commentIcon} alt="댓글" />
+            <PostCommentLinkIcon
+              src={resolveWebp(commentIconWebp, commentIcon)}
+              alt="댓글"
+            />
             <PostCommentCount>{post.commentCount}</PostCommentCount>
           </PostCommentLink>
         </PostLikeCommentBtns>
