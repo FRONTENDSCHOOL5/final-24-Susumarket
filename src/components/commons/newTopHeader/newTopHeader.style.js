@@ -1,8 +1,10 @@
 import styled from "styled-components";
-
 import backIcon from "../../../img/icon-arrow-left.svg";
 import searchIcon from "../../../img/icon-search.svg";
 import moreIcon from "../../../img/icon-more-vertical.svg";
+import backIconWebp from "../../../img/webp/icon-arrow-left.webp";
+import searchIconWebp from "../../../img/webp/icon-search.webp";
+import moreIconWebp from "../../../img/webp/icon-more-vertical.webp";
 
 export const TopHeaderWrapper = styled.header`
   position: sticky;
@@ -36,19 +38,34 @@ export const TopHeaderText = styled.p`
 `;
 
 export const TopHeaderSearchBtn = styled.button`
-  background: url(${searchIcon}) no-repeat center / 24px 24px;
+  body.no-webp & {
+    background: url(${searchIcon}) no-repeat center / 24px 24px;
+  }
+  body.webp & {
+    background: url(${searchIconWebp}) no-repeat center / 24px 24px;
+  }
   width: 24px;
   height: 24px;
 `;
 
 export const TopHeaderBackBtn = styled.button`
-  background: url(${backIcon}) no-repeat center / 24px 24px;
+  body.no-webp & {
+    background: url(${backIcon}) no-repeat center / 24px 24px;
+  }
+  body.webp & {
+    background: url(${backIconWebp}) no-repeat center / 24px 24px;
+  }
   width: 24px;
   height: 24px;
 `;
 
 export const TopHeaderMoreBtn = styled.button`
-  background: url(${moreIcon}) no-repeat center / 24px 24px;
+  body.no-webp & {
+    background: url(${moreIcon}) no-repeat center / 24px 24px;
+  }
+  body.webp & {
+    background: url(${moreIconWebp}) no-repeat center / 24px 24px;
+  }
   width: 24px;
   height: 24px;
 `;
@@ -68,4 +85,4 @@ export const TopHeaderSearchInput = styled.input`
   }
 `;
 
-export const TopHeaderSearchLabel = styled.label``
+export const TopHeaderSearchLabel = styled.label``;
