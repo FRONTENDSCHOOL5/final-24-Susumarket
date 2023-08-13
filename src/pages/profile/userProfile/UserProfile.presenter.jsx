@@ -14,6 +14,8 @@ import ConfirmModal from "../../../components/commons/confirmModal/confirmModal"
 import TopButton from "../../../components/commons/topButton/TopButton";
 import MenuBar from "../../../components/commons/menuBar/MenuBar";
 import undefindImg from "../../../img/symbol-logo-404.svg";
+import undefindImgWebp from "../../../img/webp/symbol-logo-404.webp";
+import { resolveWebp } from "../../../library/checkWebpSupport";
 export default function UserProfileUI({
   settingPostModalProps,
   onClickButton,
@@ -60,7 +62,7 @@ export default function UserProfileUI({
       <UserProfileWrapper>
         {isInvalidProfile ? (
           <UserUndefinedWrapper>
-            <UserUndefinedImg src={undefindImg} alt="존재하지 않는 유저" />
+            <UserUndefinedImg src={resolveWebp(undefindImgWebp, undefindImg)} alt="존재하지 않는 유저" />
             <UserUndefinedText>유효하지 않은 프로필 입니다.</UserUndefinedText>
           </UserUndefinedWrapper>
         ) : (
