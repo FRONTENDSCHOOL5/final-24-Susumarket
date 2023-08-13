@@ -3,11 +3,9 @@ import DateFormate from "../../commons/dateFormat/DateFormat";
 import heartIcon from "../../../img/icon-heart.svg";
 import heartIconFill from "../../../img/icon-heart-fill.svg";
 import commentIcon from "../../../img/icon-message-circle.svg";
-import placeholderImg from "../../../img/placeholderImg.svg";
 import heartIconWebp from "../../../img/webp/icon-heart.webp";
 import heartIconFillWebp from "../../../img/webp/icon-heart-fill.webp";
 import commentIconWebp from "../../../img/webp/icon-message-circle.webp";
-import placeholderImgWebp from "../../../img/webp/placeholderImg.webp";
 
 import {
   PostContents,
@@ -68,7 +66,6 @@ export default function PostCardUI({
                         objectFit: "cover",
                         verticalAlign: "top",
                       }}
-                      placeholderSrc={placeholderImgWebp}
                       src={image}
                       alt="포스트 이미지"
                     />
@@ -103,7 +100,7 @@ export default function PostCardUI({
             <PostLikeBtnIcon
               src={
                 hearted
-                  ? resolveWebp( heartIconFillWebp, heartIconFill)
+                  ? resolveWebp(heartIconFillWebp, heartIconFill)
                   : resolveWebp(heartIconWebp, heartIcon)
               }
               alt="좋아요"
