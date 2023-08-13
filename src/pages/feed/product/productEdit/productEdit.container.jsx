@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useAuth from "../../../../hook/useAuth";
 import { productDetailAPI, productEditAPI } from "../../../../API/productAPI";
@@ -104,7 +104,7 @@ export default function ProductEdit() {
     }
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = useCallback((e) => {
     const file = e.target.files[0];
     const valid = imgValidation(file);
     if (!valid) return;
@@ -123,9 +123,9 @@ export default function ProductEdit() {
       setSelectedImage(null);
       setIsItemImage(false);
     }
-  };
+  }, [uploadProfileImage]);
 
-  const itemNameHandler = (e) => {
+  const itemNameHandler = useCallback((e) => {
     setItemName(e.target.value);
     if (itemName.length < 1 || itemName.length > 16) {
       setItemNameMessage("상품명은 2~15자 이내여야 합니다.");
@@ -134,9 +134,9 @@ export default function ProductEdit() {
       setItemNameMessage("");
       setIsItemName(true);
     }
-  };
+  }, [itemName]);
 
-  const priceHandler = (e) => {
+  const priceHandler = useCallback((e) => {
     const value = Number(e.target.value.toString().replaceAll(",", ""));
     if (Number.isNaN(value)) {
       alert("숫자를 입력하세요");
@@ -151,9 +151,9 @@ export default function ProductEdit() {
       setPriceMessage("");
       setIsPrice(true);
     }
-  };
+  }, [price]);
 
-  const linkHandler = (e) => {
+  const linkHandler = useCallback((e) => {
     setLink(e.target.value);
     if (link.length > 101) {
       setLinkMessage("상품설명을 100자 이내로 기입하세요");
@@ -162,7 +162,7 @@ export default function ProductEdit() {
       setLinkMessage("");
       setIsLink(true);
     }
-  };
+  }, [link]);
 
   useEffect(() => {
     if (
