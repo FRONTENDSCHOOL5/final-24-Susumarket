@@ -2,8 +2,8 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { productDetailAPI } from "../../../../API/productAPI";
 import ProductDetailPresenter from "./productDetail.presenter";
-import iconHeart from "../../../../img/icon-heart.svg";
-import iconHeartFill from "../../../../img/icon-heart-fill.svg";
+import iconHeart from "../../../../img/webp/icon-heart.webp";
+import iconHeartFill from "../../../../img/webp/icon-heart-fill.webp";
 
 export default function ProductDetail() {
   const [itemName, setItemName] = useState("");
