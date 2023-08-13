@@ -1,11 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {useEffect, useState } from "react";
 import { Img } from "./progressiveImg.styles";
 import { useInView } from "react-intersection-observer";
-import noImg from "../../../img/webp/no-image.webp";
+import noImg from "../../../img/no-image.svg";
+import noImgWebp from "../../../img/webp/no-image.webp";
 import { resolveWebp } from "../../../library/checkWebpSupport";
-import { WebpContext } from "../../../context/WebpContext";
-export default function ProgressiveImg({ placeholderSrc, src, ...props }) {
-  const { isWebpSupported } = useContext(WebpContext);
+import placeholderImg from "../../../img/placeholderImg.svg";
+import placeholderImgWebp from "../../../img/webp/placeholderImg.webp";
+
+export default function ProgressiveImg({ src, ...props }) {
+  const placeholderSrc = resolveWebp(placeholderImgWebp, placeholderImg);
   // 이미지 src를 관리
   const [imgSrc, setImgSrc] = useState(placeholderSrc || src);
   // 현재 로딩이 상태
@@ -22,7 +25,7 @@ export default function ProgressiveImg({ placeholderSrc, src, ...props }) {
       };
       img.onerror = () => {
         setIsLoading(false);
-        setImgSrc(resolveWebp(isWebpSupported, noImg, "svg"))
+        setImgSrc(resolveWebp(noImgWebp, noImg));
       };
     }
   }, [src, inView]);
@@ -30,7 +33,6 @@ export default function ProgressiveImg({ placeholderSrc, src, ...props }) {
   return (
     <Img
       {...{ src: imgSrc, ...props }}
-      isLoading={isLoading}
       // 로딩 상태일 때 blur효과를 주기위해 사용
       className={isLoading ? "loading" : "loaded"}
       ref={ref}
