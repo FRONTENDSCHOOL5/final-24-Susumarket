@@ -4,7 +4,7 @@ import ProductUploadPresenter from "./productUpload.presenter";
 import { uploadProductAPI } from "../../../../API/productAPI";
 import { imgUploadAPI } from "../../../../API/imgUploadAPI";
 import { imgValidation } from "../../../../library/imgValidation";
-import defaultimg from "../../../../img/ProfileImg.svg";
+import defaultimg from "../../../../img/webp/ProfileImg.webp";
 
 export default function ProductUpload() {
   const [profileImage, setProfileImage] = useState(defaultimg);
