@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import profileImg from "../../../img/ProfileImg.svg";
 import defaultProfileImg from "../../../img/ProfileImg.svg";
+import defaultProfileImgWebp from "../../../img/webp/ProfileImg.webp";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../../hook/useAuth";
 import { imgValidation } from "../../../library/imgValidation";
@@ -8,6 +8,7 @@ import { imgUploadAPI } from "../../../API/imgUploadAPI";
 import { accountValidationAPI } from "../../../API/validationAPI";
 import { profileEditAPI } from "../../../API/profileAPI";
 import ProfileEditUI from "./ProfileEdit.presenter";
+import { resolveWebp } from "../../../library/checkWebpSupport";
 export default function ProfileEdit() {
   const [imgPreviewURL, setImgPreviewURL] = useState(null);
   const [uploadFile, setUploadFile] = useState(null);
@@ -29,6 +30,10 @@ export default function ProfileEdit() {
   const usernameReg = /^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣]{2,10}$/;
   const accountnameReg = /^[a-zA-Z0-9._]+$/;
   const userData = useAuth();
+  const defaultProfileImg = resolveWebp(
+    defaultProfileImgWebp,
+    defaultProfileImg,
+  );
 
   const onChangeImg = (e) => {
     e.preventDefault();
@@ -93,18 +98,18 @@ export default function ProfileEdit() {
         accountname,
       },
     };
-      if (!accountname) return;
-      const response = await accountValidationAPI(user);
-      if (response !== "사용 가능한 계정ID 입니다.") {
-        // 계정 ID와 일치하는 경우는 예외 처리 => 본인 계정 ID는 중복 가능하도록 함, 계정 ID 이외 다른 정보만 변경할 경우도 있기 때문
-        if (accountname !== userData.accountname)
-          setAccountnameValidation({
-            errorMessage: response,
-            isValid: false,
-          });
-      } else {
-        setAccountnameValidation({ errorMessage: "", isValid: true });
-      }
+    if (!accountname) return;
+    const response = await accountValidationAPI(user);
+    if (response !== "사용 가능한 계정ID 입니다.") {
+      // 계정 ID와 일치하는 경우는 예외 처리 => 본인 계정 ID는 중복 가능하도록 함, 계정 ID 이외 다른 정보만 변경할 경우도 있기 때문
+      if (accountname !== userData.accountname)
+        setAccountnameValidation({
+          errorMessage: response,
+          isValid: false,
+        });
+    } else {
+      setAccountnameValidation({ errorMessage: "", isValid: true });
+    }
   };
 
   const onChangeIntro = (e) => {
@@ -116,45 +121,48 @@ export default function ProfileEdit() {
     }
   };
 
-  const onSubmitSave = 
-    async (e) => {
-      e.preventDefault();
-      // 수정사항 없는지 체크 불필요한 데이터 전송 방지
-      if (
-        username === userData.username &&
-        accountname === userData.accountname &&
-        (imgPreviewURL === userData.image ||
-          (imgPreviewURL === defaultProfileImg &&
-            userData.image.includes("Ellipse"))) &&
-        intro === userData.intro
-      ) {
-        alert("수정사항이 없습니다!");
-        return;
-      }
-      const formData = new FormData();
-      formData.append("image", uploadFile);
-        const filename = await imgUploadAPI(formData);
-        await profileEditAPI({
-          user: {
-            username,
-            accountname,
-            intro,
-            image: uploadFile
-              ? `${process.env.REACT_APP_BASE_URL}${filename}`
-              : imgPreviewURL === defaultProfileImg
-              ? `${process.env.REACT_APP_BASE_URL}Ellipse.png`
-              : imgPreviewURL,
-          },
-        });
-        navigate(`/profile`);
+  const onSubmitSave = async (e) => {
+    e.preventDefault();
+    // 수정사항 없는지 체크 불필요한 데이터 전송 방지
+    if (
+      username === userData.username &&
+      accountname === userData.accountname &&
+      (imgPreviewURL === userData.image ||
+        (imgPreviewURL === defaultProfileImg &&
+          userData.image.includes("Ellipse"))) &&
+      intro === userData.intro
+    ) {
+      alert("수정사항이 없습니다!");
+      return;
     }
+    const formData = new FormData();
+    formData.append("image", uploadFile);
+    const filename = await imgUploadAPI(formData);
+    await profileEditAPI({
+      user: {
+        username,
+        accountname,
+        intro,
+        image: uploadFile
+          ? `${process.env.REACT_APP_BASE_URL}${filename}`
+          : imgPreviewURL === defaultProfileImg
+          ? `${process.env.REACT_APP_BASE_URL}Ellipse.png`
+          : imgPreviewURL,
+      },
+    });
+    navigate(`/profile`);
+  };
 
   useEffect(() => {
     if (userData) {
       setAccountname(userData.accountname);
       setUsername(userData.username);
       setIntro(userData.intro);
-      setImgPreviewURL(userData.image);
+      setImgPreviewURL(
+        userData.image.includes("Ellipse.png")
+          ? defaultProfileImg
+          : userData.image,
+      );
     }
   }, [userData]);
 
@@ -182,8 +190,7 @@ export default function ProfileEdit() {
       accountnameValidation={accountnameValidation}
       intro={intro}
       imgPreviewURL={imgPreviewURL}
-      defaultProfileImg={defaultProfileImg}
-      profileImg={profileImg}
+      defaultProfileImgWebp={defaultProfileImgWebp}
       onSubmitSave={onSubmitSave}
       reset={reset}
       onChangeImg={onChangeImg}
@@ -191,6 +198,7 @@ export default function ProfileEdit() {
       onChangeAccountname={onChangeAccountname}
       onBlurAccountname={onBlurAccountname}
       onChangeIntro={onChangeIntro}
+      resolveWebp={resolveWebp}
     />
   );
 }

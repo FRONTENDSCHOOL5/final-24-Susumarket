@@ -20,7 +20,7 @@ export default function ProfileEditUI({
   intro,
   imgPreviewURL,
   defaultProfileImg,
-  profileImg,
+  defaultProfileImgWebp,
   onSubmitSave,
   reset,
   onChangeImg,
@@ -28,6 +28,7 @@ export default function ProfileEditUI({
   onChangeAccountname,
   onBlurAccountname,
   onChangeIntro,
+  resolveWebp,
 }) {
   return (
     <>
@@ -42,14 +43,25 @@ export default function ProfileEditUI({
         <ProfileEditForm>
           <ProfileEditLabel htmlFor="input-file">
             <ProfileEditImg
-              src={imgPreviewURL || defaultProfileImg}
+              src={
+                imgPreviewURL ||
+                resolveWebp(defaultProfileImgWebp, defaultProfileImg)
+              }
               alt="유저 프로필 이미지"
-              onError={(e) => (e.target.src = profileImg)}
+              onError={(e) =>
+                (e.target.src = resolveWebp(
+                  defaultProfileImgWebp,
+                  defaultProfileImg,
+                ))
+              }
             />
           </ProfileEditLabel>
 
-          <ProfileEditImgRestBtn type="button" onClick={reset} area-label="이미지 초기화">
-          </ProfileEditImgRestBtn>
+          <ProfileEditImgRestBtn
+            type="button"
+            onClick={reset}
+            area-label="이미지 초기화"
+          ></ProfileEditImgRestBtn>
 
           <ProfileEditUploadInput
             type="file"
