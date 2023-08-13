@@ -1,11 +1,19 @@
 import React, { useEffect } from "react";
-import { SplashWrapper, SplashTitle, SplashLionImg, SplashTextImg } from "./splash.style";
-import lion from "../../img/symbol-logo-main.svg";
-import susumarket from "../../img/splash-text.svg";
+import {
+  SplashWrapper,
+  SplashTitle,
+  SplashLionImg,
+  SplashTextImg,
+} from "./splash.style";
+import lionImg from "../../img/symbol-logo-main.svg";
+import splashTextImg from "../../img/splash-text.svg";
+import lionImgWebp from "../../img/webp/symbol-logo-main.webp";
+import splashTextImgWebp from "../../img/webp/splash-text.webp";
 import { useNavigate } from "react-router-dom";
+import { resolveWebp } from "../../library/checkWebpSupport";
 export default function Splash() {
   const navigate = useNavigate();
- 
+
   useEffect(() => {
     setTimeout(() => {
       navigate("/login");
@@ -13,9 +21,12 @@ export default function Splash() {
   }, []);
   return (
     <SplashWrapper>
-      <SplashLionImg src={lion} alt="로고 이미지" />
+      <SplashLionImg src={resolveWebp(lionImgWebp, lionImg)} alt="로고 이미지" />
       <SplashTitle>
-        <SplashTextImg src={susumarket} alt="수수마켓" />
+        <SplashTextImg
+          src={resolveWebp(splashTextImgWebp, splashTextImg)}
+          alt="수수마켓"
+        />
       </SplashTitle>
     </SplashWrapper>
   );
