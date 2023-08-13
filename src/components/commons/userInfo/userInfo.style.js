@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import IconModalBtn from "../../../img/icon-more-vertical.svg";
+import IconModalBtnWebp from "../../../img/webp/icon-more-vertical.webp";
+
 export const UserInfoWrapper = styled.div``;
 
 export const UserProfileLink = styled.div`
@@ -63,7 +65,12 @@ export const UserAccount = styled.span`
 export const UserInfoModalBtn = styled.button`
   width: 24px;
   height: 24px;
-  background: url(${IconModalBtn}) no-repeat center / 18px;
+  body.no-webp & {
+    background: url(${IconModalBtn}) no-repeat center / 18px;
+  }
+  body.webp & {
+    background: url(${IconModalBtnWebp}) no-repeat center / 18px;
+  }
   align-self: flex-start;
   margin-top: 3px;
 `;

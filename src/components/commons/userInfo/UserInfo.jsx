@@ -15,7 +15,9 @@ import {
 import Button from "../button/Button";
 import { useNavigate } from "react-router-dom";
 import defaultImg from "../../../img/ProfileImg.svg";
+import defaultImgWebp from "../../../img/webp/ProfileImg.webp";
 import DateFormat from "../dateFormat/DateFormat";
+import { resolveWebp } from "../../../library/checkWebpSupport";
 
 export default function UserInfo({
   right,
@@ -43,7 +45,11 @@ export default function UserInfo({
           ></UserInfoModalBtn>
         );
       case "date":
-        return <UserInfoDate dateTime={date.replace(/\./g,"-")}>{date}</UserInfoDate>;
+        return (
+          <UserInfoDate dateTime={date.replace(/\./g, "-")}>
+            {date}
+          </UserInfoDate>
+        );
       case "followBtn":
         return (
           <Button
@@ -86,10 +92,12 @@ export default function UserInfo({
       >
         <UserProfileImg
           src={
-            userData.image.includes("Ellipse.png") ? defaultImg : userData.image
+            userData.image.includes("Ellipse.png")
+              ? resolveWebp(defaultImgWebp, defaultImg)
+              : userData.image
           }
           alt="유저 프로필 이미지"
-          onError={(e) => (e.target.src = defaultImg)}
+          onError={(e) => (e.target.src = resolveWebp(defaultImgWebp, defaultImg))}
           commentDate={commentDate}
         />
         <UserIdWrapper>
