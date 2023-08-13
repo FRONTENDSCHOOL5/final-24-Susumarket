@@ -3,7 +3,6 @@ import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AccountContext } from "../../../context/AccountContext";
-
 import { postDeleteAPI, postReportAPI } from "../../../API/postAPI";
 import { likeAPI, unikeAPI } from "../../../API/likeAPI";
 import PostCardUI from "./PostCard.presenter";

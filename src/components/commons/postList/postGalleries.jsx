@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   PostNoneImg,
   PostNoneText,
@@ -6,7 +6,9 @@ import {
   PostGalleryUl,
 } from "./postList.styles";
 import PostGalleryList from "./postGalleryList";
-import PostNoneImgIcon from "../../../img/symbol-logo-404.svg";
+import postNoneImgIcon from "../../../img/symbol-logo-404.svg";
+import postNoneImgIconWebp from "../../../img/webp/symbol-logo-404.webp";
+import { resolveWebp } from "../../../library/checkWebpSupport";
 export default function PostGalleries({ postData }) {
   return (
     // posData에서 image가 있는 데이터만 찾음
@@ -19,7 +21,10 @@ export default function PostGalleries({ postData }) {
         </PostGalleryUl>
       ) : (
         <PostNoneWrapper>
-          <PostNoneImg src={PostNoneImgIcon} alt="게시물 없음 아이콘" />
+          <PostNoneImg
+            src={resolveWebp(postNoneImgIconWebp, postNoneImgIcon)}
+            alt="게시물 없음"
+          />
           <PostNoneText>현재 등록된 이미지 게시물이 없어요.</PostNoneText>
         </PostNoneWrapper>
       )}

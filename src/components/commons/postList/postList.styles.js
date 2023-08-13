@@ -91,16 +91,6 @@ export const PostImgLi = styled.li`
   overflow: hidden;
 `;
 
-export const PostImg = styled.img`
-  border-radius: 10px;
-  margin-bottom: 16px;
-  width: 100%;
-  max-width: 304px;
-  height: 100%;
-  object-fit: cover;
-  vertical-align: top;
-`;
-
 export const PostImgBtnUl = styled.ul`
   position: absolute;
   display: flex;
@@ -202,13 +192,6 @@ export const PostGalleryLink = styled(Link)`
   display: block;
   width: 100%;
   height: 100%;
-`;
-
-export const PostGalleryImg = styled.img`
-  margin-bottom: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 `;
 
 export const PostNoneWrapper = styled.div`
