@@ -4,7 +4,7 @@ import useAuth from "../../../../hook/useAuth";
 import { productDetailAPI, productEditAPI } from "../../../../API/productAPI";
 import { imgUploadAPI } from "../../../../API/imgUploadAPI";
 import ProductEditPresenter from "./productEdit.presenter";
-import defaultimg from "../../../../img/ProfileImg.svg";
+import defaultimg from "../../../../img/webp/ProfileImg.webp";
 import { imgValidation } from "../../../../library/imgValidation";
 
 export default function ProductEdit() {
