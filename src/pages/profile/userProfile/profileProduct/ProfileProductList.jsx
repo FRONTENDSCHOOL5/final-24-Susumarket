@@ -1,30 +1,29 @@
 import React, { useCallback, useContext } from "react";
 import {
-  ProfileProductImg,
   ProfileProductLi,
   ProfileProductButton,
   ProfileProductName,
   ProfileProductPrice,
 } from "./ProfileProduct.styles";
-import noImg from "../../../../img/no-image.png";
 import { useNavigate, useParams } from "react-router-dom";
 import { AccountContext } from "../../../../context/AccountContext";
 import { productDeleteAPI } from "../../../../API/productAPI";
+import ProgressiveImg from "../../../../components/commons/progressiveImg/ProgressiveImg";
 
 export default function ProfileProductList({
   onClickButton,
   closeModal,
   settingPostModalProps,
   productList,
-  setProductData
+  setProductData,
 }) {
   const navigate = useNavigate();
   const params = useParams();
   const userAccountname = params.userId;
   const { account } = useContext(AccountContext);
   const onClickRemove = useCallback(async (id) => {
-      await productDeleteAPI(id);
-      setProductData(prev=>prev.filter(item=>item.id!==id));  
+    await productDeleteAPI(id);
+    setProductData((prev) => prev.filter((item) => item.id !== id));
   }, []);
 
   // 현재 자신의 accountname과 account가 일치할때만 삭제 수정 버튼이 활성화 되도록함
@@ -65,10 +64,16 @@ export default function ProfileProductList({
     <>
       <ProfileProductLi>
         <ProfileProductButton type="button" onClick={onClickProduct}>
-          <ProfileProductImg
+          <ProgressiveImg
             src={productList.itemImage}
             alt="상품 이미지"
-            onError={(e) => (e.target.src = noImg)}
+            style={{
+              width: "140px",
+              height: "90px",
+              borderRadius: "8px",
+              objectFit: "cover",
+              border: "1px solid rgb(219, 219, 219)",
+            }}
           />
           <ProfileProductName>{productList.itemName}</ProfileProductName>
           <ProfileProductPrice>
