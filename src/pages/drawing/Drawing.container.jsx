@@ -1,6 +1,5 @@
 import { isMobile } from "react-device-detect";
 import React, {
-  useCallback,
   useContext,
   useEffect,
   useRef,
@@ -9,6 +8,7 @@ import React, {
 import { useNavigate } from "react-router-dom";
 import { ModalContext } from "../../context/ModalContext";
 import DrawingUI from "./Drawing.presenter";
+import { sweetToast } from "../../library/sweetAlert/sweetAlert";
 const colorData = [
   "#ff0000",
   "#ff8c00",
@@ -37,8 +37,9 @@ export default function Drawing() {
 
   useEffect(() => {
     if (isMobile) {
-      alert(
-        "모바일에서는 캔버스를 이용할 수 없습니다! PC환경에서 이용해 주세요!",
+      sweetToast(
+        "모바일에서는 캔버스를 이용할 수 없습니다!\nPC환경에서 이용해 주세요!",
+        "warning",
       );
       navigate(-1);
     }
@@ -51,24 +52,26 @@ export default function Drawing() {
     ctx.lineCap = "round"; // 선을 둥글게
   }, []);
 
-  const onChangeText = useCallback((e) => {
+  const onChangeText = ((e) => {
     setText(e.target.value);
-  }, []);
+  });
 
   ////// 캔버스에 마우스로 그림그리기 ////////
-  const onMove = useCallback(({ nativeEvent }) => {
-    const { offsetX, offsetY } = nativeEvent;
-    if (ctx) {
-      if (isPainting && !isFilling) {
-        ctx.lineTo(offsetX, offsetY);
-        ctx.stroke();
-        return;
+  const onMove = (
+    ({ nativeEvent }) => {
+      const { offsetX, offsetY } = nativeEvent;
+      if (ctx) {
+        if (isPainting && !isFilling) {
+          ctx.lineTo(offsetX, offsetY);
+          ctx.stroke();
+          return;
+        }
+        // 이전 선과 새로운 선의 연결 끊어주기
+        ctx.beginPath();
+        ctx.moveTo(offsetX, offsetY);
       }
-      // 이전 선과 새로운 선의 연결 끊어주기
-      ctx.beginPath();
-      ctx.moveTo(offsetX, offsetY);
     }
-  }, [ctx, isFilling, isPainting]);
+  );
 
   // 마우스 클릭이 있는 경우 그림을 그리게 해줌
   const startPainting = () => {
@@ -78,13 +81,13 @@ export default function Drawing() {
   // 마우스 클릭 떼는 경우 연필을 움직이게끔만
   const cancelPainting = () => {
     setIsPainting(false);
-  }
+  };
 
   //////// 그림 그리는 선 굵기 조절 //////
   const onLineWidthChange = (e) => {
     setLineWidth(e.target.value);
     ctx.lineWidth = e.target.value;
-  }
+  };
 
   /////// 선 색상 직접 선택해 조절 /////////
   const onColorChange = (e) => {
