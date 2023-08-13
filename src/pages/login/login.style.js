@@ -42,6 +42,8 @@ export const LoginSelectWrapper = styled.ul`
 
 export const LoginLionImg = styled.img`
   position: absolute;
+  width: 100%;
+  max-width: 144px;
   top: 204px;
   left: 50%;
   transform: translateX(-50%);
