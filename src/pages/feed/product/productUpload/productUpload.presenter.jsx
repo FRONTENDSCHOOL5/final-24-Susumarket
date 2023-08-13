@@ -2,8 +2,8 @@ import React from "react";
 import UserInput from "../../../../components/commons/dataInput/UserInput";
 import DataInput from "../../../../components/commons/dataInput/DataInput";
 import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHeader";
-import defaultimg from "../../../../img/ProfileImg.svg";
-import uploadfile from "../../../../img/upload-file.svg";
+import defaultimg from "../../../../img/webp/ProfileImg.webp";
+import uploadfile from "../../../../img/webp/upload-file.webp";
 import ErrorMessage from "../../../../components/commons/errorMessage/ErrorMessage";
 import {
   Container,
