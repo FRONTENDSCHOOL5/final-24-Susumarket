@@ -9,7 +9,7 @@ import {
 import Splash from "../pages/splash/Splash";
 
 import Login from "../pages/login/Login";
-import LoginEmail from "../pages/login/loginEmail/LoginEmail";
+import LoginEmail from "../pages/login/loginEmail/loginEmail.container";
 import UserAccount from "../pages/signup/userAccount/UserAccount";
 import ProfileSettingContainer from "../pages/signup/profileSetting/ProfileSetting.container";
 
@@ -18,9 +18,9 @@ import Post from "../pages/feed/post/Post";
 import PostDetail from "../pages/feed/post/postDetail/PostDetail";
 import PostEditContainer from "../pages/feed/post/postEdit/PostEdit.container";
 import PostUploadContainer from "../pages/feed/post/postUpload/PostUpload.container";
-import ProductDetail from "../pages/feed/product/productDetail/ProductDetail";
-import ProductEdit from "../pages/feed/product/productEdit/ProductEdit";
-import ProductUpload from "../pages/feed/product/productUpload/ProductUpload";
+import ProductDetail from "../pages/feed/product/productDetail/productDetail.container";
+import ProductEdit from "../pages/feed/product/productEdit/productEdit.container";
+import ProductUpload from "../pages/feed/product/productUpload/productUpload.container";
 
 import UserProfile from "../pages/profile/userProfile/UserProfile.container";
 import ProfileEdit from "../pages/profile/profileEdit/ProfileEdit.container";
