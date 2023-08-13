@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginAPI } from "../../../API/loginAPI";
 import { UserContext } from "../../../context/UserContext";
@@ -16,7 +16,7 @@ export default function LoginEmail() {
 
   const emailReg =
     /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2 }$/;
-  
+
   const user = {
     user: {
       email: emailValue,
@@ -30,15 +30,14 @@ export default function LoginEmail() {
       : setBtnDisabled(true);
   }, [emailValid, passwordValue]);
 
-
-  const validateEmail = (email) => {
+  const validateEmail = useCallback((email) => {
     const emailPattern =
       /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
     return emailPattern.test(email);
-  };
+  }, []);
 
-
-  const handleEmailValidation =   (e) => {
+  const handleEmailValidation = useCallback(
+    (e) => {
       const value = e.target.value;
       setEmailValue(value);
 
@@ -48,11 +47,11 @@ export default function LoginEmail() {
         setEmailValid(true);
         setEmailErrorMsg("");
       }
-    };
-    
-  
+    },
+    [validateEmail],
+  );
 
-  const handlePasswordValidation = (e) => {
+  const handlePasswordValidation = useCallback((e) => {
     const passwordSubmit = e.target.value;
     setPasswordValue(passwordSubmit);
     if (e.target.value.length < 6) {
@@ -60,27 +59,30 @@ export default function LoginEmail() {
     } else {
       setErrorMsg("");
     }
-  };
+  }, []);
 
-  async function onSubmit(e) {
-    e.preventDefault();
-    try {
-      const data = await loginAPI(user);
-      
-      if (data.message === "이메일 또는 비밀번호가 일치하지 않습니다.") {
-        setErrorMsg(data.message);
-        setEmailValue("");
-        setPasswordValue("");
-        return;
-      } else {
-        setAccessToken(data.user.token);
-        localStorage.setItem("accessToken", data.user.token);
-        Navigate("/post");
+  const onSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      try {
+        const data = await loginAPI(user);
+
+        if (data.message === "이메일 또는 비밀번호가 일치하지 않습니다.") {
+          setErrorMsg(data.message);
+          setEmailValue("");
+          setPasswordValue("");
+          return;
+        } else {
+          setAccessToken(data.user.token);
+          localStorage.setItem("accessToken", data.user.token);
+          Navigate("/post");
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  }
+    },
+    [user, setAccessToken, Navigate],
+  );
 
   return (
     <LoginEmailPresenter
