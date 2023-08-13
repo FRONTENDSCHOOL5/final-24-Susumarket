@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import ProductUploadPresenter from "./productUpload.presenter";
 import { uploadProductAPI } from "../../../../API/productAPI";
@@ -26,15 +26,7 @@ export default function ProductUpload() {
   const [itemImageMessage, setItemImageMessage] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (isItemName === true && isPrice === true && isLink === true) {
-      setDisabled(false);
-    } else {
-      setDisabled(true);
-    }
-  }, [isItemName, isPrice, isLink]);
-
-  const handleImageChange = (e) => {
+  const handleImageChange = useCallback((e) => {
     const file = e.target.files[0];
     const valid = imgValidation(file);
     if (!valid) return;
@@ -51,9 +43,9 @@ export default function ProductUpload() {
       setItemImage(null);
       setSelectedImage(null);
     }
-  };
+  }, [uploadProfileImage]);
 
-  const onClickButton = async (e) => {
+  const onClickButton = useCallback(async (e) => {
     e.preventDefault();
     const priceNum = parseInt(price.replaceAll(",", ""), 10);
     const baseUrl = process.env.REACT_APP_BASE_URL;
@@ -76,9 +68,9 @@ export default function ProductUpload() {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [price, itemName, link, selectedImage, uploadProductAPI, navigate]);
 
-  const uploadProfileImage = async (file) => {
+  const uploadProfileImage = useCallback(async (file) => {
     try {
       const formData = new FormData();
       formData.append("image", file);
@@ -91,9 +83,9 @@ export default function ProductUpload() {
         console.log("오류 메시지:", error.response.data);
       }
     }
-  };
+  }, [imgUploadAPI]);
 
-  const itemNameHandler = (e) => {
+  const itemNameHandler = useCallback((e) => {
     setItemName(e.target.value);
     if (itemName.length < 1 || itemName.length > 16) {
       setItemNameMessage("상품명은 2~15자 이내여야 합니다.");
@@ -102,9 +94,9 @@ export default function ProductUpload() {
       setItemNameMessage("");
       setIsItemName(true);
     }
-  };
+  }, [itemName]);
 
-  const priceHandler = (e) => {
+  const priceHandler = useCallback((e) => {
     const value = Number(e.target.value.replaceAll(",", ""));
     if (Number.isNaN(value)) {
       alert("숫자를 입력하세요");
@@ -119,9 +111,9 @@ export default function ProductUpload() {
       setPriceMessage("");
       setIsPrice(true);
     }
-  };
+  }, [price]);
 
-  const linkHandler = (e) => {
+  const linkHandler = useCallback((e) => {
     setLink(e.target.value);
     if (link.length > 101) {
       setLinkMessage("상품명은 100자 이내여야 합니다.");
@@ -130,7 +122,15 @@ export default function ProductUpload() {
       setLinkMessage("");
       setIsLink(true);
     }
-  };
+  }, [link]);
+
+  useEffect(() => {
+    if (isItemName === true && isPrice === true && isLink === true) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [isItemName, isPrice, isLink]);
 
   return (
     <ProductUploadPresenter
