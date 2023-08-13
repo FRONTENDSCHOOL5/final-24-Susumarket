@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { productDetailAPI } from "../../../../API/productAPI";
 import ProductDetailPresenter from "./productDetail.presenter";
@@ -20,11 +20,11 @@ export default function ProductDetail() {
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const params = useParams();
 
-  const clickHeart = () => {
-    heartFill === iconHeart
-      ? setHeartFill(iconHeartFill)
-      : setHeartFill(iconHeart);
-  };
+  const clickHeart = useCallback(() => {
+    setHeartFill((prevHeartFill) =>
+      prevHeartFill === iconHeart ? iconHeartFill : iconHeart
+    );
+  }, []);
 
   const navigate = useNavigate();
 
