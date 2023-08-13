@@ -9,6 +9,8 @@ import { accountValidationAPI } from "../../../API/validationAPI";
 import { profileEditAPI } from "../../../API/profileAPI";
 import ProfileEditUI from "./ProfileEdit.presenter";
 import { resolveWebp } from "../../../library/checkWebpSupport";
+import { sweetToast } from "../../../library/sweetAlert/sweetAlert";
+import { profileImgCompression } from "../../../library/imgCompression";
 export default function ProfileEdit() {
   const [imgPreviewURL, setImgPreviewURL] = useState(null);
   const [uploadFile, setUploadFile] = useState(null);
@@ -30,22 +32,24 @@ export default function ProfileEdit() {
   const usernameReg = /^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣]{2,10}$/;
   const accountnameReg = /^[a-zA-Z0-9._]+$/;
   const userData = useAuth();
-  const defaultProfileImg = resolveWebp(
+  const defaultProfileImgSrc = resolveWebp(
     defaultProfileImgWebp,
     defaultProfileImg,
   );
 
-  const onChangeImg = (e) => {
+  const onChangeImg = async (e) => {
     e.preventDefault();
     const file = e.target.files[0];
     const valid = imgValidation(file);
     if (!valid) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      setImgPreviewURL(reader.result);
-    };
-    reader.readAsDataURL(file);
-    setUploadFile(file);
+    // 이미지 압축후 이미지 (압축한 blob이미지, 미리보기 이미지) 반환
+    const {compressedFileBlob, preview} = await profileImgCompression(file);
+    // blob이미지 file 형식으로 변환
+    const compressedFile = new File([compressedFileBlob], file.name, { type: file.type });
+    // 압축 이미지 미리보기 적용
+    setImgPreviewURL(preview);
+    // 업로드할 압축 이미지 적용
+    setUploadFile(compressedFile);
   };
 
   // 인자로 event 객체, 유효성 검사 정규표현식, valid 상태관리 함수, 경고 메세지 텍스트를 받음
@@ -132,7 +136,7 @@ export default function ProfileEdit() {
           userData.image.includes("Ellipse"))) &&
       intro === userData.intro
     ) {
-      alert("수정사항이 없습니다!");
+      sweetToast("수정사항이 없습니다!", "warning");
       return;
     }
     const formData = new FormData();
@@ -145,7 +149,7 @@ export default function ProfileEdit() {
         intro,
         image: uploadFile
           ? `${process.env.REACT_APP_BASE_URL}${filename}`
-          : imgPreviewURL === defaultProfileImg
+          : imgPreviewURL === defaultProfileImgSrc
           ? `${process.env.REACT_APP_BASE_URL}Ellipse.png`
           : imgPreviewURL,
       },
@@ -160,7 +164,7 @@ export default function ProfileEdit() {
       setIntro(userData.intro);
       setImgPreviewURL(
         userData.image.includes("Ellipse.png")
-          ? defaultProfileImg
+          ? defaultProfileImgSrc
           : userData.image,
       );
     }
@@ -178,7 +182,7 @@ export default function ProfileEdit() {
   // 이미지 파일 리셋
   function reset() {
     setUploadFile("");
-    setImgPreviewURL(defaultProfileImg);
+    setImgPreviewURL(defaultProfileImgSrc);
   }
 
   return (
