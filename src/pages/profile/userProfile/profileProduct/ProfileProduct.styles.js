@@ -45,13 +45,7 @@ export const ProfileProductButton = styled.button`
   display: flex;
   flex-direction: column;
 `;
-export const ProfileProductImg = styled.img`
-  width: 140px;
-  height: 90px;
-  border-radius: 8px;
-  object-fit: cover;
-  border: 1px solid rgb(219, 219, 219);
-`;
+
 export const ProfileProductName = styled.span`
   font-weight: 400;
   font-size: 14px;
