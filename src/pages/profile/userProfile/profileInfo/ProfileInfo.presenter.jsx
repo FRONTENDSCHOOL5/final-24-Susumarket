@@ -20,7 +20,11 @@ import {
 import messageIcon from "../../../../img/icon-message-circle.svg";
 import shareIcon from "../../../../img/icon-share.svg";
 import profileImg from "../../../../img/ProfileImg.svg";
+import messageIconWebp from "../../../../img/webp/icon-message-circle.webp";
+import shareIconWebp from "../../../../img/webp/icon-share.webp";
+import profileImgWebp from "../../../../img/webp/ProfileImg.webp";
 import Button from "../../../../components/commons/button/Button";
+import { resolveWebp } from "../../../../library/checkWebpSupport";
 export default function ProfileInfoUI({
   userData,
   followCount,
@@ -43,10 +47,10 @@ export default function ProfileInfoUI({
         <ProfileInfoeImg
           src={
             userData.image && userData.image.includes("Ellipse.png")
-              ? profileImg
+              ? resolveWebp(profileImgWebp, messageIcon)
               : userData.image
           }
-          onError={(e) => (e.target.src = profileImg)}
+          onError={(e) => (e.target.src = resolveWebp(profileImgWebp, profileImg))}
           alt="유저 프로필 이미지"
         />
         <ProfileInfoFollowering
@@ -88,7 +92,10 @@ export default function ProfileInfoUI({
               className="small"
               style={{ width: "34px", height: "34px", padding: "9.5px" }}
             >
-              <ProfileInfoButtonIcon src={messageIcon} alt="채팅" />
+              <ProfileInfoButtonIcon
+                src={resolveWebp(messageIconWebp, messageIcon)}
+                alt="채팅"
+              />
             </Button>
 
             {isfollow ? (
@@ -115,7 +122,10 @@ export default function ProfileInfoUI({
               className="small"
               style={{ width: "34px", height: "34px", padding: "9.5px" }}
             >
-              <ProfileInfoButtonIcon src={shareIcon} alt="공유" />
+              <ProfileInfoButtonIcon
+                src={resolveWebp(shareIconWebp, shareIcon)}
+                alt="공유"
+              />
             </Button>
           </>
         )}
