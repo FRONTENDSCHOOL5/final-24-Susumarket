@@ -2,8 +2,8 @@ import React from "react";
 import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHeader";
 import styled from "styled-components";
 import noImg from "../../../../img/no-image.png";
-import iconHeart from "../../../../img/icon-heart.svg";
-import iconHeartFill from "../../../../img/icon-heart-fill.svg";
+import iconHeart from "../../../../img/webp/icon-heart.webp";
+import iconHeartFill from "../../../../img/webp/icon-heart-fill.webp";
 import Button from "../../../../components/commons/button/Button";
 import InvalidPage from "../../../../components/commons/inValidPage/InvaliPage";
 import Loading from "../../../../components/commons/loading/Loading";
@@ -23,7 +23,7 @@ import {
   Contents,
   Account,
 } from "./productDetail.style.js";
-import profileImg from "../../../../img/ProfileImg.svg";
+import profileImg from "../../../../img/webp/ProfileImg.webp";
 
 export default function ProductDetailPresenter({
   itemName,
