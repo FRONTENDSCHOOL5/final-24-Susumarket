@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import imgBtn from "../../../img/img-button.svg";
-import imgBtnActive from "../../../img/img-button-active.svg";
+import imgBtnActive from "../../../img/upload-file.svg";
+import imgBtnWebp from "../../../img/webp/img-button.webp";
+import imgBtnActiveWebp from "../../../img/webp/upload-file.webp";
 import { isMobile } from "react-device-detect";
 export const ChatRoomTitle = styled.h1``;
 export const ChatRoomWrapper = styled.div`
@@ -89,11 +91,21 @@ export const ChatRoomMsgInputForm = styled.form`
 export const ChatRoomBtnSpan = styled.span``;
 
 export const ChatRoomImgBtn = styled.button`
-  background: url(${imgBtn}) no-repeat center / cover;
+  body.no-webp & {
+    background: url(${imgBtn}) no-repeat center / cover;
+  }
+  body.webp & {
+    background: url(${imgBtnWebp}) no-repeat center / cover;
+  }
   width: 44px;
   height: 44px;
-  &:hover {
-    background: url(${isMobile ? imgBtn : imgBtnActive}) no-repeat center / cover;
+  body.no-webp &:hover {
+    background: url(${isMobile ? imgBtn : imgBtnActive}) no-repeat center /
+      cover;
+  }
+  body.webp &:hover {
+    background: url(${isMobile ? imgBtnWebp : imgBtnActiveWebp}) no-repeat
+      center / cover;
   }
 `;
 
