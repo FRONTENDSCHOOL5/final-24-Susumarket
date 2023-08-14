@@ -19,6 +19,7 @@ import iconUserWebp from "../../../img/webp/icon-user.webp";
 import iconUserFillWebp from "../../../img/webp/icon-user-fill.webp";
 import iconPaletteWebp from "../../../img/webp/icon-palette.webp";
 import iconPaletteFillWebp from "../../../img/webp/icon-palette-fill.webp";
+import { resolveWebp } from "../../../library/checkWebpSupport";
 
 import { useLocation } from "react-router-dom";
 import {
@@ -67,8 +68,8 @@ export default function MenuBar() {
                 // url이 잘 이동되었을 때 아이콘 활성화
                 src={
                   pathname === "/post" || pathname === "/search"
-                    ? IconHome.fill
-                    : IconHome.default
+                    ? resolveWebp(iconHomeFillWebp, IconHome.fill)
+                    : resolveWebp(iconHomeWebp, IconHome.default)
                 }
                 alt="홈"
               />
@@ -90,8 +91,8 @@ export default function MenuBar() {
                 aria-label="채팅방 이동버튼"
                 src={
                   pathname === "/chatList"
-                    ? IconMessage.fill
-                    : IconMessage.default
+                    ? resolveWebp(iconMessageFillWebp, IconMessage.fill)
+                    : resolveWebp(iconMessageWebp, IconMessage.default)
                 }
                 alt="채팅"
               />
@@ -111,7 +112,9 @@ export default function MenuBar() {
               <Img
                 aria-label="게시물 작성버튼"
                 src={
-                  pathname === "/post/upload" ? IconEdit.fill : IconEdit.default
+                  pathname === "/post/upload"
+                    ? resolveWebp(iconEditFillWebp, IconEdit.fill)
+                    : resolveWebp(iconEditWebp, IconEdit.default)
                 }
                 alt="게시물 작성"
               />
@@ -133,8 +136,8 @@ export default function MenuBar() {
                   aria-label="캔버스 버튼"
                   src={
                     pathname === `/drawing`
-                      ? IconPalette.fill
-                      : IconPalette.default
+                      ? resolveWebp(iconPaletteFillWebp, IconPalette.fill)
+                      : resolveWebp(iconPaletteWebp, IconPalette.default)
                   }
                   alt="캔버스"
                 />
@@ -156,8 +159,8 @@ export default function MenuBar() {
                 aria-label="프로필 버튼"
                 src={
                   pathname.includes("/profile")
-                    ? IconUser.fill
-                    : IconUser.default
+                    ? resolveWebp(iconUserFillWebp, IconUser.fill)
+                    : resolveWebp(iconUserWebp, IconUser.default)
                 }
                 alt="프로필"
               />
