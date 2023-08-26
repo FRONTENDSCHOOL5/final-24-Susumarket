@@ -307,7 +307,7 @@ prettier: 2.8.8
 
 <br/>
 
-####💡 팀 규칙
+#### 💡 팀 규칙
 1. **코드 리뷰**를 통해 함께 성장해나가기❤️
 2. 프로젝트 끝날 때까지 **긍정적인** 생각만 하기❤️
 3. **코드 컨벤션**에 맞춰 작성하기❤️
@@ -323,14 +323,14 @@ prettier: 2.8.8
 팀규칙을 정함으로 소속감 및 팀 정체성을 강화했습니다.
 <br/>
 
-### 🪄 이슈 관리 프로세스
+### ✨ 이슈 관리 프로세스
 #### - 작업 전 <a href='https://github.com/FRONTENDSCHOOL5/final-24-Susumarket/issues'>GitHub Issues</a> 등록
 * 아무리 작은 작업이라도 수월한 이슈 추적을 위해 이슈 반드시 등록 후 작업 진행 (작업 하나당 이슈 하나)
   ![image](https://github.com/24-gitTest/demo-repository/assets/87430624/e0d83cca-8c51-456f-8cbe-d46a9ccdf80a)
 
 * 컨벤션 통일을 위해 이슈 템플릿 사용
 
-####🧚 이슈 해결 후 <a href='https://github.com/FRONTENDSCHOOL5/final-24-Susumarket/pulls'>Pull Request</a> 생성
+#### 🧚 이슈 해결 후 <a href='https://github.com/FRONTENDSCHOOL5/final-24-Susumarket/pulls'>Pull Request</a> 생성
 * 컨벤션 통일을 위해 PR 템플릿 사용
 * 팀원 2명 이상의 승인을 받아야 머지 가능
 * 코드리뷰 후에 PR 승인
@@ -371,9 +371,10 @@ prettier: 2.8.8
 |![피드](https://user-images.githubusercontent.com/87430624/249322177-72e50afc-c707-4241-ac05-6c79089946e2.gif)|![검색](https://user-images.githubusercontent.com/87430624/249319334-184c2a9e-57a9-4d56-bbbc-f58a44033fc2.gif)|<img width="390;" alt="404" src="https://user-images.githubusercontent.com/87430624/249319320-6686e278-729c-4441-b572-7bd0ddeb4b43.gif">|
 
 ### 2) 채팅
-|채팅 목록 페이지|
-|---|
-|![최종_채팅룸리스트_AdobeExpress](https://user-images.githubusercontent.com/87430624/249319420-598a4b8f-cf19-4105-96cd-4b86cfe0ff27.gif)|
+|채팅 목록 페이지|||
+|:---:|:---:|:---:|
+|<img src="https://user-images.githubusercontent.com/87430624/249319420-598a4b8f-cf19-4105-96cd-4b86cfe0ff27.gif" width="310" />|<img width="310" />|<img width="310" />|
+
 
 ### 3) 게시글
 |게시글 상세 페이지|게시글 작성 페이지|게시글 수정 페이지|
@@ -387,17 +388,21 @@ prettier: 2.8.8
 ### 4) 프로필
 |마이 프로필 페이지|프로필 수정 페이지|팔로워/팔로잉 페이지|
 |:---:|:---:|:---:|
-|![앨범형리스트형](https://user-images.githubusercontent.com/87430624/249322185-a3f628e7-a19f-457b-8db6-89b64109de79.gif)|![프로필 수정](https://user-images.githubusercontent.com/87430624/249322193-b6881f77-f41b-4c55-8ed3-c27e22ffbd05.gif)|![팔로우페이지](https://user-images.githubusercontent.com/87430624/249319422-38a0c159-2dcb-43f3-bf98-1ca0aff1ea5f.gif)|
+|![앨범형리스트형](https://user-images.githubusercontent.com/87430624/249322185-a3f628e7-a19f-457b-8db6-89b64109de79.gif)|<img src="https://user-images.githubusercontent.com/87430624/249322193-b6881f77-f41b-4c55-8ed3-c27e22ffbd05.gif" width="310" />|![팔로우페이지](https://user-images.githubusercontent.com/87430624/249319422-38a0c159-2dcb-43f3-bf98-1ca0aff1ea5f.gif)|
 
 
 ### 5) 판매 상품
 |상품 등록 페이지|상품 수정 페이지|상품 삭제 페이지|
-|---|---|---|
+|:---:|:---:|:---:|
 |![상품 등록](https://user-images.githubusercontent.com/87430624/249319407-d702a7b8-a95e-47be-91d6-2f5d2fbbdf61.gif)|![상품 수정](https://user-images.githubusercontent.com/87430624/249319414-51176a23-ea3e-4340-8c15-68f375b389c7.gif)|![상품 삭제](https://user-images.githubusercontent.com/87430624/249319410-014593a9-5c4c-4788-8e91-862b500d7d5c.gif)|
-|상품 상세페이지|
-|![상품 상세페이지](https://user-images.githubusercontent.com/47853679/249486421-2864df7d-a0d0-467a-a5a2-cbf1040bb914.gif)|
+
+|상품 상세페이지|||
+|:---:|:---:|:---:|
+|<img src="https://user-images.githubusercontent.com/47853679/249486421-2864df7d-a0d0-467a-a5a2-cbf1040bb914.gif" width="310" />|<img width="310" />|<img width="310" />|
 ### 6) 캔버스
-|![캔버스](https://user-images.githubusercontent.com/47853679/249449344-9c97413c-5b8a-400a-9693-c9111e8d44f9.gif)|!|!|
+|캔버스|
+|:---:|
+|![캔버스](https://user-images.githubusercontent.com/47853679/249449344-9c97413c-5b8a-400a-9693-c9111e8d44f9.gif)|
 <br/>
 
 <p align="right"><a href="#top">(Top)</a></p>
