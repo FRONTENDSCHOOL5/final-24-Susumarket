@@ -399,6 +399,7 @@ prettier: 2.8.8
 |상품 상세페이지|||
 |:---:|:---:|:---:|
 |<img src="https://user-images.githubusercontent.com/47853679/249486421-2864df7d-a0d0-467a-a5a2-cbf1040bb914.gif" width="310" />|<img width="310" />|<img width="310" />|
+
 ### 6) 캔버스
 |캔버스|
 |:---:|
