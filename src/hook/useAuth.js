@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { customAxios } from "../library/customAxios";
 
-
 export default function useAuth() {
   const [data, setData] = useState(null);
   try {
-    if (!data) {
+    if (!data && localStorage.getItem("accessToken")) {
       async function fetchMyProfile() {
         const response = await customAxios.get(`user/myinfo`);
 
