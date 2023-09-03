@@ -5,30 +5,21 @@ import DataInput from "../../../../components/commons/dataInput/DataInput";
 import ErrorMessage from "../../../../components/commons/errorMessage/ErrorMessage";
 import InvalidPage from "../../../../components/commons/inValidPage/InvaliPage";
 import { Container, Img, ImgInput, ImgLabel, ImgContainer, ImgTopLabel } from "./productEdit.style.js";
-import defaultimg from "../../../../img/webp/ProfileImg.webp";
-import uploadfile from "../../../../img/webp/upload-file.webp";
-import noImg from "../../../../img/no-image.png";
+import uploadfile from "../../../../img/upload-file.svg";
+import uploadfileWebp from "../../../../img/webp/upload-file.webp";
+import noImg from "../../../../img/no-image.svg";
+import noImgWebp from "../../../../img/webp/no-image.webp";
+import { resolveWebp } from "../../../../library/checkWebpSupport";
 
 export default function ProductEditPresenter({
-  profileImage,
-  selectedImage,
-  isLoading,
   itemName,
   price,
   link,
-  productid,
   itemImage,
-  isItemName,
-  isPrice,
-  isLink,
-  isItemImage,
-  BtnDisabled,
   disabled,
-  accountname,
   itemNameMessage,
   priceMessage,
   linkMessage,
-  itemImageMessage,
   isInValidPage,
   onClickButton,
   handleImageChange,
@@ -53,12 +44,12 @@ export default function ProductEditPresenter({
             <ImgTopLabel>이미지 수정</ImgTopLabel>
             <Img
               className="default"
-              src={itemImage.includes("Ellipse.png") ? noImg : itemImage}
-              onError={(e) => (e.target.src = noImg)}
+              src={itemImage&&itemImage.includes("Ellipse.png") ? resolveWebp(noImgWebp, noImg) : itemImage}
+              onError={(e) => (e.target.src = resolveWebp(noImgWebp, noImg))}
               alt="기본 이미지"
             />
             <ImgLabel htmlFor="file-input">
-              <Img className="uploadbtn" src={uploadfile} alt="업로드 버튼" />
+              <Img className="uploadbtn" src={resolveWebp(uploadfileWebp, uploadfile)} alt="업로드 버튼" />
             </ImgLabel>
             <ImgInput
               type="file"
@@ -66,9 +57,6 @@ export default function ProductEditPresenter({
               accept="image/*"
               onChange={handleImageChange}
             />
-            {itemImageMessage && (
-              <ErrorMessage> {itemImageMessage} </ErrorMessage>
-            )}
           </ImgContainer>
           <UserInput label="상품명 수정">
             <DataInput
