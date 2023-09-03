@@ -26,7 +26,8 @@ const PostEditContainer = () => {
   const [postImages, setPostImages] = useState([]);
   const [imgArray, setImgArray] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [disabled, setDisabled] = useState(true);
+  const [data, setData] = useState(null);
   const { postId } = useParams();
   const myProfile = useAuth();
 
@@ -37,14 +38,14 @@ const PostEditContainer = () => {
       setPostImages((prev) => prev.filter((_, index) => index !== id));
       setImgFiles((prev) => prev.filter((_, index) => index !== id));
     },
-    [imgArray, postImages, imgFiles]
+    [imgArray, postImages, imgFiles],
   );
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
         const postData = await postDetailAPI(postId);
-
+        setData(postData);
         // 게시물의 텍스트 설정
         setPostContent(postData.content);
         setAccountname(postData.author.accountname);
@@ -53,7 +54,12 @@ const PostEditContainer = () => {
           setPostImages(postData.image.toString().split(","));
           setImgArray(postData.image.toString().split(","));
           // 기존 이미지 배열과 요소의 길이를 맞춰주기 위해 공백 문자 삽입
-          setImgFiles(postData.image.toString().split(",").map((_)=>""))
+          setImgFiles(
+            postData.image
+              .toString()
+              .split(",")
+              .map((_) => ""),
+          );
         }
         setIsInValidPage(false);
         setIsLoading(false);
@@ -75,6 +81,30 @@ const PostEditContainer = () => {
     }
   }, [accountname]);
 
+  useEffect(() => {
+    if (!postContent && !imgArray.length) {
+      setDisabled(true);
+      return;
+    }
+    if (data) {
+      const prevPostContent = data.content;
+      const prevImgArray = data.image.toString().split(",");
+      if (
+        postContent !== prevPostContent ||
+        JSON.stringify(imgArray) !==
+          JSON.stringify(prevImgArray[0] === "" ? [] : prevImgArray)
+      ) {
+        setDisabled(false);
+      } else if (
+        postContent === prevPostContent &&
+        JSON.stringify(imgArray) ===
+          JSON.stringify(prevImgArray[0] === "" ? [] : prevImgArray)
+      ) {
+        setDisabled(true);
+      }
+    }
+  }, [postContent, imgArray, data]);
+
   // 이미지 변경 사항 확인 후, 상태 변경
   const handleImageChange = useCallback(
     (e) => {
@@ -94,15 +124,15 @@ const PostEditContainer = () => {
 
   const uploadImages = async () => {
     // 비어있는 이미지파일 제거
-    for(const i in imgFiles){
-      if(imgFiles[i]===""){
-        imgFiles.splice(i,1);
+    for (const i in imgFiles) {
+      if (imgFiles[i] === "") {
+        imgFiles.splice(i, 1);
       }
     }
 
     try {
       const imageURLs = await mutiImgUploadAPI(imgFiles); // 이미지 업로드 함수 호출
-      if(!imageURLs) return [...postImages];
+      if (!imageURLs) return [...postImages];
       return [...postImages, imageURLs]; // 기존 postImages 배열에 업로드된 이미지 URL 추가하여 반환
     } catch (error) {
       console.error(error);
@@ -110,11 +140,11 @@ const PostEditContainer = () => {
   };
 
   // // 게시글 수정 api
-  const handlePostEdit = (async () => {
+  const handlePostEdit = async () => {
     const imgUrls = await uploadImages();
     await postEditAPI(postId, postContent, imgUrls);
     navigate("/profile");
-  });
+  };
 
   const handleFileButton = useCallback(() => {
     fileInputRef.current.click();
@@ -128,7 +158,6 @@ const PostEditContainer = () => {
       isLoading={isLoading}
       profileImage={profileImage}
       postContent={postContent}
-      accountname={accountname}
       imgArray={imgArray}
       textRef={textRef}
       fileInputRef={fileInputRef}
@@ -138,6 +167,7 @@ const PostEditContainer = () => {
       handlePostEdit={handlePostEdit}
       handleFileButton={handleFileButton}
       setPostContent={setPostContent}
+      disabled={disabled}
     />
   );
 };

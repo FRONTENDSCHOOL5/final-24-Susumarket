@@ -25,7 +25,7 @@ const PostEditPresenter = ({
   isLoading,
   profileImage,
   postContent,
-  accountname,
+  disabled,
   imgArray,
   textRef,
   fileInputRef,
@@ -36,7 +36,6 @@ const PostEditPresenter = ({
   handleFileButton,
   setPostContent,
 }) => {
-
   return (
     <>
       <NewTopHeader
@@ -44,6 +43,7 @@ const PostEditPresenter = ({
         right="upload"
         onClickButton={handlePostEdit}
         title="수수마켓 게시글 수정"
+        disabled={disabled}
       ></NewTopHeader>
       {isLoading ? (
         <Loading />
