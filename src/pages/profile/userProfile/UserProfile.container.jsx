@@ -15,7 +15,7 @@ export default function UserProfile() {
   const navigate = useNavigate();
   const params = useParams();
   const accountname = params.userId;
-
+  const { setAccount } = useContext(AccountContext);
   // confirm 모달창 props 설정 => 버튼 마다 confirm 모달창이 달라지기 때문에 사용
   const [confirmProps, setConfirmProps] = useState({});
   // post 모달창 props 설정 => 버튼 마다 post 모달창이 달라지기 때문에 사용
@@ -27,8 +27,6 @@ export default function UserProfile() {
   // 유효한 유저 인지 파악
   const [isInvalidProfile, setIsInvalidProfile] = useState(false);
 
-  // account 상태
-  const [account, setAccount] = useState(null);
   const [loading, setLoading] = useState(true); // Loading state
   // 자신의 프로필 정보를 가져오는 커스텀 훅
   const myProfile = useAuth(null);
@@ -37,20 +35,29 @@ export default function UserProfile() {
   const settingPostModalProps = (modalProps) => {
     setPostModalProps(modalProps);
     setIsOpenPostModal(true);
-  }
+  };
 
   // postModal 창에 버튼을 누를경우 confirm 모달창의 props를 넘겨줌
-  const onClickButton = 
-    (confirmMessage, submitMessage, cancelMessage, handleSubmit) => {
-      setConfirmProps({ confirmMessage, submitMessage, cancelMessage, handleSubmit });
-      setIsOpenConfirmModal(true);
-    }
-  
+  const onClickButton = (
+    confirmMessage,
+    submitMessage,
+    cancelMessage,
+    handleSubmit,
+  ) => {
+    setConfirmProps({
+      confirmMessage,
+      submitMessage,
+      cancelMessage,
+      handleSubmit,
+    });
+    setIsOpenConfirmModal(true);
+  };
+
   // 모달창을 닫는 함수
   const closeModal = () => {
     setIsOpenConfirmModal(false);
     setIsOpenPostModal(false);
-  }
+  };
 
   const fecthUserDate = async () => {
     try {
@@ -74,7 +81,6 @@ export default function UserProfile() {
   // 유저 정보가 있을 경우에만 유저 데이터를 받아옴
   useEffect(() => {
     if (myProfile) {
-      setAccount(myProfile.accountname);
       fecthUserDate();
     }
   }, [myProfile, accountname]);
@@ -85,21 +91,19 @@ export default function UserProfile() {
   return (
     // userData.accountname undeifined 방지
     userData.accountname && (
-      <AccountContext.Provider value={{ setAccount, account }}>
-        <UserProfileUI
-          settingPostModalProps={settingPostModalProps}
-          onClickButton={onClickButton}
-          setAccessToken={setAccessToken}
-          setAccount={setAccount}
-          closeModal={closeModal}
-          navigate={navigate}
-          confirmProps={confirmProps}
-          postModalProps={postModalProps}
-          isInvalidProfile={isInvalidProfile}
-          userData={userData}
-          fecthUserDate={fecthUserDate}
-        />
-      </AccountContext.Provider>
+      <UserProfileUI
+        settingPostModalProps={settingPostModalProps}
+        onClickButton={onClickButton}
+        setAccessToken={setAccessToken}
+        setAccount={setAccount}
+        closeModal={closeModal}
+        navigate={navigate}
+        confirmProps={confirmProps}
+        postModalProps={postModalProps}
+        isInvalidProfile={isInvalidProfile}
+        userData={userData}
+        fecthUserDate={fecthUserDate}
+      />
     )
   );
 }
