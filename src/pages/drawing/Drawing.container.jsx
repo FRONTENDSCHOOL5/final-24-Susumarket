@@ -23,7 +23,7 @@ const colorData = [
 ];
 export default function Drawing() {
   const navigate = useNavigate();
-  const canversRef = useRef(null);
+  const canvasRef = useRef(null);
 
   const [isPainting, setIsPainting] = useState(false);
   const [isFilling, setIsFilling] = useState(false);
@@ -43,9 +43,9 @@ export default function Drawing() {
       );
       navigate(-1);
     }
-    canversRef.current.width = 800;
-    canversRef.current.height = 800;
-    const ctx = canversRef.current.getContext("2d");
+    canvasRef.current.width = CANVAS_WIDTH;
+    canvasRef.current.height = CANVAS_HEIGHT;
+    const ctx = canvasRef.current.getContext("2d");
     ctx.lineWidth = 5;
     ctx.strokeStyle = "black";
     setCtx(ctx);
@@ -135,7 +135,7 @@ export default function Drawing() {
 
   const onSaveClick = () => {
     // 이미지 데이터 url 불러오기
-    const url = canversRef.current.toDataURL();
+    const url = canvasRef.current.toDataURL();
     const a = document.createElement("a");
     a.href = url;
     a.download = "myDrawing.png";
@@ -170,7 +170,7 @@ export default function Drawing() {
       text={text}
       lineWidth={lineWidth}
       isFilling={isFilling}
-      canversRef={canversRef}
+      canvasRef={canvasRef}
       setIsOpenPostModal={setIsOpenPostModal}
       onChangeText={onChangeText}
       onMove={onMove}

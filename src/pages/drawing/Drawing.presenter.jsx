@@ -15,7 +15,7 @@ import {
   PaletteWrapper,
   TopHedaerWrapper,
   UploadLabel,
-} from "./darwing.styles";
+} from "./darwing.style";
 import NewTopHeader from "../../components/commons/newTopHeader/NewTopHeader";
 import MenuBar from "../../components/commons/menuBar/MenuBar";
 import PostModal from "../../components/commons/postModal/PostModal";
@@ -27,7 +27,7 @@ export default function DrawingUI({
   lineWidth,
   isFilling,
   setIsOpenPostModal,
-  canversRef,
+  canvasRef,
   onChangeText,
   onMove,
   startPainting,
@@ -86,7 +86,7 @@ export default function DrawingUI({
           })}
         </PaletteWrapper>
         <DrawingCanvers
-          ref={canversRef}
+          ref={canvasRef}
           onMouseMove={onMove}
           onMouseDown={startPainting}
           onMouseUp={cancelPainting}
