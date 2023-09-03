@@ -45,6 +45,7 @@ export default function ProductEdit() {
       }
     };
     if (myProfile) loadData();
+
   }, [baseUrl, params, myProfile]);
 
   useEffect(() => {
@@ -58,14 +59,13 @@ export default function ProductEdit() {
   const onClickButton = async (e) => {
     e.preventDefault();
     const priceNum = parseInt(price.toString().replaceAll(",", ""), 10);
-    const baseUrl = process.env.REACT_APP_BASE_URL;
     const filename = await uploadProductImage(selectedImage);
     const product = {
       product: {
         itemName: itemName,
         price: priceNum,
         link: link,
-        itemImage: `${baseUrl}/${filename}`,
+        itemImage: `${baseUrl}${filename}`,
       },
     };
 
@@ -83,6 +83,7 @@ export default function ProductEdit() {
 
   const uploadProductImage = async (file) => {
     try {
+      if(!file) return itemImage.replace(baseUrl,"");
       const formData = new FormData();
       formData.append("image", file);
       const data = await imgUploadAPI(formData);
