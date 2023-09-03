@@ -15,7 +15,7 @@ import ProfileSettingContainer from "../pages/signup/profileSetting/ProfileSetti
 
 import Search from "../pages/feed/search/Search";
 import Post from "../pages/feed/post/Post";
-import PostDetail from "../pages/feed/post/postDetail/PostDetail";
+import PostDetail from "../pages/feed/post/postDetail/PostDetail.container";
 import PostEditContainer from "../pages/feed/post/postEdit/PostEdit.container";
 import PostUploadContainer from "../pages/feed/post/postUpload/PostUpload.container";
 import ProductDetail from "../pages/feed/product/productDetail/productDetail.container";
