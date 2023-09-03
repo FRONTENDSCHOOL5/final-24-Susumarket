@@ -2,14 +2,13 @@ import styled from "styled-components";
 
 export const BottomSheetModal = styled.div`
   position: fixed;
-  bottom: 62px;
+  bottom: 0px;
   left: 0;
   width: 100%;
   padding-top: 36px;
   background-color: #ffffff;
-  box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px 10px 0 0;
-  z-index: 990;
+  z-index: 999;
   transition: transform 0.3s ease-in-out;
   transform: ${(props) =>
     props.isOpen ? "translateY(0)" : "translateY(100%)"};

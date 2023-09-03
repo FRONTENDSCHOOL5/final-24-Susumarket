@@ -126,8 +126,8 @@ export default function PostDetail() {
   const [newComment, setNewComment] = useState("");
 
   // postModal 창에 버튼을 누를경우 confirm 모달창의 props를 넘겨줌
-  function onClickButton(confirmMessage, submitMessage, handleSubmit) {
-    setConfirmModalProps({ confirmMessage, submitMessage, handleSubmit });
+  function onClickButton(confirmMessage, submitMessage, cancelMessage,handleSubmit) {
+    setConfirmModalProps({ confirmMessage, submitMessage, cancelMessage,handleSubmit });
     setIsOpenConfirmModal(true);
   }
 
