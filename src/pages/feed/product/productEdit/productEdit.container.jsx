@@ -4,32 +4,24 @@ import useAuth from "../../../../hook/useAuth";
 import { productDetailAPI, productEditAPI } from "../../../../API/productAPI";
 import { imgUploadAPI } from "../../../../API/imgUploadAPI";
 import ProductEditPresenter from "./productEdit.presenter";
-import defaultimg from "../../../../img/webp/ProfileImg.webp";
 import { imgValidation } from "../../../../library/imgValidation";
+import { uploadImgCompression } from "../../../../library/imgCompression";
 
 export default function ProductEdit() {
-  const [profileImage, setProfileImage] = useState(defaultimg);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [itemName, setItemName] = useState("");
   const [price, setPrice] = useState("");
   const [link, setLink] = useState("");
-  const [productid, setProductid] = useState("");
-
   const [itemImage, setItemImage] = useState("");
   const [isItemName, setIsItemName] = useState(false);
   const [isPrice, setIsPrice] = useState(false);
   const [isLink, setIsLink] = useState(false);
   const [isItemImage, setIsItemImage] = useState(false);
-  const [BtnDisabled, setBtnDisabled] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [accountname, setAccountName] = useState("");
-
   const [itemNameMessage, setItemNameMessage] = useState("");
   const [priceMessage, setPriceMessage] = useState("");
   const [linkMessage, setLinkMessage] = useState("");
-  const [itemImageMessage, setItemImageMessage] = useState("");
-
   const [isInValidPage, setIsInValidPage] = useState(false);
 
   const navigate = useNavigate();
@@ -67,12 +59,13 @@ export default function ProductEdit() {
     e.preventDefault();
     const priceNum = parseInt(price.toString().replaceAll(",", ""), 10);
     const baseUrl = process.env.REACT_APP_BASE_URL;
+    const filename = await uploadProductImage(selectedImage);
     const product = {
       product: {
         itemName: itemName,
         price: priceNum,
         link: link,
-        itemImage: `${baseUrl}/${selectedImage}`,
+        itemImage: `${baseUrl}/${filename}`,
       },
     };
 
@@ -89,13 +82,12 @@ export default function ProductEdit() {
     }
   };
 
-  const uploadProfileImage = async (file) => {
+  const uploadProductImage = async (file) => {
     try {
       const formData = new FormData();
       formData.append("image", file);
       const data = await imgUploadAPI(formData);
-
-      setSelectedImage(data);
+      return data;
     } catch (error) {
       if (error.response.status === 422) {
         console.error(error);
@@ -104,26 +96,26 @@ export default function ProductEdit() {
     }
   };
 
-  const handleImageChange = useCallback((e) => {
+  const handleImageChange = useCallback(async (e) => {
     const file = e.target.files[0];
     const valid = imgValidation(file);
     if (!valid) return;
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      setItemImage(reader.result);
-    };
+    // 이미지 압축후 이미지 (압축한 blob이미지, 미리보기 이미지) 반환
+    const { compressedFileBlob, preview } = await uploadImgCompression(file);
+    // blob이미지 file 형식으로 변환
+    const compressedFile = new File([compressedFileBlob], file.name, {
+      type: file.type,
+    });
+    setItemImage(preview)
     if (file) {
-      reader.readAsDataURL(file);
-      setSelectedImage(file);
-      uploadProfileImage(file);
+      setSelectedImage(compressedFile);
       setIsItemImage(true);
     } else {
       setItemImage(null);
       setSelectedImage(null);
       setIsItemImage(false);
     }
-  }, [uploadProfileImage]);
+  }, []);
 
   const itemNameHandler = useCallback((e) => {
     setItemName(e.target.value);
@@ -179,25 +171,20 @@ export default function ProductEdit() {
 
   return (
     <ProductEditPresenter
-      profileImage={profileImage}
       selectedImage={selectedImage}
-      isLoading={isLoading}
       itemName={itemName}
       price={price}
       link={link}
-      productid={productid}
       itemImage={itemImage}
       isItemName={isItemName}
       isPrice={isPrice}
       isLink={isLink}
       isItemImage={isItemImage}
-      BtnDisabled={BtnDisabled}
       disabled={disabled}
       accountname={accountname}
       itemNameMessage={itemNameMessage}
       priceMessage={priceMessage}
       linkMessage={linkMessage}
-      itemImageMessage={itemImageMessage}
       isInValidPage={isInValidPage}
       onClickButton={onClickButton}
       handleImageChange={handleImageChange}
