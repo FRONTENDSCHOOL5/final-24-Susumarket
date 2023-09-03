@@ -4,16 +4,14 @@ import Router from "./routes/Router";
 import { UserContext } from "./context/UserContext.jsx";
 import { ModalContext } from "./context/ModalContext.jsx";
 import { detectWebpSupport } from "./library/checkWebpSupport";
-import useAuth from "./hook/useAuth";
 import { AccountContext } from "./context/AccountContext";
+import { customAxios } from "./library/customAxios";
 function App() {
   const [accessToken, setAccessToken] = useState(
     localStorage.getItem("accessToken") || null,
   );
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
   const [isOpenPostModal, setIsOpenPostModal] = useState(false);
-  // 자신의 프로필 정보를 가져오는 커스텀 훅
-  const myProfile = useAuth(null);
   // account 상태
   const [account, setAccount] = useState(null);
   // webp 지원유무가 확인 되었을때 컴포넌트를 렌더링 시키위해 사용
@@ -39,10 +37,18 @@ function App() {
 
   // 유저 정보가 있을 경우에만 유저 데이터를 받아옴
   useEffect(() => {
-    if (myProfile) {
-      setAccount(myProfile.accountname);
+    try {
+      if (!account && accessToken) {
+        async function fetchMyProfile() {
+          const response = await customAxios.get(`user/myinfo`);
+          setAccount(response.data.user.accountname);
+        }
+        fetchMyProfile();
+      }
+    } catch (error) {
+      console.log(error);
     }
-  }, [myProfile]);
+  }, [accessToken, account]);
 
   return (
     webpChecked && (
