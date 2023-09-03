@@ -7,6 +7,8 @@ import { postDeleteAPI, postReportAPI } from "../../../API/postAPI";
 import { likeAPI, unikeAPI } from "../../../API/likeAPI";
 import PostCardUI from "./PostCard.presenter";
 import { sweetToast } from "../../../library/sweetAlert/sweetAlert";
+import { useEffect } from "react";
+import useAuth from "../../../hook/useAuth";
 
 export default function PostCard({
   onClickButton,
@@ -18,7 +20,8 @@ export default function PostCard({
   isPostDetail, // post 페이지와 postDetail 페이지 구분
   setPostData,
 }) {
-  const { account } = useContext(AccountContext) || "";
+  const account = useAuth(null)?.accountname;
+  // const { account } = useContext(AccountContext) || "";
   const [activeButton, setActiveButton] = useState(0);
 
   const [heartCount, setHeartCount] = useState(post.heartCount);
@@ -92,7 +95,8 @@ export default function PostCard({
 
   // 더보기 버튼
   const onClickMore = () => {
-    if (post.author.accountname === account)
+    console.log(post.author.accountname, account)
+    if (post.author.accountname === account){
       if (!isPostDetail) {
         // post 모달창 버튼 props 지정
         settingPostModalProps([
@@ -140,6 +144,7 @@ export default function PostCard({
           },
         ]);
       }
+    }
     else {
       if (!isPostDetail) {
         // post 모달창 버튼 props 지정
