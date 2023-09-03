@@ -14,6 +14,8 @@ import {
   UploadImgAreaTitle,
 } from "./postUpload.style";
 import defaultImg from "../../../../img/ProfileImg.svg";
+import defaultImgWebp from "../../../../img/webp/ProfileImg.webp";
+import { resolveWebp } from "../../../../library/checkWebpSupport";
 
 const UploadImgPreview = React.memo(({ image, id, handleDeleteImage }) => {
   return (
@@ -25,8 +27,9 @@ const UploadImgPreview = React.memo(({ image, id, handleDeleteImage }) => {
 });
 
 const PostUploadUI = ({
-  profileImageSrc,
+  profileImage,
   text,
+  images,
   previewImages,
   fileInputRef,
   textRef,
@@ -35,7 +38,6 @@ const PostUploadUI = ({
   handleDeleteImage,
   handleFileButton,
   handleUploadWholePost,
-  UploadBtnDisable,
   setText,
 }) => {
   return (
@@ -44,15 +46,21 @@ const PostUploadUI = ({
         left="back"
         right="upload"
         onClickButton={handleUploadWholePost}
-        disabled={UploadBtnDisable}
+        disabled={text === "" && images.length === 0}
         title="수수마켓 게시글 업로드"
       />
       <UploadMain>
         <ProfileImgLabel></ProfileImgLabel>
         <ProfileImg
-          src={profileImageSrc}
+          src={
+            profileImage && profileImage.endsWith("Ellipse.png")
+              ? resolveWebp(defaultImgWebp, defaultImg)
+              : profileImage
+          }
           alt="프로필 사진"
-          onError={(e) => (e.target.src = defaultImg)}
+          onError={(e) =>
+            (e.target.src = resolveWebp(defaultImgWebp, defaultImg))
+          }
         />
         <TextArea
           ref={textRef}
@@ -61,7 +69,7 @@ const PostUploadUI = ({
           onChange={(e) => setText(e.target.value)}
           onInput={handleTextAreaHeight}
           rows="1"
-          aria-label = "게시글 입력칸"
+          aria-label="게시글 입력칸"
         />
       </UploadMain>
       <PostImgLabel htmlFor="input-file"></PostImgLabel>
@@ -72,7 +80,7 @@ const PostUploadUI = ({
         ref={fileInputRef}
         onChange={handleFileUpload}
       />
-      <UploadImgArea aria-label = "선택된 이미지 프리뷰칸">
+      <UploadImgArea aria-label="선택된 이미지 프리뷰칸">
         <UploadImgAreaTitle className="a11y-hidden">
           이미지 업로드
         </UploadImgAreaTitle>
