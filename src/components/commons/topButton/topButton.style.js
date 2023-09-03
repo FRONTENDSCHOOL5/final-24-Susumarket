@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import img from "../../../img/TopButton.svg";
+import imgWebp from "../../../img/webp/TopButton.webp";
 
 export const Button = styled.button`
   position: fixed;
@@ -7,7 +8,12 @@ export const Button = styled.button`
   right: 30px;
   height: 36px;
   width: 36px;
-  background-image: url(${img});
+  body.webp & {
+    background-image: url(${imgWebp});
+  }
+  body.no-Webp &{
+    background-image: url(${img});
+  }
   background-color: rgba(0, 0, 0, 0);
   animation: fadeIn 0.5s;
   @media screen and (max-width: 500px) {
