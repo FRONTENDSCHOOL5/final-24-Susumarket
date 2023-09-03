@@ -2,8 +2,11 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { productDetailAPI } from "../../../../API/productAPI";
 import ProductDetailPresenter from "./productDetail.presenter";
-import iconHeart from "../../../../img/webp/icon-heart.webp";
-import iconHeartFill from "../../../../img/webp/icon-heart-fill.webp";
+import iconHeart from "../../../../img/icon-heart.svg";
+import iconHeartFill from "../../../../img/icon-heart-fill.svg";
+import iconHeartWebp from "../../../../img/webp/icon-heart.webp";
+import iconHeartFillWebp from "../../../../img/webp/icon-heart-fill.webp";
+import { resolveWebp } from "../../../../library/checkWebpSupport";
 
 export default function ProductDetail() {
   const [itemName, setItemName] = useState("");
@@ -13,18 +16,20 @@ export default function ProductDetail() {
   const [name, setName] = useState("");
   const [profile, setProfile] = useState("");
   const [accountname, setAccountname] = useState("");
-  const [heartFill, setHeartFill] = useState(iconHeart);
+  const [heartFill, setHeartFill] = useState(resolveWebp(iconHeartWebp, iconHeart));
   const [isInValidPage, setIsInValidPage] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const params = useParams();
 
-  const clickHeart = useCallback(() => {
-    setHeartFill((prevHeartFill) =>
-      prevHeartFill === iconHeart ? iconHeartFill : iconHeart
-    );
-  }, []);
+  const clickHeart = () => {
+    if(heartFill.includes("fill")){
+      setHeartFill(resolveWebp(iconHeartWebp, iconHeart));
+    } else {
+      setHeartFill(resolveWebp(iconHeartFillWebp, iconHeartFill));
+    }
+  };
 
   const navigate = useNavigate();
 
