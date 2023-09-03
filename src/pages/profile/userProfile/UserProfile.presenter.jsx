@@ -40,7 +40,7 @@ export default function UserProfileUI({
             {
               name: "로그아웃",
               func: () =>
-                onClickButton("정말 로그아웃 하시겠습니까?", "로그아웃", () => {
+                onClickButton("정말 로그아웃 하시겠습니까?", "로그아웃", "취소",() => {
                   localStorage.removeItem("accessToken");
                   localStorage.removeItem("account");
                   setAccessToken(null);
