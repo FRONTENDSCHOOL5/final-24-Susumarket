@@ -60,7 +60,6 @@ export default function UserAccount() {
         setEmailErrorMsg(data);
         return;
       }
-      console.log(data);
     } catch (error) {
       console.error(error);
     }
