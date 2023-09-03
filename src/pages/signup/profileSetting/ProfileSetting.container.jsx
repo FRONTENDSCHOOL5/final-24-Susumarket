@@ -1,14 +1,17 @@
 import React, { useState, useCallback } from "react";
 import defaultimg from "../../../img/ProfileImg.svg";
+import defaultimgWebp from "../../../img/webp/ProfileImg.webp";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { accountValidationAPI } from "../../../API/validationAPI";
 import { signupAPI } from "../../../API/signupAPI";
 import { imgUploadAPI } from "../../../API/imgUploadAPI";
 import ProfileSettingUI from "./ProfileSetting.presenter";
+import { resolveWebp } from "../../../library/checkWebpSupport";
+import { profileImgCompression } from "../../../library/imgCompression";
 
 const ProfileSettingContainer = () => {
-  const [profileImage, setProfileImage] = useState(defaultimg);
+  const [profileImage, setProfileImage] = useState(resolveWebp(defaultimgWebp, defaultimg));
   const [selectedImage, setSelectedImage] = useState(null);
 
   const [userName, setUserName] = useState("");
@@ -24,18 +27,15 @@ const ProfileSettingContainer = () => {
   // 이미지 미리보기
   // 이미지를 변경 시 변경한 이미지 대로 출력
   // 이미지를 변경하지 않으면 default image인 수수마켓 이미지가 출력되도록 함
-  const handleImageChange = useCallback((e) => {
+  const handleImageChange = useCallback(async (e) => {
     const file = e.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      setProfileImage(reader.result);
-    };
-
+    // 이미지 압축후 이미지 (압축한 blob이미지, 미리보기 이미지) 반환
+    const {compressedFileBlob, preview} = await profileImgCompression(file);
+    // blob이미지 file 형식으로 변환
+    const compressedFile = new File([compressedFileBlob], file.name, { type: file.type });
     if (file) {
-      reader.readAsDataURL(file);
-      setSelectedImage(file);
-      uploadProfileImage(file);
+      setSelectedImage(compressedFile);
+      setProfileImage(preview);
     } else {
       setProfileImage(defaultimg);
       setSelectedImage(null);
@@ -46,10 +46,8 @@ const ProfileSettingContainer = () => {
     try {
       const formData = new FormData();
       formData.append("image", file);
-
-      const response = await imgUploadAPI(formData);
-      console.log(response);
-      setSelectedImage(response);
+      const data = await imgUploadAPI(formData);
+      return data;
     } catch (error) {
       console.error(error);
       return null;
@@ -89,7 +87,6 @@ const ProfileSettingContainer = () => {
         setNickNameErrorMsg(data);
         return;
       }
-      console.log(data);
     } catch (error) {
       console.error(error);
     }
@@ -126,6 +123,7 @@ const ProfileSettingContainer = () => {
   const handleSubmit = async (e) => {
     const baseUrl = process.env.REACT_APP_BASE_URL;
     e.preventDefault();
+    const filename = await uploadProfileImage(selectedImage);
     const user = {
       user: {
         username: userName,
@@ -133,13 +131,12 @@ const ProfileSettingContainer = () => {
         password: location.state.password,
         accountname: nickName,
         intro: intro,
-        image: selectedImage ? `${baseUrl}/${selectedImage}` : "",
+        image: filename ? `${baseUrl}${filename}` : "",
       },
     };
 
     try {
-      const data = await signupAPI(user);
-      console.log(data);
+      await signupAPI(user);
       onClickNextPage();
     } catch (error) {
       console.log(error);
@@ -167,6 +164,7 @@ const ProfileSettingContainer = () => {
       handleIntroChange={handleIntroChange}
       isFormValid={isFormValid}
       handleSubmit={handleSubmit}
+      resolveWebp={resolveWebp}
       onClickNextPage={onClickNextPage}
     />
   );

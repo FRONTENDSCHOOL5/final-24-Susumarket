@@ -3,6 +3,7 @@ import UserInput from "../../../components/commons/dataInput/UserInput";
 import DataInput from "../../../components/commons/dataInput/DataInput";
 import ErrorMessage from "../../../components/commons/errorMessage/ErrorMessage";
 import uploadfile from "../../../img/upload-file.svg";
+import uploadfileWebp from "../../../img/webp/upload-file.webp";
 import {
   ProfileContainer,
   ProfileForm,
@@ -28,7 +29,7 @@ const ProfileSettingUI = ({
   handleIntroChange,
   isFormValid,
   handleSubmit,
-  onClickNextPage,
+  resolveWebp,
 }) => {
   return (
     <ProfileContainer>
@@ -37,7 +38,7 @@ const ProfileSettingUI = ({
         <Subtitle>나중에 언제든지 변경할 수 있습니다.</Subtitle>
         <ImgLabel htmlFor="file-input">
           <Img className="defaultlion" src={profileImage} alt="기본 이미지" />
-          <Img className="uploadbtn" src={uploadfile} alt="업로드 버튼" />
+          <Img className="uploadbtn" src={resolveWebp(uploadfileWebp, uploadfile)} alt="업로드 버튼" />
         </ImgLabel>
         <ImgInput
           type="file"
