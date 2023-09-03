@@ -83,7 +83,6 @@ export default function UserProfileUI({
             />
           </>
         )}
-        <PostModal menuList={postModalProps} />
         <ConfirmModal
           confirmMessage={confirmProps.confirmMessage}
           submitMessage={confirmProps.submitMessage}
@@ -93,6 +92,7 @@ export default function UserProfileUI({
       </UserProfileWrapper>
       <TopButton />
       <MenuBar />
+      <PostModal menuList={postModalProps} />
     </>
   );
 }

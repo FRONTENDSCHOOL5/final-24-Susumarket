@@ -24,8 +24,8 @@ export default function Post() {
   }
 
   // postModal 창에 버튼을 누를경우 confirm 모달창의 props를 넘겨줌
-  function onClickButton(confirmMessage, submitMessage, handleSubmit) {
-    setConfirmProps({ confirmMessage, submitMessage, handleSubmit });
+  function onClickButton(confirmMessage, submitMessage, cancelMessage,handleSubmit) {
+    setConfirmProps({ confirmMessage, submitMessage, cancelMessage,handleSubmit });
     setIsOpenConfirmModal(true);
   }
 

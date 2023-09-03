@@ -41,8 +41,8 @@ export default function UserProfile() {
 
   // postModal 창에 버튼을 누를경우 confirm 모달창의 props를 넘겨줌
   const onClickButton = 
-    (confirmMessage, submitMessage, handleSubmit) => {
-      setConfirmProps({ confirmMessage, submitMessage, handleSubmit });
+    (confirmMessage, submitMessage, cancelMessage, handleSubmit) => {
+      setConfirmProps({ confirmMessage, submitMessage, cancelMessage, handleSubmit });
       setIsOpenConfirmModal(true);
     }
   

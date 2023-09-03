@@ -99,7 +99,7 @@ export default function PostCard({
           {
             name: "삭제",
             func: () => {
-              onClickButton("정말 삭제하시겠습니까?", "삭제", async () => {
+              onClickButton("정말 삭제하시겠습니까?", "삭제", "취소", async () => {
                 closeModal();
                 await onClickRemovePost();
               });
@@ -125,7 +125,7 @@ export default function PostCard({
           {
             name: "삭제",
             func: () => {
-              onClickButton("정말 삭제하시겠습니까?", "삭제", async () => {
+              onClickButton("정말 삭제하시겠습니까?", "삭제", "취소", async () => {
                 closeModal();
                 await onClickRemovePost();
               });
@@ -147,7 +147,7 @@ export default function PostCard({
           {
             name: "신고",
             func: () => {
-              onClickButton("정말 신고 하시겠습니까?", "신고", async () => {
+              onClickButton("정말 신고 하시겠습니까?", "신고", "취소",async () => {
                 closeModal();
                 await onClickReportPost();
               });
@@ -167,7 +167,7 @@ export default function PostCard({
           {
             name: "신고",
             func: () => {
-              onClickButton("정말 신고 하시겠습니까?", "신고", async () => {
+              onClickButton("정말 신고 하시겠습니까?", "신고", "취소", async () => {
                 closeModal();
                 await onClickReportPost();
               });
