@@ -71,7 +71,6 @@ export default function ProductEdit() {
 
     try {
       const data = await productEditAPI(params.productId, product);
-      console.log(data);
       setItemName(data.itemName);
       setPrice(data.price);
       setLink(data.link);
