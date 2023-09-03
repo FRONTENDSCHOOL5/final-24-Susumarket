@@ -1,6 +1,8 @@
-import imgUploadBtn from "../../../../img/upload-file.svg";
 import styled from "styled-components";
+import imgUploadBtn from "../../../../img/upload-file.svg";
 import xbutton from "../../../../img/x.svg";
+import imgUploadBtnWebp from "../../../../img/webp/upload-file.webp";
+import xbuttonWebp from "../../../../img/webp/x.webp";
 
 export const PostImgButton = styled.button`
   // top: 70%;
@@ -9,7 +11,12 @@ export const PostImgButton = styled.button`
   right: 40px;
   width: 50px;
   height: 50px;
-  background: url(${imgUploadBtn}) no-repeat;
+  body.webp & {
+    background: url(${imgUploadBtnWebp}) no-repeat;
+  }
+  body.no-webp & {
+    background: url(${imgUploadBtn}) no-repeat;
+  }
   background-position: 0 0;
 `;
 
@@ -26,7 +33,6 @@ export const ProfileImg = styled.img`
   height: 50px;
   border-radius: 50%;
   object-fit: cover;
-  // background-color: var(--color-sub);
   margin-left: 20px;
   margin-top: 20px;
 `;
@@ -49,7 +55,12 @@ export const PostImgInput = styled.input`
 `;
 
 export const Delete = styled.button`
-  background: url(${xbutton});
+  body.webp & {
+    background: url(${xbuttonWebp}) no-repeat;
+  }
+  body.no-webp & {
+    background: url(${xbutton}) no-repeat;
+  }
   width: 20px;
   height: 20px;
   z-index: 999;

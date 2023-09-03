@@ -1,9 +1,9 @@
 import React from "react";
 import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHeader";
 import defaultImg from "../../../../img/ProfileImg.svg";
-import { useNavigate } from "react-router-dom";
-import profileImg from "../../../../img/ProfileImg.svg";
-import noImg from "../../../../img/no-image.png";
+import noImg from "../../../../img/no-image.svg";
+import defaultImgWebp from "../../../../img/webp/ProfileImg.webp";
+import noImgWebp from "../../../../img/webp/no-image.webp";
 import InvalidPage from "../../../../components/commons/inValidPage/InvaliPage";
 import Loading from "../../../../components/commons/loading/Loading";
 import {
@@ -18,6 +18,7 @@ import {
   PostImg,
   UploadImgArea,
 } from "./postEdit.style";
+import { resolveWebp } from "../../../../library/checkWebpSupport";
 
 const PostEditPresenter = ({
   isInvalidPage,
@@ -35,7 +36,6 @@ const PostEditPresenter = ({
   handleFileButton,
   setPostContent,
 }) => {
-  const navigate = useNavigate();
 
   return (
     <>
@@ -56,12 +56,12 @@ const PostEditPresenter = ({
             <ProfileImg
               src={
                 profileImage && profileImage.endsWith("Ellipse.png")
-                  ? defaultImg
+                  ? resolveWebp(defaultImgWebp, defaultImg)
                   : profileImage
               }
               alt="프로필 사진"
               onError={(e) => {
-                e.target.src = profileImg;
+                e.target.src = resolveWebp(defaultImgWebp, defaultImg);
               }}
             />
             <TextArea
@@ -91,7 +91,7 @@ const PostEditPresenter = ({
                   src={image}
                   alt={`Image ${index}`}
                   onError={(e) => {
-                    e.target.src = noImg;
+                    e.target.src = resolveWebp(noImgWebp, noImg);
                   }}
                 />
                 <Delete onClick={() => handleDeleteImage(index)}></Delete>
