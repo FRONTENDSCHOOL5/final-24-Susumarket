@@ -10,20 +10,37 @@ function App() {
   );
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
   const [isOpenPostModal, setIsOpenPostModal] = useState(false);
-
+  // webp 지원유무가 확인 되었을때 컴포넌트를 렌더링 시키위해 사용
+  const [webpChecked, setWebpChecked] = useState(false);
   useEffect(() => {
     detectWebpSupport();
   }, []);
 
+  const checkwebp = async () => {
+    const webpSupport = await detectWebpSupport();
+    if (webpSupport) {
+      document.body.classList.add("webp");
+    } else {
+      document.body.classList.add("no-webp");
+    }
+    // webp 지원유무가 확인되었다면 true로 설정
+    setWebpChecked(true);
+  };
+
+  useEffect(() => {
+    checkwebp();
+  }, []);
+
   return (
-    <>
-      <GlobalStyle />
-      <UserContext.Provider
-        value={{
-          accessToken,
-          setAccessToken,
-        }}
-      >
+    webpChecked && (
+      <>
+        <GlobalStyle />
+        <UserContext.Provider
+          value={{
+            accessToken,
+            setAccessToken,
+          }}
+        >
           <ModalContext.Provider
             value={{
               isOpenConfirmModal,
@@ -34,8 +51,9 @@ function App() {
           >
             <Router />
           </ModalContext.Provider>
-      </UserContext.Provider>
-    </>
+        </UserContext.Provider>
+      </>
+    )
   );
 }
 export default App;
