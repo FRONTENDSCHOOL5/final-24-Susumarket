@@ -1,12 +1,13 @@
 import React from "react";
 import NewTopHeader from "../../../../components/commons/newTopHeader/NewTopHeader";
-import styled from "styled-components";
-import noImg from "../../../../img/no-image.png";
-import iconHeart from "../../../../img/webp/icon-heart.webp";
-import iconHeartFill from "../../../../img/webp/icon-heart-fill.webp";
-import Button from "../../../../components/commons/button/Button";
 import InvalidPage from "../../../../components/commons/inValidPage/InvaliPage";
 import Loading from "../../../../components/commons/loading/Loading";
+import noImg from "../../../../img/no-image.svg";
+import profileImg from "../../../../img/ProfileImg.svg"
+import noImgWebp from "../../../../img/webp/no-image.webp";
+import profileImgWebp from "../../../../img/webp/ProfileImg.webp";
+import { resolveWebp } from "../../../../library/checkWebpSupport";
+
 import {
   ProfileDiv,
   ContentDiv,
@@ -23,7 +24,7 @@ import {
   Contents,
   Account,
 } from "./productDetail.style.js";
-import profileImg from "../../../../img/webp/ProfileImg.webp";
+
 
 export default function ProductDetailPresenter({
   itemName,
@@ -39,6 +40,7 @@ export default function ProductDetailPresenter({
   clickHeart,
   newPrice,
   navigate,
+  setHeartFill
 }) {
   return (
     <>
@@ -51,13 +53,16 @@ export default function ProductDetailPresenter({
             src={itemImage}
             alt="상품 사진"
             onError={(e) => {
-              e.target.src = noImg;
+              e.target.src = resolveWebp(noImgWebp, noImg);
             }}
           />
           <Profile>
             <Icon
-              src={profile.includes("Ellipse.png") ? profileImg : profile}
+              src={profile.includes("Ellipse.png") ? resolveWebp(profileImgWebp, profileImg) : profile}
               alt="프로필 이미지"
+              onError={(e) => {
+                e.target.src = resolveWebp(profileImgWebp, profileImg);
+              }}
             />
             <ContentDiv>
               <ProfileDiv>
@@ -69,7 +74,7 @@ export default function ProductDetailPresenter({
             </ContentDiv>
           </Profile>
           <Bottom>
-            <HeartIcon src={heartFill} onClick={clickHeart} alt="좋아요" />
+            <HeartIcon heartFill={heartFill} onClick={clickHeart} alt="좋아요" />
             <span
               style={{
                 fontSize: "31px",
