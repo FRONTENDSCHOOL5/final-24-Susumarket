@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import morebutton from "../../../../img/icon-more-vertical.svg";
+import morebuttonWebp from "../../../../img/webp/icon-more-vertical.webp";
 import { Link } from "react-router-dom";
 
 export const UserLink = styled(Link)`
@@ -19,7 +20,6 @@ export const UserProfile = styled.img`
   border-radius: 50%;
   vertical-align: top;
 `;
-
 
 export const UserName = styled.span`
   display: flex;
@@ -44,7 +44,12 @@ export const AccountName = styled.span`
   }
 `;
 export const UserButton = styled.button`
-  background: url(${morebutton}) no-repeat center/16px 16px;
+  body.webp & {
+    background: url(${morebutton}) no-repeat center/16px 16px;
+  }
+  body.no-webp & {
+    background: url(${morebuttonWebp}) no-repeat center/16px 16px;
+  }
   width: 14px;
   height: 14px;
   margin-left: auto;
