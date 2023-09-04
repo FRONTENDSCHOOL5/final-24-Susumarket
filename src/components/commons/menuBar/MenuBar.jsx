@@ -19,7 +19,6 @@ import iconUserWebp from "../../../img/webp/icon-user.webp";
 import iconUserFillWebp from "../../../img/webp/icon-user-fill.webp";
 import iconPaletteWebp from "../../../img/webp/icon-palette.webp";
 import iconPaletteFillWebp from "../../../img/webp/icon-palette-fill.webp";
-import { resolveWebp } from "../../../library/checkWebpSupport";
 
 import { useLocation } from "react-router-dom";
 import {
