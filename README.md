@@ -10,7 +10,36 @@
 > - ID : `susu@market.com`
 > - Password : `susu2023`
 
-<br/><br/>
+<br/>
+<br/>
+
+## 📃 목차 (클릭 시 해당 목차로 이동합니다.)
+- [🎨 프로젝트 소개](#1-프로젝트-소개)
+  
+- [👩‍🎨 24시간이 모자라조 팀원 소개](#2-24시간이-모자라조-팀원-소개)
+  
+- [🛠 개발 환경 및 기술 스택](#3-개발-환경-및-기술-스택)
+
+- [🗓️ 개발 일정](#4-개발-일정)
+   
+- [📌 Git Branch 전략](#5-git-branch-전략)
+
+- [📅 프로젝트 관리 및 진행](#6-프로젝트-관리-및-진행)
+
+- [👥 협업 문화](#7-협업-문화)
+
+- [🧙 구현 기능 및 담당자](#8-구현-기능-및-담당자)
+
+- [📃 페이지 캡쳐](#9-페이지-캡쳐--제목-클릭-시-해당-기능-상세-설명으로-이동됩니다-)
+
+- [🖥 차별화 코드 설명](#10-차별화-코드-설명)
+
+- [💫 느낀점](#11-느낀점)
+
+- [🗂 프로젝트 구조](#12-프로젝트-구조)
+
+  <br/>
+  <br/>
 
 ## 1.🎨 프로젝트 소개
 
@@ -29,7 +58,7 @@
 
 <br/>
 
-<p align="right"><a href="#top">(Top)</a></p>
+<p align="right"><a href="#top">TOP 🔼</a></p>
 
 <br/>
 
@@ -42,11 +71,11 @@
 
 <br/>
 
-<p align="right"><a href="#top">(Top)</a></p>
+<p align="right"><a href="#top">TOP 🔼</a></p>
 
 <br/>
 
-## 3.🛠️ 개발 환경 및 기술 스택
+## 3.🛠 개발 환경 및 기술 스택
 
 ### 3-1. 개발 환경
 
@@ -82,11 +111,11 @@ lodash: ^4.17.21
 prettier: 2.8.8
 ```
 
-<p align="right"><a href="#top">(Top)</a></p>
+<p align="right"><a href="#top">TOP 🔼</a></p>
 
 <br/>
 
-## 4.🗓️ 개발 일정
+## 4.📆 개발 일정
 
 #### 🔥 2023-06-02 ~ 2023-06-27
 
@@ -175,7 +204,7 @@ prettier: 2.8.8
 
 <br/>
 
-<p align="right"><a href="#top">(Top)</a></p>
+<p align="right"><a href="#top">TOP 🔼</a></p>
 
 ## 5.📌 Git Branch 전략
 
@@ -193,13 +222,13 @@ prettier: 2.8.8
 
 <br/>
 
-<p align="right"><a href="#top">(Top)</a></p>
+<p align="right"><a href="#top">TOP 🔼</a></p>
 
 <br/>
 
 <br/>
 
-## 6.🗓️ 프로젝트 관리 및 진행
+## 6.📅 프로젝트 관리 및 진행
 
 ### 📊 프로젝트 진행 상황 관리
 
@@ -308,7 +337,7 @@ prettier: 2.8.8
 
 <br/>
 
-####💡 팀 규칙
+#### 💡 팀 규칙
 
 1. **코드 리뷰**를 통해 함께 성장해나가기❤️
 2. 프로젝트 끝날 때까지 **긍정적인** 생각만 하기❤️
@@ -334,7 +363,7 @@ prettier: 2.8.8
 
 - 컨벤션 통일을 위해 이슈 템플릿 사용
 
-####🧚 이슈 해결 후 <a href='https://github.com/FRONTENDSCHOOL5/final-24-Susumarket/pulls'>Pull Request</a> 생성
+#### 🧚 이슈 해결 후 <a href='https://github.com/FRONTENDSCHOOL5/final-24-Susumarket/pulls'>Pull Request</a> 생성
 
 - 컨벤션 통일을 위해 PR 템플릿 사용
 - 팀원 2명 이상의 승인을 받아야 머지 가능
@@ -350,11 +379,10 @@ prettier: 2.8.8
 
 - 이슈 진행 상황을 한 눈에 볼 수 있도록 칸반 보드 형태로 시각화
 
-<br/>
-  
+<br/>  
 <br/>
 
-<p align="right"><a href="#top">(Top)</a></p>
+<p align="right"><a href="#top">TOP 🔼</a></p>
 
 <br/>
 
@@ -364,62 +392,66 @@ prettier: 2.8.8
 
 <br/>
 
-<p align="right"><a href="#top">(Top)</a></p>
+<p align="right"><a href="#top">TOP 🔼</a></p>
 
 <br/>
 
-## 9.📃 페이지 캡쳐
+## 9.📃 페이지 캡쳐 ( 제목 클릭 시 해당 기능 상세 설명으로 이동됩니다. )
 
 ### 1) 홈
 
-| 시작 화면                                                                                                        | 회원가입 페이지                                                                                                    | 로그인 페이지                                                                                                    |
-| ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
-| ![splash](https://user-images.githubusercontent.com/87430624/249319346-a5a4c19e-3bd7-457a-8d05-48fbc24d939d.gif) | ![회원가입](https://user-images.githubusercontent.com/87430624/249319546-6693669f-378c-47d6-b46b-d5a1d004f46b.gif) | ![로그인](https://user-images.githubusercontent.com/47853679/249639398-ae65abd2-a102-4e08-bce8-7376ca3f3a17.gif) |
+|[🔗시작 화면](https://github.com/FRONTENDSCHOOL5/final-24-Susumarket/wiki#-splash)|[🔗회원가입 페이지](https://github.com/FRONTENDSCHOOL5/final-24-Susumarket/wiki#-%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85-%ED%8E%98%EC%9D%B4%EC%A7%80)|[🔗로그인 페이지](https://github.com/FRONTENDSCHOOL5/final-24-Susumarket/wiki#-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%ED%8E%98%EC%9D%B4%EC%A7%80)|
+|:---:|:---:|:---:|
+|![splash](https://github.com/NamJongtae/susumarket-deploy/assets/113427991/ea2b0ad9-4225-4f0e-9019-1fe85cff1a8b)|![회원가입](https://github.com/NamJongtae/susumarket-deploy/assets/113427991/3385ea96-9ebe-430e-b4ba-49f113812df9)|![로그인](https://github.com/NamJongtae/susumarket-deploy/assets/113427991/1514061d-e4d2-43a8-8130-151af52efd9d)|
 
-|                                                   피드 페이지                                                    |                                                    검색 페이지                                                     |                                                                404 페이지                                                                |
-| :--------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------: |
-| ![피드](https://user-images.githubusercontent.com/87430624/249322177-72e50afc-c707-4241-ac05-6c79089946e2.gif) | ![검색](https://user-images.githubusercontent.com/87430624/249319334-184c2a9e-57a9-4d56-bbbc-f58a44033fc2.gif) | <img width="390;" alt="404" src="https://user-images.githubusercontent.com/87430624/249319320-6686e278-729c-4441-b572-7bd0ddeb4b43.gif"> |
+|[🔗피드 페이지](https://github.com/FRONTENDSCHOOL5/final-24-Susumarket/wiki#-%ED%94%BC%EB%93%9C-%ED%8E%98%EC%9D%B4%EC%A7%80)|[🔗검색 페이지](https://github.com/FRONTENDSCHOOL5/final-24-Susumarket/wiki#-%EA%B2%80%EC%83%89-%ED%8E%98%EC%9D%B4%EC%A7%80)|[🔗404 페이지](https://github.com/FRONTENDSCHOOL5/final-24-Susumarket/wiki#-404-%ED%8E%98%EC%9D%B4%EC%A7%80)|
+|:---:|:---:|:---:|
+|<img src="https://github.com/NamJongtae/susumarket-deploy/assets/113427991/5fe1645e-39a2-48ce-8fdb-fc2842425b4b" width="250" />|<img src="https://user-images.githubusercontent.com/87430624/249319334-184c2a9e-57a9-4d56-bbbc-f58a44033fc2.gif" width="250" />|<img src="https://user-images.githubusercontent.com/87430624/249319320-6686e278-729c-4441-b572-7bd0ddeb4b43.gif" width="250" />|
 
 ### 2) 채팅
+  
+|[🔗채팅 목록 페이지](https://github.com/FRONTENDSCHOOL5/final-24-Susumarket/wiki#-%EC%B1%84%ED%8C%85-%ED%8E%98%EC%9D%B4%EC%A7%80)|
+|:---:|
+|<img src="https://github.com/NamJongtae/susumarket-deploy/assets/113427991/f7bbcb85-7e1a-40d3-b03f-8863a03ed8ec" width="250" />|
 
-| 채팅 목록 페이지                                                                                                                                    |
-| --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ![최종_채팅룸리스트_AdobeExpress](https://user-images.githubusercontent.com/87430624/249319420-598a4b8f-cf19-4105-96cd-4b86cfe0ff27.gif) |
 
 ### 3) 게시글
 
-| 게시글 상세 페이지                                                                                                          | 게시글 작성 페이지                                                                                                           | 게시글 수정 페이지                                                                                                          |
-| --------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| ![게시물상세](https://user-images.githubusercontent.com/87430624/249319366-cc84b138-8b87-4a73-9eaa-d9e77ae67bc0.gif) | ![게시물작성](https://user-images.githubusercontent.com/87430624/249319375-2659391d-f4ee-4d78-a240-122b238787a3.gif) | ![게시물수정](https://user-images.githubusercontent.com/87430624/249319369-e681b315-3d8e-455b-902f-03a85fc2c86b.gif) |
-
-|                                                             게시글 삭제                                                             |                                                            게시글 신고                                                             |                                                              댓글 기능                                                               |
-| :---------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------: |
-| ![최종_게시글삭제](https://user-images.githubusercontent.com/87430624/249319358-dafecbbe-5831-4d28-9f3b-a7eb9f160773.gif) | ![최종_게시글신고](https://user-images.githubusercontent.com/87430624/249319402-34811ede-f741-4b54-99b1-1a5f16b087f8.gif) | ![최종_게시물댓글](https://user-images.githubusercontent.com/87430624/249319399-5c240e21-ba0d-4df6-860f-28ace1eaf949.gif) |
+|[🔗게시글 작성 페이지](https://github.com/FRONTENDSCHOOL5/final-24-Susumarket/wiki#-%EA%B2%8C%EC%8B%9C%EA%B8%80-%EC%9E%91%EC%84%B1-%ED%8E%98%EC%9D%B4%EC%A7%80)|[🔗게시글 상세 페이지](https://github.com/FRONTENDSCHOOL5/final-24-Susumarket/wiki#-%EA%B2%8C%EC%8B%9C%EA%B8%80-%EC%83%81%EC%84%B8-%ED%8E%98%EC%9D%B4%EC%A7%80)|[🔗게시글 수정 페이지](https://github.com/FRONTENDSCHOOL5/final-24-Susumarket/wiki#-%EA%B2%8C%EC%8B%9C%EA%B8%80-%EC%88%98%EC%A0%95-%EC%8B%A0%EA%B3%A0-%EC%82%AD%EC%A0%9C)|
+|:---:|:---:|:---:|
+|![게시물상세](https://user-images.githubusercontent.com/87430624/249319366-cc84b138-8b87-4a73-9eaa-d9e77ae67bc0.gif)|![게시물작성](https://user-images.githubusercontent.com/87430624/249319375-2659391d-f4ee-4d78-a240-122b238787a3.gif)|![게시물수정](https://user-images.githubusercontent.com/87430624/249319369-e681b315-3d8e-455b-902f-03a85fc2c86b.gif)|
+  
+|[🔗게시글 삭제](https://github.com/FRONTENDSCHOOL5/final-24-Susumarket/wiki#-%EA%B2%8C%EC%8B%9C%EA%B8%80-%EC%88%98%EC%A0%95-%EC%8B%A0%EA%B3%A0-%EC%82%AD%EC%A0%9C)|[🔗댓글 기능](https://github.com/FRONTENDSCHOOL5/final-24-Susumarket/wiki#-%EA%B2%8C%EC%8B%9C%EA%B8%80-%EB%8C%93%EA%B8%80-%EA%B8%B0%EB%8A%A5)|
+|:---:|:---:|
+|<img src="https://user-images.githubusercontent.com/87430624/249319358-dafecbbe-5831-4d28-9f3b-a7eb9f160773.gif" width="250" />|<img src="https://github.com/NamJongtae/susumarket-deploy/assets/113427991/a71f6209-6fe5-4c18-86f8-c14b3595bd3d" width="250" />|
 
 ### 4) 프로필
 
-|                                                         마이 프로필 페이지                                                          |                                                  프로필 수정 페이지                                                   |                                                     팔로워/팔로잉 페이지                                                      |
-| :---------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------: |
-| ![앨범형리스트형](https://user-images.githubusercontent.com/87430624/249322185-a3f628e7-a19f-457b-8db6-89b64109de79.gif) | ![프로필 수정](https://user-images.githubusercontent.com/87430624/249322193-b6881f77-f41b-4c55-8ed3-c27e22ffbd05.gif) | ![팔로우페이지](https://user-images.githubusercontent.com/87430624/249319422-38a0c159-2dcb-43f3-bf98-1ca0aff1ea5f.gif) |
+|[🔗마이 프로필 페이지](https://github.com/FRONTENDSCHOOL5/final-24-Susumarket/wiki#-%EB%A7%88%EC%9D%B4-%ED%94%84%EB%A1%9C%ED%95%84-%ED%8E%98%EC%9D%B4%EC%A7%80)|[🔗프로필 수정 페이지](https://github.com/FRONTENDSCHOOL5/final-24-Susumarket/wiki#-%ED%94%84%EB%A1%9C%ED%95%84-%EC%88%98%EC%A0%95-%ED%8E%98%EC%9D%B4%EC%A7%80)|[🔗팔로워/팔로잉 페이지](https://github.com/FRONTENDSCHOOL5/final-24-Susumarket/wiki#-%ED%8C%94%EB%A1%9C%EC%9B%8C-%ED%8E%98%EC%9D%B4%EC%A7%80-%ED%8C%94%EB%A1%9C%EC%9E%89-%ED%8E%98%EC%9D%B4%EC%A7%80)|
+|:---:|:---:|:---:|
+|<img src="https://user-images.githubusercontent.com/87430624/249322185-a3f628e7-a19f-457b-8db6-89b64109de79.gif" />|<img src="https://github.com/NamJongtae/susumarket-deploy/assets/113427991/1a7dbd35-d756-4e04-85f1-181d0e4aa586" />|<img src="https://user-images.githubusercontent.com/87430624/249319422-38a0c159-2dcb-43f3-bf98-1ca0aff1ea5f.gif" />|
 
 ### 5) 판매 상품
 
-| 상품 등록 페이지                                                                                                          | 상품 수정 페이지                                                                                                    | 상품 삭제 페이지                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| ![상품 등록](https://user-images.githubusercontent.com/87430624/249319407-d702a7b8-a95e-47be-91d6-2f5d2fbbdf61.gif)       | ![상품 수정](https://user-images.githubusercontent.com/87430624/249319414-51176a23-ea3e-4340-8c15-68f375b389c7.gif) | ![상품 삭제](https://user-images.githubusercontent.com/87430624/249319410-014593a9-5c4c-4788-8e91-862b500d7d5c.gif) |
-| 상품 상세페이지                                                                                                           |
-| ![상품 상세페이지](https://user-images.githubusercontent.com/47853679/249486421-2864df7d-a0d0-467a-a5a2-cbf1040bb914.gif) |
+|[🔗상품 등록 페이지](https://github.com/FRONTENDSCHOOL5/final-24-Susumarket/wiki#-%EC%83%81%ED%92%88-%EB%93%B1%EB%A1%9D-%ED%8E%98%EC%9D%B4%EC%A7%80)|[🔗상품 수정 페이지](https://github.com/FRONTENDSCHOOL5/final-24-Susumarket/wiki#-%EC%83%81%ED%92%88-%EC%88%98%EC%A0%95-%ED%8E%98%EC%9D%B4%EC%A7%80)|[🔗상품 삭제 페이지](https://github.com/FRONTENDSCHOOL5/final-24-Susumarket/wiki#-%EC%83%81%ED%92%88-%EC%82%AD%EC%A0%9C-%ED%8E%98%EC%9D%B4%EC%A7%80)|
+|:---:|:---:|:---:|
+|![상품 등록](https://github.com/NamJongtae/susumarket-deploy/assets/113427991/90b6ddcc-9168-447a-b52f-0878dcf62b51)|![상품 수정](https://github.com/NamJongtae/susumarket-deploy/assets/113427991/b47499fe-1b5a-4c3f-8e31-2c3d1803e062)|![상품 삭제](https://user-images.githubusercontent.com/87430624/249319410-014593a9-5c4c-4788-8e91-862b500d7d5c.gif)|
+
+|[🔗상품 상세페이지](https://github.com/FRONTENDSCHOOL5/final-24-Susumarket/wiki#%EC%83%81%ED%92%88-%EC%83%81%EC%84%B8-%ED%8E%98%EC%9D%B4%EC%A7%80)|
+|:---:|
+|<img src="https://user-images.githubusercontent.com/47853679/249486421-2864df7d-a0d0-467a-a5a2-cbf1040bb914.gif" width="250"/>|
 
 ### 6) 캔버스
-
-|![캔버스](https://user-images.githubusercontent.com/47853679/249449344-9c97413c-5b8a-400a-9693-c9111e8d44f9.gif)|!|!|
+|[🔗캔버스](https://github.com/FRONTENDSCHOOL5/final-24-Susumarket/wiki#-%EC%BA%94%EB%B2%84%EC%8A%A4-%ED%8E%98%EC%9D%B4%EC%A7%80)|
+|:---:|
+|<img src="https://github.com/NamJongtae/susumarket-deploy/assets/113427991/339e4030-e2b3-4096-9198-8edc6983ecf2" width="800" />|
 <br/>
 
-<p align="right"><a href="#top">(Top)</a></p>
+<p align="right"><a href="#top">TOP 🔼</a></p>
 
 <br/>
 
-## 10.🖥️ 차별화 코드 설명
+## 10.💻 차별화 코드 설명
 
 ### 1 ) CustomAxios
 
@@ -613,6 +645,8 @@ export default function ProfilePost({
 ![무한스크롤](https://github.com/24-gitTest/demo-repository/assets/113427991/eca4ef80-3d59-4de1-a259-f3b36dcd3ff8)
 
 <br/>
+<p align="right"><a href="#top">TOP 🔼</a></p>
+<br/>
 
 ## 11.💫 느낀점
 
@@ -643,11 +677,11 @@ export default function ProfilePost({
 마지막으로 저희 24조 조원들 프로젝트기간동안 항상 같이 밤새면서 고생해서 수고했단 말 드리고 싶고, 멋사 5기 분들 모두 수고 너무 많으셨습니다!
 <br/>
 
-<p align="right"><a href="#top">(Top)</a></p>
+<p align="right"><a href="#top">TOP 🔼</a></p>
 
 <br/>
 
-## 12.🗂️ 프로젝트 구조
+## 12.🗂 프로젝트 구조
 
 - `src/components/` : 서비스에서 사용하는 컴포넌트 (캐러셀, 공통 컴포넌트, 공통 레이아웃)
 - `src/commons/` : 공통컴포넌트 중 UI와 관련된 파일
@@ -721,6 +755,6 @@ export default function ProfilePost({
 
 <br/>
 
-<p align="right"><a href="#top">(Top)</a></p>
+<p align="right"><a href="#top">TOP 🔼</a></p>
 
 <br/>
