@@ -30,7 +30,6 @@ import {
   LinkStyle,
 } from "./MenuBarStyle";
 import { isMobile } from "react-device-detect";
-import { resolveWebp } from "../../../library/checkWebpSupport";
 
 export default function MenuBar() {
   const location = useLocation();
