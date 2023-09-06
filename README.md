@@ -354,7 +354,7 @@ prettier: 2.8.8
 팀규칙을 정함으로 소속감 및 팀 정체성을 강화했습니다.
 <br/>
 
-### 🪄 이슈 관리 프로세스
+### ✨ 이슈 관리 프로세스
 
 #### - 작업 전 <a href='https://github.com/FRONTENDSCHOOL5/final-24-Susumarket/issues'>GitHub Issues</a> 등록
 
@@ -406,7 +406,7 @@ prettier: 2.8.8
 
 |[🔗피드 페이지](https://github.com/FRONTENDSCHOOL5/final-24-Susumarket/wiki#-%ED%94%BC%EB%93%9C-%ED%8E%98%EC%9D%B4%EC%A7%80)|[🔗검색 페이지](https://github.com/FRONTENDSCHOOL5/final-24-Susumarket/wiki#-%EA%B2%80%EC%83%89-%ED%8E%98%EC%9D%B4%EC%A7%80)|[🔗404 페이지](https://github.com/FRONTENDSCHOOL5/final-24-Susumarket/wiki#-404-%ED%8E%98%EC%9D%B4%EC%A7%80)|
 |:---:|:---:|:---:|
-|<img src="https://github.com/NamJongtae/susumarket-deploy/assets/113427991/5fe1645e-39a2-48ce-8fdb-fc2842425b4b" width="250" />|<img src="https://user-images.githubusercontent.com/87430624/249319334-184c2a9e-57a9-4d56-bbbc-f58a44033fc2.gif" width="250" />|<img src="https://user-images.githubusercontent.com/87430624/249319320-6686e278-729c-4441-b572-7bd0ddeb4b43.gif" width="250" />|
+|<img src="https://github.com/NamJongtae/susumarket-deploy/assets/113427991/c2b48d5e-40ac-45aa-bda4-3fd421b8981f" width="250" />|<img src="https://user-images.githubusercontent.com/87430624/249319334-184c2a9e-57a9-4d56-bbbc-f58a44033fc2.gif" width="250" />|<img src="https://user-images.githubusercontent.com/87430624/249319320-6686e278-729c-4441-b572-7bd0ddeb4b43.gif" width="250" />|
 
 ### 2) 채팅
   
@@ -507,11 +507,11 @@ customAxios.interceptors.request.use(
 
   - debounce 적용 전
 
-  ![디바운싱적용전](https://github.com/24-gitTest/demo-repository/assets/113427991/0a97e75b-1a3c-4cce-b334-be4b945dfce1)
+  ![디바운싱적용전](https://github.com/NamJongtae/susumarket-deploy/assets/113427991/a67fa338-005f-4901-bfaa-e4e231441d1c)
 
   - debounce 적용 후
 
-  ![디바운싱적용후](https://github.com/24-gitTest/demo-repository/assets/113427991/e1f4f5c8-906c-41bf-9e0e-1aac05f2d4a9)
+  ![디바운싱적용후](https://github.com/NamJongtae/susumarket-deploy/assets/113427991/ab9b3067-1e86-4a9b-bc10-3ab93dea3862)
 
 <br/>
 
@@ -547,11 +547,12 @@ export const imgValidation = (file) => {
 
 - 구현 화면
   - 프로필 이미지 변경에 imgValidation 적용
-    ![imgvalidation](https://github.com/24-gitTest/demo-repository/assets/113427991/2a542540-5730-46cf-a477-99094c4aa6a0)
+    
+![imgValidation](https://github.com/NamJongtae/susumarket-deploy/assets/113427991/55f681a2-4054-4175-9b4b-d5bd41c05244)
 
 </br>
 
-#### 4 ) 무한스크롤
+### 4 ) 무한스크롤
 
 - 무한스크롤을 이용하여 데이터를 일부만 가져와 서버의 부담을 줄이고 로딩속도를 개선 하였습니다.
 - react-intersection-observer 라이브러리를 이용하여 무한스크롤을 구현하였습니다.
@@ -642,7 +643,186 @@ export default function ProfilePost({
 
 - 구현 화면
 
-![무한스크롤](https://github.com/24-gitTest/demo-repository/assets/113427991/eca4ef80-3d59-4de1-a259-f3b36dcd3ff8)
+![무한스크롤](https://github.com/NamJongtae/susumarket-deploy/assets/113427991/f7e41163-98bd-41cc-8788-24d1efdd3c50)
+
+<br/>
+<p align="right"><a href="#top">TOP 🔼</a></p>
+<br/>
+
+### 5 ) 이미지 lazy-loading 적용 및 점진적 로딩 기법을 통한 이미지 최적화
+- 점진적 로딩 기법를 통해 이미지가 로딩될 때 원본 이미지 대신 저화질의 이미지를 보여줌으로써 UX를 향상 시켰습니다.
+- react-intersection-observer 라이브러리를 이용하여 lazy-loading를 구현하였습니다.
+- 이를 통해 이미지가 화면에서 나타날 때 이미지를 불러올 수 있도록 설정하여 로딩시간을 단축 시킬수 있습니다.
+- 이 두 가지 기법을 이미지에 적용하기 위해 ProgressiveImg 컴포넌트를 만들고, 이미지에 적용시켜 주었습니다.
+- ProgressvieImg Props
+  - src : 원본 이미지의 url 입니다.
+  - ...props : 그 외 props를 모두 받아오기 위해 사용 하였습니다.
+- 이미지 lazy-loading 적용 후 초기 로딩 속도 **1.9초에서 1.5초로 0.4초 감소** 및 이미지 리소스 **4.5MB 에서 2.6MB 로 1.9MB(약 42%) 감소**하였습니다.
+  
+```javascript
+import React, {useEffect, useState } from "react";
+import { Img } from "./progressiveImg.styles";
+import { useInView } from "react-intersection-observer";
+import noImg from "../../../img/no-image.svg";
+import noImgWebp from "../../../img/webp/no-image.webp";
+import { resolveWebp } from "../../../library/checkWebpSupport";
+import placeholderImg from "../../../img/placeholderImg.svg";
+import placeholderImgWebp from "../../../img/webp/placeholderImg.webp";
+
+// ProgressvieImg 컴포넌트
+export default function ProgressiveImg({ src, ...props }) {
+  const placeholderSrc = resolveWebp(placeholderImgWebp, placeholderImg);
+  // 이미지 src를 관리
+  const [imgSrc, setImgSrc] = useState(placeholderSrc || src);
+  // 현재 로딩이 상태
+  const [isLoading, setIsLoading] = useState(true);
+  const { ref, inView } = useInView();
+  useEffect(() => {
+    // 이미지가 화면에서 보이고, imgSrc가 placholder이미지 일때 이미지를 받아옴
+    if (inView && imgSrc === placeholderSrc) {
+      const img = new Image();
+      img.src = src;
+      img.onload = () => {
+        setImgSrc(src);
+        setIsLoading(false);
+      };
+      img.onerror = () => {
+        setIsLoading(false);
+        setImgSrc(resolveWebp(noImgWebp, noImg));
+      };
+    }
+  }, [src, inView]);
+
+  return (
+    <Img
+      {...{ src: imgSrc, ...props }}
+      // 로딩 상태일 때 blur효과를 주기위해 사용
+      className={isLoading ? "loading" : "loaded"}
+      ref={ref}
+    />
+  );
+}
+```
+
+- 구현화면
+  - 이미지 lazy-loading 및 점진적 로딩 기법 적용 전
+    
+    ![lazy-loading 적용전](https://github.com/NamJongtae/susumarket-deploy/assets/113427991/d4d5eff6-64cc-4ac2-9e2d-fc85b36dffd4)
+    
+  - 이미지 lazy-loading 및 점진적 로딩 기법적용 후
+    
+    ![lazy-loading 적용후](https://github.com/NamJongtae/susumarket-deploy/assets/113427991/7fda2d6e-7919-49d2-bf83-9bfe4238d970)
+
+<br/>
+<p align="right"><a href="#top">TOP 🔼</a></p>
+<br/>
+
+### 6 ) 최신 이미지 형식 Webp 적용
+- WebP 이미지는 JPEG나 PNG에 비해 압축률이 높고, 더 작은 파일 크기를 가지며, 높은 품질을 제공하는 이미지 형식입니다.
+- Webp 이미지 형식은 구 브라우저는 지원하지 않기 때문에 **점진적 향상 기법**을 이용하여 다르게 처리해 주었습니다.
+- Webp 이미지가 지원이 된다면 body 태그에 webp라는 className를 추가해주고, 지원되지 않는다면 no-webp라는 className을 추가해주었습니다.
+- body className를 통해 이미지 형식이 다르게 적용되도록 처리하였습니다.
+- 구 브라우저에서는 svg 이미지 형식이 적용되도록 처리하였습니다.
+- Webp가 지원되는 브라우저에서는 Webp 이미지가 적용되도록 처리하였습니다.
+- detectWebpSupport, resolveWebp 함수를 만들어 이를 적용시켜 주었습니다.
+  
+- detectWebpSupport
+  - webpdata에 1x1 픽셀 크기의 WebP 형식의 이미지 데이터를 base64로 인코딩한 문자열을 할당합니다.
+  - 이미지 로딩이 성공적으로 완료되거나 에러가 발생했을 때 callback 함수가 실행됩니다.
+  - webp 이미지가 로딩 되고, webp이미지 지원여부 확인을 기다리기 위해 Promise를 이용해 비동기 처리를 해주었습니다.
+  - image.src에 webpdata를 할당하여, 생성한 빈 이미지 객체가 해당 WebP 이미지를 로딩하도록 합니다.
+  - callback 함수에서는 event.type이 "load"인 경우와 이미지의 너비(image.width)가 1 픽셀인 경우를 검사하여 브라우저가 WebP 이미지를 지원하는지 여부를 판별합니다.
+  - 브라우저가 WebP 이미지를 지원하는 경우 document.body 요소의 classList에 "webp"를 추가합니다.
+  - 지원하지 않는 브라우저라면 document.body 요소의 classList에 "no-webp"를 추가합니다.
+    
+- resolveWebp
+  - webpSupported: webp지원 유무, img : Webp 이미지 경로, fallbackExt : Webp 이미지 대신 사용할 이미지 경로
+  - ext에 이미지 형식을 저장합니다.
+  - webpSupported가 false인 경우, ext이 webp인 경우에 webp이미지 경로 대신 webp 대신 사용할 이미지 경로를 반환합니다.
+
+- Webp 이미지 적용으로 로컬 이미지 파일 리소스를 **350KB에서 37KB로 313KB** 줄였습니다.
+ 
+```javascript
+export async function detectWebpSupport() {
+  // 이미지가 webp 지원유무를 파악하고 렌더링 될 수 있도록 비동기 처리
+  return new Promise((resolve) => {
+    const image = new Image();
+    // 1px x 1px WebP 이미지
+    const webpdata =
+      "data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoBAAEAAwA0JaQAA3AA/vuUAAA=";
+
+    const callback = (event) => {
+      // event.type이 "load"인 경우와 이미지의 너비(image.width)가 1 픽셀인 경우를 검사하여 브라우저가 WebP 이미지를 지원하는지 여부를 판별
+      const result = event?.type === "load" && image.width === 1;
+      if (result) {
+        resolve(true); // WebP 지원됨
+      } else {
+        resolve(false); // WebP 지원되지 않음
+      }
+    };
+
+    image.onerror = callback;
+    image.onload = callback;
+    image.src = webpdata;
+  });
+}
+// webpSupported: webp 지원 유무, img: webp 이미지 경로, fallbackExt: webp 이미지 대체 이미지 형식
+export const resolveWebp = (img, fallbackImg) => {
+  const webpSupported = document.body.classList.contains("webp");
+  // 이미지 포맷
+  const ext = img.split(".").pop();
+  // webpSupported false, ext가 webp인 경우
+  if (!webpSupported && ext === "webp") {
+    return fallbackImg
+  }
+  return img;
+};
+```
+
+<br/>
+<p align="right"><a href="#top">TOP 🔼</a></p>
+<br/>
+
+### 7 ) imgCompression 라이브러리를 이용한 이미지 압축
+- 서버에 이미지를 전송할 시 필요한 이미지 만큼만 최소로 압축하여 이미지 리소스 낭비를 줄일 수 있도록 하였습니다.
+- imgCompression 함수를 만들어 이를 적용 하였습니다.
+```javascript
+import imageCompression from "browser-image-compression";
+
+export const uploadImgCompression = async (file) => {
+  const options = {
+    maxSizeMB: 10,
+    maxWidthOrHeight: 304,
+    useWebWorker:true,
+  }
+  const compressedFileBlob = await imageCompression(file, options);
+  const preview = await imageCompression.getDataUrlFromFile(compressedFileBlob);
+  return {compressedFileBlob, preview}
+}
+
+export const profileImgCompression = async (file) => {
+  const options = {
+    maxSizeMB: 10,
+    maxWidthOrHeight: 220,
+    useWebWorker:true,
+  }
+  const compressedFileBlob = await imageCompression(file, options);
+  const preview = await imageCompression.getDataUrlFromFile(compressedFileBlob);
+  return {compressedFileBlob, preview}
+}
+```
+
+- 구현 화면
+  
+![imgCompression](https://github.com/NamJongtae/susumarket-deploy/assets/113427991/52b167c1-e062-40af-ab90-762df8f8c5d1)
+
+- 이미지 압축 전
+
+  이미지 크기 : 412MB
+
+- 이미지 압축 후
+
+  이미지 크기 : **412MB => 57MB (355MB 감소)**
 
 <br/>
 <p align="right"><a href="#top">TOP 🔼</a></p>
@@ -675,22 +855,20 @@ export default function ProfilePost({
 저도 크게 성장할 수 있는 기회가 된 것 같아서 좋았던 것 같습니다.
 또한, 리액트, axois, styled-component와 같이 공부해보고 싶었던 부분에 대해 몇주간 몰입해서 사용해볼 수 있었던 점도 제 개발스킬 향상에 도움이 된 것 같습니다.
 마지막으로 저희 24조 조원들 프로젝트기간동안 항상 같이 밤새면서 고생해서 수고했단 말 드리고 싶고, 멋사 5기 분들 모두 수고 너무 많으셨습니다!
+
 <br/>
-
 <p align="right"><a href="#top">TOP 🔼</a></p>
-
 <br/>
 
 ## 12.🗂 프로젝트 구조
 
-- `src/components/` : 서비스에서 사용하는 컴포넌트 (캐러셀, 공통 컴포넌트, 공통 레이아웃)
+- `src/components/` : 서비스에서 사용하는 컴포넌트 (공통 컴포넌트, 공통 레이아웃)
 - `src/commons/` : 공통컴포넌트 중 UI와 관련된 파일
-- `src/units` : 재사용을 위해 분리한 유틸 파일
 - `src/context/` : 전역 데이터를 공유하기 위해 정의한 Context 파일
 - `src/hooks/` : 재사용을 위해 분리한 Custom Hook
 - `src/img/` : 서비스에서 사용하는 에셋 파일 (폰트, 아이콘, 이미지)
-- `src/library/` : 일반적으로 재사용 가능한 파일(customAxios, imgValidation)
-- `src/pages/` : 공통 컴포넌트를 사용해 만든 페이지
+- `src/library/` : 사용을 편리하게 하거나 재사용을 줄이기 위해 만든 함수
+- `src/pages/` : 컴포넌트를 조합하여 만든 페이지
 - `src/routes/` : 페이지 라우팅을 위한 파일
 
 ```
@@ -707,18 +885,21 @@ export default function ProfilePost({
    ┃ ┃ ┣ 📂errorMessage
    ┃ ┃ ┣ 📂menuBar
    ┃ ┃ ┣ 📂newTopHeader
+   ┃ ┃ ┣ 📂postList
    ┃ ┃ ┣ 📂postModal
+   ┃ ┃ ┣ 📂progressiveImg
    ┃ ┃ ┣ 📂topButton
-   ┃ ┃ ┗ 📂topHeader
-   ┃ ┗ 📂units
-   ┃ ┃ ┗ 📂profile
-   ┃ ┃ ┃ ┣ 📂profileInfo
-   ┃ ┃ ┃ ┣ 📂ProfilePost
-   ┃ ┃ ┃ ┗ 📂ProfileProduct
+   ┃ ┃ ┣ 📂userInfo
+   ┃ ┗ ┗ 📂topHeader
    ┣ 📂context
    ┣ 📂hook
    ┣ 📂img
    ┣ 📂library
+   ┃ ┣ 📂sweetAlert
+   ┃ ┣ 📜checkWebpSupport.js
+   ┃ ┣ 📜customAxios.js
+   ┃ ┣ 📜imgCompression.js
+   ┃ ┗ 📜imgValidation.js
    ┣ 📂pages
    ┃ ┣ 📂chat
    ┃ ┃ ┣ 📂chatList
@@ -743,18 +924,19 @@ export default function ProfilePost({
    ┃ ┃ ┃ ┗ 📂following
    ┃ ┃ ┣ 📂profileEdit
    ┃ ┃ ┗ 📂userProfile
+   ┃ ┃ ┃ ┣ 📂profileInfo
+   ┃ ┃ ┃ ┗ 📂profileProduct     
    ┃ ┣ 📂signup
    ┃ ┃ ┣ 📂profileSetting
    ┃ ┃ ┗ 📂userAccount
    ┃ ┗ 📂splash
    ┣ 📂routes
+   ┣ .prettierrc.json 
    ┣ 📜App.js
    ┣ 📜GlobalStyle.js
    ┗ 📜index.js
 ```
 
 <br/>
-
 <p align="right"><a href="#top">TOP 🔼</a></p>
-
 <br/>
